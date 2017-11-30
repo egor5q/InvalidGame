@@ -5,7 +5,6 @@ import time
 import chlenomerconfig
 import telebot
 import random
-from telebot import types
 
 token = os.environ['TELEGRAM_TOKEN']
 
