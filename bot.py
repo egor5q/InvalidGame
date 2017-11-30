@@ -7,6 +7,7 @@ import telebot
 import random
 
 token = os.environ['TELEGRAM_TOKEN']
+bot = telebot.TeleBot(token)
 
 
 @bot.message_handler(content_types=['text'])
