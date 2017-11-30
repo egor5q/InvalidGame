@@ -8,10 +8,9 @@ import random
 
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
-
+people=[]
 massive=['Хер','хер','Член','член','Хуй','хуй', '/chlen', '/chlen@Chlenomerbot']
 @bot.message_handler(content_types=['text'])
-people=[]
 def chlenomer(message):
     if message.from_user.id not in people:
         people.append(message.from_user.id)
