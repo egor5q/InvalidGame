@@ -9,7 +9,7 @@ import random
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 
-massive=['Хер','хер','Член','член','Хуй','хуй', '/chlen']
+massive=['Хер','хер','Член','член','Хуй','хуй', '/chlen', '/chlen@Chlenomerbot']
 @bot.message_handler(content_types=['text'])
 def chlenomer(message):
     if message.text in massive:
