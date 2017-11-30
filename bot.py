@@ -12,7 +12,7 @@ bot = telebot.TeleBot(token)
 
 @bot.message_handler(content_types=['text'])
 def chlenomer(message):
-    if message.text=='Член' or 'член' or 'хер' or 'Хер':
+    if message.text=='Член' or message.text=='член' or message.text=='хер' or message.text=='Хер':
         print(message.chat.id)
         chlen=random.randint(1,100)
         mm=random.randint(0,9)
