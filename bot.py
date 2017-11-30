@@ -30,7 +30,7 @@ def chlenomer(message):
             bot.send_message(message.chat.id, replytext)
     
 
-@bot_message_handler(commands=['chlen'])
+@bot.message_handler(commands=['chlen'])
 def chlen2(message):
     chlenomer(message)
     
