@@ -11,7 +11,10 @@ bot = telebot.TeleBot(token)
 
 massive=['Хер','хер','Член','член','Хуй','хуй', '/chlen', '/chlen@Chlenomerbot']
 @bot.message_handler(content_types=['text'])
+people=[]
 def chlenomer(message):
+    if message.from_user.id not in people:
+        people.append(message.from_user.id)
     if message.text in massive:
         print(message.chat.id)
         chlen=random.randint(1,100)
@@ -51,9 +54,19 @@ def chlen2(message):
     
 
 
-bot.message_handler(commands=['feedback'])
+@bot.message_handler(commands=['feedback'])
 def feedback(message):
     bot.send_message(441399484, message.text)
+
+    
+    
+    
+@bot.message_handler(commands=['info'])
+def info(message):
+    if message.from_user.id==441399484:
+        bot.send_message(441399484, len(people))
+        
+                         
 
 
 
