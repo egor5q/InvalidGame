@@ -9,10 +9,10 @@ import random
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 
-
+massive=['Хер','хер','Член','член','Хуй','хуй']
 @bot.message_handler(content_types=['text'])
 def chlenomer(message):
-    if message.text=='Член' or message.text=='член' or message.text=='хер' or message.text=='Хер':
+    if message.text in massive:
         print(message.chat.id)
         chlen=random.randint(1,100)
         mm=random.randint(0,9)
