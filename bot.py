@@ -51,7 +51,9 @@ def chlen2(message):
     
 
 
-
+bot.message_handler(commands=['feedback'])
+def feedback(message):
+    bot.send_message(441399484, message.text)
 
 
 
