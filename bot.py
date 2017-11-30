@@ -32,7 +32,6 @@ def chlenomer(message):
 
 @bot.message_handler(commands=['chlen'])
 def chlen2(message):
-    if message.text in massive:
         print(message.chat.id)
         chlen=random.randint(1,100)
         mm=random.randint(0,9)
