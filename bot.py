@@ -20,7 +20,13 @@ def info(message):
             bot.send_message(441399484, people[x])
             x+=1
 
-        
+   
+@bot.message_handler(commands=['ti_ctochlen'])
+def ticto(message):
+    bot.send_message(message.from_user.id, 'Умеет менять размер члинуса')
+                     
+
+
 @bot.message_handler(commands=['commands'])
 def commessage(message):
     bot.send_message(message.chat.id, 'Все фразы для измерения члена(раскладка не важна):'+"\n"+
@@ -59,16 +65,28 @@ def chlenomer(message):
         people.append(message.from_user.id)
     if message.text in massive:
         print(message.chat.id)
+        mega=random.randint(1,100)
+        ultramega=random.randint(1,1000)
+        hyperultramega=random.randint(1, 10000)
+        win=random.randint(1, 100000)
         chlen=random.randint(1,100)
         mm=random.randint(0,9)
         randomvoice=random.randint(1,100)
+       
         if randomvoice>90:
               chlen = random.randint(1, 2)
               text=texts[chlen-1]
-               
-         
+        if mega==1:
+            text='Вы нашли секретное сообщение, шанс которого 1%!'+"\n"+'Есть еще секретные сообщения, шанс которых еще ниже...'
+        if ultramega==1:
+            text='Вы нашли СУПЕР-СЕКРЕТНОЕ сообщение, шанс которого равен 0,1%!'+"\n"+'А ведь есть БОЛЕЕ секретные сообщения...'
+        if hyperultramega==1:
+            text='Поздравляю, вы нашли УЛЬТРА секретное сообщение, шанс которого равен 0,01%!'+"\n"+'Это предпоследнтй уровень секретности...'
             
-              bot.send_message(message.chat.id, 'Размер члена ' + message.from_user.first_name + ': ' + text)
+        if win==1:
+            text='ВЫ ОЧЕНЬ ВЕЗУЧИЙ ЧЕЛОВЕК! Вы открыли САМОЕ СЕКРЕТНОЕ СООБЩЕНИЕ, шанс которого равен 0,001%!'
+            
+        bot.send_message(message.chat.id, 'Размер члена ' + message.from_user.first_name + ': ' + text)
 
         else:
             replytext='Размер члена '+message.from_user.first_name+': '+str(chlen)+','+str(mm)+' см'
