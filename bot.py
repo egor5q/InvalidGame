@@ -34,9 +34,9 @@ def chlen2(message):
         if randomvoice>90:
               chlen = random.randint(1, 2)
               text=texts[chlen-1]
-                  text = 'Как у коня'
-              elif chlen==2:
-                  text='5000км! Мужик!'
+               
+      
+            
               bot.send_message(message.chat.id, 'Размер члена ' + message.from_user.first_name + ': ' + text)
 
         else:
