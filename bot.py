@@ -56,10 +56,10 @@ def chlenomer(message):
         randomvoice=random.randint(1,100)
         if randomvoice>90:
               chlen = random.randint(1, 2)
-              text=texts
-                  text = 'К
-              elif chlen==2:
-                  text='5000км! Мужик!'
+              text=texts[chlen-1]
+               
+         
+            
               bot.send_message(message.chat.id, 'Размер члена ' + message.from_user.first_name + ': ' + text)
 
         else:
