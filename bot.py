@@ -92,7 +92,7 @@ def chlenomer(message):
             
         if win==1:
             text='ВЫ ОЧЕНЬ ВЕЗУЧИЙ ЧЕЛОВЕК! Вы открыли САМОЕ СЕКРЕТНОЕ СООБЩЕНИЕ, шанс которого равен 0,001%!'
-            t=
+            t=1
         if t==1:
             bot.send_message(message.chat.id, message.from_user.firstname+', 'text)
             t=0
