@@ -33,7 +33,7 @@ def chlen2(message):
         randomvoice=random.randint(1,100)
         if randomvoice>90:
               chlen = random.randint(1, 2)
-              if chlen == 1:
+              text=texts[chlen-1]
                   text = 'Как у коня'
               elif chlen==2:
                   text='5000км! Мужик!'
@@ -43,7 +43,7 @@ def chlen2(message):
             replytext='Размер члена '+message.from_user.first_name+': '+str(chlen)+','+str(mm)+' см'
             bot.send_message(message.chat.id, replytext)
 
-
+texts=['Как у коня', '5000км! Мужик!']
 
 @bot.message_handler(content_types=['text'])
 def chlenomer(message):
@@ -56,8 +56,8 @@ def chlenomer(message):
         randomvoice=random.randint(1,100)
         if randomvoice>90:
               chlen = random.randint(1, 2)
-              if chlen == 1:
-                  text = 'Как у коня'
+              text=texts
+                  text = 'К
               elif chlen==2:
                   text='5000км! Мужик!'
               bot.send_message(message.chat.id, 'Размер члена ' + message.from_user.first_name + ': ' + text)
