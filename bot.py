@@ -17,8 +17,10 @@ def info(message):
         bot.send_message(441399484, len(people))
 
         
-        
-        
+@bot.message_handler(commands=['commands'])
+def commessage(message):
+    bot.send_message(message.chat.id, 'Все фразы для измерения члена(раскладка не важна):'+"\n"+
+      'Член'+"\n"+'Хуй'+"\n"+'Хер')
         
 @bot.message_handler(commands=['feedback'])
 def feedback(message):
