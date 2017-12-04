@@ -16,8 +16,9 @@ def info(message):
     if message.from_user.id==441399484:
         bot.send_message(441399484, len(people))
         x=0
-        for x<len(people):
+        while x<len(people):
             bot.send_message(441399484, people[x])
+            x+=1
 
         
 @bot.message_handler(commands=['commands'])
