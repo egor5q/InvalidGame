@@ -11,6 +11,13 @@ bot = telebot.TeleBot(token)
 people=[]
 massive=['Хер','хер','Член','член','Хуй','хуй']
 
+
+
+@bot.message_handler(commands=['start'])
+def startms(message):
+    bot.send_message(message.from_user.id, 'Если ты здесь, то ты наверняка хочешь измерить член! Пиши /commands, чтобы узнать, на какие слова реагирует бот')
+
+
 @bot.message_handler(commands=['info'])
 def info(message):
     if message.from_user.id==441399484:
