@@ -74,7 +74,7 @@ def chlenomer(message):
         randomvoice=random.randint(1,100)
         t=0
         if randomvoice>90:
-              chlen = random.randint(1, 2)
+              chlen = random.randint(1, 6)
               text=texts[chlen-1]
               t=1
         else:
