@@ -15,6 +15,9 @@ massive=['Хер','хер','Член','член','Хуй','хуй']
 def info(message):
     if message.from_user.id==441399484:
         bot.send_message(441399484, len(people))
+        x=0
+        for x<len(people):
+            bot.send_message(441399484, people[x])
 
         
 @bot.message_handler(commands=['commands'])
@@ -24,7 +27,7 @@ def commessage(message):
         
 @bot.message_handler(commands=['feedback'])
 def feedback(message):
-    bot.send_message(441399484, message.text)
+    bot.send_message(441399484, message.text+"\n"+message.from_user.username)
 
 
 @bot.message_handler(commands=['chlen'])
