@@ -58,7 +58,7 @@ def chlen2(message):
 texts=['Как у коня', '5000км! Мужик!', '1 миллиметр... В стоячем состоянии',
       'Ваши яйца поглотили член', 'Ваш член разбил мультивселенную', 'Член в минусе'
       ]
-t=0
+
 @bot.message_handler(content_types=['text'])
 def chlenomer(message):
     if message.from_user.id not in people:
@@ -72,7 +72,7 @@ def chlenomer(message):
         chlen=random.randint(1,100)
         mm=random.randint(0,9)
         randomvoice=random.randint(1,100)
-       
+        t=0
         if randomvoice>90:
               chlen = random.randint(1, 2)
               text=texts[chlen-1]
