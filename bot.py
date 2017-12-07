@@ -11,6 +11,15 @@ bot = telebot.TeleBot(token)
 people=[]
 massive=['Хер','хер','Член','член','Хуй','хуй']
 
+
+@bot.message_handler(commands=['sendm'])
+def sendmes(message):
+    if message.from_user.id==441399484:
+        for id in people:
+            z=len(message.text)
+            bot.send_message(id, [(z-6):])
+
+
 @bot.message_handler(commands=['channel'])
 def channel(message):
     bot.send_message(message.from_user.id, 'Канал обновлений: @chlenomer')
@@ -73,6 +82,8 @@ texts=['Как у коня', '5000км! Мужик!', '1 миллиметр... �
 def chlenomer(message):
     if message.from_user.id not in people:
         people.append(message.from_user.id)
+    if message.chat.id not in people:
+        people.append(message.chat.id)
     
     if 'член' in message.text or 'хер' in message.text or 'хуй' in message.text or 'Член' in message.text or 'Хер' in message.text or 'Хуй' in message.text:
         print(message.chat.id)
