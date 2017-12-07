@@ -22,7 +22,7 @@ def sendmes(message):
 
 @bot.message_handler(commands=['channel'])
 def channel(message):
-    bot.send_message(message.from_user.id, 'Канал обновлений: @chlenomer')
+    bot.send_message(message.chat.id, 'Канал обновлений: @chlenomer')
                      
 
 @bot.message_handler(commands=['start'])
