@@ -48,8 +48,7 @@ def ticto(message):
 
 @bot.message_handler(commands=['commands'])
 def commessage(message):
-    bot.send_message(message.chat.id, 'Все фразы для измерения члена(раскладка не важна):'+"\n"+
-      'Член'+"\n"+'Хуй'+"\n"+'Хер')
+    bot.send_message(message.chat.id, 'Все фразы, связанные со словом "член"')
         
 @bot.message_handler(commands=['feedback'])
 def feedback(message):
