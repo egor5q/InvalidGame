@@ -11,7 +11,10 @@ bot = telebot.TeleBot(token)
 people=[]
 massive=['Хер','хер','Член','член','Хуй','хуй']
 
-
+@bot.message_handler(commands=['channel'])
+def channel(message):
+    bot.send_message(message.from_user.id, 'Канал обновлений: @chlenomer')
+                     
 
 @bot.message_handler(commands=['start'])
 def startms(message):
