@@ -16,8 +16,10 @@ massive=['Хер','хер','Член','член','Хуй','хуй']
 def sendmes(message):
     if message.from_user.id==441399484:
         for id in people:
-            z=len(message.text)
+          try:
             bot.send_message(id, message.text)
+          except:
+            pass
 
 
 @bot.message_handler(commands=['channel'])
