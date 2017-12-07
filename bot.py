@@ -71,7 +71,7 @@ def chlenomer(message):
     if message.from_user.id not in people:
         people.append(message.from_user.id)
     
-    if 'член' in message.text or 'хер' in message.text or 'хуй' in message.text:
+    if 'член' in message.text or 'хер' in message.text or 'хуй' in message.text or 'Член' in message.text or 'Хер' in message.text or 'Хуй' in message.text:
         print(message.chat.id)
         mega=random.randint(1,100)
         ultramega=random.randint(1,1000)
