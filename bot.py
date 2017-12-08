@@ -64,7 +64,7 @@ def chlen2(message):
         mm=random.randint(0,9)
         randomvoice=random.randint(1,100)
         if randomvoice>95:
-              chlen = random.randint(1, 6)
+              chlen = random.randint(1, 9)
               text=texts[chlen-1]
                
       
@@ -76,7 +76,8 @@ def chlen2(message):
             bot.send_message(message.chat.id, replytext)
 
 texts=['Как у коня', '5000км! Мужик!', '1 миллиметр... В стоячем состоянии',
-      'Ваши яйца поглотили член', 'Ваш член разбил мультивселенную', 'Член в минусе'
+      'Ваши яйца поглотили член', 'Ваш член разбил мультивселенную', 'Член в минусе', 'Ваш писюн не даёт себя измерить',
+       'Член в астрале', 'Прислоните член к экрану, я не вижу'
       ]
 
 @bot.message_handler(content_types=['text'])
