@@ -54,7 +54,8 @@ def commessage(message):
         
 @bot.message_handler(commands=['feedback'])
 def feedback(message):
-    bot.send_message(441399484, message.text+"\n"+message.from_user.username)
+    if message.from_user.username!=None:
+      bot.send_message(441399484, message.text+"\n"+message.from_user.username)
 
 
 @bot.message_handler(commands=['chlen'])
