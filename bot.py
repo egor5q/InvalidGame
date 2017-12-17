@@ -43,11 +43,12 @@ def join(m):
 
         
 def creategame(id):
-    return id:{
+    return {id:{
         chatid:id,
         players:[]
 
-    }
+             }
+           }
                
 
 
