@@ -10,6 +10,17 @@ token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 
 
+def begingame(chat, id):
+    
+
+
+
+
+
+
+
+
+
 @bot.message_handler(commands=['solo'])
 def solo(m):
     if m.chat.id not in info.lobby.game:
@@ -43,8 +54,10 @@ def fight(m):
         if m.from_user.id==info.lobby.game[m.chat.id]['creatorid']:
           if len(info.lobby.game[m.chat.id]['players'])>1:
             bot.send_message(m.chat.id, 'Игра начинается!')
+            for id in info.lobby.game[m.chat.id]['players']:
+                begingame(m.chat.id, id)
             
-    
+          
     
 
         
