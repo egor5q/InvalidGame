@@ -14,7 +14,7 @@ bot = telebot.TeleBot(token)
 def solo(m):
     if m.chat.id not in info.lobby.game:
       if m.chat.id<0:
-        game=creategame(m.chat.id)
+        game=creategame(m.chat.id, m.from_user.id)
         info.lobby.game.update(game)
         bot.send_message(m.chat.id, 'Вы начали игру в режиме "Каждый за себя"! Ожидайте игроков')
       else:
@@ -37,15 +37,22 @@ def join(m):
         
 
 
-
+@bot.message_handler(commands=['fight'])
+def fight(m):
+    if m.chat.id in info.lobby.game:
+        if m.from_user.id==info.lobby.game[m.chat.id]['creatorid']:
+          if len(info.lobby.game[m.chat.id]['players']>1:
+            bot.send_message(m.chat.id, 'Игра начинается!')
+            
     
     
 
         
-def creategame(id):
+def creategame(id, creatorid):
     return {id:{
         'chatid':id,
-        'players':[]
+        'players':[],
+        'creatorid':creatorid
 
              }
            }
