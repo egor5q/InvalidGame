@@ -41,7 +41,7 @@ def join(m):
 def fight(m):
     if m.chat.id in info.lobby.game:
         if m.from_user.id==info.lobby.game[m.chat.id]['creatorid']:
-          if len(info.lobby.game[m.chat.id]['players']>1:
+          if len(info.lobby.game[m.chat.id]['players'])>1:
             bot.send_message(m.chat.id, 'Игра начинается!')
             
     
