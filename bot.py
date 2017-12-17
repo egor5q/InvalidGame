@@ -26,11 +26,11 @@ def solo(m):
 @bot.message_handler(commands=['join'])
 def join(m):
     if m.chat.id in info.lobby.game:
-        if m.from_user.id not in info.lobby.game[m.chat.id][players]:
+        if m.from_user.id not in info.lobby.game[m.chat.id]['players']:
           try:
             bot.send_message(m.from_user.id, 'Вы успешно присоединились!')
-            info.lobby.game[m.chat.id][players].append(m.from_user.id)
-            bot.send_message(m.chat.id, 'Вы успешно присоединились! Количество игроков: '+str(len(info.lobby.game[m.chat.id][players])))
+            info.lobby.game[m.chat.id]['players'].append(m.from_user.id)
+            bot.send_message(m.chat.id, 'Вы успешно присоединились! Количество игроков: '+str(len(info.lobby.game[m.chat.id]['players'])))
           except:
             bot.send_message(m.chat.id, 'Сначала напишите боту @customwarbot !')
 
@@ -44,8 +44,8 @@ def join(m):
         
 def creategame(id):
     return {id:{
-        chatid:id,
-        players:[]
+        'chatid':id,
+        'players':[]
 
              }
            }
