@@ -11,12 +11,11 @@ bot = telebot.TeleBot(token)
 
 
 def begingame(chat, id):
-    
-
-
-
-
-
+      Keyboard=types.InlineKeyboardMarkup()       
+      Keyboard.add(types.InlineKeyboardButton(text=go+"Действия", callback_data='do'))
+      Keyboard.add(types.InlineKeyboardButton(text=infos+"Инфо обо мне", callback_data='info'))
+      Keyboard.add(types.InlineKeyboardButton(text=end+"Окончить ход", callback_data='end'))     
+      msg=bot.send_message('Главное меню',reply_markup=Keyboard)
 
 
 
@@ -56,6 +55,8 @@ def fight(m):
             bot.send_message(m.chat.id, 'Игра начинается!')
             for id in info.lobby.game[m.chat.id]['players']:
                 begingame(m.chat.id, id)
+          else:
+            bot.send_message(m.chat.id, 'Недостаточно игроков!')
             
           
     
