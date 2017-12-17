@@ -56,6 +56,7 @@ def commessage(message):
 def feedback(message):
     if message.from_user.username!=None:
       bot.send_message(441399484, message.text+"\n"+message.from_user.username)
+      bot.send_message(message.chat.id, 'Сообщение отправлено!')
 
 
 @bot.message_handler(commands=['chlen'])
