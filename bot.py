@@ -2,9 +2,9 @@
 import os
 import telebot
 import time
-import chlenomerconfig
 import telebot
 import random
+import info
 
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
