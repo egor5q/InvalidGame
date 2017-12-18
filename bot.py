@@ -5,17 +5,19 @@ import time
 import telebot
 import random
 import info
+from emoji import emojize
 
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 
 
 def begingame(chat, id):
+      
       Keyboard=types.InlineKeyboardMarkup()       
-      Keyboard.add(types.InlineKeyboardButton(text=go+"Действия", callback_data='do'))
-      Keyboard.add(types.InlineKeyboardButton(text=infos+"Инфо обо мне", callback_data='info'))
-      Keyboard.add(types.InlineKeyboardButton(text=end+"Окончить ход", callback_data='end'))     
-      msg=bot.send_message('Главное меню',reply_markup=Keyboard)
+      Keyboard.add(types.InlineKeyboardButton(text=go+"Ниндзя", callback_data='ninja'))
+      Keyboard.add(types.InlineKeyboardButton(text=infos+"Робот", callback_data='robot'))
+      Keyboard.add(types.InlineKeyboardButton(text=end+"Берсерк", callback_data='berserk'))     
+      msg=bot.send_message('Для начала вам нужно выбрать ваших бойцов. Один стоит 50 к.о.(кастомных очков)'+"\n"+'Ваши к.о.: '+str(info.lobby.game[chat]['players'][id]['ko']),reply_markup=Keyboard)
 
 
 
@@ -39,7 +41,8 @@ def join(m):
         if m.from_user.id not in info.lobby.game[m.chat.id]['players']:
           try:
             bot.send_message(m.from_user.id, 'Вы успешно присоединились!')
-            info.lobby.game[m.chat.id]['players'].append(m.from_user.id)
+            player=createplayer(m.from_user.id)
+            info.lobby.game[m.chat.id]['players'].update(player)
             bot.send_message(m.chat.id, 'Вы успешно присоединились! Количество игроков: '+str(len(info.lobby.game[m.chat.id]['players'])))
           except:
             bot.send_message(m.chat.id, 'Сначала напишите боту @customwarbot !')
@@ -65,12 +68,18 @@ def fight(m):
 def creategame(id, creatorid):
     return {id:{
         'chatid':id,
-        'players':[],
-        'creatorid':creatorid
+        'players':{},
+        'creatorid':creatorid,
 
              }
            }
-               
+            
+      
+def createplayer(id):
+      return {id:{'selfid':id,
+             'ko':200,
+             'characters':[]
+                 }}
 
 
 
