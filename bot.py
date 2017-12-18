@@ -11,15 +11,26 @@ token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 
 
+
+
+@bot.callback_query_handler(func=lambda call:True)
+def inline(call):
+  if call.data=='endcharacter':
+      pass
+  
+  elif call.data=='ninja':
+      pass
+
+
 def begingame(chat, id):
       ko=emojize(':red_circle:', use_aliases=True)
       Keyboard=types.InlineKeyboardMarkup()       
       Keyboard.add(types.InlineKeyboardButton(text=go+"Ниндзя", callback_data='ninja'))
       Keyboard.add(types.InlineKeyboardButton(text=infos+"Робот", callback_data='robot'))
-      Keyboard.add(types.InlineKeyboardButton(text=end+"Берсерк", callback_data='berserk'))     
-      msg=bot.send_message('Для начала вам нужно выбрать ваших бойцов. Один стоит 50 к.о.(кастомных очков)'+"\n"+'Ваши к.о.: '+ko+str(info.lobby.game[chat]['players'][id]['ko']),reply_markup=Keyboard)
-
-
+      Keyboard.add(types.InlineKeyboardButton(text=end+"Берсерк", callback_data='berserk'))
+      Keyboard.add(types.InlineKeyboardButton(text=end+"Окончить выбор", callback_data='endcharacter')
+      msg=bot.send_message('Для начала вам нужно выбрать ваших бойцов. Один стоит 80 к.о.(кастомных очков)'+"\n"+'Ваши к.о.: '+ko+str(info.lobby.game[chat]['players'][id]['ko']),reply_markup=Keyboard)
+                   
 
 
 @bot.message_handler(commands=['solo'])
@@ -77,7 +88,7 @@ def creategame(id, creatorid):
       
 def createplayer(id):
       return {id:{'selfid':id,
-             'ko':200,
+             'ko':250,
              'characters':[]
                  }}
 
