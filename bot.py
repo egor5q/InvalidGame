@@ -12,12 +12,12 @@ bot = telebot.TeleBot(token)
 
 
 def begingame(chat, id):
-      
+      ko=emojize(':red_circle:', use_aliases=True)
       Keyboard=types.InlineKeyboardMarkup()       
       Keyboard.add(types.InlineKeyboardButton(text=go+"Ниндзя", callback_data='ninja'))
       Keyboard.add(types.InlineKeyboardButton(text=infos+"Робот", callback_data='robot'))
       Keyboard.add(types.InlineKeyboardButton(text=end+"Берсерк", callback_data='berserk'))     
-      msg=bot.send_message('Для начала вам нужно выбрать ваших бойцов. Один стоит 50 к.о.(кастомных очков)'+"\n"+'Ваши к.о.: '+str(info.lobby.game[chat]['players'][id]['ko']),reply_markup=Keyboard)
+      msg=bot.send_message('Для начала вам нужно выбрать ваших бойцов. Один стоит 50 к.о.(кастомных очков)'+"\n"+'Ваши к.о.: '+ko+str(info.lobby.game[chat]['players'][id]['ko']),reply_markup=Keyboard)
 
 
 
