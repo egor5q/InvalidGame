@@ -26,6 +26,8 @@ def inline(call):
               info.lobby.game[id]['players'][call.from_user.id]['ko']-=info.ninja.cost
               bot.send_message(call.from_user.id, 'Теперь у вас есть Ниндзя! У вас осталось '+str(info.lobby.game[id]['players'][call.from_user.id]['ko'])+' к.о.')
               info.lobby.game[id]['players'][call.from_user.id]['characters'].append('ninja')
+            else:
+              bot.send_message(call.from_user.id, 'Недостаточно кастомных очков!')
               
             
   elif call.data=='berserk':
@@ -36,6 +38,8 @@ def inline(call):
               info.lobby.game[id]['players'][call.from_user.id]['ko']-=info.berserk.cost
               bot.send_message(call.from_user.id, 'Теперь у вас есть Берсерк! У вас осталось '+str(info.lobby.game[id]['players'][call.from_user.id]['ko'])+' к.о.')
               info.lobby.game[id]['players'][call.from_user.id]['characters'].append('berserk')
+            else:
+              bot.send_message(call.from_user.id, 'Недостаточно кастомных очков!')
               
               
   elif call.data=='robot':
@@ -46,12 +50,15 @@ def inline(call):
               info.lobby.game[id]['players'][call.from_user.id]['ko']-=info.robot.cost
               bot.send_message(call.from_user.id, 'Теперь у вас есть Робот! У вас осталось '+str(info.lobby.game[id]['players'][call.from_user.id]['ko'])+' к.о.')
               info.lobby.game[id]['players'][call.from_user.id]['characters'].append('robot')
+            else:
+              bot.send_message(call.from_user.id, 'Недостаточно кастомных очков!')
               
             
                                                                
 
 
 def begingame(chat, id):
+      info.lobby.game[chat]['players'][id]['pick']=1
       ko=emojize(':red_circle:', use_aliases=True)
       Keyboard=types.InlineKeyboardMarkup()       
       Keyboard.add(types.InlineKeyboardButton(text=go+"Ниндзя", callback_data='ninja'))
