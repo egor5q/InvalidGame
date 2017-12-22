@@ -19,7 +19,12 @@ def inline(call):
       pass
   
   elif call.data=='ninja':
-      pass
+      for id in info.lobby.game:
+        if call.from_user.id in info.lobby.game[id]['players']:
+          if info.lobby.game[id]['players'][call.from_user.id]['pick']==1:
+            if info.lobby.game[id]['players'][call.from_user.id]['ko']>info.ninja.cost:
+            
+                                                               
 
 
 def begingame(chat, id):
@@ -89,7 +94,8 @@ def creategame(id, creatorid):
 def createplayer(id):
       return {id:{'selfid':id,
              'ko':250,
-             'characters':[]
+             'characters':[],
+             'pick':0
                  }}
 
 
