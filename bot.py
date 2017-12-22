@@ -16,7 +16,8 @@ bot = telebot.TeleBot(token)
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call):
   if call.data=='endcharacter':
-      pass
+    pass
+      
   
   elif call.data=='ninja':
       for id in info.lobby.game:
@@ -124,9 +125,10 @@ def creategame(id, creatorid):
       
 def createplayer(id):
       return {id:{'selfid':id,
-             'ko':250,
+             'ko':400,
              'characters':[],
-             'pick':0
+             'pick':0,
+             'ready':0
                  }}
 
 
