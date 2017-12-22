@@ -22,7 +22,31 @@ def inline(call):
       for id in info.lobby.game:
         if call.from_user.id in info.lobby.game[id]['players']:
           if info.lobby.game[id]['players'][call.from_user.id]['pick']==1:
-            if info.lobby.game[id]['players'][call.from_user.id]['ko']>info.ninja.cost:
+            if info.lobby.game[id]['players'][call.from_user.id]['ko']>=info.ninja.cost:
+              info.lobby.game[id]['players'][call.from_user.id]['ko']-=info.ninja.cost
+              bot.send_message(call.from_user.id, 'Теперь у вас есть Ниндзя! У вас осталось '+str(info.lobby.game[id]['players'][call.from_user.id]['ko'])+' к.о.')
+              info.lobby.game[id]['players'][call.from_user.id]['characters'].append('ninja')
+              
+            
+  elif call.data=='berserk':
+      for id in info.lobby.game:
+        if call.from_user.id in info.lobby.game[id]['players']:
+          if info.lobby.game[id]['players'][call.from_user.id]['pick']==1:
+            if info.lobby.game[id]['players'][call.from_user.id]['ko']>=info.berserk.cost:
+              info.lobby.game[id]['players'][call.from_user.id]['ko']-=info.berserk.cost
+              bot.send_message(call.from_user.id, 'Теперь у вас есть Берсерк! У вас осталось '+str(info.lobby.game[id]['players'][call.from_user.id]['ko'])+' к.о.')
+              info.lobby.game[id]['players'][call.from_user.id]['characters'].append('berserk')
+              
+              
+  elif call.data=='robot':
+      for id in info.lobby.game:
+        if call.from_user.id in info.lobby.game[id]['players']:
+          if info.lobby.game[id]['players'][call.from_user.id]['pick']==1:
+            if info.lobby.game[id]['players'][call.from_user.id]['ko']>=info.robot.cost:
+              info.lobby.game[id]['players'][call.from_user.id]['ko']-=info.robot.cost
+              bot.send_message(call.from_user.id, 'Теперь у вас есть Робот! У вас осталось '+str(info.lobby.game[id]['players'][call.from_user.id]['ko'])+' к.о.')
+              info.lobby.game[id]['players'][call.from_user.id]['characters'].append('robot')
+              
             
                                                                
 
