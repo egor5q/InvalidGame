@@ -9,6 +9,7 @@ class Ninja(object):
         self.damage=4
         self.evade=15
         self.accuracy=50
+        self.cost=80
         
         
 class Robot(object):
@@ -17,6 +18,7 @@ class Robot(object):
         self.damage=3
         self.evade=2
         self.accuracy=60
+        self.cost=80
         
         
 class Berserk(object):
@@ -25,6 +27,7 @@ class Berserk(object):
         self.damage=6
         self.evade=5
         self.accuracy=40
+        self.cost=80
         
 berserk=Berserk()        
 robot=Robot()        
