@@ -5,6 +5,7 @@ import time
 import telebot
 import random
 import info
+import threading
 from emoji import emojize
 
 token = os.environ['TELEGRAM_TOKEN']
@@ -16,49 +17,68 @@ bot = telebot.TeleBot(token)
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call):
   if call.data=='endcharacter':
-    pass
+    for id in info.lobby.game:
+        if call.from_user.id in info.lobby.game[id]['players']:
+          if info.lobby.game[id]['players'][call.from_user.id]['pick']==1:
+            info.lobby.game[id]['players'][call.from_user.id]['pick']=0
+            bot.send_message(call.from_user.id, 'Вы окончили выбор бойцов! теперь выберите для них характеристики')
       
   
   elif call.data=='ninja':
       for id in info.lobby.game:
         if call.from_user.id in info.lobby.game[id]['players']:
           if info.lobby.game[id]['players'][call.from_user.id]['pick']==1:
+           if 'ninja' not in info.lobby.game[id]['players'][call.from_user.id]['characters']:
             if info.lobby.game[id]['players'][call.from_user.id]['ko']>=info.ninja.cost:
               info.lobby.game[id]['players'][call.from_user.id]['ko']-=info.ninja.cost
               bot.send_message(call.from_user.id, 'Теперь у вас есть Ниндзя! У вас осталось '+str(info.lobby.game[id]['players'][call.from_user.id]['ko'])+' к.о.')
               info.lobby.game[id]['players'][call.from_user.id]['characters'].append('ninja')
             else:
               bot.send_message(call.from_user.id, 'Недостаточно кастомных очков!')
+           else:
+            bot.send_message(call.from_user.id, 'У вас уже есть этот персонаж!')
               
             
   elif call.data=='berserk':
       for id in info.lobby.game:
         if call.from_user.id in info.lobby.game[id]['players']:
           if info.lobby.game[id]['players'][call.from_user.id]['pick']==1:
+           if 'berserk' not in info.lobby.game[id]['players'][call.from_user.id]['characters']:
             if info.lobby.game[id]['players'][call.from_user.id]['ko']>=info.berserk.cost:
               info.lobby.game[id]['players'][call.from_user.id]['ko']-=info.berserk.cost
               bot.send_message(call.from_user.id, 'Теперь у вас есть Берсерк! У вас осталось '+str(info.lobby.game[id]['players'][call.from_user.id]['ko'])+' к.о.')
               info.lobby.game[id]['players'][call.from_user.id]['characters'].append('berserk')
             else:
               bot.send_message(call.from_user.id, 'Недостаточно кастомных очков!')
+           else:
+            bot.send_message(call.from_user.id, 'У вас уже есть этот персонаж!')
               
               
   elif call.data=='robot':
       for id in info.lobby.game:
         if call.from_user.id in info.lobby.game[id]['players']:
           if info.lobby.game[id]['players'][call.from_user.id]['pick']==1:
+           if 'robot' not in info.lobby.game[id]['players'][call.from_user.id]['characters']:
             if info.lobby.game[id]['players'][call.from_user.id]['ko']>=info.robot.cost:
               info.lobby.game[id]['players'][call.from_user.id]['ko']-=info.robot.cost
               bot.send_message(call.from_user.id, 'Теперь у вас есть Робот! У вас осталось '+str(info.lobby.game[id]['players'][call.from_user.id]['ko'])+' к.о.')
               info.lobby.game[id]['players'][call.from_user.id]['characters'].append('robot')
             else:
               bot.send_message(call.from_user.id, 'Недостаточно кастомных очков!')
+           else:
+            bot.send_message(call.from_user.id, 'У вас уже есть этот персонаж!')
               
             
                                                                
 
-
-def begingame(chat, id):
+def skillchoice(id):
+     if info.lobby.game[chat]['players'][id]['pick']==0:
+      
+  
+              
+              
+def begingame(chat):
+  for id in info.lobby.game[chat]['players']:
       info.lobby.game[chat]['players'][id]['pick']=1
       ko=emojize(':red_circle:', use_aliases=True)
       Keyboard=types.InlineKeyboardMarkup()       
@@ -104,8 +124,8 @@ def fight(m):
         if m.from_user.id==info.lobby.game[m.chat.id]['creatorid']:
           if len(info.lobby.game[m.chat.id]['players'])>1:
             bot.send_message(m.chat.id, 'Игра начинается!')
-            for id in info.lobby.game[m.chat.id]['players']:
-                begingame(m.chat.id, id)
+            t=threading.Thread(target=begingame, args=[m.chat.id])
+            t.start()
           else:
             bot.send_message(m.chat.id, 'Недостаточно игроков!')
             
