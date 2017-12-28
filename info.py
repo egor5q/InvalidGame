@@ -7,17 +7,17 @@ class Ninja(object):
     def __init__(self):
         self.hp=20
         self.damage=4
-        self.evade=15
-        self.accuracy=50
+        self.evade=10
+        self.accuracy=10
         self.cost=80
         
         
 class Robot(object):
     def __init__(self):
-        self.hp=30
+        self.hp=25
         self.damage=3
         self.evade=2
-        self.accuracy=60
+        self.accuracy=10
         self.cost=80
         
         
@@ -26,7 +26,7 @@ class Berserk(object):
         self.hp=25
         self.damage=6
         self.evade=5
-        self.accuracy=40
+        self.accuracy=10
         self.cost=80
         
 berserk=Berserk()        
