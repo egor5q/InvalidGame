@@ -69,8 +69,13 @@ def fight(m):
           
     
 def begingame(id):
-  for id in info.lobby.game[id]['players']:
-    
+  for id in info.lobby.game[id]['players']:   
+      Keyboard=types.InlineKeyboardMarkup()       
+      Keyboard.add(types.InlineKeyboardButton(text=go+"Действия", callback_data='do'))
+      Keyboard.add(types.InlineKeyboardButton(text=infos+"Инфо обо мне", callback_data='info'))
+      Keyboard.add(types.InlineKeyboardButton(text=end+"Окончить ход", callback_data='end'))     
+      msg=bot.send_message(key, 'Главное меню:'+"\n"+mana+'Мана: '+str(info.lobby.game[creatorid]['players'][key]['mana'])+'/'+str(info.lobby.game[creatorid]['players'][key]['manamax']),reply_markup=Keyboard)
+   
         
 def creategame(id, creatorid):
     return {id:{
