@@ -68,13 +68,12 @@ def fight(m):
             
           
     
-def begingame(id):
-  for id in info.lobby.game[id]['players']:   
-      Keyboard=types.InlineKeyboardMarkup()       
+def begingame(ids):
+  for id in info.lobby.game[ids]['players']:   
+      Keyboard=types.InlineKeyboardMarkup()      
+      for aidi in info.lobby.game[ids]['players']:
       Keyboard.add(types.InlineKeyboardButton(text=go+"Действия", callback_data='do'))
-      Keyboard.add(types.InlineKeyboardButton(text=infos+"Инфо обо мне", callback_data='info'))
-      Keyboard.add(types.InlineKeyboardButton(text=end+"Окончить ход", callback_data='end'))     
-      msg=bot.send_message(key, 'Главное меню:'+"\n"+mana+'Мана: '+str(info.lobby.game[creatorid]['players'][key]['mana'])+'/'+str(info.lobby.game[creatorid]['players'][key]['manamax']),reply_markup=Keyboard)
+      msg=bot.send_message(id, 'Выбирайте, кто получит ваш голос:',reply_markup=Keyboard)
    
         
 def creategame(id, creatorid):
@@ -89,7 +88,7 @@ def creategame(id, creatorid):
       
 def createplayer(id):
       return {id:{'selfid':id,
-             'rol':'None',
+             'role':'None',
              'voices':0,          
              'ready':0
                  }}
