@@ -279,11 +279,11 @@ def yvorot(bot, team):
     info.lobby.game[id]['t1res']+='💨'+bot['name']+' Уворачивается!\n'
     
 
-def reload(bot, team):
-  if bot['team']==2:
-    info.lobby.game[id]['t2res']+='🕓'+bot['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
-  elif bot['team']==1:
-    info.lobby.game[id]['t1res']+='🕓'+bot['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
+def reload(bot2, team):
+  if bot2['team']==2:
+    info.lobby.game[id]['t2res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
+  elif bot2['team']==1:
+    info.lobby.game[id]['t1res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
 
 def item(bot, team):
   pass
