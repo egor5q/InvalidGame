@@ -144,7 +144,7 @@ def results(id):
   for bots in info.lobby.game[id]['bots']:
     if info.lobby.game[id]['bots'][bots]['team']==1:
       if info.lobby.game[id]['bots'][bots]['attack']==1:
-        attack(bots,info.lobby.game[id]['t2bots'])
+        attack(bots,info.lobby.game[id]['t2bots'],id)
       elif info.lobby.game[id][bots]['yvorot']==1:
         yvorot(bots, info.lobby.game[id]['t1bots'])
       elif info.lobby.game[id][bots]['reload']==1:
