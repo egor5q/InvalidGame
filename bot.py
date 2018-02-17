@@ -211,7 +211,7 @@ def rockchance(energy, target, x):
           stun=random.randint(1, 100)
           if stun<=25:
             target['stun']=2
-          if target['team']=='2:
+          if target['team']==2:
             info.lobby.game[id]['t1res']+='☄️'+bot['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot1']+=damage
             target['takendmg']+=damage
