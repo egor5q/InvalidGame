@@ -144,13 +144,13 @@ def results(id):
   for bots in info.lobby.game[id]['bots']:
     if info.lobby.game[id]['bots'][bots]['team']==1:
       if info.lobby.game[id]['bots'][bots]['attack']==1:
-        attack(bots,info.lobby.game[id]['t2bots'],id)
+        attack(bots,2,id)
       elif info.lobby.game[id]['bots'][bots]['yvorot']==1:
-        yvorot(bots, info.lobby.game[id]['t1bots'])
+        yvorot(bots, 1)
       elif info.lobby.game[id]['bots'][bots]['reload']==1:
-        reload(bots, info.lobby.game[id]['t1bots'])
+        reload(bots, 1)
       elif info.lobby.game[id]['bots'][bots]['item']==1:
-        item(bots,info.lobby.game[id]['t2bots'])
+        item(bots,2)
       
     elif info.lobby.game[id]['bots'][bots]['team']==2:
       if info.lobby.game[id]['bots'][bots]['attack']==1:
@@ -246,8 +246,12 @@ def rockchance(energy, target, x):
       
       
 def attack(bot, team, id):
-  z=random.choice(team)
-  target=info.lobby.game[id]['bots'][team[z]['number']]
+  a=[]
+  for bots in info.lobby.game[id]['bots']:
+    if bots['team']==team:
+      a.append(bots)
+  x=random.randint(1,len(a))
+  target=info.lobby.game[id]['bots'][a[x-1]['number']]
   x=random.randint(1,100)
   if bot['weapon']=='rock':
     if bot['energy']==5:
