@@ -275,7 +275,7 @@ def yvorot(bot, team):
     
 
 def reload(bot, team):
-  if if target['team']==2:
+  if target['team']==2:
     info.lobby.game[id]['t2res']+='🕓'+bot['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
   elif target['team']==1:
     info.lobby.game[id]['t1res']+='🕓'+bot['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
