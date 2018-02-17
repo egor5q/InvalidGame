@@ -392,7 +392,7 @@ def begin(m):
     if m.chat.id not in info.lobby.game:
       if m.from_user.id in vip:
         info.lobby.game.update(creategame(m.from_user.id))
-        bot.send_message(m.chat.id, 'Игра началась. Выберите стартовые характеристики для ваших бойцов (в лс).')
+        bot.send_message(m.chat.id, '(Идея игры скопирована у @nevert и его игры - @veganwarsbot) Игра началась. Выберите стартовые характеристики для ваших бойцов (в лс).')
         begingame(m.from_user.id)
       else:
         bot.send_message(m.chat.id, 'Вас нет в вип-списке. Пишите @Loshadkin')
