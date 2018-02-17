@@ -144,23 +144,23 @@ def results(id):
   for bots in info.lobby.game[id]['bots']:
     if info.lobby.game[id]['bots'][bots]['team']==1:
       if info.lobby.game[id]['bots'][bots]['attack']==1:
-        attack(bots,2,id)
+        attack(info.lobby.game[id]['bots'][bots],2,id)
       elif info.lobby.game[id]['bots'][bots]['yvorot']==1:
-        yvorot(bots, 1)
+        yvorot(info.lobby.game[id]['bots'][bots], 1)
       elif info.lobby.game[id]['bots'][bots]['reload']==1:
-        reload(bots, 1)
+        reload(info.lobby.game[id]['bots'][bots], 1)
       elif info.lobby.game[id]['bots'][bots]['item']==1:
-        item(bots,2)
+        item(info.lobby.game[id]['bots'][bots],2)
       
     elif info.lobby.game[id]['bots'][bots]['team']==2:
       if info.lobby.game[id]['bots'][bots]['attack']==1:
-        attack(bots,info.lobby.game[id]['t1bots'])
+        attack(info.lobby.game[id]['bots'][bots],info.lobby.game[id]['t1bots'])
       elif info.lobby.game[id]['bots'][bots]['yvorot']==1:
-        yvorot(bots, info.lobby.game[id]['t2bots'])
+        yvorot(info.lobby.game[id]['bots'][bots], info.lobby.game[id]['t2bots'])
       elif info.lobby.game[id]['bots'][bots]['reload']==1:
-        reload(bots, info.lobby.game[id]['t2bots'])
+        reload(info.lobby.game[id]['bots'][bots], info.lobby.game[id]['t2bots'])
       elif info.lobby.game[id]['bots'][bots]['item']==1:
-        item(bots,info.lobby.game[id]['t1bots'])        
+        item(info.lobby.game[id]['bots'][bots],info.lobby.game[id]['t1bots'])        
   dmgs(id)
   
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
