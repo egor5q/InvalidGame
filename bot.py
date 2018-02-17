@@ -331,7 +331,7 @@ def actnumber(bot, id):
       item=0
   else:
     item=0
-    
+  reload=0
   if attack==0 and yvorot==0 and item==0:
     if npc['energy']==5:
       attack=1
