@@ -40,21 +40,21 @@ def inline(call):
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Камень', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['x']+=1
-      if x>=len(info.lobby.game[call.from_user.id]['bots']):
+      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         skillselect()
         
   elif call.data=='hand':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Кулаки', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['x']+=1
-      if x>=len(info.lobby.game[call.from_user.id]['bots']):
+      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         skillselect()
         
   elif call.data=='ak':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: АК-47', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['x']+=1
-      if x>=len(info.lobby.game[call.from_user.id]['bots']):
+      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         skillselect()
         
       
