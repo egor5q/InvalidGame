@@ -340,13 +340,13 @@ def actnumber(bot, id):
     
   if npc['energy']<=2:
     x=random.randint(1,100)
-    if x<=60:
+    if x<=30:
       yvorot=1
     else:
       yvorot=0
   elif npc['energy']>=3:
     x=random.randint(1,100)
-    if x<=25:
+    if x<=20:
       yvorot=1
     else:
       yvorot=0
