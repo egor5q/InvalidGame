@@ -166,6 +166,21 @@ def results(id):
   
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
   bot.send_message(id, info.lobby.game[id]['secondres'])
+  for mobs in info.lobby.game[id]['bots']:    
+    info.lobby.game[id]['bots'][mobs]['attack']=0
+    info.lobby.game[id]['bots'][mobs]['yvorot']=0 
+    info.lobby.game[id]['bots'][mobs]['reload']=0 
+    info.lobby.game[id]['bots'][mobs]['item']=0
+    info.lobby.game[id]['bots'][mobs]['miss']=0
+    info.lobby.game[id]['bots'][mobs]['shield']=0
+    info.lobby.game[id]['bots'][mobs]['stun']-=1
+    info.lobby.game[id]['bots'][mobs]['takendmg']=0
+  info.lobby.game[id]['results']=''
+  info.lobby.game[id]['t1res']=''
+  info.lobby.game[id]['t2res']=''
+  info.lobby.game[id]['dmgtot1']=0
+  info.lobby.game[id]['dmgtot2']=0
+  info.lobby.game[id]['secondres']=''
   t=threading.Timer(7.0, battle, args=[id])
   t.start()
                    
@@ -390,10 +405,10 @@ def begingame(id):
   
 def randomname(id):
   names=['xer','Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф']
-  x=random.randint(1,8)
-  if names[x] not in info.lobby.game[id]['takenames']:
-    info.lobby.game[id]['takenames'].append(names[x])
-    return names[x]
+  x=random.choice(names)
+  if x not in info.lobby.game[id]['takenames']:
+    info.lobby.game[id]['takenames'].append(x)
+    return x
   else:
     randomname(id)
   
