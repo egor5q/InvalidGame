@@ -99,7 +99,7 @@ def skillselect(id, x):
     Keyboard=types.InlineKeyboardMarkup()
     Keyboard.add(types.InlineKeyboardButton(text='Вампиризм', callback_data='vampir'))
     Keyboard.add(types.InlineKeyboardButton(text='Невидимка', callback_data='inviz'))
-    bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][number]['name'])
+    bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][number]['name'], reply_markup=Keyboard)
     number+=1 
                     
                     
@@ -111,7 +111,7 @@ def teampick(id):
     Keyboard=types.InlineKeyboardMarkup()
     Keyboard.add(types.InlineKeyboardButton(text='Команда 1', callback_data='t1'))
     Keyboard.add(types.InlineKeyboardButton(text='Команда 2', callback_data='t2'))
-    bot.send_message(id, 'Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'])
+    bot.send_message(id, 'Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name']reply_markup=Keyboard)
     x+=1 
                     
 def battle(id):
