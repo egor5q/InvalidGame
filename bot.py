@@ -200,7 +200,7 @@ def dmgs(id):
   
   
   
-def rockchance(energy, target, x, id):
+def rockchance(energy, target, x, id, bot1):
   if energy==5:
     chance=95
   elif energy==4:
@@ -217,14 +217,14 @@ def rockchance(energy, target, x, id):
           if stun<=25:
             target['stun']=2
           if target['team']==2:
-            info.lobby.game[id]['t1res']+='☄️'+bot['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+            info.lobby.game[id]['t1res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot1']+=damage
             target['takendmg']+=damage
             bot.send_message(id, 'Тима 2')
             if stun<=25:
               info.lobby.game[id]['t1res']+='Цель оглушена!\n'
           elif target['team']==1:
-            info.lobby.game[id]['t2res']+='☄️'+bot['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+            info.lobby.game[id]['t2res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot2']+=damage
             bot.send_message(id, 'Тима 2')
             target['takendmg']+=damage
@@ -232,10 +232,10 @@ def rockchance(energy, target, x, id):
               info.lobby.game[id]['t2res']+='🌀Цель оглушена!\n'
   else:
     if target['team']==2:
-            info.lobby.game[id]['t1res']+='💨'+bot['name']+' Промахнулся по '+target['name']+'!\n'
+            info.lobby.game[id]['t1res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
             bot.send_message(id, 'Тима 2')
     elif target['team']==1:
-            info.lobby.game[id]['t2res']+='💨'+bot['name']+' Промахнулся по '+target['name']+'!\n'
+            info.lobby.game[id]['t2res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
             bot.send_message(id, 'Тима 1')
     
               
@@ -255,15 +255,15 @@ def attack(bot, team, id):
   x=random.randint(1,100)
   if bot['weapon']=='rock':
     if bot['energy']==5:
-      rockchance(5, target, x, id)          
+      rockchance(5, target, x, id, bot)          
     elif bot['energy']==4:
-      rockchance(4, target, x, id)
+      rockchance(4, target, x, id, bot)
     elif bot['energy']==3:
-      rockchance(3, target, x, id)
+      rockchance(3, target, x, id, bot)
     elif bot['energy']==2:
-      rockchance(2, target, x, id)
+      rockchance(2, target, x, id, bot)
     elif bot['energy']==1:
-      rockchance(1, target, x, id)
+      rockchance(1, target, x, id, bot)
       
       
    
