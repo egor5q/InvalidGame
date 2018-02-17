@@ -32,7 +32,7 @@ def inline(call):
         Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
         Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
         Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
-        msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому. Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'])
+        msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому. Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'], reply_markup=Keyboard)
         x+=1
       
   
