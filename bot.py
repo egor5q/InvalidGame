@@ -7,6 +7,7 @@ import random
 import info
 import threading
 from emoji import emojize
+from telebot import types
 
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
