@@ -24,7 +24,7 @@ def inline(call):
       while x<2:
         info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id), x)
         x+=1
-      bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+' '+info.lobby.game[call.from_user.id]['bots'][01['name'])
+      bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+' '+info.lobby.game[call.from_user.id]['bots'][1]['name'])
       
       
       
