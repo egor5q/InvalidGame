@@ -179,6 +179,7 @@ def dmgs(id):
     info.lobby.game[id]['secondres']='Команда 2 нанесла больше урона!\n'+text
     
   elif info.lobby.game[id]['dmgtot1']==info.lobby.game[id]['dmgtot2']:
+    text=''
     for mob in info.lobby.game[id]['bots']:
       if info.lobby.game[id]['bots'][mob]['takendmg']>0:
         info.lobby.game[id]['bots'][mob]['hp']-=1
