@@ -237,7 +237,7 @@ def rockchance(energy, target, x, id, bot1):
     chance=40
   elif energy==1:
     chance=20
-  if x-target['miss']<=chance:
+  if (x-target['miss'])<=chance:
           damage=random.randint(2, 3)
           stun=random.randint(1, 100)
           if stun<=25:
