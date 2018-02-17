@@ -94,12 +94,12 @@ def inline(call):
 def skillselect(id, x):
   number=0  
   bot.send_message(id, 'Отлично! Теперь выберите скиллы:') 
-  info.lobby.game[call.from_user.id]['x']=0
+  info.lobby.game[id]['x']=0
   while number<x:
     Keyboard=types.InlineKeyboardMarkup()
     Keyboard.add(types.InlineKeyboardButton(text='Вампиризм', callback_data='vampir'))
     Keyboard.add(types.InlineKeyboardButton(text='Невидимка', callback_data='inviz'))
-    bot.send_message(id, 'Выбор для: '+info.lobby.game[call.from_user.id]['bots'][number]['name'])
+    bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][number]['name'])
     number+=1 
                     
                     
