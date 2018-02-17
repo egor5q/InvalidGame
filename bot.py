@@ -14,7 +14,11 @@ bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
 
 
-
+@bot.message_handler(commands=['stop'])
+def stopm(m):
+  if m.from_user.id in info.lobby.game:
+    del info.lobby.game[m.from_user.id]
+                     
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call):
   if call.data=='number2':
