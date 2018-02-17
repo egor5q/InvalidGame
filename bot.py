@@ -89,6 +89,7 @@ def inline(call):
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=1
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
+        bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
         battle(call.from_user.id)
   
   
@@ -98,6 +99,7 @@ def inline(call):
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=2
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
+        bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
         battle(call.from_user.id)
   
       
@@ -127,7 +129,6 @@ def teampick(id):
     x+=1 
                     
 def battle(id):
-  bot.send_message(id, 'Бой начинается! Наслаждайтесь...')
   for number in info.lobby.game[id]['bots']:
     if info.lobby.game[id]['bots'][number]['team']==1:
       print('1')
@@ -165,6 +166,8 @@ def results(id):
   
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
   bot.send_message(id, info.lobby.game[id]['secondres'])
+  t=threading.Timer(7.0, battle[id])
+  t.start()
                    
 def dmgs(id):
   if info.lobby.game[id]['dmgtot1']>info.lobby.game[id]['dmgtot2']:
@@ -220,12 +223,14 @@ def rockchance(energy, target, x, id, bot1):
             info.lobby.game[id]['t1res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot2']+=damage
             target['takendmg']+=damage
+            bot1['energy']-=2
             if stun<=25:
               info.lobby.game[id]['t1res']+='Цель оглушена!\n'
           elif target['team']==1:
             info.lobby.game[id]['t2res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot1']+=damage
             target['takendmg']+=damage
+            bot1['energy']-=2
             if stun<=25:
               info.lobby.game[id]['t2res']+='🌀Цель оглушена!\n'
   else:
@@ -283,8 +288,10 @@ def yvorot(bot, team, id):
 
 def reload(bot2, team, id):
   if bot2['team']==2:
+    bot2['energy']=bot2['maxenergy']
     info.lobby.game[id]['t2res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
   elif bot2['team']==1:
+    bot2['energy']=bot2['maxenergy']
     info.lobby.game[id]['t1res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
 
 def item(bot, team):
