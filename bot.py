@@ -170,7 +170,7 @@ def dmgs(id):
   if info.lobby.game[id]['dmgtot1']>info.lobby.game[id]['dmgtot2']:
     text=''
     for mob in info.lobby.game[id]['bots']:
-     if info.lobby.game[id]['bots'][mob] in info.lobby.game[id]['t1bots']:
+     if info.lobby.game[id]['bots'][mob]['team']==1:
       if info.lobby.game[id]['bots'][mob]['takendmg']>0:
         info.lobby.game[id]['bots'][mob]['hp']-=1
         text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+'хп!\n'
@@ -179,7 +179,7 @@ def dmgs(id):
   elif info.lobby.game[id]['dmgtot1']<info.lobby.game[id]['dmgtot2']:
     text=''
     for mob in info.lobby.game[id]['bots']:
-     if info.lobby.game[id]['bots'][mob] in info.lobby.game[id]['t2bots']:
+     if info.lobby.game[id]['bots'][mob]['team']==2:
       if info.lobby.game[id]['bots'][mob]['takendmg']>0:
         info.lobby.game[id]['bots'][mob]['hp']-=1
         text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+'хп!\n'
