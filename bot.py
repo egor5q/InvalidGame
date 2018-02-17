@@ -33,6 +33,10 @@ def inline(call):
         Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
         Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
         Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
+        if info.lobby.game[call.from_user.id]['bots'][0]['name']==None:
+          info.lobby.game[call.from_user.id]['bots'][0]['name']=randomname(id)
+        if info.lobby.game[call.from_user.id]['bots'][1]['name']==None:
+          info.lobby.game[call.from_user.id]['bots'][1]['name']=randomname(id)
         msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому (по порядку). Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'], reply_markup=Keyboard)
         x+=1
       
