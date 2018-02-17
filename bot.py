@@ -372,7 +372,7 @@ def begingame(id):
   
   
 def randomname(id):
-  names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф']
+  names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф', 'Хуй с горы']
   x=random.randint(1,8)
   if names[x-1] not in info.lobby.game[id]['takenames']:
     info.lobby.game[id]['takenames'].append(names[x-1])
