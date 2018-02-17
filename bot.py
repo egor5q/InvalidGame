@@ -364,9 +364,8 @@ def begingame(id):
   msg=bot.send_message(id, 'Выберите кол-во бойцов', reply_markup=Keyboard)
   
   
-names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф']
-  
 def randomname(id):
+  names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф']
   x=random.randint(1,8)
   if names[x-1] not in info.lobby.game[id]['takenames']:
     info.lobby.game[id]['takenames'].append(names[x-1])
