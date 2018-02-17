@@ -113,13 +113,13 @@ def skillselect(id, x):
                     
 def teampick(id):
   bot.send_message(id, 'Теперь выберите команду для каждого бойца')
-  info.lobby.game[call.from_user.id]['x']=0
+  info.lobby.game[id]['x']=0
   x=0
-  while x<len(info.lobby.game[call.from_user.id]['bots']):
+  while x<len(info.lobby.game[id]['bots']):
     Keyboard=types.InlineKeyboardMarkup()
     Keyboard.add(types.InlineKeyboardButton(text='Команда 1', callback_data='t1'))
     Keyboard.add(types.InlineKeyboardButton(text='Команда 2', callback_data='t2'))
-    bot.send_message(id, 'Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'], reply_markup=Keyboard)
+    bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][x]['name'], reply_markup=Keyboard)
     x+=1 
                     
 def battle(id):
