@@ -30,6 +30,7 @@ def inline(call):
 def begin(m):
     if m.chat.id not in info.lobby.game:
       if m.from_user.id in vip:
+        info.lobby.game.update(creategame(m.from_user.id)
         bot.send_message(m.chat.id, 'Игра началась. Выберите стартовые характеристики для ваших бойцов (в лс).')
         begingame(m.from_user.id)
       else:
@@ -52,7 +53,7 @@ def begingame(id):
   
         
         
-def creategame(id, creatorid):
+def creategame(id):
     return {id:{
         'chatid':id,
         'bots':{}
