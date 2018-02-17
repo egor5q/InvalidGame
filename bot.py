@@ -218,15 +218,13 @@ def rockchance(energy, target, x, id, bot1):
             target['stun']=2
           if target['team']==2:
             info.lobby.game[id]['t1res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
-            info.lobby.game[id]['dmgtot1']+=damage
+            info.lobby.game[id]['dmgtot2']+=damage
             target['takendmg']+=damage
-            bot.send_message(id, 'Тима 2')
             if stun<=25:
               info.lobby.game[id]['t1res']+='Цель оглушена!\n'
           elif target['team']==1:
             info.lobby.game[id]['t2res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
-            info.lobby.game[id]['dmgtot2']+=damage
-            bot.send_message(id, 'Тима 2')
+            info.lobby.game[id]['dmgtot1']+=damage
             target['takendmg']+=damage
             if stun<=25:
               info.lobby.game[id]['t2res']+='🌀Цель оглушена!\n'
