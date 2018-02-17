@@ -329,12 +329,12 @@ def actnumber(bot, id):
 
 def act(bot, id):
   actions=actnumber(bot, id)
-  curact={}
+  curact=[]
   for item in actions:
     if actions[item]['x']==1:
-      curact.update(actions[item])
+      curact.append(actions[item]['name'])
   x=random.randint(1, len(curact))
-  return curact[actions][x-1]['name']
+  return curact[x-1]
   
       
   
