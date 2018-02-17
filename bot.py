@@ -163,7 +163,7 @@ def results(id):
       elif info.lobby.game[id]['bots'][bots]['item']==1:
         item(info.lobby.game[id]['bots'][bots],1)        
   dmgs(id)
-  
+  z=0
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
   bot.send_message(id, info.lobby.game[id]['secondres'])
   for mobs in info.lobby.game[id]['bots']:    
@@ -175,14 +175,20 @@ def results(id):
     info.lobby.game[id]['bots'][mobs]['shield']=0
     info.lobby.game[id]['bots'][mobs]['stun']-=1
     info.lobby.game[id]['bots'][mobs]['takendmg']=0
+    if info.lobby.game[id]['bots'][mobs]['hp']<0:
+      bot.send_message(id, 'Какая-то команда проиграла! (мне лень сейчас определять какая, по хп понятно будет)')
+      z=1
   info.lobby.game[id]['results']=''
   info.lobby.game[id]['t1res']=''
   info.lobby.game[id]['t2res']=''
   info.lobby.game[id]['dmgtot1']=0
   info.lobby.game[id]['dmgtot2']=0
   info.lobby.game[id]['secondres']=''
-  t=threading.Timer(7.0, battle, args=[id])
-  t.start()
+  if z==0:
+    t=threading.Timer(7.0, battle, args=[id])
+    t.start()
+  else:
+    del info.lobby.game[id]
                    
 def dmgs(id):
   if info.lobby.game[id]['dmgtot1']>info.lobby.game[id]['dmgtot2']:
