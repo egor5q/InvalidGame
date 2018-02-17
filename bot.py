@@ -10,88 +10,56 @@ from emoji import emojize
 
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
-
+vip=[441399484]
 
 
 
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call):
-  if call.data=='endcharacter':
-    for id in info.lobby.game:
-        if call.from_user.id in info.lobby.game[id]['players']:
-          if info.lobby.game[id]['players'][call.from_user.id]['pick']==1:
-            info.lobby.game[id]['players'][call.from_user.id]['pick']=0
-            bot.send_message(call.from_user.id, 'Вы окончили выбор бойцов! теперь выберите для них характеристики')
+  if call.data=='number2':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: 2 бойца', call.from_user.id, call.message.message_id)
+      
       
 
               
 
 
-@bot.message_handler(commands=['ebat'])
-def ebat(m):
+@bot.message_handler(commands=['begin'])
+def begin(m):
     if m.chat.id not in info.lobby.game:
-      if m.chat.id<0:
-        game=creategame(m.chat.id, m.from_user.id)
-        info.lobby.game.update(game)
-        bot.send_message(m.chat.id, 'Вы начали игру! Ожидайте игроков, чтобы отсосать')
+      if m.from_user.id in vip:
+        bot.send_message(m.chat.id, 'Игра началась. Выберите стартовые характеристики для ваших бойцов (в лс).')
+        begingame(m.from_user.id)
       else:
-        bot.send_message(m.chat.id, 'Играть в этот режим можно только в группах!')
-    else:
-        bot.send_message(m.chat.id, 'Игра уже была запущена в этом чате!')
+        bot.send_message(m.chat.id, 'Вас нет в вип-списке. Пишите @Loshadkin')
         
         
-@bot.message_handler(commands=['join'])
-def join(m):
-    if m.chat.id in info.lobby.game:
-        if m.from_user.id not in info.lobby.game[m.chat.id]['players']:
-          try:
-            bot.send_message(m.from_user.id, 'Вы успешно присоединились!')
-            player=createplayer(m.from_user.id)
-            info.lobby.game[m.chat.id]['players'].update(player)
-            bot.send_message(m.chat.id, 'Вы успешно присоединились! Количество игроков: '+str(len(info.lobby.game[m.chat.id]['players'])))
-          except:
-            bot.send_message(m.chat.id, 'Сначала напишите боту @XyegameBot !')
+def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
+    return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
+                                 parse_mode=parse_mode)        
 
+def begingame(id):
+  Keyboard=types.InlineKeyboardMarkup()
+  Keyboard.add(types.InlineKeyboardButton(text='2', callback_data='number2'))
+  Keyboard.add(types.InlineKeyboardButton(text='4', callback_data='number4'))
+  Keyboard.add(types.InlineKeyboardButton(text='6', callback_data='number6'))
+  Keyboard.add(types.InlineKeyboardButton(text='8', callback_data='number8'))
+  msg=bot.send_message(id, 'Выберите кол-во бойцов', reply_markup=Keyboard)
+  
+  
+  
         
-
-
-@bot.message_handler(commands=['sosi'])
-def fight(m):
-    if m.chat.id in info.lobby.game:
-        if m.from_user.id==info.lobby.game[m.chat.id]['creatorid']:
-          if len(info.lobby.game[m.chat.id]['players'])>2:
-            bot.send_message(m.chat.id, 'Игра начинается!')
-            t=threading.Thread(target=begingame, args=[m.chat.id])
-            t.start()
-          else:
-            bot.send_message(m.chat.id, 'Недостаточно игроков!')
-            
-          
-    
-def begingame(ids):
-  for id in info.lobby.game[ids]['players']:   
-      Keyboard=types.InlineKeyboardMarkup()      
-      for aidi in info.lobby.game[ids]['players']:
-      Keyboard.add(types.InlineKeyboardButton(text=go+"Действия", callback_data='do'))
-      msg=bot.send_message(id, 'Выбирайте, кто получит ваш голос:',reply_markup=Keyboard)
-   
         
 def creategame(id, creatorid):
     return {id:{
         'chatid':id,
-        'players':{},
-        'creatorid':creatorid,
+        'bots':{}
 
              }
            }
             
       
-def createplayer(id):
-      return {id:{'selfid':id,
-             'role':'None',
-             'voices':0,          
-             'ready':0
-                 }}
 
 
 
