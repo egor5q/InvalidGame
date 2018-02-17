@@ -24,8 +24,10 @@ def inline(call):
       while x<2:
         info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
         x+=1
-      time.sleep(1.0)
-      bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name'])
+      try:
+        bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name'])
+      except:
+        bot.send_message(call.from_user.id, 'TypeError: must be str, not NoneType опять выпадает ебучая ошибка, но я запихнул это в try-except')
       x=0
       while x<2:
         Keyboard=types.InlineKeyboardMarkup()
