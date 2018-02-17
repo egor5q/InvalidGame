@@ -41,30 +41,57 @@ def inline(call):
       medit('Выбрано: Камень', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        skillselect()
+        skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
         
   elif call.data=='hand':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Кулаки', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['x']+=1
-      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        skillselect()
+      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots'])):
+        skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
         
   elif call.data=='ak':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: АК-47', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        skillselect()
+        skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
         
+        
+  elif call.data=='vampir':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: Вампиризм', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['x']+=1
+      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
+        battle()
+  
+  
+  elif call.data=='inviz':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: Невидимка', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['x']+=1
+      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
+        battle()
       
-      
-      
-      
-
+                   
               
-def skillselect():
+def skillselect(id, x):
+  number=0  
+  bot.send_message(id, 'Отлично! Теперь выберите скиллы:') 
+  info.lobby.game[call.from_user.id]['x']=0
+  while number<x:
+    Keyboard=types.InlineKeyboardMarkup()
+    Keyboard.add(types.InlineKeyboardButton(text='Вампиризм', callback_data='vampir'))
+    Keyboard.add(types.InlineKeyboardButton(text='Невидимка', callback_data='inviz'))
+    bot.send_message(id, 'Выбор для: '+info.lobby.game[call.from_user.id]['bots'][number]['name'])
+    number+=1 
+                    
+                    
+                    
+                    
+def battle():
   pass
+                                            
 
 @bot.message_handler(commands=['begin'])
 def begin(m):
