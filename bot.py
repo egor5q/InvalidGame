@@ -163,6 +163,7 @@ def results(id):
                    
 def dmgs(id):
   if info.lobby.game[id]['dmgtot1']>info.lobby.game[id]['dmgtot2']:
+    text=''
     for mob in info.lobby.game[id]['bots']:
      if info.lobby.game[id]['bots'][mob] in info.lobby.game[id]['t1bots']:
       if info.lobby.game[id]['bots'][mob]['takendmg']>0:
@@ -171,6 +172,7 @@ def dmgs(id):
     info.lobby.game[id]['secondres']='Команда 2 нанесла больше урона!\n'+text
    
   elif info.lobby.game[id]['dmgtot1']<info.lobby.game[id]['dmgtot2']:
+    text=''
     for mob in info.lobby.game[id]['bots']:
      if info.lobby.game[id]['bots'][mob] in info.lobby.game[id]['t2bots']:
       if info.lobby.game[id]['bots'][mob]['takendmg']>0:
@@ -209,22 +211,22 @@ def rockchance(energy, target, x):
           stun=random.randint(1, 100)
           if stun<=25:
             target['stun']=2
-          if team[0] in info.lobby.game[id]['t2bots']:
+          if target['team']=='2:
             info.lobby.game[id]['t1res']+='☄️'+bot['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot1']+=damage
             target['takendmg']+=damage
             if stun<=25:
               info.lobby.game[id]['t1res']+='Цель оглушена!\n'
-          elif team[0] in info.lobby.game[id]['t1bots']:
+          elif target['team']==1:
             info.lobby.game[id]['t2res']+='☄️'+bot['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot2']+=damage
             target['takendmg']+=damage
             if stun<=25:
               info.lobby.game[id]['t2res']+='🌀Цель оглушена!\n'
   else:
-    if team[0] in info.lobby.game[id]['t2bots']:
+    if target['team']==2:
             info.lobby.game[id]['t1res']+='💨'+bot['name']+' Промахнулся по '+target['name']+'!\n'
-    elif team[0] in info.lobby.game[id]['t1bots']:
+    elif target['team']==1:
             info.lobby.game[id]['t2res']+='💨'+bot['name']+' Промахнулся по '+target['name']+'!\n'
     
               
