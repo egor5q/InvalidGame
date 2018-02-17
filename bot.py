@@ -22,7 +22,7 @@ def inline(call):
       medit('Выбрано: 2 бойца', call.from_user.id, call.message.message_id)
       x=0
       while x<2:
-        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id), x)
+        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
         x+=1
       bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+' '+info.lobby.game[call.from_user.id]['bots'][1]['name'])
       
