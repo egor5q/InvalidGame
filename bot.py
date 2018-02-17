@@ -328,7 +328,7 @@ def actnumber(bot, id):
  
 
 def act(bot, id):
-  actions=actnumber(bot)
+  actions=actnumber(bot, id)
   curact={}
   for item in actions:
     if item['x']==1:
