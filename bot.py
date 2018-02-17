@@ -248,7 +248,7 @@ def rockchance(energy, target, x):
 def attack(bot, team, id):
   a=[]
   for bots in info.lobby.game[id]['bots']:
-    if bots['team']==team:
+    if info.lobby.game[id]['bots'][bots]['team']==team:
       a.append(bots)
   x=random.randint(1,len(a))
   target=info.lobby.game[id]['bots'][a[x-1]['number']]
