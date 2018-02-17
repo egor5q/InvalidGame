@@ -178,7 +178,7 @@ def dmgs(id):
         text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+'хп!\n'
     info.lobby.game[id]['secondres']='Команда 2 нанесла больше урона!\n'+text
     
-    elif info.lobby.game[id]['dmgtot1']==info.lobby.game[id]['dmgtot2']:
+  elif info.lobby.game[id]['dmgtot1']==info.lobby.game[id]['dmgtot2']:
     for mob in info.lobby.game[id]['bots']:
       if info.lobby.game[id]['bots'][mob]['takendmg']>0:
         info.lobby.game[id]['bots'][mob]['hp']-=1
