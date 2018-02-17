@@ -138,36 +138,58 @@ def results(id):
   for bot in info.lobby.game[id]['bots']:
     if bot in info.lobby.game[id]['t1bots']:
       if info.lobby.game[id][bot]['attack']==1:
-        attack(info.lobby.game[id]['t2bots'])
+        attack(bot,info.lobby.game[id]['t2bots'])
       elif info.lobby.game[id][bot]['yvorot']==1:
-        yvorot()
+        yvorot(bot)
       elif info.lobby.game[id][bot]['reload']==1:
-        reload()
+        reload(bot)
       elif info.lobby.game[id][bot]['item']==1:
-        item(info.lobby.game[id]['t2bots'])
+        item(bot,info.lobby.game[id]['t2bots'])
       
     elif bot in info.lobby.game[id]['t2bots']:
       if info.lobby.game[id][bot]['attack']==1:
-        attack(info.lobby.game[id]['t1bots'])
+        attack(bot,info.lobby.game[id]['t1bots'])
       elif info.lobby.game[id][bot]['yvorot']==1:
-        yvorot()
+        yvorot(bot)
       elif info.lobby.game[id][bot]['reload']==1:
-        reload()
+        reload(bot)
       elif info.lobby.game[id][bot]['item']==1:
-        item(info.lobby.game[id]['t1bots'])
+        item(bot,info.lobby.game[id]['t1bots'])
 
        
   
-def attack(team):
+def attack(bot, team, id):
+  y=random.randint(1, len(team))
+  target=info.lobby.game[id]['bots'][team[y]['number']]
+  if bot['weapon']=='rock':
+    x=random.randint(1,100)
+    if bot['energy']==5:
+      if target['shield']<1:
+        if x-target['miss']<=95:
+          damage=random.randint(2, 3)
+          results+='
+          stun=random.randint(1, 100)
+          if stun<=25:
+            target['stun']=2
+            
+      else:
+        damage=0
+        
+        stun=random.randint(1, 100)
+          if stun<=25:
+            target['stun']=2
+            
+          
+        
+        
+
+def yvorot(bot):
   pass
 
-def yvorot():
+def reload(bot):
   pass
 
-def reload():
-  pass
-
-def item(team):
+def item(bot, team):
   pass
 
 def actnumber(bot, id):  
@@ -277,7 +299,8 @@ def creategame(id):
         't1bots':{},
         't2bots':{},
         'takenames':[],
-        'x':0
+        'x':0,
+        'results':''
 
              }
            }
@@ -288,14 +311,18 @@ def createbot(id, x):
               'skills':[],
               'team':None,
               'hp':5,
-              'maxenergy':6,
-              'energy':6,
+              'maxenergy':5,
+              'energy':5,
               'items':[],
               
               'attack':0,
               'yvorot':0,
               'reload':0,
-              'item':0
+              'item':0,
+              'number':x,
+              'miss':0,
+              'shield':0,
+              'stun':0
 }
 }
 
