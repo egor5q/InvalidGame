@@ -138,7 +138,7 @@ def battle(id):
 
 def results(id):
   for bots in info.lobby.game[id]['bots']:
-    if info.lobby.game[id][bots]['team']==1:
+    if info.lobby.game[id]['bots'][bots]['team']==1:
       if info.lobby.game[id]['bots'][bots]['attack']==1:
         attack(bots,info.lobby.game[id]['t2bots'])
       elif info.lobby.game[id][bots]['yvorot']==1:
