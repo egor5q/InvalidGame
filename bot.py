@@ -33,13 +33,14 @@ def inline(call):
         Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
         Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
         Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
-        msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому. Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'], reply_markup=Keyboard)
+        msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому (по порядку). Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'], reply_markup=Keyboard)
         x+=1
       
   
   elif call.data=='rock':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Камень', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['weapon']='rock'
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
@@ -47,6 +48,7 @@ def inline(call):
   elif call.data=='hand':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Кулаки', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['weapon']='hand'
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
@@ -54,6 +56,7 @@ def inline(call):
   elif call.data=='ak':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: АК-47', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['weapon']='ak'
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
@@ -62,6 +65,7 @@ def inline(call):
   elif call.data=='vampir':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Вампиризм', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['skills'].append('vampir')
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         teampick(id)
@@ -70,6 +74,7 @@ def inline(call):
   elif call.data=='inviz':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Невидимка', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['skills'].append('inviz')
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         teampick(id)
@@ -77,17 +82,19 @@ def inline(call):
   elif call.data=='t1':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Команда 1', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=1
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        battle(id)
+        battle(call.from_user.id)
   
   
   elif call.data=='t2':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Команда 2', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=2
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        battle(id)
+        battle(call.from_user.id)
   
       
                    
@@ -116,8 +123,116 @@ def teampick(id):
     x+=1 
                     
 def battle(id):
+  bot.send_message(id, 'Бой начинается! Наслаждайтесь...')
+  for number in info.lobby.game[id]['bots']:
+    if info.lobby.game[id]['bots'][number]['team']==1:
+      info.lobby.game[id]['t1bots'].update(info.lobby.game[id]['bots'][number])
+    elif info.lobby.game[id]['bots'][number]['team']==2:
+      info.lobby.game[id]['t2bots'].update(info.lobby.game[id]['bots'][number])
+      
+  for bot in info.lobby.game[id]['bots']:
+   info.lobby.game[id]['bots'][bot][act(bot, id)]=1
+  results(id)
+
+def results(id):
+  for bot in info.lobby.game[id]['bots']:
+    if bot in info.lobby.game[id]['t1bots']:
+      if info.lobby.game[id][bot]['attack']==1:
+        attack(info.lobby.game[id]['t2bots'])
+      elif info.lobby.game[id][bot]['yvorot']==1:
+        yvorot()
+      elif info.lobby.game[id][bot]['reload']==1:
+        reload()
+      elif info.lobby.game[id][bot]['item']==1:
+        item(info.lobby.game[id]['t2bots'])
+      
+    elif bot in info.lobby.game[id]['t2bots']:
+      if info.lobby.game[id][bot]['attack']==1:
+        attack(info.lobby.game[id]['t1bots'])
+      elif info.lobby.game[id][bot]['yvorot']==1:
+        yvorot()
+      elif info.lobby.game[id][bot]['reload']==1:
+        reload()
+      elif info.lobby.game[id][bot]['item']==1:
+        item(info.lobby.game[id]['t1bots'])
+
+       
+  
+def attack(team):
   pass
-                                            
+
+def yvorot():
+  pass
+
+def reload():
+  pass
+
+def item(team):
+  pass
+
+def actnumber(bot, id):  
+  a=[]
+  info.lobby.game[id]['bots'][bot]=npc
+  if npc['energy']>0 and npc['energy']<=2:
+    x=random.randint(1,100)
+    if x<=15:
+      attack=1
+    else:
+      attack=0
+  elif npc['energy']>=3:
+    x=random.randint(1,100)
+    if x<=70:
+      attack=1
+    else:
+      attack=0
+  else:
+    attack=0
+    
+  if npc['energy']<=2:
+    x=random.randint(1,100)
+    if x<=60:
+      yvorot=1
+    else:
+      yvorot=0
+  elif npc['energy']>=3:
+    x=random.randint(1,100)
+    if x<=25:
+      yvorot=1
+    else:
+      yvorot=0
+      
+  if len(npc['items'])>0:
+    x=random.randint(1,100)
+    if x<=35:
+      item=1
+    else:
+      item=0
+  else:
+    item=0
+    
+  if attack==0 and yvorot==0 and item==0:
+    reload=1
+  else:
+    reload=0
+    
+  return{'attack':{'name':'attack', 'x':attack}, 'yvorot':{'name':'yvorot', 'x':yvorot}, 'item':{'name':'item', 'x':item}, 'reload':{'name':'reload', 'x':reload}}
+         
+      
+      
+ 
+
+def act(bot, id):
+  actions=actnumber(bot)
+  curact={}
+  for item in actions:
+    if item['x']==1:
+      curact.update(item)
+  x=random.randint(1, len(curact))
+  return curact[x-1]['name']
+  
+      
+  
+  
 
 @bot.message_handler(commands=['begin'])
 def begin(m):
@@ -168,7 +283,19 @@ def creategame(id):
            }
             
 def createbot(id, x):
-  return {x: {'name': randomname(id)
+  return {x: {'name': randomname(id),
+              'weapon':None,
+              'skills':[],
+              'team':None,
+              'hp':5,
+              'maxenergy':6,
+              'energy':6,
+              'items':[],
+              
+              'attack':0,
+              'yvorot':0,
+              'reload':0,
+              'item':0
 }
 }
 
