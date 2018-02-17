@@ -259,10 +259,44 @@ def rockchance(energy, target, x, id, bot1):
   else:
     if target['team']==2:
             info.lobby.game[id]['t1res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-            bot.send_message(id, 'Тима 2')
+            bot1['energy']-=2
     elif target['team']==1:
             info.lobby.game[id]['t2res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-            bot.send_message(id, 'Тима 1')
+            bot1['energy']-=2
+          
+          
+          
+def handchance(energy, target, x, id, bot1):
+  if energy==5:
+    chance=80
+  elif energy==4:
+    chance=60
+  elif energy==3:
+    chance=40
+  elif energy==2:
+    chance=20
+  elif energy==1:
+    chance=5
+  if (x-target['miss'])<=chance:
+          damage=random.randint(2, 5)
+          stun=random.randint(1, 100)
+          if target['team']==2:
+            info.lobby.game[id]['t1res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+            info.lobby.game[id]['dmgtot2']+=damage
+            target['takendmg']+=damage
+            bot1['energy']-=random.randint(2,3)
+          elif target['team']==1:
+            info.lobby.game[id]['t2res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+            info.lobby.game[id]['dmgtot1']+=damage
+            target['takendmg']+=damage
+            bot1['energy']-=random.randint(2,3)
+  else:
+    if target['team']==2:
+            info.lobby.game[id]['t1res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+            bot1['energy']-=random.randint(2,3)
+    elif target['team']==1:
+            info.lobby.game[id]['t2res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+            bot1['energy']-=random.randint(2,3)
     
               
 
@@ -290,6 +324,18 @@ def attack(bot, team, id):
       rockchance(2, target, x, id, bot)
     elif bot['energy']==1:
       rockchance(1, target, x, id, bot)
+      
+  elif bot['weapon']=='hand':
+    if bot['energy']==5:
+      handhance(5, target, x, id, bot)          
+    elif bot['energy']==4:
+      handchance(4, target, x, id, bot)
+    elif bot['energy']==3:
+      handchance(3, target, x, id, bot)
+    elif bot['energy']==2:
+      handchance(2, target, x, id, bot)
+    elif bot['energy']==1:
+      handchance(1, target, x, id, bot)
       
       
    
