@@ -159,8 +159,8 @@ def results(id):
   dmgs(id)
   
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
-  bot.send_message(id, info.lobby.game[id]['secondres']
-
+  bot.send_message(id, info.lobby.game[id]['secondres'])
+                   
 def dmgs(id):
   if info.lobby.game[id]['dmgtot1']>info.lobby.game[id]['dmgtot2']:
     for mob in info.lobby.game[id]['bots']:
