@@ -130,31 +130,31 @@ def battle(id):
     elif info.lobby.game[id]['bots'][number]['team']==2:
       info.lobby.game[id]['t2bots'].update(info.lobby.game[id]['bots'][number])
       
-  for bot in info.lobby.game[id]['bots']:
-   info.lobby.game[id]['bots'][bot][act(bot, id)]=1
+  for bots in info.lobby.game[id]['bots']:
+   info.lobby.game[id]['bots'][bots][act(bots, id)]=1
   results(id)
 
 def results(id):
-  for bot in info.lobby.game[id]['bots']:
-    if bot in info.lobby.game[id]['t1bots']:
-      if info.lobby.game[id][bot]['attack']==1:
-        attack(bot,info.lobby.game[id]['t2bots'])
-      elif info.lobby.game[id][bot]['yvorot']==1:
-        yvorot(bot, info.lobby.game[id]['t1bots'])
-      elif info.lobby.game[id][bot]['reload']==1:
-        reload(bot, info.lobby.game[id]['t1bots'])
-      elif info.lobby.game[id][bot]['item']==1:
-        item(bot,info.lobby.game[id]['t2bots'])
+  for bots in info.lobby.game[id]['bots']:
+    if bots in info.lobby.game[id]['t1bots']:
+      if info.lobby.game[id][bots]['attack']==1:
+        attack(bots,info.lobby.game[id]['t2bots'])
+      elif info.lobby.game[id][bots]['yvorot']==1:
+        yvorot(bots, info.lobby.game[id]['t1bots'])
+      elif info.lobby.game[id][bots]['reload']==1:
+        reload(bots, info.lobby.game[id]['t1bots'])
+      elif info.lobby.game[id][bots]['item']==1:
+        item(bots,info.lobby.game[id]['t2bots'])
       
-    elif bot in info.lobby.game[id]['t2bots']:
-      if info.lobby.game[id][bot]['attack']==1:
-        attack(bot,info.lobby.game[id]['t1bots'])
-      elif info.lobby.game[id][bot]['yvorot']==1:
-        yvorot(bot, info.lobby.game[id]['t2bots'])
-      elif info.lobby.game[id][bot]['reload']==1:
-        reload(bot, info.lobby.game[id]['t2bots'])
-      elif info.lobby.game[id][bot]['item']==1:
-        item(bot,info.lobby.game[id]['t1bots'])
+    elif bots in info.lobby.game[id]['t2bots']:
+      if info.lobby.game[id][bots]['attack']==1:
+        attack(bots,info.lobby.game[id]['t1bots'])
+      elif info.lobby.game[id][bots]['yvorot']==1:
+        yvorot(bots, info.lobby.game[id]['t2bots'])
+      elif info.lobby.game[id][bots]['reload']==1:
+        reload(bots, info.lobby.game[id]['t2bots'])
+      elif info.lobby.game[id][bots]['item']==1:
+        item(bots,info.lobby.game[id]['t1bots'])
         
   dmgs(id)
   
