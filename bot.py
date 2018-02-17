@@ -331,7 +331,7 @@ def act(bot, id):
   actions=actnumber(bot, id)
   curact={}
   for item in actions:
-    if item['x']==1:
+    if actions[item]['x']==1:
       curact.update(item)
   x=random.randint(1, len(curact))
   return curact[x-1]['name']
