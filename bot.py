@@ -166,7 +166,7 @@ def results(id):
   
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
   bot.send_message(id, info.lobby.game[id]['secondres'])
-  t=threading.Timer(7.0, battle[id])
+  t=threading.Timer(7.0, battle, args=[id])
   t.start()
                    
 def dmgs(id):
