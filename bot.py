@@ -247,7 +247,7 @@ def rockchance(energy, target, x):
       
 def attack(bot, team, id):
   z=random.choice(team)
-  target=info.lobby.game[id]['bots'][z['number']]
+  target=info.lobby.game[id]['bots'][team[z]['number']]
   x=random.randint(1,100)
   if bot['weapon']=='rock':
     if bot['energy']==5:
