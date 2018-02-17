@@ -177,7 +177,7 @@ def results(id):
     info.lobby.game[id]['bots'][mobs]['shield']=0
     info.lobby.game[id]['bots'][mobs]['stun']-=1
     info.lobby.game[id]['bots'][mobs]['takendmg']=0
-    if info.lobby.game[id]['bots'][mobs]['hp']<0:
+    if info.lobby.game[id]['bots'][mobs]['hp']<1:
       bot.send_message(id, 'Какая-то команда проиграла! (мне лень сейчас определять какая, по хп понятно будет)')
       z=1
   info.lobby.game[id]['results']=''
