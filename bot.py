@@ -278,7 +278,7 @@ def item(bot, team):
 
 def actnumber(bot, id):  
   a=[]
-  info.lobby.game[id]['bots'][bot]=npc
+  npc=info.lobby.game[id]['bots'][bot]
   if npc['energy']>0 and npc['energy']<=2:
     x=random.randint(1,100)
     if x<=15:
