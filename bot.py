@@ -22,6 +22,7 @@ def inline(call):
       medit('Выбрано: 2 бойца', call.from_user.id, call.message.message_id)
       
       
+      
 
               
 
@@ -50,19 +51,27 @@ def begingame(id):
   msg=bot.send_message(id, 'Выберите кол-во бойцов', reply_markup=Keyboard)
   
   
+names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин']
   
-        
+def randomname():
+  x=name for name in names
+  return x
+  
         
 def creategame(id):
     return {id:{
         'chatid':id,
         'bots':{}
+        't1bots':{}
+        't2bots':{}
 
              }
            }
             
-      
-
+def createbot():
+  return
+{'name': randomname()
+}
 
 
 
