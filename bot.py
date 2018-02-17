@@ -249,7 +249,7 @@ def attack(bot, team, id):
   a=[]
   for bots in info.lobby.game[id]['bots']:
     if info.lobby.game[id]['bots'][bots]['team']==team:
-      a.append(bots)
+      a.append(info.lobby.game[id]['bots'][bots])
   x=random.randint(1,len(a))
   target=info.lobby.game[id]['bots'][a[x-1]['number']]
   x=random.randint(1,100)
