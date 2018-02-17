@@ -20,6 +20,11 @@ def inline(call):
   if call.data=='number2':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: 2 бойца', call.from_user.id, call.message.message_id)
+      x=0
+      while x<2:
+        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id), x)
+        x+=1
+      bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+' '+info.lobby.game[call.from_user.id]['bots'][01['name'])
       
       
       
@@ -51,26 +56,33 @@ def begingame(id):
   msg=bot.send_message(id, 'Выберите кол-во бойцов', reply_markup=Keyboard)
   
   
-names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин']
+names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф']
   
-def randomname():
-  x=name for name in names
-  return x
+def randomname(id):
+  x=random.randint(1,8)
+  if names[x-1] not in info.lobby.game[id]['takenames']:
+    info.lobby.game[id]['takenames'].append(names[x-1])
+    return names[x-1]
+  else:
+    randomname(id)
+  
   
         
 def creategame(id):
     return {id:{
         'chatid':id,
-        'bots':{}
-        't1bots':{}
-        't2bots':{}
+        'bots':{},
+        't1bots':{},
+        't2bots':{},
+        'takenames':[]
 
              }
            }
             
-def createbot():
+def createbot(id, number):
   return
-{'name': randomname()
+{number:{'name': randomname(id)
+}
 }
 
 
