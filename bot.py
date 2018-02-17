@@ -126,8 +126,10 @@ def battle(id):
   bot.send_message(id, 'Бой начинается! Наслаждайтесь...')
   for number in info.lobby.game[id]['bots']:
     if info.lobby.game[id]['bots'][number]['team']==1:
+      print('1')
       info.lobby.game[id]['t1bots'].update(info.lobby.game[id]['bots'][number])
     elif info.lobby.game[id]['bots'][number]['team']==2:
+      print('2')
       info.lobby.game[id]['t2bots'].update(info.lobby.game[id]['bots'][number])
       
   for bots in info.lobby.game[id]['bots']:
@@ -136,7 +138,7 @@ def battle(id):
 
 def results(id):
   for bots in info.lobby.game[id]['bots']:
-    if bots in info.lobby.game[id]['t1bots']:
+    if info.lobby.game[id][bots]['team']==1:
       if info.lobby.game[id][bots]['attack']==1:
         attack(bots,info.lobby.game[id]['t2bots'])
       elif info.lobby.game[id][bots]['yvorot']==1:
@@ -146,7 +148,7 @@ def results(id):
       elif info.lobby.game[id][bots]['item']==1:
         item(bots,info.lobby.game[id]['t2bots'])
       
-    elif bots in info.lobby.game[id]['t2bots']:
+    elif info.lobby.game[id][bots]['team']==2:
       if info.lobby.game[id][bots]['attack']==1:
         attack(bots,info.lobby.game[id]['t1bots'])
       elif info.lobby.game[id][bots]['yvorot']==1:
@@ -154,8 +156,7 @@ def results(id):
       elif info.lobby.game[id][bots]['reload']==1:
         reload(bots, info.lobby.game[id]['t2bots'])
       elif info.lobby.game[id][bots]['item']==1:
-        item(bots,info.lobby.game[id]['t1bots'])
-        
+        item(bots,info.lobby.game[id]['t1bots'])        
   dmgs(id)
   
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
