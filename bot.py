@@ -273,16 +273,16 @@ def attack(bot, team, id):
 
 def yvorot(bot, team):
   bot['miss']=30
-  if target['team']==2:
+  if bot['team']==2:
     info.lobby.game[id]['t2res']+='💨'+bot['name']+' Уворачивается!\n'
-  elif target['team']==1:
+  elif bot['team']==1:
     info.lobby.game[id]['t1res']+='💨'+bot['name']+' Уворачивается!\n'
     
 
 def reload(bot, team):
-  if target['team']==2:
+  if bot['team']==2:
     info.lobby.game[id]['t2res']+='🕓'+bot['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
-  elif target['team']==1:
+  elif bot['team']==1:
     info.lobby.game[id]['t1res']+='🕓'+bot['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
 
 def item(bot, team):
