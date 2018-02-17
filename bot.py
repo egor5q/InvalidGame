@@ -79,8 +79,8 @@ def creategame(id):
              }
            }
             
-def createbot(id):
-  return {0:{'name': randomname(id)
+def createbot(id, x):
+  return {x: {'name': randomname(id)
 }
 }
 
