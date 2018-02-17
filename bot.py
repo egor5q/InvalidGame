@@ -329,7 +329,7 @@ def attack(bot, team, id):
   
   elif bot['weapon']=='ak':
     if bot['energy']==5:
-      akhance(5, target, x, id, bot)          
+      akchance(5, target, x, id, bot)          
     elif bot['energy']==4:
       akchance(4, target, x, id, bot)
     elif bot['energy']==3:
