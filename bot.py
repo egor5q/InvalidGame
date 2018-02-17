@@ -200,7 +200,7 @@ def dmgs(id):
   
   
   
-def rockchance(energy, target, x):
+def rockchance(energy, target, x, id):
   if energy==5:
     chance=95
   elif energy==4:
@@ -255,15 +255,15 @@ def attack(bot, team, id):
   x=random.randint(1,100)
   if bot['weapon']=='rock':
     if bot['energy']==5:
-      rockchance(5, target, x)          
+      rockchance(5, target, x, id)          
     elif bot['energy']==4:
-      rockchance(4, target, x)
+      rockchance(4, target, x, id)
     elif bot['energy']==3:
-      rockchance(3, target, x)
+      rockchance(3, target, x, id)
     elif bot['energy']==2:
-      rockchance(2, target, x)
+      rockchance(2, target, x, id)
     elif bot['energy']==1:
-      rockchance(1, target, x)
+      rockchance(1, target, x, id)
       
       
    
