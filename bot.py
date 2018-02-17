@@ -24,13 +24,46 @@ def inline(call):
       while x<2:
         info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
         x+=1
-      bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+' '+info.lobby.game[call.from_user.id]['bots'][1]['name'])
+      bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name'])
+      x=0
+      while x<2:
+        Keyboard=types.InlineKeyboardMarkup()
+        Keyboard.add(types.InlineKeyboardButton(text='Камень', callback_data='rock'))  
+        Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
+        Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
+        Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
+        msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому. Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'])
+      
+  
+  elif call.data=='rock':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: Камень', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['x']+=1
+      if x>=len(info.lobby.game[call.from_user.id]['bots']):
+        skillselect()
+        
+  elif call.data=='hand':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: Кулаки', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['x']+=1
+      if x>=len(info.lobby.game[call.from_user.id]['bots']):
+        skillselect()
+        
+  elif call.data=='ak':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: АК-47', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['x']+=1
+      if x>=len(info.lobby.game[call.from_user.id]['bots']):
+        skillselect()
+        
+      
       
       
       
 
               
-
+def skillselect():
+  pass
 
 @bot.message_handler(commands=['begin'])
 def begin(m):
@@ -74,7 +107,8 @@ def creategame(id):
         'bots':{},
         't1bots':{},
         't2bots':{},
-        'takenames':[]
+        'takenames':[],
+        'x':0
 
              }
            }
