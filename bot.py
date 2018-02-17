@@ -63,7 +63,7 @@ def inline(call):
       medit('Выбрано: Вампиризм', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        battle()
+        teampick(id)
   
   
   elif call.data=='inviz':
@@ -71,7 +71,23 @@ def inline(call):
       medit('Выбрано: Невидимка', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        battle()
+        teampick(id)
+        
+  elif call.data=='t1':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: Команда 1', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['x']+=1
+      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
+        battle(id)
+  
+  
+  elif call.data=='t2':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: Команда 2', call.from_user.id, call.message.message_id)
+      info.lobby.game[call.from_user.id]['x']+=1
+      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
+        battle(id)
+  
       
                    
               
@@ -87,9 +103,18 @@ def skillselect(id, x):
     number+=1 
                     
                     
+def teampick(id):
+  bot.send_message(id, 'Теперь выберите команду для каждого бойца')
+  info.lobby.game[call.from_user.id]['x']=0
+  x=0
+  while x<len(info.lobby.game[call.from_user.id]['bots']):
+    Keyboard=types.InlineKeyboardMarkup()
+    Keyboard.add(types.InlineKeyboardButton(text='Команда 1', callback_data='t1'))
+    Keyboard.add(types.InlineKeyboardButton(text='Команда 2', callback_data='t2'))
+    bot.send_message(id, 'Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'])
+    x+=1 
                     
-                    
-def battle():
+def battle(id):
   pass
                                             
 
