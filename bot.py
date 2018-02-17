@@ -146,21 +146,21 @@ def results(id):
       if info.lobby.game[id]['bots'][bots]['attack']==1:
         attack(info.lobby.game[id]['bots'][bots],2,id)
       elif info.lobby.game[id]['bots'][bots]['yvorot']==1:
-        yvorot(info.lobby.game[id]['bots'][bots], 1)
+        yvorot(info.lobby.game[id]['bots'][bots], 1, id)
       elif info.lobby.game[id]['bots'][bots]['reload']==1:
-        reload(info.lobby.game[id]['bots'][bots], 1)
+        reload(info.lobby.game[id]['bots'][bots], 1, id)
       elif info.lobby.game[id]['bots'][bots]['item']==1:
         item(info.lobby.game[id]['bots'][bots],2)
       
     elif info.lobby.game[id]['bots'][bots]['team']==2:
       if info.lobby.game[id]['bots'][bots]['attack']==1:
-        attack(info.lobby.game[id]['bots'][bots],info.lobby.game[id]['t1bots'])
+        attack(info.lobby.game[id]['bots'][bots],1, id)
       elif info.lobby.game[id]['bots'][bots]['yvorot']==1:
-        yvorot(info.lobby.game[id]['bots'][bots], info.lobby.game[id]['t2bots'])
+        yvorot(info.lobby.game[id]['bots'][bots],2, id)
       elif info.lobby.game[id]['bots'][bots]['reload']==1:
-        reload(info.lobby.game[id]['bots'][bots], info.lobby.game[id]['t2bots'])
+        reload(info.lobby.game[id]['bots'][bots],2, id)
       elif info.lobby.game[id]['bots'][bots]['item']==1:
-        item(info.lobby.game[id]['bots'][bots],info.lobby.game[id]['t1bots'])        
+        item(info.lobby.game[id]['bots'][bots],1)        
   dmgs(id)
   
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
@@ -275,7 +275,7 @@ def attack(bot, team, id):
     pass
                                      
 
-def yvorot(bot, team):
+def yvorot(bot, team, id):
   bot['miss']=30
   if bot['team']==2:
     info.lobby.game[id]['t2res']+='💨'+bot['name']+' Уворачивается!\n'
@@ -283,7 +283,7 @@ def yvorot(bot, team):
     info.lobby.game[id]['t1res']+='💨'+bot['name']+' Уворачивается!\n'
     
 
-def reload(bot2, team):
+def reload(bot2, team, id):
   if bot2['team']==2:
     info.lobby.game[id]['t2res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
   elif bot2['team']==1:
@@ -333,7 +333,10 @@ def actnumber(bot, id):
     item=0
     
   if attack==0 and yvorot==0 and item==0:
-    reload=1
+    if npc['energy']==5:
+      attack=1
+    else:
+      reload=1
   else:
     reload=0
     
