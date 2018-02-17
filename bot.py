@@ -68,7 +68,7 @@ def inline(call):
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['skills'].append('vampir')
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        teampick(id)
+        teampick(call.from_user.id)
   
   
   elif call.data=='inviz':
@@ -77,7 +77,7 @@ def inline(call):
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['skills'].append('inviz')
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        teampick(id)
+        teampick(call.from_user.id)
         
   elif call.data=='t1':
     if call.from_user.id in info.lobby.game:
