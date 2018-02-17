@@ -169,7 +169,9 @@ def results(id):
   dmgs(id)
   z=0
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
+  bot.send_message(441399484, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
   bot.send_message(id, info.lobby.game[id]['secondres'])
+  bot.send_message(441399484, info.lobby.game[id]['secondres'])
   for mobs in info.lobby.game[id]['bots']:    
     info.lobby.game[id]['bots'][mobs]['attack']=0
     info.lobby.game[id]['bots'][mobs]['yvorot']=0 
