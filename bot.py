@@ -140,9 +140,9 @@ def results(id):
       if info.lobby.game[id][bot]['attack']==1:
         attack(bot,info.lobby.game[id]['t2bots'])
       elif info.lobby.game[id][bot]['yvorot']==1:
-        yvorot(bot)
+        yvorot(bot, info.lobby.game[id]['t1bots'])
       elif info.lobby.game[id][bot]['reload']==1:
-        reload(bot)
+        reload(bot, info.lobby.game[id]['t1bots'])
       elif info.lobby.game[id][bot]['item']==1:
         item(bot,info.lobby.game[id]['t2bots'])
       
@@ -150,44 +150,128 @@ def results(id):
       if info.lobby.game[id][bot]['attack']==1:
         attack(bot,info.lobby.game[id]['t1bots'])
       elif info.lobby.game[id][bot]['yvorot']==1:
-        yvorot(bot)
+        yvorot(bot, info.lobby.game[id]['t2bots'])
       elif info.lobby.game[id][bot]['reload']==1:
-        reload(bot)
+        reload(bot, info.lobby.game[id]['t2bots'])
       elif info.lobby.game[id][bot]['item']==1:
         item(bot,info.lobby.game[id]['t1bots'])
-
-       
+        
+  dmgs(id)
   
-def attack(bot, team, id):
-  y=random.randint(1, len(team))
-  target=info.lobby.game[id]['bots'][team[y]['number']]
-  if bot['weapon']=='rock':
-    x=random.randint(1,100)
-    if bot['energy']==5:
-      if target['shield']<1:
-        if x-target['miss']<=95:
+  bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
+  bot.send_message(id, info.lobby.game[id]['secondres']
+
+def dmgs(id):
+  if info.lobby.game[id]['dmgtot1']>info.lobby.game[id]['dmgtot2']:
+    for mob in info.lobby.game[id]['bots']:
+     if info.lobby.game[id]['bots'][mob] in info.lobby.game[id]['t1bots']:
+      if info.lobby.game[id]['bots'][mob]['takendmg']>0:
+        info.lobby.game[id]['bots'][mob]['hp']-=1
+        text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+'хп!\n'
+    info.lobby.game[id]['secondres']='Команда 2 нанесла больше урона!\n'+text
+   
+  elif info.lobby.game[id]['dmgtot1']<info.lobby.game[id]['dmgtot2']:
+    for mob in info.lobby.game[id]['bots']:
+     if info.lobby.game[id]['bots'][mob] in info.lobby.game[id]['t2bots']:
+      if info.lobby.game[id]['bots'][mob]['takendmg']>0:
+        info.lobby.game[id]['bots'][mob]['hp']-=1
+        text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+'хп!\n'
+    info.lobby.game[id]['secondres']='Команда 2 нанесла больше урона!\n'+text
+    
+    elif info.lobby.game[id]['dmgtot1']==info.lobby.game[id]['dmgtot2']:
+    for mob in info.lobby.game[id]['bots']:
+      if info.lobby.game[id]['bots'][mob]['takendmg']>0:
+        info.lobby.game[id]['bots'][mob]['hp']-=1
+        text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+'хп!\n'
+    info.lobby.game[id]['secondres']='Обе команды понесли потери!\n'+text
+    
+    
+    
+  
+  
+  
+  
+  
+def rockchance(energy, target, x):
+  if energy==5:
+    chance=95
+  elif energy==4:
+    chance=70
+  elif energy==3:
+    chance=55
+  elif energy==2:
+    chance=40
+  elif energy==1:
+    chance=20
+  if x-target['miss']<=chance:
           damage=random.randint(2, 3)
-          results+='
           stun=random.randint(1, 100)
           if stun<=25:
             target['stun']=2
-            
-      else:
-        damage=0
-        
-        stun=random.randint(1, 100)
-          if stun<=25:
-            target['stun']=2
-            
-          
-        
-        
+          if team[0] in info.lobby.game[id]['t2bots']:
+            info.lobby.game[id]['t1res']+='☄️'+bot['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+            info.lobby.game[id]['dmgtot1']+=damage
+            target['takendmg']+=damage
+            if stun<=25:
+              info.lobby.game[id]['t1res']+='Цель оглушена!\n'
+          elif team[0] in info.lobby.game[id]['t1bots']:
+            info.lobby.game[id]['t2res']+='☄️'+bot['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+            info.lobby.game[id]['dmgtot2']+=damage
+            target['takendmg']+=damage
+            if stun<=25:
+              info.lobby.game[id]['t2res']+='🌀Цель оглушена!\n'
+  else:
+    if team[0] in info.lobby.game[id]['t2bots']:
+            info.lobby.game[id]['t1res']+='💨'+bot['name']+' Промахнулся по '+target['name']+'!\n'
+    elif team[0] in info.lobby.game[id]['t1bots']:
+            info.lobby.game[id]['t2res']+='💨'+bot['name']+' Промахнулся по '+target['name']+'!\n'
+    
+              
 
-def yvorot(bot):
-  pass
 
-def reload(bot):
-  pass
+ 
+    
+      
+      
+def attack(bot, team, id):
+  y=random.randint(1, len(team))
+  target=info.lobby.game[id]['bots'][team[y]['number']]
+  x=random.randint(1,100)
+  if bot['weapon']=='rock':
+    if bot['energy']==5:
+      rockchance(5, target, x)          
+    elif bot['energy']==4:
+      rockchance(4, target, x)
+    elif bot['energy']==3:
+      rockchance(3, target, x)
+    elif bot['energy']==2:
+      rockchance(2, target, x)
+    elif bot['energy']==1:
+      rockchance(1, target, x)
+      
+      
+   
+              
+  elif bot['weapon']=='hand':
+    pass
+  
+  elif bot['weapon']=='ak':
+    pass
+                                     
+
+def yvorot(bot, team):
+  bot['miss']=30
+  if team[0] in info.lobby.game[id]['t2bots']:
+    info.lobby.game[id]['t2res']+='💨'+bot['name']+' Уворачивается!\n'
+  elif team[0] in info.lobby.game[id]['t1bots']:
+    info.lobby.game[id]['t1res']+='💨'+bot['name']+' Уворачивается!\n'
+    
+
+def reload(bot, team):
+  if team[0] in info.lobby.game[id]['t2bots']:
+    info.lobby.game[id]['t2res']+='🕓'+bot['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
+  elif team[0] in info.lobby.game[id]['t1bots']:
+    info.lobby.game[id]['t1res']+='🕓'+bot['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
 
 def item(bot, team):
   pass
@@ -296,11 +380,16 @@ def creategame(id):
     return {id:{
         'chatid':id,
         'bots':{},
-        't1bots':{},
-        't2bots':{},
+        't1bots':{'name':'t1bots'},
+        't2bots':{'name':'t2bots'},
         'takenames':[],
         'x':0,
-        'results':''
+        'results':'',
+        't1res':'',
+        't2res':'',
+        'dmgtot1':0,
+        'dmgtot2':0,
+        'secondres':''
 
              }
            }
@@ -322,7 +411,8 @@ def createbot(id, x):
               'number':x,
               'miss':0,
               'shield':0,
-              'stun':0
+              'stun':0,
+              'takendmg':0
 }
 }
 
