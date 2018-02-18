@@ -46,12 +46,7 @@ def inline(call):
         bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name'])
       except:
         bot.send_message(call.from_user.id, 'TypeError: must be str, not NoneType опять выпадает ебучая ошибка, но я запихнул это в try-except')
-      Keyboard=types.InlineKeyboardMarkup()
-      Keyboard.add(types.InlineKeyboardButton(text='Камень', callback_data='rock'))  
-      Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
-      Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
-      Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
-      msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому (по порядку). Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'], reply_markup=Keyboard)
+      pick(call.from_user.id)
         
         
   elif call.data=='number4':
@@ -69,7 +64,6 @@ def inline(call):
         bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
       except:
         bot.send_message(call.from_user.id, 'TypeError: must be str, not NoneType опять выпадает ебучая ошибка, но я запихнул это в try-except')
-      x=0
       pick(call.from_user.id)
 
     
