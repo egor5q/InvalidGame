@@ -367,8 +367,6 @@ def akchance(energy, target, x, id, bot1):
               
 
 
- 
-    
       
       
 def attack(bot, team, id):
@@ -377,8 +375,9 @@ def attack(bot, team, id):
     if info.lobby.game[id]['bots'][bots]['team']==team:
       a.append(info.lobby.game[id]['bots'][bots])
   x=random.randint(1,len(a))
-  if info.lobby.game[id]['bots'][a[x-1]['number']]['die']!=1:
-    target=info.lobby.game[id]['bots'][a[x-1]['number']]
+  while info.lobby.game[id]['bots'][a[x-1]['number']]['die']==1:
+       x=random.randint(1,len(a))
+  target=info.lobby.game[id]['bots'][a[x-1]['number']]
   else:
      attack(bot,team,id)
   x=random.randint(1,100)
@@ -524,12 +523,10 @@ def begingame(id):
 def randomname(id):
   names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф', 'Мертвец', 'Ковбой']
   x=random.choice(names)
-  if x in info.lobby.game[id]['takenames']:
-      z=random.randint(1,5000)
-      return 'Персонаж'+str(z)
-  else:
-    info.lobby.game[id]['takenames'].append(x)
-    return x
+  while x in info.lobby.game[id]['takenames']:
+    x=random.choice(names) 
+  info.lobby.game[id]['takenames'].append(x)
+  return x
 
   
   
