@@ -42,10 +42,7 @@ def inline(call):
         info.lobby.game[call.from_user.id]['bots'][0]['name']=randomname(call.from_user.id)
       if info.lobby.game[call.from_user.id]['bots'][1]['name']==None:
         info.lobby.game[call.from_user.id]['bots'][1]['name']=randomname(call.from_user.id)
-      try:
-        bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name'])
-      except:
-        bot.send_message(call.from_user.id, 'TypeError: must be str, not NoneType опять выпадает ебучая ошибка, но я запихнул это в try-except')
+      bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name']) 
       pick(call.from_user.id)
         
   elif call.data=='number3':
@@ -57,7 +54,7 @@ def inline(call):
         x+=1
       text=''
       for n in info.lobby.game[call.from_user.id]['bots']: 
-        text+=info.lobby.game[call.from_user.id]['bots']['name']+'\n'
+        text+=info.lobby.game[call.from_user.id]['bots'][n]['name']+'\n'
       bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
       pick(call.from_user.id)
 
@@ -71,7 +68,7 @@ def inline(call):
         x+=1
       text=''
       for n in info.lobby.game[call.from_user.id]['bots']: 
-        text+=info.lobby.game[call.from_user.id]['bots']['name']+'\n'
+        text+=info.lobby.game[call.from_user.id]['bots'][n]['name']+'\n'
       bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
       pick(call.from_user.id)
 
