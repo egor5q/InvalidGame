@@ -13,6 +13,16 @@ token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
 
+def pick(id, x):
+        Keyboard=types.InlineKeyboardMarkup()
+        Keyboard.add(types.InlineKeyboardButton(text='Камень', callback_data='rock'))  
+        Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
+        Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
+        Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
+        msg=bot.send_message(id, 'Теперь выберите оружие каждому. Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
+
+
+
 
 @bot.message_handler(commands=['stop'])
 def stopm(m):
@@ -28,6 +38,10 @@ def inline(call):
       while x<2:
         info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
         x+=1
+      if info.lobby.game[call.from_user.id]['bots'][0]['name']==None:
+        info.lobby.game[call.from_user.id]['bots'][0]['name']=randomname(call.from_user.id)
+      if info.lobby.game[call.from_user.id]['bots'][1]['name']==None:
+        info.lobby.game[call.from_user.id]['bots'][1]['name']=randomname(call.from_user.id)
       try:
         bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name'])
       except:
@@ -39,13 +53,29 @@ def inline(call):
         Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
         Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
         Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
-        if info.lobby.game[call.from_user.id]['bots'][0]['name']==None:
-          info.lobby.game[call.from_user.id]['bots'][0]['name']=randomname(id)
-        if info.lobby.game[call.from_user.id]['bots'][1]['name']==None:
-          info.lobby.game[call.from_user.id]['bots'][1]['name']=randomname(id)
         msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому (по порядку). Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'], reply_markup=Keyboard)
         x+=1
-      
+        
+        
+  elif call.data=='number4':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: 4 бойца', call.from_user.id, call.message.message_id)
+      x=0
+      while x<4:
+        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
+        x+=1
+      try:
+        x=0
+        text=''
+        for n in info.lobby.game[call.from_user.id]['bots']: 
+          text+=info.lobby.game[call.from_user.id]['bots']['name']+'\n'
+        bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
+      except:
+        bot.send_message(call.from_user.id, 'TypeError: must be str, not NoneType опять выпадает ебучая ошибка, но я запихнул это в try-except')
+      x=0
+      pick(call.from_user.id)
+
+    
   
   elif call.data=='rock':
     if call.from_user.id in info.lobby.game:
@@ -54,6 +84,8 @@ def inline(call):
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
+      else:
+        pick(call.from_user.id)
         
   elif call.data=='hand':
     if call.from_user.id in info.lobby.game:
@@ -62,6 +94,8 @@ def inline(call):
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
+      else:
+        pick(call.from_user.id)
         
   elif call.data=='ak':
     if call.from_user.id in info.lobby.game:
@@ -70,6 +104,8 @@ def inline(call):
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
+      else:
+        pick(call.from_user.id)
         
         
   elif call.data=='vampir':
