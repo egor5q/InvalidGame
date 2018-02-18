@@ -103,7 +103,7 @@ def inline(call):
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['weapon']='ak'
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
+        skillselect(call.from_user.id)
       else:
         pick(call.from_user.id)
         
@@ -115,6 +115,8 @@ def inline(call):
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         teampick(call.from_user.id)
+      else:
+        pick2(call.from_user.id)
   
   
   elif call.data=='inviz':
@@ -124,52 +126,63 @@ def inline(call):
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         teampick(call.from_user.id)
+      else:
+        pick2(call.from_user.id)
         
   elif call.data=='t1':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Команда 1', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=1
+      z=info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]
+      info.lobby.game[call.from_user.id]['t1bots'].update(z)
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
         battle(call.from_user.id)
+      else:
+        pick3(call.from_user.id)
   
   
   elif call.data=='t2':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Команда 2', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=2
+      z=info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]
+      info.lobby.game[call.from_user.id]['t2bots'].update(z)
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
         battle(call.from_user.id)
+      else:
+        pick3(call.from_user.id)
   
       
-                   
-              
-def skillselect(id, x):
-  number=0  
-  bot.send_message(id, 'Отлично! Теперь выберите скиллы:') 
-  info.lobby.game[id]['x']=0
-  while number<x:
+def pick2(id):
     Keyboard=types.InlineKeyboardMarkup()
     Keyboard.add(types.InlineKeyboardButton(text='Вампиризм', callback_data='vampir'))
     Keyboard.add(types.InlineKeyboardButton(text='Невидимка', callback_data='inviz'))
-    bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][number]['name'], reply_markup=Keyboard)
-    number+=1 
+    bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
+
+              
+def skillselect(id):
+  number=0  
+  bot.send_message(id, 'Отлично! Теперь выберите скиллы:') 
+  info.lobby.game[id]['x']=0
+  pick2(id)
                     
                     
 def teampick(id):
   bot.send_message(id, 'Теперь выберите команду для каждого бойца')
   info.lobby.game[id]['x']=0
-  x=0
-  while x<len(info.lobby.game[id]['bots']):
-    Keyboard=types.InlineKeyboardMarkup()
-    Keyboard.add(types.InlineKeyboardButton(text='Команда 1', callback_data='t1'))
-    Keyboard.add(types.InlineKeyboardButton(text='Команда 2', callback_data='t2'))
-    bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][x]['name'], reply_markup=Keyboard)
-    x+=1 
-                    
+  pick3(id)
+
+
+def pick3(id):
+  Keyboard=types.InlineKeyboardMarkup()
+  Keyboard.add(types.InlineKeyboardButton(text='Команда 1', callback_data='t1'))
+  Keyboard.add(types.InlineKeyboardButton(text='Команда 2', callback_data='t2'))
+  bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
+                   
 def battle(id):
   for number in info.lobby.game[id]['bots']:
     if info.lobby.game[id]['bots'][number]['team']==1:
@@ -220,8 +233,18 @@ def results(id):
     info.lobby.game[id]['bots'][mobs]['stun']-=1
     info.lobby.game[id]['bots'][mobs]['takendmg']=0
     if info.lobby.game[id]['bots'][mobs]['hp']<1:
-      bot.send_message(id, 'Какая-то команда проиграла! (мне лень сейчас определять какая, по хп понятно будет)')
+      info.lobby.game[id]['bots'][mobs]['die']=1
+      if info.lobby.game[id]['bots'][mobs]['team']==1:
+         info.lobby.game[id]['diet1']+=1
+      elif info.lobby.game[id]['bots'][mobs]['team']==2:
+         info.lobby.game[id]['diet2']+=1
+  if info.lobby.game[id]['diet1']>=len(info.lobby.game[id]['t1mobs']):
       z=1
+      bot.send_message(id, 'Команда 2 победила!')
+  elif info.lobby.game[id]['diet2']>=len(info.lobby.game[id]['t2mobs']):
+      z=1
+      bot.send_message(id, 'Команда 1 победила!')
+    
   info.lobby.game[id]['results']=''
   info.lobby.game[id]['t1res']=''
   info.lobby.game[id]['t2res']=''
@@ -518,7 +541,9 @@ def creategame(id):
         't2res':'',
         'dmgtot1':0,
         'dmgtot2':0,
-        'secondres':''
+        'secondres':'',
+        'diet1':0,
+        'diet2':0
 
              }
            }
@@ -541,7 +566,8 @@ def createbot(id, x):
               'miss':0,
               'shield':0,
               'stun':0,
-              'takendmg':0
+              'takendmg':0,
+              'die':0
 }
 }
 
