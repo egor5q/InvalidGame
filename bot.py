@@ -205,9 +205,11 @@ def results(id):
   dmgs(id)
   z=0
   bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
-  bot.send_message(441399484, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
+  if id!=441399484:
+    bot.send_message(441399484, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
   bot.send_message(id, info.lobby.game[id]['secondres'])
-  bot.send_message(441399484, info.lobby.game[id]['secondres'])
+  if id!=441399484:
+    bot.send_message(441399484, info.lobby.game[id]['secondres'])
   for mobs in info.lobby.game[id]['bots']:    
     info.lobby.game[id]['bots'][mobs]['attack']=0
     info.lobby.game[id]['bots'][mobs]['yvorot']=0 
@@ -493,7 +495,7 @@ def begingame(id):
   
   
 def randomname(id):
-  names=['xer','Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф']
+  names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф']
   x=random.choice(names)
   if x not in info.lobby.game[id]['takenames']:
     info.lobby.game[id]['takenames'].append(x)
