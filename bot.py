@@ -526,7 +526,7 @@ def randomname(id):
   x=random.choice(names)
   if x in info.lobby.game[id]['takenames']:
       z=random.randint(1,5000)
-      return 'Персонаж'+z
+      return 'Персонаж'+str(z)
   else:
     info.lobby.game[id]['takenames'].append(x)
     return x
