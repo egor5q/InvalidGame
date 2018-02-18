@@ -182,12 +182,7 @@ def pick3(id):
   bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
                    
 def battle(id):
-  for number in info.lobby.game[id]['bots']:
-    if info.lobby.game[id]['bots'][number]['team']==1:
-      info.lobby.game[id]['t1bots'].update(info.lobby.game[id]['bots'][number])
-    elif info.lobby.game[id]['bots'][number]['team']==2:
-      info.lobby.game[id]['t2bots'].update(info.lobby.game[id]['bots'][number])
-      
+  
   for bots in info.lobby.game[id]['bots']:
    if info.lobby.game[id]['bots'][bots]['die']!=1:
      info.lobby.game[id]['bots'][bots][act(bots, id)]=1
