@@ -133,8 +133,7 @@ def inline(call):
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Команда 1', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=1
-      z=info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]
-      info.lobby.game[call.from_user.id]['t1bots'].update(z)
+      info.lobby.game[call.from_user.id]['t1bots']+=1
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
@@ -147,8 +146,7 @@ def inline(call):
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Команда 2', call.from_user.id, call.message.message_id)
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=2
-      z=info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]
-      info.lobby.game[call.from_user.id]['t2bots'].update(z)
+      info.lobby.game[call.from_user.id]['t2bots']+=1
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
@@ -233,16 +231,17 @@ def results(id):
     info.lobby.game[id]['bots'][mobs]['shield']=0
     info.lobby.game[id]['bots'][mobs]['stun']-=1
     info.lobby.game[id]['bots'][mobs]['takendmg']=0
-    if info.lobby.game[id]['bots'][mobs]['hp']<1:
+    if info.lobby.game[id]['bots'][mobs]['die']!=1:
+     if info.lobby.game[id]['bots'][mobs]['hp']<1:
       info.lobby.game[id]['bots'][mobs]['die']=1
       if info.lobby.game[id]['bots'][mobs]['team']==1:
          info.lobby.game[id]['diet1']+=1
       elif info.lobby.game[id]['bots'][mobs]['team']==2:
          info.lobby.game[id]['diet2']+=1
-  if info.lobby.game[id]['diet1']>=len(info.lobby.game[id]['t1bots']):
+  if info.lobby.game[id]['diet1']>=info.lobby.game[id]['t1bots']:
       z=1
       bot.send_message(id, 'Команда 2 победила!')
-  elif info.lobby.game[id]['diet2']>=len(info.lobby.game[id]['t2bots']):
+  elif info.lobby.game[id]['diet2']>=info.lobby.game[id]['t2bots']:
       z=1
       bot.send_message(id, 'Команда 1 победила!')
     
@@ -253,7 +252,7 @@ def results(id):
   info.lobby.game[id]['dmgtot2']=0
   info.lobby.game[id]['secondres']=''
   if z==0:
-    t=threading.Timer(7.0, battle, args=[id])
+    t=threading.Timer(12.0, battle, args=[id])
     t.start()
   else:
     del info.lobby.game[id]
@@ -533,8 +532,8 @@ def creategame(id):
     return {id:{
         'chatid':id,
         'bots':{},
-        't1bots':{'name':'t1bots'},
-        't2bots':{'name':'t2bots'},
+        't1bots':0,
+        't2bots':0,
         'takenames':[],
         'x':0,
         'results':'',
