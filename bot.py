@@ -46,15 +46,12 @@ def inline(call):
         bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name'])
       except:
         bot.send_message(call.from_user.id, 'TypeError: must be str, not NoneType опять выпадает ебучая ошибка, но я запихнул это в try-except')
-      x=0
-      while x<2:
-        Keyboard=types.InlineKeyboardMarkup()
-        Keyboard.add(types.InlineKeyboardButton(text='Камень', callback_data='rock'))  
-        Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
-        Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
-        Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
-        msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому (по порядку). Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'], reply_markup=Keyboard)
-        x+=1
+      Keyboard=types.InlineKeyboardMarkup()
+      Keyboard.add(types.InlineKeyboardButton(text='Камень', callback_data='rock'))  
+      Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
+      Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
+      Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
+      msg=bot.send_message(call.from_user.id, 'Теперь выберите оружие каждому (по порядку). Выбор для: '+info.lobby.game[call.from_user.id]['bots'][x]['name'], reply_markup=Keyboard)
         
         
   elif call.data=='number4':
@@ -357,6 +354,39 @@ def akchance(energy, target, x, id, bot1):
     elif target['team']==1:
             info.lobby.game[id]['t2res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
             bot1['energy']-=random.randint(2,3)
+        
+        
+        
+def handchance(energy, target, x, id, bot1):
+  if energy==5:
+    chance=99
+  elif energy==4:
+    chance=90
+  elif energy==3:
+    chance=75
+  elif energy==2:
+    chance=70
+  elif energy==1:
+    chance=60
+  if (x+target['miss'])<=chance:
+          damage=1
+          if target['team']==2:
+            info.lobby.game[id]['t1res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+            info.lobby.game[id]['dmgtot2']+=damage
+            target['takendmg']+=damage
+            bot1['energy']-=random.randint(2,3)
+          elif target['team']==1:
+            info.lobby.game[id]['t2res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+            info.lobby.game[id]['dmgtot1']+=damage
+            target['takendmg']+=damage
+            bot1['energy']-=1
+  else:
+    if target['team']==2:
+            info.lobby.game[id]['t1res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+            bot1['energy']-=1
+    elif target['team']==1:
+            info.lobby.game[id]['t2res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+            bot1['energy']-=1
     
               
 
@@ -386,7 +416,16 @@ def attack(bot, team, id):
       rockchance(1, target, x, id, bot)
       
   elif bot['weapon']=='hand':
-    pass
+    if bot['energy']==5:
+      handchance(5, target, x, id, bot)          
+    elif bot['energy']==4:
+      handchance(4, target, x, id, bot)
+    elif bot['energy']==3:
+      handchance(3, target, x, id, bot)
+    elif bot['energy']==2:
+      handchance(2, target, x, id, bot)
+    elif bot['energy']==1:
+      handchance(1, target, x, id, bot)
 
   
   elif bot['weapon']=='ak':
@@ -426,18 +465,25 @@ def actnumber(bot, id):
   npc=info.lobby.game[id]['bots'][bot]
   if npc['energy']>0 and npc['energy']<=2:
     x=random.randint(1,100)
-    if x<=15:
-      attack=1
+    if npc['weapon']!='hand':
+     if x<=15:
+       attack=1
+     else:
+       attack=0
     else:
-      attack=0
+      if x<=75:
+        attack=1
+      else:
+        attack=0
   elif npc['energy']>=3:
     x=random.randint(1,100)
-    if x<=70:
-      attack=1
+    if npc['weapon']!='hand':
+      if x<=70:
+        attack=1
+      else:
+        attack=0
     else:
-      attack=0
-  else:
-    attack=0
+      attack=1
     
   if npc['energy']<=2:
     x=random.randint(1,100)
