@@ -84,7 +84,7 @@ def inline(call):
       info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['weapon']='hand'
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        skillselect(call.from_user.id, len(info.lobby.game[call.from_user.id]['bots']))
+        skillselect(call.from_user.id)
       else:
         pick(call.from_user.id)
         
