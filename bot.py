@@ -478,6 +478,8 @@ def actnumber(bot, id):
         attack=0
     else:
       attack=1
+  else:
+    attack=0
     
   if npc['energy']<=2:
     x=random.randint(1,100)
