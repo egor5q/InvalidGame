@@ -378,8 +378,6 @@ def attack(bot, team, id):
   while info.lobby.game[id]['bots'][a[x-1]['number']]['die']==1:
        x=random.randint(1,len(a))
   target=info.lobby.game[id]['bots'][a[x-1]['number']]
-  else:
-     attack(bot,team,id)
   x=random.randint(1,100)
   if bot['weapon']=='rock':
     if bot['energy']==5:
