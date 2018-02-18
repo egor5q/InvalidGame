@@ -191,7 +191,8 @@ def battle(id):
       info.lobby.game[id]['t2bots'].update(info.lobby.game[id]['bots'][number])
       
   for bots in info.lobby.game[id]['bots']:
-   info.lobby.game[id]['bots'][bots][act(bots, id)]=1
+   if info.lobby.game[id]['bots'][bots]['die']!=1:
+     info.lobby.game[id]['bots'][bots][act(bots, id)]=1
   results(id)
 
 def results(id):
@@ -376,7 +377,10 @@ def attack(bot, team, id):
     if info.lobby.game[id]['bots'][bots]['team']==team:
       a.append(info.lobby.game[id]['bots'][bots])
   x=random.randint(1,len(a))
-  target=info.lobby.game[id]['bots'][a[x-1]['number']]
+  if info.lobby.game[id]['bots'][a[x-1]['number']]['die']!=1:
+    target=info.lobby.game[id]['bots'][a[x-1]['number']]
+  else:
+     attack(bot,team,id)
   x=random.randint(1,100)
   if bot['weapon']=='rock':
     if bot['energy']==5:
@@ -515,13 +519,17 @@ def begingame(id):
   Keyboard.add(types.InlineKeyboardButton(text='6', callback_data='number6'))
   Keyboard.add(types.InlineKeyboardButton(text='8', callback_data='number8'))
   msg=bot.send_message(id, 'Выберите кол-во бойцов', reply_markup=Keyboard)
-  
+            
   
 def randomname(id):
   names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф', 'Мертвец', 'Ковбой']
   x=random.choice(names)
-  info.lobby.game[id]['takenames'].append(x)
-  return x
+  if x in info.lobby.game[id]['takenames']:
+      z=random.randint(1,5000)
+      return 'Персонаж'+z
+  else:
+    info.lobby.game[id]['takenames'].append(x)
+    return x
 
   
   
