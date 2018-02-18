@@ -48,7 +48,20 @@ def inline(call):
         bot.send_message(call.from_user.id, 'TypeError: must be str, not NoneType опять выпадает ебучая ошибка, но я запихнул это в try-except')
       pick(call.from_user.id)
         
-        
+  elif call.data=='number3':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: 3 бойца', call.from_user.id, call.message.message_id)
+      x=0
+      while x<3:
+        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
+        x+=1
+      text=''
+      for n in info.lobby.game[call.from_user.id]['bots']: 
+        text+=info.lobby.game[call.from_user.id]['bots']['name']+'\n'
+      bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
+      pick(call.from_user.id)
+
+
   elif call.data=='number4':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: 4 бойца', call.from_user.id, call.message.message_id)
@@ -56,14 +69,10 @@ def inline(call):
       while x<4:
         info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
         x+=1
-      try:
-        x=0
-        text=''
-        for n in info.lobby.game[call.from_user.id]['bots']: 
-          text+=info.lobby.game[call.from_user.id]['bots']['name']+'\n'
-        bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
-      except:
-        bot.send_message(call.from_user.id, 'TypeError: must be str, not NoneType опять выпадает ебучая ошибка, но я запихнул это в try-except')
+      text=''
+      for n in info.lobby.game[call.from_user.id]['bots']: 
+        text+=info.lobby.game[call.from_user.id]['bots']['name']+'\n'
+      bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
       pick(call.from_user.id)
 
     
@@ -548,6 +557,7 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
 def begingame(id):
   Keyboard=types.InlineKeyboardMarkup()
   Keyboard.add(types.InlineKeyboardButton(text='2', callback_data='number2'))
+  Keyboard.add(types.InlineKeyboardButton(text='3', callback_data='number3'))
   Keyboard.add(types.InlineKeyboardButton(text='4', callback_data='number4'))
   Keyboard.add(types.InlineKeyboardButton(text='6', callback_data='number6'))
   Keyboard.add(types.InlineKeyboardButton(text='8', callback_data='number8'))
