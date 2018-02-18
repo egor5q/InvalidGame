@@ -13,7 +13,7 @@ token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
 
-def pick(id, x):
+def pick(id):
         Keyboard=types.InlineKeyboardMarkup()
         Keyboard.add(types.InlineKeyboardButton(text='Камень', callback_data='rock'))  
         Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
