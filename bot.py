@@ -238,10 +238,10 @@ def results(id):
          info.lobby.game[id]['diet1']+=1
       elif info.lobby.game[id]['bots'][mobs]['team']==2:
          info.lobby.game[id]['diet2']+=1
-  if info.lobby.game[id]['diet1']>=len(info.lobby.game[id]['t1mobs']):
+  if info.lobby.game[id]['diet1']>=len(info.lobby.game[id]['t1bots']):
       z=1
       bot.send_message(id, 'Команда 2 победила!')
-  elif info.lobby.game[id]['diet2']>=len(info.lobby.game[id]['t2mobs']):
+  elif info.lobby.game[id]['diet2']>=len(info.lobby.game[id]['t2bots']):
       z=1
       bot.send_message(id, 'Команда 1 победила!')
     
@@ -518,7 +518,7 @@ def begingame(id):
   
   
 def randomname(id):
-  names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф']
+  names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф', 'Мертвец', 'Ковбой']
   x=random.choice(names)
   info.lobby.game[id]['takenames'].append(x)
   return x
