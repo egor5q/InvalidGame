@@ -517,7 +517,7 @@ def actnumber(bot, id):
    yvorot=0
   else:
    if npc['energy']<=2:
-    if x<=35 and npc['yvorotkd']<=0:
+    if x<=45 and npc['yvorotkd']<=0:
       yvorot=1
     else:
       yvorot=0
