@@ -73,6 +73,19 @@ def inline(call):
         text+=info.lobby.game[call.from_user.id]['bots'][n]['name']+'\n'
       bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
       pick(call.from_user.id)
+      
+  elif call.data=='number6':
+    if call.from_user.id in info.lobby.game:
+      medit('Выбрано: 6 бойцов', call.from_user.id, call.message.message_id)
+      x=0
+      while x<6:
+        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
+        x+=1
+      text=''
+      for n in info.lobby.game[call.from_user.id]['bots']: 
+        text+=info.lobby.game[call.from_user.id]['bots'][n]['name']+'\n'
+      bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
+      pick(call.from_user.id)
 
     
   
@@ -225,6 +238,7 @@ def results(id):
     info.lobby.game[id]['bots'][mobs]['shield']=0
     info.lobby.game[id]['bots'][mobs]['stun']-=1
     info.lobby.game[id]['bots'][mobs]['takendmg']=0
+    info.lobby.game[id]['bots'][mobs]['yvorotkd']-=1
     if info.lobby.game[id]['bots'][mobs]['die']!=1:
      if info.lobby.game[id]['bots'][mobs]['hp']<1:
       info.lobby.game[id]['bots'][mobs]['die']=1
@@ -445,6 +459,7 @@ def attack(bot, team, id):
 
 def yvorot(bot, team, id):
   bot['miss']=30
+  bot['yvorotkd']=4
   if bot['team']==2:
     info.lobby.game[id]['t2res']+='💨'+bot['name']+' Уворачивается!\n'
   elif bot['team']==1:
@@ -489,18 +504,29 @@ def actnumber(bot, id):
   else:
     attack=0
     
-  if npc['energy']<=2:
-    x=random.randint(1,100)
-    if x<=30:
+  x=random.randint(1,100)  
+  high=0
+  enemy=[]
+  for mob in info.lobby.game[id]['bots']:
+   if info.lobby.game[id]['bots'][mob]['team']!=bot['team']:
+    enemy.append(info.lobby.game[id]['bots'][mob])
+  for mob in enemy:
+   if mob['energy']>2:
+    high+=1
+  if high==0:
+   yvorot=0
+  else:
+   if npc['energy']<=2:
+    if x<=35 and bot['yvorotkd']<=0:
       yvorot=1
     else:
       yvorot=0
-  elif npc['energy']>=3:
-    x=random.randint(1,100)
-    if x<=20:
-      yvorot=1
-    else:
-      yvorot=0
+   elif npc['energy']>=3:
+      x=random.randint(1,100)
+      if x<=20 and bot['yvorotkd']<=0:
+        yvorot=1
+      else:
+        yvorot=0
       
   if len(npc['items'])>0:
     x=random.randint(1,100)
@@ -613,7 +639,8 @@ def createbot(id, x):
               'shield':0,
               'stun':0,
               'takendmg':0,
-              'die':0
+              'die':0,
+              'yvorotkd':0
 }
 }
 
