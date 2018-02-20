@@ -234,7 +234,10 @@ def results(id):
     info.lobby.game[id]['bots'][mobs]['yvorot']=0 
     info.lobby.game[id]['bots'][mobs]['reload']=0 
     info.lobby.game[id]['bots'][mobs]['item']=0
-    info.lobby.game[id]['bots'][mobs]['miss']=0
+    if info.lobby.game[id]['bots'][mobs]['name']!='Эльф':
+      info.lobby.game[id]['bots'][mobs]['miss']=0
+    else:
+     info.lobby.game[id]['bots'][mobs]['miss']=10
     info.lobby.game[id]['bots'][mobs]['shield']=0
     info.lobby.game[id]['bots'][mobs]['stun']-=1
     info.lobby.game[id]['bots'][mobs]['takendmg']=0
@@ -364,13 +367,11 @@ def akchance(energy, target, x, id, bot1):
           if target['team']==2:
             info.lobby.game[id]['t1res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot2']+=damage
-            target['takendmg']+=damage
-            bot1['energy']-=random.randint(2,3)
           elif target['team']==1:
             info.lobby.game[id]['t2res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot1']+=damage
-            target['takendmg']+=damage
-            bot1['energy']-=random.randint(2,3)
+          target['takendmg']+=damage
+          bot1['energy']-=random.randint(2,3)
   else:
     if target['team']==2:
             info.lobby.game[id]['t1res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
@@ -466,7 +467,7 @@ def attack(bot, team, id):
                                      
 
 def yvorot(bot, team, id):
-  bot['miss']=30
+  bot['miss']=+30
   bot['yvorotkd']=4
   if bot['team']==2:
     info.lobby.game[id]['t2res']+='💨'+bot['name']+' Уворачивается!\n'
