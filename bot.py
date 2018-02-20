@@ -505,15 +505,15 @@ def actnumber(bot, id):
     attack=0
     
   x=random.randint(1,100)  
-  high=0
+  low=0
   enemy=[]
   for mob in info.lobby.game[id]['bots']:
    if info.lobby.game[id]['bots'][mob]['team']!=npc['team']:
     enemy.append(info.lobby.game[id]['bots'][mob])
   for mob in enemy:
-   if mob['energy']>2:
-    high+=1
-  if high==0:
+   if mob['energy']<3:
+    low+=1
+  if low==len(enemy):
    yvorot=0
   else:
    if npc['energy']<=2:
