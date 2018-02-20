@@ -271,8 +271,12 @@ def dmgs(id):
     for mob in info.lobby.game[id]['bots']:
      if info.lobby.game[id]['bots'][mob]['team']==1:
       if info.lobby.game[id]['bots'][mob]['takendmg']>0:
-        info.lobby.game[id]['bots'][mob]['hp']-=1
-        text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+'хп!\n'
+       if info.lobby.game[id]['bots'][mob]['takendmg']<6:
+        a=1
+       else:
+        a=2
+       info.lobby.game[id]['bots'][mob]['hp']-=a
+       text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+str(info.lobby.game[id]['bots'][mob]['hp'])+'хп!\n'
     info.lobby.game[id]['secondres']='Команда 2 нанесла больше урона!\n'+text
    
   elif info.lobby.game[id]['dmgtot1']<info.lobby.game[id]['dmgtot2']:
@@ -280,8 +284,12 @@ def dmgs(id):
     for mob in info.lobby.game[id]['bots']:
      if info.lobby.game[id]['bots'][mob]['team']==2:
       if info.lobby.game[id]['bots'][mob]['takendmg']>0:
-        info.lobby.game[id]['bots'][mob]['hp']-=1
-        text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+'хп!\n'
+       if info.lobby.game[id]['bots'][mob]['takendmg']<6:
+        a=1
+       else:
+        a=2
+       info.lobby.game[id]['bots'][mob]['hp']-=a
+       text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+str(info.lobby.game[id]['bots'][mob]['hp'])+'хп!\n'    
     info.lobby.game[id]['secondres']='Команда 1 нанесла больше урона!\n'+text
     
   elif info.lobby.game[id]['dmgtot1']==info.lobby.game[id]['dmgtot2']:
