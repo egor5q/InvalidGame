@@ -352,17 +352,17 @@ def rockchance(energy, target, x, id, bot1):
           
 def akchance(energy, target, x, id, bot1):
   if energy==5:
-    chance=80
+    chance=85
   elif energy==4:
-    chance=60
+    chance=65
   elif energy==3:
-    chance=40
+    chance=45
   elif energy==2:
     chance=20
   elif energy==1:
     chance=5
   if (x+target['miss'])<=chance:
-          damage=random.randint(2, 5)
+          damage=random.randint(2, 4)
           stun=random.randint(1, 100)
           if target['team']==2:
             info.lobby.game[id]['t1res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
@@ -394,7 +394,7 @@ def handchance(energy, target, x, id, bot1):
   elif energy==1:
     chance=60
   if (x+target['miss'])<=chance:
-          damage=1
+          damage=random.randint(1,2)
           if target['team']==2:
             info.lobby.game[id]['t1res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
             info.lobby.game[id]['dmgtot2']+=damage
@@ -428,42 +428,16 @@ def attack(bot, team, id):
        x=random.randint(1,len(a))
   target=info.lobby.game[id]['bots'][a[x-1]['number']]
   x=random.randint(1,100)
+  
   if bot['weapon']=='rock':
-    if bot['energy']==5:
-      rockchance(5, target, x, id, bot)          
-    elif bot['energy']==4:
-      rockchance(4, target, x, id, bot)
-    elif bot['energy']==3:
-      rockchance(3, target, x, id, bot)
-    elif bot['energy']==2:
-      rockchance(2, target, x, id, bot)
-    elif bot['energy']==1:
-      rockchance(1, target, x, id, bot)
+      rockchance(bot['energy'], target, x, id, bot)          
       
   elif bot['weapon']=='hand':
-    if bot['energy']==5:
-      handchance(5, target, x, id, bot)          
-    elif bot['energy']==4:
-      handchance(4, target, x, id, bot)
-    elif bot['energy']==3:
-      handchance(3, target, x, id, bot)
-    elif bot['energy']==2:
-      handchance(2, target, x, id, bot)
-    elif bot['energy']==1:
-      handchance(1, target, x, id, bot)
+      handchance(bot['energy'], target, x, id, bot)          
 
   
   elif bot['weapon']=='ak':
-    if bot['energy']==5:
-      akchance(5, target, x, id, bot)          
-    elif bot['energy']==4:
-      akchance(4, target, x, id, bot)
-    elif bot['energy']==3:
-      akchance(3, target, x, id, bot)
-    elif bot['energy']==2:
-      akchance(2, target, x, id, bot)
-    elif bot['energy']==1:
-      akchance(1, target, x, id, bot)
+      akchance(bot['energy'], target, x, id, bot)          
                                      
 
 def yvorot(bot, team, id):
