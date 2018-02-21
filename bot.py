@@ -237,7 +237,7 @@ def results(id):
     if info.lobby.game[id]['bots'][mobs]['name']!='Эльф':
       info.lobby.game[id]['bots'][mobs]['miss']=0
     else:
-     info.lobby.game[id]['bots'][mobs]['miss']=10
+     info.lobby.game[id]['bots'][mobs]['miss']=0
     info.lobby.game[id]['bots'][mobs]['shield']=0
     info.lobby.game[id]['bots'][mobs]['stun']-=1
     info.lobby.game[id]['bots'][mobs]['takendmg']=0
