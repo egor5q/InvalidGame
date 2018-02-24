@@ -40,10 +40,6 @@ def inline(call):
       while x<2:
         info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
         x+=1
-      if info.lobby.game[call.from_user.id]['bots'][0]['name']==None:
-        info.lobby.game[call.from_user.id]['bots'][0]['name']=randomname(call.from_user.id)
-      if info.lobby.game[call.from_user.id]['bots'][1]['name']==None:
-        info.lobby.game[call.from_user.id]['bots'][1]['name']=randomname(call.from_user.id)
       bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name']) 
       pick(call.from_user.id)
         
@@ -471,7 +467,7 @@ def actnumber(bot, id):
      else:
        attack=0
     else:
-      if x<=75:
+      if x<=70:
         attack=1
       else:
         attack=0
