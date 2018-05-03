@@ -11,9 +11,9 @@ from telebot import types
 
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
-vip=[441399484, 55888804,372299864, 225867387]
- 
+vip=[441399484, 55888804,372299864, 225867387] 
 
+items=['shield', 'knife', 'flash']
 
 def pick(id):
         Keyboard=types.InlineKeyboardMarkup()
@@ -145,6 +145,7 @@ def inline(call):
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
+        
         battle(call.from_user.id)
       else:
         pick3(call.from_user.id)
@@ -158,6 +159,7 @@ def inline(call):
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
+        giveitems(info.lobby.game[call.from_user.id])
         battle(call.from_user.id)
       else:
         pick3(call.from_user.id)
@@ -182,6 +184,11 @@ def teampick(id):
   info.lobby.game[id]['x']=0
   pick3(id)
 
+def giveitems(game):
+    for ids in game['bots']:
+        game['bots'][ids]['items'].append(random.choice(items))
+        game['bots'][ids]['items'].append(random.choice(items))
+  
 
 def pick3(id):
   Keyboard=types.InlineKeyboardMarkup()
@@ -189,8 +196,7 @@ def pick3(id):
   Keyboard.add(types.InlineKeyboardButton(text='Команда 2', callback_data='t2'))
   bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
                    
-def battle(id):
-  
+def battle(id):  
   for bots in info.lobby.game[id]['bots']:
    if info.lobby.game[id]['bots'][bots]['die']!=1:
      info.lobby.game[id]['bots'][bots][act(bots, id)]=1
