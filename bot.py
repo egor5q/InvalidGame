@@ -30,7 +30,20 @@ def pick(id):
 def stopm(m):
   if m.from_user.id in info.lobby.game:
     del info.lobby.game[m.from_user.id]
-                     
+  
+def itemselect():
+    x=[]
+    i=0
+    while i<2:
+        item=random.choice(items)
+        x.append(item)
+        i+=1
+    return x
+    
+
+            
+        
+        
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call):
   if call.data=='number2':
@@ -119,7 +132,9 @@ def inline(call):
   elif call.data=='vampir':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Вампиризм', call.from_user.id, call.message.message_id)
-      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['skills'].append('vampir')
+      z=info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]
+      z['skills'].append('vampir')
+      #z['items']=itemselect()
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         teampick(call.from_user.id)
@@ -130,7 +145,9 @@ def inline(call):
   elif call.data=='inviz':
     if call.from_user.id in info.lobby.game:
       medit('Выбрано: Невидимка', call.from_user.id, call.message.message_id)
-      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['skills'].append('inviz')
+      z=info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]
+      z['skills'].append('inviz')
+      #z['items']=itemselect()
       info.lobby.game[call.from_user.id]['x']+=1
       if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
         teampick(call.from_user.id)
@@ -460,7 +477,8 @@ def reload(bot2, team, id):
     info.lobby.game[id]['t1res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
 
 def item(bot, team):
-  pass
+  for item in bot['items']:
+    pass
 
 def actnumber(bot, id):  
   a=[]
