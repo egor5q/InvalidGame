@@ -13,6 +13,7 @@ from pymongo import MongoClient
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 vip=[441399484, 55888804,372299864, 225867387]
+games={}
 
 client1=os.environ['database']
 client=MongoClient(client1)
@@ -573,20 +574,37 @@ def act(bot, id):
       
 @bot.message_handler(commands=['start'])
 def start(m):
-    if users.find_one({'id':m.from_user.id})==None:
+  x=m.text.split('/start')
+  try:
+    if int(x[1]) in games:
+        y=users.find_one({'id':m.from_user.id})
+        if y!=None:
+            games[int(x[1])]['bots'].update(y['bot'])
+            bot.send_message(m.chat.id, 'Вы присоединились!')
+  except:
+        pass
+  if users.find_one({'id':m.from_user.id})==None:
         try:
             bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный персонаж - селянин. В будущем вы можете улучшить его за куки!')
             users.insert_one(createuser(m.from_user.id, m.from_user.username, m.from_user.first_name))
         except:
             bot.send_message(m.chat.id, 'Напишите боту в личку!')
+    
   
+@bot.message_handler(commands=['go'])
+def goo(m):
+    if m.chat.id in games:
+        if len(games[m.chat.id]['bots'])>=2:
+           begingame(m.chat.id)
+        else:
+            bot.send_message(m.chat.id, 'Недостаточно игроков!')
+    
 
 @bot.message_handler(commands=['begin'])
 def begin(m):
-  
     if m.chat.id==-261488443:
       if m.from_user.id in vip:
-        info.lobby.game.update(creategame(m.from_user.id))
+        games.update(creategame(m.from_user.id))
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
@@ -597,10 +615,6 @@ def begin(m):
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
     return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
                                  parse_mode=parse_mode)        
-
-@bot.message_handler(content_types=['text'])
-def ttt(m):
-    print(str(m.chat.id))
         
 
 def begingame(id):
@@ -613,13 +627,6 @@ def begingame(id):
   msg=bot.send_message(id, 'Выберите кол-во бойцов', reply_markup=Keyboard)
             
   
-def randomname(id):
-  names=['Берсерк', 'Ниндзя', 'Убийца', 'Воин', 'Оборотень', 'Маг', 'Крестьянин', 'Эльф', 'Мертвец', 'Ковбой']
-  x=random.choice(names)
-  while x in info.lobby.game[id]['takenames']:
-    x=random.choice(names) 
-  info.lobby.game[id]['takenames'].append(x)
-  return x
 
   
 
@@ -636,19 +643,9 @@ def creategame(id):
     return {id:{
         'chatid':id,
         'bots':{},
-        't1bots':0,
-        't2bots':0,
-        'takenames':[],
-        'x':0,
         'results':'',
-        't1res':'',
-        't2res':'',
-        'dmgtot1':0,
-        'dmgtot2':0,
         'secondres':'',
-        'diet1':0,
-        'diet2':0
-
+        '
              }
            }
             
