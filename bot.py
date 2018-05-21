@@ -578,6 +578,7 @@ def start(m):
   print(x)
   #try:
   if int(x[1]) in games:
+      print('1')
       y=users.find_one({'id':m.from_user.id})
       if y!=None:
           games[int(x[1])]['bots'].update(y['bot'])
@@ -604,6 +605,7 @@ def goo(m):
 @bot.message_handler(commands=['begin'])
 def begin(m):
     if m.chat.id==-261488443:
+     if m.chat.id not in games:
       if m.from_user.id in vip:
         games.update(creategame(m.from_user.id))
         kb=types.InlineKeyboardMarkup()
