@@ -644,8 +644,8 @@ def creategame(id):
         'chatid':id,
         'bots':{},
         'results':'',
-        'secondres':'',
-        '
+        'secondres':''
+        
              }
            }
             
