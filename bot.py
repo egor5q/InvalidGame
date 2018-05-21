@@ -589,8 +589,7 @@ def begin(m):
         info.lobby.game.update(creategame(m.from_user.id))
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
-        bot.send_message(m.chat.id, 'Игра началась! Ожидайте игроков.', reply_markup=kb)
-        begingame(m.from_user.id)
+        bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
       else:
         bot.send_message(m.chat.id, 'Вас нет в вип-списке. Пишите @Loshadkin')
         
