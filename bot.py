@@ -607,7 +607,7 @@ def begin(m):
     if m.chat.id==-261488443:
      if m.chat.id not in games:
       if m.from_user.id in vip:
-        games.update(creategame(m.from_user.id))
+        games.update(creategame(m.chat.id))
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
