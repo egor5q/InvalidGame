@@ -575,14 +575,14 @@ def act(bot, id):
 @bot.message_handler(commands=['start'])
 def start(m):
   x=m.text.split('/start')
-  try:
-    if int(x[1]) in games:
-        y=users.find_one({'id':m.from_user.id})
-        if y!=None:
-            games[int(x[1])]['bots'].update(y['bot'])
-            bot.send_message(m.chat.id, 'Вы присоединились!')
-  except:
-        pass
+  #try:
+  if int(x[1]) in games:
+      y=users.find_one({'id':m.from_user.id})
+      if y!=None:
+          games[int(x[1])]['bots'].update(y['bot'])
+          bot.send_message(m.chat.id, 'Вы присоединились!')
+  #except:
+  #      pass
   if users.find_one({'id':m.from_user.id})==None:
         try:
             bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный персонаж - селянин. В будущем вы можете улучшить его за куки!')
