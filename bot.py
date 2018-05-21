@@ -580,9 +580,10 @@ def start(m):
   if int(x[1]) in games:
         y=users.find_one({'id':m.from_user.id})
         if y!=None:
-          if y['bot'] not in games[int(x[1])]['bots']:
+          if y['bot']['id'] not in games[int(x[1])]['ids']:
             games[int(x[1])]['bots'].update(y['bot'])
             bot.send_message(m.chat.id, 'Вы присоединились!')
+            games[int(x[1])]['ids'].append(m.from_user.id)
   #except:
   #      pass
   if users.find_one({'id':m.from_user.id})==None:
@@ -635,7 +636,7 @@ def begingame(id):
 
 def createuser(id, username, name):
     return{'id':id,
-           'bot':createbot(),
+           'bot':createbot(id),
            'username':username,
            'name':name,
            'cookie':0
@@ -645,6 +646,7 @@ def createuser(id, username, name):
 def creategame(id):
     return {id:{
         'chatid':id,
+        'ids':[],
         'bots':{},
         'results':'',
         'secondres':''
@@ -652,7 +654,7 @@ def creategame(id):
              }
            }
             
-def createbot():
+def createbot(id):
   return {'name': None,
               'weapon':None,
               'skills':[],
@@ -670,7 +672,8 @@ def createbot():
               'stun':0,
               'takendmg':0,
               'die':0,
-              'yvorotkd':0
+              'yvorotkd':0,
+              'id':id
 }
 
 
