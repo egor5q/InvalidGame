@@ -11,7 +11,13 @@ from telebot import types
 
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
-vip=[441399484, 55888804,372299864, 225867387] 
+vip=[441399484, 55888804,372299864, 225867387]
+
+client1=os.environ['database']
+client=MongoClient(client1)
+db=client.cookiewars
+users=db.users
+
 
 items=['shield', 'knife', 'flash']
 
@@ -564,7 +570,14 @@ def act(bot, id):
   return curact[x-1]
   
       
-  
+@bot.message_handler(commands=['start'])
+def start(m):
+    if users.find_one({'id':m.from_user.id})==None:
+        try:
+            bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный персонаж - селянин. В будущем вы можете улучшить его за куки!')
+            users.insert_one(createuser(m.from_user.id, m.from_user.username, m.from_user.first_name))
+        except:
+            bot.send_message(m.chat.id, 'Напишите боту в личку!')
   
 
 @bot.message_handler(commands=['begin'])
@@ -601,7 +614,15 @@ def randomname(id):
   return x
 
   
-  
+
+def createuser(id, username, name):
+    return{'id':id,
+           'bot':createbot(),
+           'username':username,
+           'name':name,
+           'cookie':0
+          }
+    
         
 def creategame(id):
     return {id:{
@@ -623,21 +644,19 @@ def creategame(id):
              }
            }
             
-def createbot(id, x):
-  return {x: {'name': randomname(id),
+def createbot():
+  return {'name': None,
               'weapon':None,
               'skills':[],
               'team':None,
-              'hp':5,
+              'hp':4,
               'maxenergy':5,
               'energy':5,
-              'items':[],
-              
+              'items':[],           
               'attack':0,
               'yvorot':0,
               'reload':0,
               'item':0,
-              'number':x,
               'miss':0,
               'shield':0,
               'stun':0,
@@ -645,7 +664,7 @@ def createbot(id, x):
               'die':0,
               'yvorotkd':0
 }
-}
+
 
 
 
