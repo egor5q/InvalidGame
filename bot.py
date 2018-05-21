@@ -575,6 +575,7 @@ def act(bot, id):
 @bot.message_handler(commands=['start'])
 def start(m):
   x=m.text.split('/start')
+  print(x)
   #try:
   if int(x[1]) in games:
       y=users.find_one({'id':m.from_user.id})
