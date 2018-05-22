@@ -222,113 +222,112 @@ def pick3(id):
   bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
                    
 def battle(id):  
-  for bots in info.lobby.game[id]['bots']:
-   if info.lobby.game[id]['bots'][bots]['die']!=1:
-     info.lobby.game[id]['bots'][bots][act(bots, id)]=1
+  for bots in games[id]['bots']:
+   if games[id]['bots'][bots]['die']!=1:
+     games[id]['bots'][bots][act(bots, id)]=1
   results(id)
 
 def results(id):
-  for bots in info.lobby.game[id]['bots']:
-    if info.lobby.game[id]['bots'][bots]['team']==1:
-      if info.lobby.game[id]['bots'][bots]['attack']==1:
-        attack(info.lobby.game[id]['bots'][bots],2,id)
-      elif info.lobby.game[id]['bots'][bots]['yvorot']==1:
-        yvorot(info.lobby.game[id]['bots'][bots], 1, id)
-      elif info.lobby.game[id]['bots'][bots]['reload']==1:
-        reload(info.lobby.game[id]['bots'][bots], 1, id)
-      elif info.lobby.game[id]['bots'][bots]['item']==1:
-        item(info.lobby.game[id]['bots'][bots],2)
-      
-    elif info.lobby.game[id]['bots'][bots]['team']==2:
-      if info.lobby.game[id]['bots'][bots]['attack']==1:
-        attack(info.lobby.game[id]['bots'][bots],1, id)
-      elif info.lobby.game[id]['bots'][bots]['yvorot']==1:
-        yvorot(info.lobby.game[id]['bots'][bots],2, id)
-      elif info.lobby.game[id]['bots'][bots]['reload']==1:
-        reload(info.lobby.game[id]['bots'][bots],2, id)
-      elif info.lobby.game[id]['bots'][bots]['item']==1:
-        item(info.lobby.game[id]['bots'][bots],1)        
+  for bots in games[id]['bots']:
+    if games[id]['bots'][bots]['team']==1:
+      if games[id]['bots'][bots]['attack']==1:
+        attack(games[id]['bots'][bots],2,id)
+      elif games[id]['bots'][bots]['yvorot']==1:
+        yvorot(games[id]['bots'][bots], 1, id)
+      elif games[id]['bots'][bots]['reload']==1:
+        reload(games[id]['bots'][bots], 1, id)
+      elif games[id]['bots'][bots]['item']==1:
+        item(games[id]['bots'][bots],2)    
+    elif games[id]['bots'][bots]['team']==2:
+      if games[id]['bots'][bots]['attack']==1:
+        attack(games[id]['bots'][bots],1, id)
+      elif games[id]['bots'][bots]['yvorot']==1:
+        yvorot(games[id]['bots'][bots],2, id)
+      elif games[id]['bots'][bots]['reload']==1:
+        reload(games[id]['bots'][bots],2, id)
+      elif games[id]['bots'][bots]['item']==1:
+        item(games[id]['bots'][bots],1)        
   dmgs(id)
   z=0
-  bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
+  bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+games[id]['t1res']+'\n\n'+'Команда 2:\n'+games[id]['t2res']+'\n\n')
   if id!=441399484:
-    bot.send_message(441399484, 'Результаты хода:\n'+'Команда 1:\n'+info.lobby.game[id]['t1res']+'\n\n'+'Команда 2:\n'+info.lobby.game[id]['t2res']+'\n\n')
-  bot.send_message(id, info.lobby.game[id]['secondres'])
+    bot.send_message(441399484, 'Результаты хода:\n'+'Команда 1:\n'+games[id]['t1res']+'\n\n'+'Команда 2:\n'+games[id]['t2res']+'\n\n')
+  bot.send_message(id, games[id]['secondres'])
   if id!=441399484:
-    bot.send_message(441399484, info.lobby.game[id]['secondres'])
-  for mobs in info.lobby.game[id]['bots']:    
-    info.lobby.game[id]['bots'][mobs]['attack']=0
-    info.lobby.game[id]['bots'][mobs]['yvorot']=0 
-    info.lobby.game[id]['bots'][mobs]['reload']=0 
-    info.lobby.game[id]['bots'][mobs]['item']=0
-    if info.lobby.game[id]['bots'][mobs]['name']!='Эльф':
-      info.lobby.game[id]['bots'][mobs]['miss']=0
+    bot.send_message(441399484, games[id]['secondres'])
+  for mobs in games[id]['bots']:    
+    games[id]['bots'][mobs]['attack']=0
+    games[id]['bots'][mobs]['yvorot']=0 
+    games[id]['bots'][mobs]['reload']=0 
+    games[id]['bots'][mobs]['item']=0
+    if games[id]['bots'][mobs]['name']!='Эльф':
+      games[id]['bots'][mobs]['miss']=0
     else:
-     info.lobby.game[id]['bots'][mobs]['miss']=0
-    info.lobby.game[id]['bots'][mobs]['shield']=0
-    info.lobby.game[id]['bots'][mobs]['stun']-=1
-    info.lobby.game[id]['bots'][mobs]['takendmg']=0
-    info.lobby.game[id]['bots'][mobs]['yvorotkd']-=1
-    if info.lobby.game[id]['bots'][mobs]['die']!=1:
-     if info.lobby.game[id]['bots'][mobs]['hp']<1:
-      info.lobby.game[id]['bots'][mobs]['die']=1
-      if info.lobby.game[id]['bots'][mobs]['team']==1:
-         info.lobby.game[id]['diet1']+=1
-      elif info.lobby.game[id]['bots'][mobs]['team']==2:
-         info.lobby.game[id]['diet2']+=1
-  if info.lobby.game[id]['diet1']>=info.lobby.game[id]['t1bots']:
+      games[id]['bots'][mobs]['miss']=0
+    games[id]['bots'][mobs]['shield']=0
+    games[id]['bots'][mobs]['stun']-=1
+    games[id]['bots'][mobs]['takendmg']=0
+    games[id]['bots'][mobs]['yvorotkd']-=1
+    if games[id]['bots'][mobs]['die']!=1:
+     if games[id]['bots'][mobs]['hp']<1:
+      games[id]['bots'][mobs]['die']=1
+      if games[id]['bots'][mobs]['team']==1:
+         games[id]['diet1']+=1
+      elif games[id]['bots'][mobs]['team']==2:
+         games[id]['diet2']+=1
+  if games[id]['diet1']>=games[id]['t1bots']:
       z=1
       bot.send_message(id, 'Команда 2 победила!')
-  elif info.lobby.game[id]['diet2']>=info.lobby.game[id]['t2bots']:
+  elif games[id]['diet2']>=games[id]['t2bots']:
       z=1
       bot.send_message(id, 'Команда 1 победила!')
     
-  info.lobby.game[id]['results']=''
-  info.lobby.game[id]['t1res']=''
-  info.lobby.game[id]['t2res']=''
-  info.lobby.game[id]['dmgtot1']=0
-  info.lobby.game[id]['dmgtot2']=0
-  info.lobby.game[id]['secondres']=''
+  games[id]['results']=''
+  games[id]['t1res']=''
+  games[id]['t2res']=''
+  games[id]['dmgtot1']=0
+  games[id]['dmgtot2']=0
+  games[id]['secondres']=''
   if z==0:
     t=threading.Timer(12.0, battle, args=[id])
     t.start()
   else:
-    del info.lobby.game[id]
+    del games[id]
                    
 def dmgs(id):
-  if info.lobby.game[id]['dmgtot1']>info.lobby.game[id]['dmgtot2']:
+  if games[id]['dmgtot1']>games[id]['dmgtot2']:
     text=''
-    for mob in info.lobby.game[id]['bots']:
-     if info.lobby.game[id]['bots'][mob]['team']==1:
-      if info.lobby.game[id]['bots'][mob]['takendmg']>0:
-       if info.lobby.game[id]['bots'][mob]['takendmg']<6:
+    for mob in games[id]['bots']:
+     if games[id]['bots'][mob]['team']==1:
+      if games[id]['bots'][mob]['takendmg']>0:
+       if games[id]['bots'][mob]['takendmg']<6:
         a=1
        else:
         a=2
-       info.lobby.game[id]['bots'][mob]['hp']-=a
-       text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+str(info.lobby.game[id]['bots'][mob]['hp'])+'хп!\n'
-    info.lobby.game[id]['secondres']='Команда 2 нанесла больше урона!\n'+text
+       games[id]['bots'][mob]['hp']-=a
+       text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+    games[id]['secondres']='Команда 2 нанесла больше урона!\n'+text
    
-  elif info.lobby.game[id]['dmgtot1']<info.lobby.game[id]['dmgtot2']:
+  elif games[id]['dmgtot1']<games[id]['dmgtot2']:
     text=''
-    for mob in info.lobby.game[id]['bots']:
-     if info.lobby.game[id]['bots'][mob]['team']==2:
-      if info.lobby.game[id]['bots'][mob]['takendmg']>0:
-       if info.lobby.game[id]['bots'][mob]['takendmg']<6:
+    for mob in games[id]['bots']:
+     if games[id]['bots'][mob]['team']==2:
+      if games[id]['bots'][mob]['takendmg']>0:
+       if games[id]['bots'][mob]['takendmg']<6:
         a=1
        else:
         a=2
-       info.lobby.game[id]['bots'][mob]['hp']-=a
-       text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+str(info.lobby.game[id]['bots'][mob]['hp'])+'хп!\n'    
-    info.lobby.game[id]['secondres']='Команда 1 нанесла больше урона!\n'+text
+       games[id]['bots'][mob]['hp']-=a
+       text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
+    games[id]['secondres']='Команда 1 нанесла больше урона!\n'+text
     
-  elif info.lobby.game[id]['dmgtot1']==info.lobby.game[id]['dmgtot2']:
+  elif games[id]['dmgtot1']==games[id]['dmgtot2']:
     text=''
-    for mob in info.lobby.game[id]['bots']:
-      if info.lobby.game[id]['bots'][mob]['takendmg']>0:
-        info.lobby.game[id]['bots'][mob]['hp']-=1
-        text+=info.lobby.game[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*info.lobby.game[id]['bots'][mob]['hp']+'хп!\n'
-    info.lobby.game[id]['secondres']='Обе команды понесли потери!\n'+text
+    for mob in games[id]['bots']:
+      if games[id]['bots'][mob]['takendmg']>0:
+        games[id]['bots'][mob]['hp']-=1
+        text+=games[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+'хп!\n'
+    games[id]['secondres']='Обе команды понесли потери!\n'+text
     
     
     
@@ -622,13 +621,8 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
         
 
 def begingame(id):
-  Keyboard=types.InlineKeyboardMarkup()
-  Keyboard.add(types.InlineKeyboardButton(text='2', callback_data='number2'))
-  Keyboard.add(types.InlineKeyboardButton(text='3', callback_data='number3'))
-  Keyboard.add(types.InlineKeyboardButton(text='4', callback_data='number4'))
-  Keyboard.add(types.InlineKeyboardButton(text='6', callback_data='number6'))
-  Keyboard.add(types.InlineKeyboardButton(text='8', callback_data='number8'))
-  msg=bot.send_message(id, 'Выберите кол-во бойцов', reply_markup=Keyboard)
+    battle(id)
+
             
   
 
