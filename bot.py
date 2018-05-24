@@ -249,13 +249,10 @@ def results(id):
         item(games[id]['bots'][bots],1)        
   dmgs(id)
   z=0
-  bot.send_message(id, 'Результаты хода:\n'+'Команда 1:\n'+games[id]['t1res']+'\n\n'+'Команда 2:\n'+games[id]['t2res']+'\n\n')
-  if id!=441399484:
-    bot.send_message(441399484, 'Результаты хода:\n'+'Команда 1:\n'+games[id]['t1res']+'\n\n'+'Команда 2:\n'+games[id]['t2res']+'\n\n')
+  bot.send_message(id, 'Результаты хода:\n'+games[id]['res']+'\n\n')
   bot.send_message(id, games[id]['secondres'])
-  if id!=441399484:
-    bot.send_message(441399484, games[id]['secondres'])
-  for mobs in games[id]['bots']:    
+  die=0      
+  for mobs in games[id]['bots']:
     games[id]['bots'][mobs]['attack']=0
     games[id]['bots'][mobs]['yvorot']=0 
     games[id]['bots'][mobs]['reload']=0 
@@ -271,22 +268,15 @@ def results(id):
     if games[id]['bots'][mobs]['die']!=1:
      if games[id]['bots'][mobs]['hp']<1:
       games[id]['bots'][mobs]['die']=1
-      if games[id]['bots'][mobs]['team']==1:
-         games[id]['diet1']+=1
-      elif games[id]['bots'][mobs]['team']==2:
-         games[id]['diet2']+=1
-  if games[id]['diet1']>=games[id]['t1bots']:
+  for ids in games[id]['bots']:
+      if games[id]['bots'][ids]['die']==1:
+            die+=1
+  if die+1>=len(games[id]['bots']):
       z=1
-      bot.send_message(id, 'Команда 2 победила!')
-  elif games[id]['diet2']>=games[id]['t2bots']:
-      z=1
-      bot.send_message(id, 'Команда 1 победила!')
+      bot.send_message(id, 'Кто то победил!')
     
   games[id]['results']=''
-  games[id]['t1res']=''
-  games[id]['t2res']=''
-  games[id]['dmgtot1']=0
-  games[id]['dmgtot2']=0
+  games[id]['res']=''
   games[id]['secondres']=''
   if z==0:
     t=threading.Timer(12.0, battle, args=[id])
@@ -538,7 +528,11 @@ def act(bot, id):
   x=random.randint(1, len(curact))
   return curact[x-1]
   
-      
+  
+@bot.message_handler(commands=['name'])
+def name(m):
+
+
 @bot.message_handler(commands=['start'])
 def start(m):
   x=m.text.split('/start')
