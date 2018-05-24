@@ -21,6 +21,7 @@ db=client.cookiewars
 users=db.users
 
 
+
 items=['shield', 'knife', 'flash']
 
 def pick(id):
