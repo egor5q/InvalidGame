@@ -597,7 +597,7 @@ def createuser(id, username, name):
           }
     
         
-def creategame(id, teams):
+def creategame(id):
     return {id:{
         'chatid':id,
         'ids':[],
