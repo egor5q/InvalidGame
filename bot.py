@@ -42,7 +42,7 @@ def name(m):
       users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[1]}})
       bot.send_message(m.chat.id, 'Вы успешно изменили имя существа на '+text[1]+'!')
     else:
-       pass
+       bot.send_message(m.chat.id, 'Для переименования используйте формат:\n/name *имя*, где *имя* - имя вашего бойца.', parse_mode='markdown')
         
 
 @bot.message_handler(commands=['stop'])
@@ -519,9 +519,12 @@ def start(m):
         y=users.find_one({'id':m.from_user.id})
         if y!=None:
           if y['bot']['id'] not in games[int(x[1])]['ids']:
+           if y['bot']['name']!=None:
             games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
             bot.send_message(m.chat.id, 'Вы присоединились!')
             games[int(x[1])]['ids'].append(m.from_user.id)
+           else:
+             bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
   except:
         pass
   if users.find_one({'id':m.from_user.id})==None:
