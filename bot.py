@@ -409,7 +409,7 @@ def attack(bot, id):
     if games[id]['bots'][bots]['id']!=bot['id']:
       a.append(games[id]['bots'][bots])
   x=random.randint(1,len(a))
-  while games[id]['bots'][a[x-1]['number']]['die']==1:
+  while a[x-1]['die']==1:
        x=random.randint(1,len(a))
   target=games[id]['bots'][a[x-1]['number']]
   x=random.randint(1,100)
