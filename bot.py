@@ -566,6 +566,9 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
         
 
 def begingame(id):
+    spisok=['rock', 'hand', 'ak']
+    for ids in games[id]['bots']:
+        games[id]['bots'][ids]['weapon']=random.choice(spisok)
     battle(id)
 
             
