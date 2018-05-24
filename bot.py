@@ -382,7 +382,7 @@ def handchance(energy, target, x, id, bot1):
   elif energy==1:
     chance=60
   if (x+target['miss'])<=chance:
-          damage=1
+          damage=random.randint(1,2)
           games[id]['res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=1
