@@ -229,7 +229,7 @@ def battle(id):
 
 def results(id):
   for bots in games[id]['bots']:
-    if games[id]['bots'][bots]['team']==1:
+    if games[id]['bots'][bots]['id']!=:
       if games[id]['bots'][bots]['attack']==1:
         attack(games[id]['bots'][bots],2,id)
       elif games[id]['bots'][bots]['yvorot']==1:
@@ -352,28 +352,15 @@ def rockchance(energy, target, x, id, bot1):
           stun=random.randint(1, 100)
           if stun<=25:
             target['stun']=2
-          if target['team']==2:
-            games[id]['t1res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
-            games[id]['dmgtot2']+=damage
-            target['takendmg']+=damage
-            bot1['energy']-=2
-            if stun<=25:
-              games[id]['t1res']+='Цель оглушена!\n'
-          elif target['team']==1:
-            games[id]['t2res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
-            games[id]['dmgtot1']+=damage
-            target['takendmg']+=damage
-            bot1['energy']-=2
-            if stun<=25:
-              games[id]['t2res']+='🌀Цель оглушена!\n'
-  else:
-    if target['team']==2:
-            games[id]['t1res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-            bot1['energy']-=2
-    elif target['team']==1:
-            games[id]['t2res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-            bot1['energy']-=2
+          games[id]['res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          target['takendmg']+=damage
+          bot1['energy']-=2
+          if stun<=25:
+            games[id]['res']+='Цель оглушена!\n'
           
+  else:
+        games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['energy']-=2
           
           
 def akchance(energy, target, x, id, bot1):
@@ -390,21 +377,12 @@ def akchance(energy, target, x, id, bot1):
   if (x+target['miss'])<=chance:
           damage=random.randint(2, 4)
           stun=random.randint(1, 100)
-          if target['team']==2:
-            games[id]['t1res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
-            games[id]['dmgtot2']+=damage
-          elif target['team']==1:
-            games[id]['t2res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
-            games[id]['dmgtot1']+=damage
+          games[id]['res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'        
           target['takendmg']+=damage
           bot1['energy']-=random.randint(2,3)
   else:
-    if target['team']==2:
-            games[id]['t1res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-            bot1['energy']-=random.randint(2,3)
-    elif target['team']==1:
-            games[id]['t2res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-            bot1['energy']-=random.randint(2,3)
+        games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['energy']-=random.randint(2,3)
         
         
         
@@ -421,23 +399,13 @@ def handchance(energy, target, x, id, bot1):
     chance=60
   if (x+target['miss'])<=chance:
           damage=random.randint(1,2)
-          if target['team']==2:
-            games[id]['t1res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
-            games[id]['dmgtot2']+=damage
-            target['takendmg']+=damage
-            bot1['energy']-=random.randint(2,3)
-          elif target['team']==1:
-            games[id]['t2res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
-            games[id]['dmgtot1']+=damage
-            target['takendmg']+=damage
-            bot1['energy']-=1
+          games[id]['t1res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          target['takendmg']+=damage
+          bot1['energy']-=1
+                
   else:
-    if target['team']==2:
-            games[id]['t1res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-            bot1['energy']-=1
-    elif target['team']==1:
-            games[id]['t2res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-            bot1['energy']-=1
+        games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['energy']-=1
     
               
 
@@ -447,7 +415,7 @@ def handchance(energy, target, x, id, bot1):
 def attack(bot, team, id):
   a=[]
   for bots in games[id]['bots']:
-    if games[id]['bots'][bots]['team']==team:
+    if games[id]['bots'][bots]['id']!=bot['id']:
       a.append(games[id]['bots'][bots])
   x=random.randint(1,len(a))
   while games[id]['bots'][a[x-1]['number']]['die']==1:
@@ -489,7 +457,7 @@ def item(bot, team):
 
 def actnumber(bot, id):  
   a=[]
-  npc=info.lobby.game[id]['bots'][bot]
+  npc=games[id]['bots'][bot]
   if npc['energy']>0 and npc['energy']<=2:
     x=random.randint(1,100)
     if npc['weapon']!='hand':
@@ -518,7 +486,7 @@ def actnumber(bot, id):
   low=0
   enemy=[]
   for mob in info.lobby.game[id]['bots']:
-   if games[id]['bots'][mob]['team']!=npc['team']:
+   if games[id]['bots'][mob]['id']!=npc['id']:
     enemy.append(games[id]['bots'][mob])
   for mob in enemy:
    if mob['energy']<3:
@@ -637,14 +605,14 @@ def createuser(id, username, name):
           }
     
         
-def creategame(id):
+def creategame(id, teams):
     return {id:{
         'chatid':id,
         'ids':[],
         'bots':{},
         'results':'',
         'secondres':''
-            
+        'res':''   
         
              }
            }
