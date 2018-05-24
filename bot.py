@@ -603,7 +603,7 @@ def creategame(id, teams):
         'ids':[],
         'bots':{},
         'results':'',
-        'secondres':''
+        'secondres':'',
         'res':''   
         
              }
