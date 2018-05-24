@@ -233,7 +233,7 @@ def pick3(id):
                    
 def battle(id):  
   for bots in games[id]['bots']:
-   if bots['die']!=1:
+   if games[id]['bots']bots['die']!=1:
      games[id]['bots'][bots][act(bots, id)]=1
   results(id)
 
@@ -540,7 +540,7 @@ def start(m):
         y=users.find_one({'id':m.from_user.id})
         if y!=None:
           if y['bot']['id'] not in games[int(x[1])]['ids']:
-            games[int(x[1])]['bots'].update(y['bot'])
+            games[int(x[1])]['bots'].update({m.from_user.id:{y['bot']}})
             bot.send_message(m.chat.id, 'Вы присоединились!')
             games[int(x[1])]['ids'].append(m.from_user.id)
   except:
