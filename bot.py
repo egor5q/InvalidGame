@@ -540,7 +540,7 @@ def start(m):
         y=users.find_one({'id':m.from_user.id})
         if y!=None:
           if y['bot']['id'] not in games[int(x[1])]['ids']:
-            games[int(x[1])]['bots'].update({m.from_user.id:{y['bot']}})
+            games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
             bot.send_message(m.chat.id, 'Вы присоединились!')
             games[int(x[1])]['ids'].append(m.from_user.id)
   #except:
@@ -586,7 +586,9 @@ def begingame(id):
             
   
 
-  
+ 
+def createbott(id, y):
+        return{id:y}
 
 def createuser(id, username, name):
     return{'id':id,
