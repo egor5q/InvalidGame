@@ -414,19 +414,12 @@ def attack(bot, id):
 def yvorot(bot, id):
   bot['miss']=+30
   bot['yvorotkd']=4
-  if bot['team']==2:
-    games[id]['res']+='💨'+bot['name']+' Уворачивается!\n'
-  elif bot['team']==1:
-    games[id]['res']+='💨'+bot['name']+' Уворачивается!\n'
+  games[id]['res']+='💨'+bot['name']+' Уворачивается!\n'
     
 
 def reload(bot2, id):
-  if bot2['team']==2:
-    bot2['energy']=bot2['maxenergy']
-    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
-  elif bot2['team']==1:
-    bot2['energy']=bot2['maxenergy']
-    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
+   bot2['energy']=bot2['maxenergy']
+   games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
 
 def item(bot):
   for item in bot['items']:
