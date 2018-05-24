@@ -396,7 +396,7 @@ def attack(bot, id):
   x=random.randint(1,len(a))
   while a[x-1]['die']==1:
        x=random.randint(1,len(a))
-  target=games[id]['bots'][a[x-1]]
+  target=games[id]['bots'][a[x-1]['id']]
   x=random.randint(1,100)
   
   if bot['weapon']=='rock':
