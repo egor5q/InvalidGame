@@ -522,7 +522,7 @@ def start(m):
            if y['bot']['name']!=None:
             games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
             bot.send_message(m.chat.id, 'Вы присоединились!')
-            bot.send_message(int(x[1], m.from_user.first_name+' (боец *'+y['bot']['name']+'*) присоединился!')
+            bot.send_message(int(x[1]), m.from_user.first_name+' (боец *'+y['bot']['name']+'*) присоединился!', parse_mode='markdown')
             games[int(x[1])]['ids'].append(m.from_user.id)
            else:
              bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
