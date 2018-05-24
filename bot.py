@@ -239,24 +239,15 @@ def battle(id):
 
 def results(id):
   for bots in games[id]['bots']:
-    if games[id]['bots'][bots]['id']!=:
       if games[id]['bots'][bots]['attack']==1:
-        attack(games[id]['bots'][bots],2,id)
+        attack(games[id]['bots'][bots],id)
       elif games[id]['bots'][bots]['yvorot']==1:
-        yvorot(games[id]['bots'][bots], 1, id)
+        yvorot(games[id]['bots'][bots], id)
       elif games[id]['bots'][bots]['reload']==1:
-        reload(games[id]['bots'][bots], 1, id)
+        reload(games[id]['bots'][bots], id)
       elif games[id]['bots'][bots]['item']==1:
-        item(games[id]['bots'][bots],2)    
-    elif games[id]['bots'][bots]['team']==2:
-      if games[id]['bots'][bots]['attack']==1:
-        attack(games[id]['bots'][bots],1, id)
-      elif games[id]['bots'][bots]['yvorot']==1:
-        yvorot(games[id]['bots'][bots],2, id)
-      elif games[id]['bots'][bots]['reload']==1:
-        reload(games[id]['bots'][bots],2, id)
-      elif games[id]['bots'][bots]['item']==1:
-        item(games[id]['bots'][bots],1)        
+        item(games[id]['bots'][bots])    
+  
   dmgs(id)
   z=0
   bot.send_message(id, 'Результаты хода:\n'+games[id]['res']+'\n\n')
@@ -412,7 +403,7 @@ def handchance(energy, target, x, id, bot1):
 
       
       
-def attack(bot, team, id):
+def attack(bot, id):
   a=[]
   for bots in games[id]['bots']:
     if games[id]['bots'][bots]['id']!=bot['id']:
@@ -434,7 +425,7 @@ def attack(bot, team, id):
       akchance(bot['energy'], target, x, id, bot)          
                                      
 
-def yvorot(bot, team, id):
+def yvorot(bot, id):
   bot['miss']=+30
   bot['yvorotkd']=4
   if bot['team']==2:
@@ -443,7 +434,7 @@ def yvorot(bot, team, id):
     games[id]['t1res']+='💨'+bot['name']+' Уворачивается!\n'
     
 
-def reload(bot2, team, id):
+def reload(bot2, id):
   if bot2['team']==2:
     bot2['energy']=bot2['maxenergy']
     games[id]['t2res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
@@ -451,7 +442,7 @@ def reload(bot2, team, id):
     bot2['energy']=bot2['maxenergy']
     games[id]['t1res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
 
-def item(bot, team):
+def item(bot):
   for item in bot['items']:
     pass
 
