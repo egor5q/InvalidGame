@@ -35,7 +35,10 @@ def pick(id):
 
 @bot.message_handler(commands=['delete'])
 def delete(m):
-    if m.from_user.id
+    if m.from_user.id==441399484:
+        if m.chat.id in games:
+            del games[m.chat.id]
+            bot.send_message(m.chat.id, 'Игра была удалена!')
         
         
 @bot.message_handler(commands=['name'])
