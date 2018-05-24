@@ -33,7 +33,11 @@ def pick(id):
         msg=bot.send_message(id, 'Теперь выберите оружие каждому. Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
 
 
-
+@bot.message_handler(commands=['delete'])
+def delete(m):
+    if m.from_user.id
+        
+        
 @bot.message_handler(commands=['name'])
 def name(m):
     text=m.text.split(' ')
@@ -375,7 +379,7 @@ def handchance(energy, target, x, id, bot1):
   elif energy==1:
     chance=60
   if (x+target['miss'])<=chance:
-          damage=random.randint(1,2)
+          damage=1
           games[id]['res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=1
