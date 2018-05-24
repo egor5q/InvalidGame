@@ -476,7 +476,7 @@ def actnumber(bot, id):
   x=random.randint(1,100)  
   low=0
   enemy=[]
-  for mob in info.lobby.game[id]['bots']:
+  for mob in games[id]['bots']:
    if games[id]['bots'][mob]['id']!=npc['id']:
     enemy.append(games[id]['bots'][mob])
   for mob in enemy:
