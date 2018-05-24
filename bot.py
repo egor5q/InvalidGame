@@ -233,7 +233,7 @@ def pick3(id):
                    
 def battle(id):  
   for bots in games[id]['bots']:
-   if games[id]['bots']bots['die']!=1:
+   if games[id]['bots'][bots]['die']!=1:
      games[id]['bots'][bots][act(bots, id)]=1
   results(id)
 
