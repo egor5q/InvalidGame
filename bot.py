@@ -644,6 +644,7 @@ def creategame(id):
         'bots':{},
         'results':'',
         'secondres':''
+            
         
              }
            }
