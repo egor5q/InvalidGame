@@ -535,7 +535,7 @@ def start(m):
 @bot.message_handler(commands=['go'])
 def goo(m):
     if m.chat.id in games:
-        if len(games[m.chat.id]['bots'])>=1:
+        if len(games[m.chat.id]['bots'])>=2:
            begingame(m.chat.id)
         else:
             bot.send_message(m.chat.id, 'Недостаточно игроков!')
