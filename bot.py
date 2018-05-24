@@ -529,9 +529,6 @@ def act(bot, id):
   x=random.randint(1, len(curact))
   return curact[x-1]
   
-  
-@bot.message_handler(commands=['name'])
-def name(m):
 
 
 @bot.message_handler(commands=['start'])
