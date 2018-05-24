@@ -12,7 +12,7 @@ from pymongo import MongoClient
 
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
-vip=[441399484, 55888804,372299864, 225867387]
+vip=[441399484, 55888804]
 games={}
 
 client1=os.environ['database']
@@ -415,18 +415,18 @@ def yvorot(bot, id):
   bot['miss']=+30
   bot['yvorotkd']=4
   if bot['team']==2:
-    games[id]['t2res']+='💨'+bot['name']+' Уворачивается!\n'
+    games[id]['res']+='💨'+bot['name']+' Уворачивается!\n'
   elif bot['team']==1:
-    games[id]['t1res']+='💨'+bot['name']+' Уворачивается!\n'
+    games[id]['res']+='💨'+bot['name']+' Уворачивается!\n'
     
 
 def reload(bot2, id):
   if bot2['team']==2:
     bot2['energy']=bot2['maxenergy']
-    games[id]['t2res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
+    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
   elif bot2['team']==1:
     bot2['energy']=bot2['maxenergy']
-    games[id]['t1res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
+    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
 
 def item(bot):
   for item in bot['items']:
