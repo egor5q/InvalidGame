@@ -523,6 +523,7 @@ def start(m):
   print(x)
   try:
      if int(x[1]) in games:
+      if games[int(x[1])]['started']==0:
         y=users.find_one({'id':m.from_user.id})
         if y!=None:
           if y['bot']['id'] not in games[int(x[1])]['ids']:
@@ -548,6 +549,7 @@ def goo(m):
     if m.chat.id in games:
         if len(games[m.chat.id]['bots'])>=2:
            begingame(m.chat.id)
+           games[m.chat.id]['started']=1
         else:
             bot.send_message(m.chat.id, 'Недостаточно игроков!')
     
@@ -598,7 +600,9 @@ def creategame(id):
         'bots':{},
         'results':'',
         'secondres':'',
-        'res':''   
+        'res':'',
+        'started':0
+            
         
              }
            }
