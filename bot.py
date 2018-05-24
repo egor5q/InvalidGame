@@ -554,7 +554,6 @@ def goo(m):
 
 @bot.message_handler(commands=['begin'])
 def begin(m):
-    if m.chat.id==-261488443:
      if m.chat.id not in games:
       if m.from_user.id in vip:
         games.update(creategame(m.chat.id))
