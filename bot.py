@@ -33,6 +33,16 @@ def pick(id):
 
 
 
+@bot.message_handler(commands=['name'])
+def name(m):
+    text=m.text.split(' ')
+    if len(text)==3:
+      x=users.find_one({'id':m.from_user.id})
+      users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[2]}})
+      bot.send_message(m.chat.id, 'Вы успешно изменили имя существа на '+text[2]+'!')
+    else:
+       pass
+        
 
 @bot.message_handler(commands=['stop'])
 def stopm(m):
