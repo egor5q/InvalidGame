@@ -286,10 +286,13 @@ def results(id):
     del games[id]
                    
 def dmgs(id):
-  if games[id]['dmgtot1']>games[id]['dmgtot2']:
+    c=0
+    for ids in games[id]['bots']:
+        if games[id]['bots'][ids]['takendmg']>c:
+            c=games[id]['bots'][ids]['takendmg']
     text=''
     for mob in games[id]['bots']:
-     if games[id]['bots'][mob]['team']==1:
+     if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
        if games[id]['bots'][mob]['takendmg']<6:
         a=1
@@ -297,28 +300,10 @@ def dmgs(id):
         a=2
        games[id]['bots'][mob]['hp']-=a
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
-    games[id]['secondres']='Команда 2 нанесла больше урона!\n'+text
+    games[id]['secondres']='Кто то надамажен!\n'+text
    
-  elif games[id]['dmgtot1']<games[id]['dmgtot2']:
-    text=''
-    for mob in games[id]['bots']:
-     if games[id]['bots'][mob]['team']==2:
-      if games[id]['bots'][mob]['takendmg']>0:
-       if games[id]['bots'][mob]['takendmg']<6:
-        a=1
-       else:
-        a=2
-       games[id]['bots'][mob]['hp']-=a
-       text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
-    games[id]['secondres']='Команда 1 нанесла больше урона!\n'+text
     
-  elif games[id]['dmgtot1']==games[id]['dmgtot2']:
-    text=''
-    for mob in games[id]['bots']:
-      if games[id]['bots'][mob]['takendmg']>0:
-        games[id]['bots'][mob]['hp']-=1
-        text+=games[id]['bots'][mob]['name']+' Теряет 1 хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+'хп!\n'
-    games[id]['secondres']='Обе команды понесли потери!\n'+text
+
     
     
     
