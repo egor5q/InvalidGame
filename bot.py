@@ -34,11 +34,11 @@ def pick(id):
         msg=bot.send_message(id, 'Теперь выберите оружие каждому. Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
 
 
-@bot.message_handler(commands=['update'])
-def upd(m):
-        if m.from_user.id==441399484:
-                users.update_many({}, {'$set':{'bot.skill':0}})
-                print('yes')
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#                users.update_many({}, {'$set':{'bot.skill':0}})
+#                print('yes')
                 
         
 @bot.message_handler(commands=['delete'])
