@@ -166,7 +166,7 @@ def dmgs(id):
     for mob in games[id]['bots']:
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0:
-            text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.'
+            text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.\n'
     for mob in games[id]['bots']:
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
