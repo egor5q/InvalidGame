@@ -23,17 +23,29 @@ users=db.users
 
 
 
+skills=['+hp', '+energy']
+
 items=['flash', 'knife']#'shield', 'knife']
 
 
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                users.update_many({}, {'$set':{'bot.skill':0}})
-#                print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                users.update_many({}, {'$set':{'bot.bought':[]}})
+                print('yes')
                 
-        
+
+@bot.message_handler(commands=['buyskills'])
+def buy(m):
+    if m.chat.id==m.from_user.id:
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Живучий', callback_data='+hp'), types.InlineKeyboardButton(text='100🍪', callback_data='cookie'))
+        kb.add(types.InlineKeyboardButton(text='Стойкий', callback_data='+energy'), types.InlineKeyboardButton(text='100🍪', callback_data='cookie')) 
+        bot.send_message(m.chat.id, 'Выберите скилл для покупки', reply_markup=kb)
+    
+  
+  
 @bot.message_handler(commands=['delete'])
 def delete(m):
     if m.from_user.id==441399484:
@@ -73,8 +85,11 @@ def itemselect():
         
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call):
-  if call.data=='number2':
-    pass
+  if call.data=='+hp':
+    x=users.find_one({'id':call.from_user.id})
+    if x['cookie']>=100:
+        medit('Поздравляю! Вы приобрели скилл "Живучий"!', call.from_user.id, call.message.message_id)
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'+hp'}})
 
   
       
@@ -555,7 +570,8 @@ def createbot(id):
               'takendmg':0,
               'die':0,
               'yvorotkd':0,
-              'id':id
+              'id':id,
+              'bought':[]
 }
 
 
