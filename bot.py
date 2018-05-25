@@ -56,13 +56,13 @@ def k(m):
 #                print('yes')
                 
 
-@bot.message_handler(commands=['buyskills'])
-def buy(m):
-    if m.chat.id==m.from_user.id:
-        kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Живучий', callback_data='+hp'), types.InlineKeyboardButton(text='100🍪', callback_data='+hp'))
-        kb.add(types.InlineKeyboardButton(text='Стойкий', callback_data='+energy'), types.InlineKeyboardButton(text='100🍪', callback_data='+energy')) 
-        bot.send_message(m.chat.id, 'Выберите скилл для покупки', reply_markup=kb)
+#@bot.message_handler(commands=['buyskills'])
+#def buy(m):
+#    if m.chat.id==m.from_user.id:
+#        kb=types.InlineKeyboardMarkup()
+#        kb.add(types.InlineKeyboardButton(text='Живучий', callback_data='+hp'), types.InlineKeyboardButton(text='100🍪', callback_data='+hp'))
+#        kb.add(types.InlineKeyboardButton(text='Стойкий', callback_data='+energy'), types.InlineKeyboardButton(text='100🍪', callback_data='+energy')) 
+#        bot.send_message(m.chat.id, 'Выберите скилл для покупки', reply_markup=kb)
     
   
   
