@@ -93,9 +93,9 @@ def inline(call):
         users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-100}})
         medit('Поздравляю! Вы приобрели скилл "Живучий"!', call.from_user.id, call.message.message_id)
       else:
-        bot.send_message(call.chat.id, 'У вас уже есть это!')
+        bot.send_message(call.message.chat.id, 'У вас уже есть это!')
     else:
-        bot.send_message(call.chat.id, 'Недостаточно куки!')
+        bot.send_message(call.message.chat.id, 'Недостаточно куки!')
   
       
 
