@@ -48,7 +48,7 @@ def name(m):
     if len(text)==2:
       x=users.find_one({'id':m.from_user.id})
       users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[1]}})
-      bot.send_message(m.chat.id, 'Вы успешно изменили имя существа на '+text[1]+'!')
+      bot.send_message(m.chat.id, 'Вы успешно изменили имя бойца на '+text[1]+'!')
     else:
        bot.send_message(m.chat.id, 'Для переименования используйте формат:\n/name *имя*, где *имя* - имя вашего бойца.', parse_mode='markdown')
         
