@@ -32,18 +32,18 @@ items=['flash', 'knife']#'shield', 'knife']
 def me(m):
     try:
       x=users.find_one({'id':m.from_user.id})
-      bot.send_message(m.chat.id, 'Ваши куки: '+str(x['cookie']))
+      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'🏵')
     except:
       pass
 
-@bot.message_handler(commands=['k'])
+@bot.message_handler(commands=['p'])
 def k(m):
   if m.from_user.id==441399484:
-    x=m.text.split('/k')
+    x=m.text.split('/p')
     try:
       int(x[1])
       users.update_one({'id':m.reply_to_message.from_user.id}, {'$inc':{'cookie':int(x[1])}})
-      bot.send_message(m.chat.id, x[1]+' куки успешно выданы!')
+      bot.send_message(m.chat.id, x[1]+'🏵 поинтов успешно выдано!')
     except:
         pass
         
@@ -56,13 +56,13 @@ def k(m):
 #                print('yes')
                 
 
-#@bot.message_handler(commands=['buyskills'])
-#def buy(m):
-#    if m.chat.id==m.from_user.id:
-#        kb=types.InlineKeyboardMarkup()
-#        kb.add(types.InlineKeyboardButton(text='Живучий', callback_data='+hp'), types.InlineKeyboardButton(text='100🍪', callback_data='+hp'))
-#        kb.add(types.InlineKeyboardButton(text='Стойкий', callback_data='+energy'), types.InlineKeyboardButton(text='100🍪', callback_data='+energy')) 
-#        bot.send_message(m.chat.id, 'Выберите скилл для покупки', reply_markup=kb)
+@bot.message_handler(commands=['buybox'])
+def buy(m):
+    if m.chat.id==m.from_user.id:
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Вы действительно хотите купить кейс с 🏵поинтами?', callback_data='+hp'), types.InlineKeyboardButton(text='100🍪', callback_data='+hp'))
+        kb.add(types.InlineKeyboardButton(text='Стойкий', callback_data='+energy'), types.InlineKeyboardButton(text='100🍪', callback_data='+energy')) 
+        bot.send_message(m.chat.id, 'Выберите скилл для покупки', reply_markup=kb)
     
   
   
