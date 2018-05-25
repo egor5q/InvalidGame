@@ -341,8 +341,10 @@ def item(bot, id):
             if x>target['miss']+10:
                 games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
                 target['takendmg']+=3
+                bot['items'].remove('knife')
             else:
               games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
+              bot['items'].remove('knife')
         else:
           reload(bot,id)
               
