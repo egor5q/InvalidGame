@@ -22,7 +22,7 @@ db=client.cookiewars
 users=db.users
 
 
-vetki=['hp':{},'dmg':{}]
+vetki={'hp':{},'dmg':{}}
 skills=['+hp', '+energy']
 
 items=['flash', 'knife']#'shield', 'knife']
