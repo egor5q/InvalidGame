@@ -487,13 +487,10 @@ def goo(m):
 @bot.message_handler(commands=['begin'])
 def begin(m):
      if m.chat.id not in games:
-      if m.from_user.id in vip:
         games.update(creategame(m.chat.id))
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
-      else:
-        bot.send_message(m.chat.id, 'Вас нет в вип-списке. Пишите @Loshadkin')
         
         
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
