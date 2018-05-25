@@ -94,6 +94,8 @@ def inline(call):
         medit('Поздравляю! Вы приобрели скилл "Живучий"!', call.from_user.id, call.message.message_id)
       else:
         bot.send_message(call.chat.id, 'У вас уже есть это!')
+    else:
+        bot.send_message(call.chat.id, 'Недостаточно куки!')
   
       
 
