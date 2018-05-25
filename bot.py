@@ -22,7 +22,7 @@ users=db.users
 
 
 
-items=['shield', 'knife', 'flash']
+items=['flash']#'shield', 'knife']
 
 def pick(id):
         Keyboard=types.InlineKeyboardMarkup()
@@ -73,159 +73,10 @@ def itemselect():
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call):
   if call.data=='number2':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: 2 бойца', call.from_user.id, call.message.message_id)
-      x=0
-      while x<2:
-        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
-        x+=1
-      bot.send_message(call.from_user.id, 'Бойцы: '+info.lobby.game[call.from_user.id]['bots'][0]['name']+','+info.lobby.game[call.from_user.id]['bots'][1]['name']) 
-      pick(call.from_user.id)
-        
-  elif call.data=='number3':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: 3 бойца', call.from_user.id, call.message.message_id)
-      x=0
-      while x<3:
-        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
-        x+=1
-      text=''
-      for n in info.lobby.game[call.from_user.id]['bots']: 
-        text+=info.lobby.game[call.from_user.id]['bots'][n]['name']+'\n'
-      bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
-      pick(call.from_user.id)
+    pass
 
-
-  elif call.data=='number4':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: 4 бойца', call.from_user.id, call.message.message_id)
-      x=0
-      while x<4:
-        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
-        x+=1
-      text=''
-      for n in info.lobby.game[call.from_user.id]['bots']: 
-        text+=info.lobby.game[call.from_user.id]['bots'][n]['name']+'\n'
-      bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
-      pick(call.from_user.id)
-      
-  elif call.data=='number6':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: 6 бойцов', call.from_user.id, call.message.message_id)
-      x=0
-      while x<6:
-        info.lobby.game[call.from_user.id]['bots'].update(createbot(call.from_user.id, x))
-        x+=1
-      text=''
-      for n in info.lobby.game[call.from_user.id]['bots']: 
-        text+=info.lobby.game[call.from_user.id]['bots'][n]['name']+'\n'
-      bot.send_message(call.from_user.id, 'Бойцы: \n'+text)
-      pick(call.from_user.id)
-
-    
-  
-  elif call.data=='rock':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: Камень', call.from_user.id, call.message.message_id)
-      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['weapon']='rock'
-      info.lobby.game[call.from_user.id]['x']+=1
-      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        skillselect(call.from_user.id)
-      else:
-        pick(call.from_user.id)
-        
-  elif call.data=='hand':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: Кулаки', call.from_user.id, call.message.message_id)
-      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['weapon']='hand'
-      info.lobby.game[call.from_user.id]['x']+=1
-      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        skillselect(call.from_user.id)
-      else:
-        pick(call.from_user.id)
-        
-  elif call.data=='ak':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: АК-47', call.from_user.id, call.message.message_id)
-      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['weapon']='ak'
-      info.lobby.game[call.from_user.id]['x']+=1
-      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        skillselect(call.from_user.id)
-      else:
-        pick(call.from_user.id)
-        
-        
-  elif call.data=='vampir':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: Вампиризм', call.from_user.id, call.message.message_id)
-      z=info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]
-      z['skills'].append('vampir')
-      #z['items']=itemselect()
-      info.lobby.game[call.from_user.id]['x']+=1
-      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        teampick(call.from_user.id)
-      else:
-        pick2(call.from_user.id)
-  
-  
-  elif call.data=='inviz':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: Невидимка', call.from_user.id, call.message.message_id)
-      z=info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]
-      z['skills'].append('inviz')
-      #z['items']=itemselect()
-      info.lobby.game[call.from_user.id]['x']+=1
-      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        teampick(call.from_user.id)
-      else:
-        pick2(call.from_user.id)
-        
-  elif call.data=='t1':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: Команда 1', call.from_user.id, call.message.message_id)
-      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=1
-      info.lobby.game[call.from_user.id]['t1bots']+=1
-      info.lobby.game[call.from_user.id]['x']+=1
-      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
-        
-        battle(call.from_user.id)
-      else:
-        pick3(call.from_user.id)
-  
-  
-  elif call.data=='t2':
-    if call.from_user.id in info.lobby.game:
-      medit('Выбрано: Команда 2', call.from_user.id, call.message.message_id)
-      info.lobby.game[call.from_user.id]['bots'][info.lobby.game[call.from_user.id]['x']]['team']=2
-      info.lobby.game[call.from_user.id]['t2bots']+=1
-      info.lobby.game[call.from_user.id]['x']+=1
-      if info.lobby.game[call.from_user.id]['x']>=len(info.lobby.game[call.from_user.id]['bots']):
-        bot.send_message(call.from_user.id, 'Бой начинается! Наслаждайтесь...')
-        giveitems(info.lobby.game[call.from_user.id])
-        battle(call.from_user.id)
-      else:
-        pick3(call.from_user.id)
   
       
-def pick2(id):
-    Keyboard=types.InlineKeyboardMarkup()
-    Keyboard.add(types.InlineKeyboardButton(text='Вампиризм', callback_data='vampir'))
-    Keyboard.add(types.InlineKeyboardButton(text='Невидимка', callback_data='inviz'))
-    bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
-
-              
-def skillselect(id):
-  number=0  
-  bot.send_message(id, 'Отлично! Теперь выберите скиллы:') 
-  info.lobby.game[id]['x']=0
-  pick2(id)
-                    
-                    
-def teampick(id):
-  bot.send_message(id, 'Теперь выберите команду для каждого бойца')
-  info.lobby.game[id]['x']=0
-  pick3(id)
 
 def giveitems(game):
     for ids in game['bots']:
@@ -233,11 +84,6 @@ def giveitems(game):
         game['bots'][ids]['items'].append(random.choice(items))
   
 
-def pick3(id):
-  Keyboard=types.InlineKeyboardMarkup()
-  Keyboard.add(types.InlineKeyboardButton(text='Команда 1', callback_data='t1'))
-  Keyboard.add(types.InlineKeyboardButton(text='Команда 2', callback_data='t2'))
-  bot.send_message(id, 'Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
                    
 def battle(id):  
   for bots in games[id]['bots']:
@@ -331,6 +177,8 @@ def rockchance(energy, target, x, id, bot1):
     chance=40
   elif energy==1:
     chance=20
+  elif energy==0:
+    chance=1
   if (x+target['miss'])<=chance:
           damage=random.randint(2, 3)
           stun=random.randint(1, 100)
@@ -358,6 +206,8 @@ def akchance(energy, target, x, id, bot1):
     chance=20
   elif energy==1:
     chance=5
+  elif energy==0:
+    chance=0
   if (x+target['miss'])<=chance:
           damage=random.randint(2, 4)
           stun=random.randint(1, 100)
@@ -381,6 +231,8 @@ def handchance(energy, target, x, id, bot1):
     chance=70
   elif energy==1:
     chance=60
+  elif energy==0:
+    chance=1
   if (x+target['miss'])<=chance:
           damage=random.randint(1,2)
           games[id]['res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
@@ -428,9 +280,34 @@ def reload(bot2, id):
    bot2['energy']=bot2['maxenergy']
    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
 
-def item(bot):
-  for item in bot['items']:
-    pass
+def item(bot, id):
+    a=[]
+    for bots in games[id]['bots']:
+        if games[id]['bots'][bots]['id']!=bot['id']:
+            a.append(games[id]['bots'][bots])
+    x=random.randint(1,len(a))
+    while a[x-1]['die']==1:
+       x=random.randint(1,len(a))
+    target=games[id]['bots'][a[x-1]['id']]
+    x=[]
+    i=1
+    for items in bot['items']:
+        x.append(items)
+    z=random.choice(x)
+    if z=='flash':
+        if target['energy']>=3:
+            games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
+            target['energy']=0
+        else:
+            if bot['energy']>=2:
+                attack(bot,id)
+            else:
+                reload(bot,id)
+    elif z=='knife':
+        pass
+    
+
+    
 
 def actnumber(bot, id):  
   a=[]
@@ -575,6 +452,7 @@ def begingame(id):
     spisok=['rock', 'hand', 'ak']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
+    giveitems(games[id])
     battle(id)
 
             
