@@ -22,7 +22,7 @@ db=client.cookiewars
 users=db.users
 
 
-
+vetki=['hp':{},'dmg':{}]
 skills=['+hp', '+energy']
 
 items=['flash', 'knife']#'shield', 'knife']
@@ -183,8 +183,13 @@ def results(id):
       for ids in games[id]['bots']:
             if games[id]['bots'][ids]['die']!=1:
                 name=games[id]['bots'][ids]['name']
+                winner=games[id]['bots'][ids]
       if name!=None:
-        bot.send_message(id, '🏆'+name+' победил!')
+        points=8
+        for ids in games[id]['bots']:
+            points+=2
+        bot.send_message(id, '🏆'+name+' победил и получил '+str(points)+'🏵 поинтов!')
+        users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
       else:
         bot.send_message(id, 'Все проиграли!')
     
