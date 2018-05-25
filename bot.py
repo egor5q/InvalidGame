@@ -23,15 +23,8 @@ users=db.users
 
 
 
-items=['flash']#'shield', 'knife']
+items=['flash', 'knife']#'shield', 'knife']
 
-def pick(id):
-        Keyboard=types.InlineKeyboardMarkup()
-        Keyboard.add(types.InlineKeyboardButton(text='Камень', callback_data='rock'))  
-        Keyboard.add(types.InlineKeyboardButton(text='Кулаки', callback_data='hand')) 
-        Keyboard.add(types.InlineKeyboardButton(text='АК-47', callback_data='ak')) 
-        Keyboard.add(types.InlineKeyboardButton(text='Рандомно', callback_data='random')) 
-        msg=bot.send_message(id, 'Теперь выберите оружие каждому. Выбор для: '+info.lobby.game[id]['bots'][info.lobby.game[id]['x']]['name'], reply_markup=Keyboard)
 
 
 #@bot.message_handler(commands=['update'])
@@ -96,6 +89,7 @@ def giveitems(game):
 def battle(id):  
   for bots in games[id]['bots']:
    if games[id]['bots'][bots]['die']!=1:
+    if games[id]['bots'][bots]['stun']<=0:
      games[id]['bots'][bots][act(bots, id)]=1
   results(id)
 
@@ -171,6 +165,10 @@ def dmgs(id):
             c=games[id]['bots'][ids]['takendmg']
     text=''
     for mob in games[id]['bots']:
+        games[id]['bots'][mob]['stun']-=1
+        if games[id]['bots'][mob]['stun']==0:
+            text+='🌀'+games[id]['bots'][mob]+' приходит в себя.
+    for mob in games[id]['bots']:
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
        if games[id]['bots'][mob]['takendmg']<6:
@@ -207,13 +205,13 @@ def rockchance(energy, target, x, id, bot1):
   if (x+target['miss'])<=chance:
           damage=random.randint(2, 3)
           stun=random.randint(1, 100)
-          if stun<=25:
+          if stun<=20:
             target['stun']=2
           games[id]['res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=2
-          if stun<=25:
-            games[id]['res']+='Цель оглушена!\n'
+          if stun<=20:
+            games[id]['res']+='🌀Цель оглушена!\n'
           
   else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
@@ -333,7 +331,12 @@ def item(bot, id):
             else:
                 reload(bot,id)
     elif z=='knife':
-        pass
+        if bot['energy']>=2:
+            x=random.randint(1,90)
+            bot['energy']-=2
+            if x>target['miss']:
+                games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'!\n'
+                
     
 
     
