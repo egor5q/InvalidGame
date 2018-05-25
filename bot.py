@@ -30,7 +30,8 @@ items=['flash', 'knife']#'shield', 'knife']
 
 @bot.message_handler(commands=['k'])
 def k(m):
-      x=m.text.split('/k')
+  if m.from_user.id==441399484:
+    x=m.text.split('/k')
     try:
       int(x[1])
       users.update_one({'id':m.reply_to_message.from_user.id}, {'$inc':{'cookie':int(x[1])}})
