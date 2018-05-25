@@ -22,11 +22,23 @@ db=client.cookiewars
 users=db.users
 
 
-vetki={'hp':{},'dmg':{}}
-skills=['+hp', '+energy']
+vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhilnost"'],          
+       'dmg':['skill "pricel"', 'skill "kazn"', 'skill "berserk"'],
+       'different':['skill "zombie"', 'skill "hypnos"'],
+       'skins':['wolf', 'cowboy', 'oracle']
+
+}
+skills=[]
 
 items=['flash', 'knife']#'shield', 'knife']
 
+
+@bot.message_handler(commands=['upgrade'])
+def upgr(m):
+    if m.chat.id==m.from_user.id:
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='ХП', callback_data='hp'), types.InlineKeyboardButton(text='Урон', callback_data='dmg'),types.InlineKeyboardButton(text='Прочее', callback_data='different'))
+        bot.send_message(m.chat.id, 'Выберите ветку', reply_markup=kb)
 
 @bot.message_handler(commands=['me'])
 def me(m):
@@ -60,8 +72,7 @@ def k(m):
 def buy(m):
     if m.chat.id==m.from_user.id:
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Вы действительно хотите купить кейс с 🏵поинтами?', callback_data='+hp'), types.InlineKeyboardButton(text='100🍪', callback_data='+hp'))
-        kb.add(types.InlineKeyboardButton(text='Стойкий', callback_data='+energy'), types.InlineKeyboardButton(text='100🍪', callback_data='+energy')) 
+        kb.add(types.InlineKeyboardButton(text='Вы действительно хотите купить кейс с 🏵поинтами?', callback_data='lootbox'), types.InlineKeyboardButton(text='100🍪', callback_data='lootbox'))
         bot.send_message(m.chat.id, 'Выберите скилл для покупки', reply_markup=kb)
     
   
@@ -116,6 +127,27 @@ def inline(call):
         bot.send_message(call.message.chat.id, 'У вас уже есть это!')
     else:
         bot.send_message(call.message.chat.id, 'Недостаточно куки!')
+        
+  elif call.data=='hp':
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Генератор щитов', callback_data='shieldgen'))
+        kb.add(types.InlineKeyboardButton(text='Медик', callback_data='medic'))
+        kb.add(types.InlineKeyboardButton(text='Живучий', callback_data='liveful'))
+        kb.add(types.InlineKeyboardButton(text='Двужильность', callback_data='dvuzhil'))
+        bot.send_message(m.chat.id, 'Ветка: ХП', reply_markup=kb)
+        
+  elif call.data=='dmg':
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Прицел', callback_data='pricel'))
+        kb.add(types.InlineKeyboardButton(text='Казнь', callback_data='cazn'))
+        kb.add(types.InlineKeyboardButton(text='Берсерк', callback_data='berserk'))
+        bot.send_message(m.chat.id, 'Ветка: урон', reply_markup=kb)
+        
+  elif call.data=='different':
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Зомби', callback_data='zombie'))
+        kb.add(types.InlineKeyboardButton(text='Гипноз', callback_data='gipnoz'))
+        bot.send_message(m.chat.id, 'Ветка: разное', reply_markup=kb)
   
       
 
