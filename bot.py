@@ -379,7 +379,7 @@ def actnumber(bot, id):
         yvorot=0
         
   x=random.randint(1,100)
-  if len(bot['skills'])>0:
+  if len(npc['skills'])>0:
     skill=1
   else:
     skill=0
