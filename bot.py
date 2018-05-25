@@ -93,14 +93,20 @@ def battle(id):
 
 def results(id):
   for bots in games[id]['bots']:
+     if games[id]['bots'][bots]['yvorot']==1:
+        yvorot(games[id]['bots'][bots], id)
+        
+  for bots in games[id]['bots']:
+      if games[id]['bots'][bots]['item']==1:
+          item(games[id]['bots'][bots], id) 
+        
+  for bots in games[id]['bots']:
       if games[id]['bots'][bots]['attack']==1:
         attack(games[id]['bots'][bots],id)
-      elif games[id]['bots'][bots]['yvorot']==1:
-        yvorot(games[id]['bots'][bots], id)
-      elif games[id]['bots'][bots]['reload']==1:
-        reload(games[id]['bots'][bots], id)
-      elif games[id]['bots'][bots]['item']==1:
-        item(games[id]['bots'][bots], id)    
+        
+  for bots in games[id]['bots']:
+     if games[id]['bots'][bots]['reload']==1:
+        reload(games[id]['bots'][bots], id) 
   
   dmgs(id)
   z=0
@@ -298,6 +304,7 @@ def item(bot, id):
         if target['energy']>=3:
             games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
             target['energy']=0
+            bot['items'].remove['flash']
         else:
             if bot['energy']>=2:
                 attack(bot,id)
