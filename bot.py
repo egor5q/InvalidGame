@@ -37,7 +37,7 @@ def pick(id):
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-                user.update_many({}, {'$set':{'bot.skill':0}})
+                users.update_many({}, {'$set':{'bot.skill':0}})
                 print('yes')
                 
         
