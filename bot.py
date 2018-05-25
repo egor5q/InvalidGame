@@ -40,8 +40,8 @@ def upd(m):
 def buy(m):
     if m.chat.id==m.from_user.id:
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Живучий', callback_data='+hp'), types.InlineKeyboardButton(text='100🍪', callback_data='cookie'))
-        kb.add(types.InlineKeyboardButton(text='Стойкий', callback_data='+energy'), types.InlineKeyboardButton(text='100🍪', callback_data='cookie')) 
+        kb.add(types.InlineKeyboardButton(text='Живучий', callback_data='+hp'), types.InlineKeyboardButton(text='100🍪', callback_data='+hp'))
+        kb.add(types.InlineKeyboardButton(text='Стойкий', callback_data='+energy'), types.InlineKeyboardButton(text='100🍪', callback_data='+energy')) 
         bot.send_message(m.chat.id, 'Выберите скилл для покупки', reply_markup=kb)
     
   
@@ -88,9 +88,12 @@ def inline(call):
   if call.data=='+hp':
     x=users.find_one({'id':call.from_user.id})
     if x['cookie']>=100:
-        medit('Поздравляю! Вы приобрели скилл "Живучий"!', call.from_user.id, call.message.message_id)
+      if '+hp' not in x['bot']['bought']:
         users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'+hp'}})
-
+        users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-100}})
+        medit('Поздравляю! Вы приобрели скилл "Живучий"!', call.from_user.id, call.message.message_id)
+      else:
+        bot.send_message(call.chat.id, 'У вас уже есть это!')
   
       
 
