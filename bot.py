@@ -134,7 +134,10 @@ def results(id):
             die+=1
   if die+1>=len(games[id]['bots']):
       z=1
-      bot.send_message(id, 'Кто то победил!')
+      for ids in games[id]['bots']:
+            if games[id]['bots'][ids]['die']!=1:
+                name=games[id]['bots'][ids]['name']
+      bot.send_message(id, '🏆'+name+' победил!')
     
   games[id]['results']=''
   games[id]['res']=''
@@ -160,7 +163,7 @@ def dmgs(id):
         a=2
        games[id]['bots'][mob]['hp']-=a
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
-    games[id]['secondres']='Кто то надамажен!\n'+text
+    games[id]['secondres']='Эффекты:\n'+text
    
     
 
