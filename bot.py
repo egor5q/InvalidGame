@@ -343,6 +343,8 @@ def item(bot, id):
                 target['takendmg']+=3
             else:
               games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
+        else:
+          reload(bot,id)
               
                 
                 
