@@ -36,7 +36,7 @@ def k(m):
       users.update_one({'id':reply_to_message_id}, {'$inc':{'cookie':x[1]}})
       bot.send_message(m.chat.id, str(x[1])+' куки успешно выданы!')
     #except:
-        pass
+        #pass
         
 
 
