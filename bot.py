@@ -336,11 +336,14 @@ def item(bot, id):
                 reload(bot,id)
     elif z=='knife':
         if bot['energy']>=2:
-            x=random.randint(1,90)
+            x=random.randint(1,100)
             bot['energy']-=2
-            if x>target['miss']:
+            if x>target['miss']+10:
                 games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
                 target['takendmg']+=3
+            else:
+              games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
+              
                 
                 
                 
