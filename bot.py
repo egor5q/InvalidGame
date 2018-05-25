@@ -100,7 +100,7 @@ def results(id):
       elif games[id]['bots'][bots]['reload']==1:
         reload(games[id]['bots'][bots], id)
       elif games[id]['bots'][bots]['item']==1:
-        item(games[id]['bots'][bots])    
+        item(games[id]['bots'][bots], id)    
   
   dmgs(id)
   z=0
