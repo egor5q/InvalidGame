@@ -30,12 +30,12 @@ items=['flash', 'knife']#'shield', 'knife']
 
 @bot.message_handler(commands=['k'])
 def k(m):
-    x=m.text.split('/k')
-    try:
+      x=m.text.split('/k')
+    #try:
       int(x[1])
-      users.update_one({'id':reply_to_message.id}, {'$inc':{'cookie':x[1]}})
+      users.update_one({'id':reply_to_message_id}, {'$inc':{'cookie':x[1]}})
       bot.send_message(m.chat.id, str(x[1])+' куки успешно выданы!')
-    except:
+    #except:
         pass
         
 
