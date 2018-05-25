@@ -31,7 +31,7 @@ items=['flash', 'knife']#'shield', 'knife']
 @bot.message_handler(commands=['me'])
 def me(m):
     try:
-      x=iduser.find_one({'id':m.from_user.id})
+      x=users.find_one({'id':m.from_user.id})
       bot.send_message(m.chat.id, 'Ваши куки: '+str(x['cookie']))
     except:
       pass
