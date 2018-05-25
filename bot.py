@@ -172,7 +172,11 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='1500🏵', callback_data='buycazn'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Этот скилл позволяет убить врага, у которого остался 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
-              
+       
+  elif call.data=='back':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='ХП', callback_data='hp'), types.InlineKeyboardButton(text='Урон', callback_data='dmg'),types.InlineKeyboardButton(text='Прочее', callback_data='different'))
+       medit('Выберите ветку',call.message.chat.id, call.message.message_id, reply_markup=kb)
   
       
 
