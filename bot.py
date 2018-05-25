@@ -174,7 +174,12 @@ def dmgs(id):
        if games[id]['bots'][mob]['takendmg']<6:
         a=1
        else:
-        a=2
+        a=1
+        while a<games[id]['bots'][mob]['takendmg']:
+            if games[id]['bots'][mob]['takendmg']>=6:
+                a+=1
+                games[id]['bots'][mob]['takendmg']-=6
+                
        games[id]['bots'][mob]['hp']-=a
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
     games[id]['secondres']='Эффекты:\n'+text
@@ -335,7 +340,10 @@ def item(bot, id):
             x=random.randint(1,90)
             bot['energy']-=2
             if x>target['miss']:
-                games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'!\n'
+                games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
+                target['takendmg']+=3
+                
+                
                 
     
 
