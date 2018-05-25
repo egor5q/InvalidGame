@@ -14,6 +14,7 @@ token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
 games={}
+skills=[]
 
 client1=os.environ['database']
 client=MongoClient(client1)
@@ -95,6 +96,10 @@ def results(id):
   for bots in games[id]['bots']:
      if games[id]['bots'][bots]['yvorot']==1:
         yvorot(games[id]['bots'][bots], id)
+        
+  for bots in games[id]['bots']:
+     if games[id]['bots'][bots]['skill']==1:
+        skill(games[id]['bots'][bots], id) 
         
   for bots in games[id]['bots']:
       if games[id]['bots'][bots]['item']==1:
@@ -288,6 +293,9 @@ def yvorot(bot, id):
 def reload(bot2, id):
    bot2['energy']=bot2['maxenergy']
    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
+    
+def skill(bot,id):
+    pass
 
 def item(bot, id):
     a=[]
@@ -369,6 +377,13 @@ def actnumber(bot, id):
         yvorot=1
       else:
         yvorot=0
+        
+  x=random.randint(1,100)
+  if len(bot['skills'])>0:
+    skill=1
+  else:
+    skill=0
+  
       
   if len(npc['items'])>0:
     x=random.randint(1,100)
@@ -387,7 +402,7 @@ def actnumber(bot, id):
   else:
     reload=0
     
-  return{'attack':{'name':'attack', 'x':attack}, 'yvorot':{'name':'yvorot', 'x':yvorot}, 'item':{'name':'item', 'x':item}, 'reload':{'name':'reload', 'x':reload}}
+  return{'attack':{'name':'attack', 'x':attack}, 'yvorot':{'name':'yvorot', 'x':yvorot}, 'item':{'name':'item', 'x':item}, 'reload':{'name':'reload', 'x':reload},'skill':{'name':'skill', 'x':skill}}
          
       
       
@@ -507,6 +522,7 @@ def createbot(id):
               'attack':0,
               'yvorot':0,
               'reload':0,
+              'skill':0,
               'item':0,
               'miss':0,
               'shield':0,
