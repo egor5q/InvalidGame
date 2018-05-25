@@ -129,7 +129,6 @@ def results(id):
     else:
       games[id]['bots'][mobs]['miss']=0
     games[id]['bots'][mobs]['shield']=0
-    games[id]['bots'][mobs]['stun']-=1
     games[id]['bots'][mobs]['takendmg']=0
     games[id]['bots'][mobs]['yvorotkd']-=1
     if games[id]['bots'][mobs]['die']!=1:
