@@ -304,7 +304,7 @@ def item(bot, id):
         if target['energy']>=3:
             games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
             target['energy']=0
-            bot['items'].remove['flash']
+            bot['items'].remove('flash')
         else:
             if bot['energy']>=2:
                 attack(bot,id)
