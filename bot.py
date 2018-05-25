@@ -177,6 +177,12 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='ХП', callback_data='hp'), types.InlineKeyboardButton(text='Урон', callback_data='dmg'),types.InlineKeyboardButton(text='Прочее', callback_data='different'))
        medit('Выберите ветку',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       
+  elif call.data=='zombie':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='1000🏵', callback_data='buyzombie'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('После своей смерти воин живёт еще 2 хода, а затем умирает. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
   
       
 
