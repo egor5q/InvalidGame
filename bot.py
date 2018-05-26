@@ -10,6 +10,9 @@ from emoji import emojize
 from telebot import types
 from pymongo import MongoClient
 
+from requests.exceptions import ReadTimeout
+from requests.exceptions import ConnectionError
+
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
@@ -1228,8 +1231,6 @@ def createbot(id):
 
 
 while True:
-    from requests.exceptions import ReadTimeout
-    from requests.exceptions import ConnectionError
     try:
         bot.polling()
     except(ReadTimeout, ConnectionError):
