@@ -773,6 +773,7 @@ def start(m):
 def goo(m):
     if m.chat.id in games:
         if len(games[m.chat.id]['bots'])>=2:
+         if games[m.chat.id]['started']==0:
            begingame(m.chat.id)
            games[m.chat.id]['started']=1
         else:
