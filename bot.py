@@ -480,7 +480,7 @@ def dmgs(id):
        games[id]['bots'][mob]['hp']-=a
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        if games[id]['bots'][mob]['hp']<=0:
-           text+='☠️'+games[id]['bots'][mob]['name']+' погибает.'
+           text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
               
     games[id]['secondres']='Эффекты:\n'+text
    
@@ -839,7 +839,7 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
         
 
 def begingame(id):
-    spisok=['saw']#'rock', 'hand', 'ak', 'saw']
+    spisok=['rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
     giveitems(games[id])
