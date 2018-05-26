@@ -574,11 +574,10 @@ def results(id):
      if games[id]['bots'][bots]['reload']==1:
         reload(games[id]['bots'][bots], id) 
         
-  
-  dmgs(id)
   for ids in games[id]['bots']:
     if games[id]['bots'][ids]['shield']>=1:
         games[id]['bots'][ids]['takendmg']=0
+  dmgs(id)
   z=0
   bot.send_message(id, 'Результаты хода:\n'+games[id]['res']+'\n\n')
   bot.send_message(id, games[id]['secondres'])
@@ -861,7 +860,7 @@ def skill(bot,id):
                 pass
             else:
                 games[id]['res']+='🛡'+bot['name']+' использует щит. Урон заблокирован!\n'
-                bot['shield']=2
+                bot['shield']=1
                 bot['shieldgen']=5
                 i=1
                        
