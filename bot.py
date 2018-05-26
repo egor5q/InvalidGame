@@ -103,11 +103,11 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'bot.zombie':0}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'bot.heal':0}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -802,6 +802,7 @@ def skill(bot,id):
         bot['attack']=1
     else:
         bot['reload']=1
+    
 
 def item(bot, id):
     a=[]
@@ -840,6 +841,8 @@ def item(bot, id):
               bot['items'].remove('knife')
         else:
           bot['reload']=1
+        
+        
               
                 
                 
@@ -1073,7 +1076,8 @@ def createbot(id):
               'bought':[],
               'accuracy':0,
               'damagelimit':6,
-              'zombie':0
+              'zombie':0,
+              'heal':0
 }
 
 
