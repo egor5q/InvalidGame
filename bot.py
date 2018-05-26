@@ -338,7 +338,7 @@ def inline(call):
            if len(x['bot']['skin'])==0:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.skin':'oracle'}})
                 bot.answer_callback_query(call.id, 'Вы успешно экипировали скин "Оракул"!')
-            else:
+           else:
                 bot.answer_callback_query(call.id, 'Экипировано максимальное количество скинов!')
                 
            
