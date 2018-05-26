@@ -42,7 +42,7 @@ def skins(m):
     if 'oracle' in x['bot']['skin']:
         oracle='✅'
     for ids in x['bot']['bought']:
-        if x['bot']['bought'][ids]=='oracle':
+        if ids=='oracle':
             kb.add(types.InlineKeyboardButton(text=oracle+'Оракул', callback_data='equiporacle'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
