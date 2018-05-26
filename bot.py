@@ -22,7 +22,7 @@ db=client.cookiewars
 users=db.users
 
 
-vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhilnost"'],          
+vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
        'dmg':['skill "pricel"', 'skill "kazn"', 'skill "berserk"'],
        'different':['skill "zombie"', 'skill "hypnos"'],
        'skins':['wolf', 'cowboy', 'oracle']
@@ -31,6 +31,37 @@ vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dv
 skills=[]
 
 items=['flash', 'knife']#'shield', 'knife']
+
+
+@bot.message_handler(commands=['inventory'])
+def invent(m):
+    x=users.find_one({m.from_user.id})
+    textt=''
+    kb=types.InlineKeyboardMarkup()
+    for item in x['bot']['bought']:
+        if item=='shieldgen':
+            kb.add(types.InlineKeyboardButton(text='Генератор щитов', callback_data='equipshield'))
+        elif item=='medic':
+            kb.add(types.InlineKeyboardButton(text='Медик', callback_data='equipmedic'))
+        elif item=='liveful':
+            kb.add(types.InlineKeyboardButton(text='Живучий', callback_data='equipliveful'))
+        elif item=='dvuzhil':
+            kb.add(types.InlineKeyboardButton(text='Стойкий', callback_data='equipdvuzhil'))
+        elif item=='pricel':
+            kb.add(types.InlineKeyboardButton(text='Прицел', callback_data='equippricel'))
+        elif item=='cazn':
+            kb.add(types.InlineKeyboardButton(text='Казнь', callback_data='equipcazn'))
+        elif item=='berserk':
+            kb.add(types.InlineKeyboardButton(text='Берсерк', callback_data='equipberserk'))
+        elif item=='zombie':
+            kb.add(types.InlineKeyboardButton(text='Зомби', callback_data='equipzombie'))
+        elif item=='gipnoz':
+            kb.add(types.InlineKeyboardButton(text='Гипноз', callback_data='equipgipnoz'))
+    bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
+            
+            
+        
+           
 
 
 @bot.message_handler(commands=['clear'])
