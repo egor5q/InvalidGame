@@ -103,11 +103,11 @@ def k(m):
         pass
         
 
-@bot.message_handler(commands=['update'])
-def upd(m):
-        if m.from_user.id==441399484:
-                 users.update_many({}, {'$set':{'bot.zombie':0}})
-                 print('yes')
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#                 users.update_many({}, {'$set':{'bot.zombie':0}})
+#                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -605,6 +605,11 @@ def dmgs(id):
               if games[id]['bots'][mob]['blood']==0:
                      games[id]['bots'][mob]['hp']-=1
                      text+='💔'+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
+        if games[id]['bots'][mob]['zombie']!=0:
+            games[id]['bots'][mob]['zombie']-=1
+            if games[id]['bots'][mob]['zombie']==0:
+                games[id]['bots'][mob]['die']=1
+                text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
     for mob in games[id]['bots']:
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
@@ -616,7 +621,8 @@ def dmgs(id):
             if games[id]['bots'][mob]['takendmg']>=games[id]['bots'][mob]['damagelimit']:
                 a+=1
                 games[id]['bots'][mob]['takendmg']-=games[id]['bots'][mob]['damagelimit']
-       if games[id]['bots'][mob]['zombie']==0:          
+       if games[id]['bots'][mob]['zombie']==0:
+         if games[id]['bots'][mob]['die']!=1:
            games[id]['bots'][mob]['hp']-=a
        else:
            pass
@@ -625,8 +631,9 @@ def dmgs(id):
            if 'zombie' not in games[id]['bots'][mob]['skills']:
               text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
            else:
-              games[id]['bots'][mob]['zombie']=2
+              games[id]['bots'][mob]['zombie']=3
               games[id]['bots'][mob]['hp']=1
+              text+='👹'+games[id]['bots'][mob]['name']+' теперь зомби!\n'
               
     games[id]['secondres']='Эффекты:\n'+text
    
