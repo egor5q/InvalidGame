@@ -102,8 +102,6 @@ def k(m):
     except:
         pass
         
-'accuracy':0,
-              'damagelimit':6
 
 @bot.message_handler(commands=['update'])
 def upd(m):
