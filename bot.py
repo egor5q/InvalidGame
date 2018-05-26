@@ -247,7 +247,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buymedic'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл даёт боту предмет, который даст ему 2 хп при использовании. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл даёт боту возможность восстанавливать себе 1 хп каждые 5 ходов. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='liveful':
        kb=types.InlineKeyboardMarkup()
@@ -283,7 +283,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buyzombie'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('После своей смерти воин живёт еще 2 хода, а затем умирает. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('После своей смерти воин живёт еще 3 хода, а затем умирает. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='gipnoz':
        kb=types.InlineKeyboardMarkup()
@@ -838,7 +838,7 @@ def skill(bot,id):
     i=0
     if 'medic' in bot['skills']:
        if bot['heal']<=0:
-           bot['heal']=6
+           bot['heal']=7
            bot['hp']+=1
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
