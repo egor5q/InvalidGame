@@ -125,26 +125,54 @@ def itemselect():
         
         
 @bot.callback_query_handler(func=lambda call:True)
-def inline(call):       
+def inline(call): 
+  shield='☑️'
+  medic='☑️'
+  liveful='☑️'
+  dvuzhil='☑️'
+  pricel='☑️'
+  cazn='☑️'
+  berserk='☑️'
+  zombie='☑️'
+  gipnoz='☑️'
+  x=users.find_one({'id':call.from_user.id})
   if call.data=='hp':
+        if 'shieldgen' in x['bot']['bought']:
+            shield='✅'
+        if 'medic' in x['bot']['bought']:
+            medic='✅'
+        if 'liveful' in x['bot']['bought']:
+            liveful='✅'
+        if 'dvuzhil' in x['bot']['bought']:
+            dvuzhil='✅'
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='🛡Генератор щитов', callback_data='shieldgen'))
-        kb.add(types.InlineKeyboardButton(text='⛑Медик', callback_data='medic'))
-        kb.add(types.InlineKeyboardButton(text='💙Живучий', callback_data='liveful'))
-        kb.add(types.InlineKeyboardButton(text='💪Стойкий', callback_data='dvuzhil'))
+        kb.add(types.InlineKeyboardButton(text=shield+'🛡Генератор щитов', callback_data='shieldgen'))
+        kb.add(types.InlineKeyboardButton(text=medic+'⛑Медик', callback_data='medic'))
+        kb.add(types.InlineKeyboardButton(text=liveful+'💙Живучий', callback_data='liveful'))
+        kb.add(types.InlineKeyboardButton(text=dvuzhil+'💪Стойкий', callback_data='dvuzhil'))
         medit('Ветка: ХП', call.message.chat.id, call.message.message_id, reply_markup=kb)
         
   elif call.data=='dmg':
+        if 'pricel' in x['bot']['bought']:
+            pricel='✅'
+        if 'cazn' in x['bot']['bought']:
+            cazn='✅'
+        if 'berserk' in x['bot']['bought']:
+            berserk='✅'
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='🎯Прицел', callback_data='pricel'))
-        kb.add(types.InlineKeyboardButton(text='💔Казнь', callback_data='cazn'))
-        kb.add(types.InlineKeyboardButton(text='😡Берсерк', callback_data='berserk'))
+        kb.add(types.InlineKeyboardButton(text=pricel+'🎯Прицел', callback_data='pricel'))
+        kb.add(types.InlineKeyboardButton(text=cazn+'💔Казнь', callback_data='cazn'))
+        kb.add(types.InlineKeyboardButton(text=berserk+'😡Берсерк', callback_data='berserk'))
         medit('Ветка: урон', call.message.chat.id, call.message.message_id, reply_markup=kb)
         
   elif call.data=='different':
+        if 'zombie' in x['bot']['bought']:
+            zombie='✅'
+        if 'gipnoz' in x['bot']['bought']:
+            gipnoz='✅'
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='👹Зомби', callback_data='zombie'))
-        kb.add(types.InlineKeyboardButton(text='👁Гипноз', callback_data='gipnoz'))
+        kb.add(types.InlineKeyboardButton(text=zombie+'👹Зомби', callback_data='zombie'))
+        kb.add(types.InlineKeyboardButton(text=gipnoz'👁Гипноз', callback_data='gipnoz'))
         medit('Ветка: разное', call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
