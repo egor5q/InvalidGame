@@ -103,11 +103,11 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'bot.heal':0}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'bot.shieldgen':0}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -546,6 +546,9 @@ def results(id):
         
   
   dmgs(id)
+  for ids in games[id]['bots']:
+    if games[id]['bots'][ids]['shield']>=1:
+        games[id]['bots'][ids]['takendmg']=0
   z=0
   bot.send_message(id, 'Результаты хода:\n'+games[id]['res']+'\n\n')
   bot.send_message(id, games[id]['secondres'])
@@ -560,6 +563,7 @@ def results(id):
     games[id]['bots'][mobs]['shield']=0
     games[id]['bots'][mobs]['takendmg']=0
     games[id]['bots'][mobs]['yvorotkd']-=1
+    games[id]['bots'][mobs]['shield']-=1
     if games[id]['bots'][mobs]['heal']!=0:
         games[id]['bots'][mobs]['heal']-=1
     if games[id]['bots'][mobs]['die']!=1:
@@ -800,11 +804,43 @@ def reload(bot2, id):
    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
     
 def skill(bot,id):
+    i=0
     if 'medic' in bot['skills']:
-       if bot['heal']==0:
+       if bot['heal']<=0:
            bot['heal']=6
            bot['hp']+=1
-           games[id]['res']+='💨'+bot['name']+' восстанавливает себе ❤️хп!\n'
+           games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
+           i=1
+    if 'shieldgen' in bot['skills']:
+        if bot['shieldgen']<=0:
+            enemy=[]
+            for mob in games[id]['bots']:
+                if games[id]['bots'][mob]['id']!=bot['id']:
+                    enemy.append(games[id]['bots'][mob])
+            for mob in enemy:
+            if mob['energy']<3:
+                low+=1
+            if low==len(enemy):
+                pass
+            else:
+                games[id]['res']+='🛡'+bot['name']+' использует щит. Урон заблокирован!\n'
+                bot['shield']=1
+                bot['shieldgen']=5
+            
+            
+    if i==0:
+        if bot['energy']>=2:
+            a=random.randint(1,2)
+            if a==1:
+                bot['attack']=1
+            else:
+                bot['item']=1
+        else:
+            a=random.randint(1,2)
+            if a==1:
+                bot['reload']=1
+            else:
+                bot['item']=1
             
     
     
@@ -1082,7 +1118,8 @@ def createbot(id):
               'accuracy':0,
               'damagelimit':6,
               'zombie':0,
-              'heal':0
+              'heal':0,
+              'shieldgen':0
 }
 
 
