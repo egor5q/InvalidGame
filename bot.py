@@ -1227,6 +1227,11 @@ def createbot(id):
 
 
 
-if __name__ == '__main__':
-  bot.polling(none_stop=True)
+while True:
+    from requests.exceptions import ReadTimeout
+    from requests.exceptions import ConnectionError
+    try:
+        bot.polling()
+    except(ReadTimeout, ConnectionError):
+        pass
 
