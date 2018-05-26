@@ -797,7 +797,10 @@ def reload(bot2, id):
    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
     
 def skill(bot,id):
-    pass
+    if bot['energy']>=2:
+        bot['attack']=1
+    else:
+        bot['reload']=1
 
 def item(bot, id):
     a=[]
@@ -897,7 +900,10 @@ def actnumber(bot, id):
         
   x=random.randint(1,100)
   if len(npc['skills'])>0:
-    skill=1
+      if x<=50:
+          skill=1
+      else:
+          skill=0
   else:
     skill=0
   
