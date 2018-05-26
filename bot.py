@@ -190,7 +190,7 @@ def inline(call):
        
   elif call.data=='zombie':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='1000⚛️', callback_data='buyzombie'))
+       kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buyzombie'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('После своей смерти воин живёт еще 2 хода, а затем умирает. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
@@ -213,6 +213,102 @@ def inline(call):
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'shieldgen'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1000}})
                 medit('Вы успешно приобрели генератор щитов!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       
+  elif call.data=='buymedic':
+       x=users.find_one({'id':call.from_user.id})
+       if 'medic' not in x['bot']['bought']:
+           if x['cookie']>=1500:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'medic'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1500}})
+                medit('Вы успешно приобрели скилл "Медик"!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       
+  elif call.data=='buyliveful':
+       x=users.find_one({'id':call.from_user.id})
+       if 'liveful' not in x['bot']['bought']:
+           if x['cookie']>=2000:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'liveful'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2000}})
+                medit('Вы успешно приобрели скилл "Живучий"!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       
+  elif call.data=='buydvuzhil':
+       x=users.find_one({'id':call.from_user.id})
+       if 'dvuzhil' not in x['bot']['bought']:
+           if x['cookie']>=2500:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'dvuzhil'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2500}})
+                medit('Вы успешно приобрели скилл "Двужильность"!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       
+  elif call.data=='buypricel':
+       x=users.find_one({'id':call.from_user.id})
+       if 'pricel' not in x['bot']['bought']:
+           if x['cookie']>=1000:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'pricel'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1000}})
+                medit('Вы успешно приобрели скилл "Прицел"!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       
+  elif call.data=='buycazn':
+       x=users.find_one({'id':call.from_user.id})
+       if 'cazn' not in x['bot']['bought']:
+           if x['cookie']>=1500:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'cazn'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1500}})
+                medit('Вы успешно приобрели скилл "Казнь"!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       
+  elif call.data=='buyzombie':
+       x=users.find_one({'id':call.from_user.id})
+       if 'zombie' not in x['bot']['bought']:
+           if x['cookie']>=1500:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'zombie'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1500}})
+                medit('Вы успешно приобрели скилл "Зомби"!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       
+  elif call.data=='buygipnoz':
+       x=users.find_one({'id':call.from_user.id})
+       if 'gipnoz' not in x['bot']['bought']:
+           if x['cookie']>=2000:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'gipnoz'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2000}})
+                medit('Вы успешно приобрели скилл "Гипноз"!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       
+  elif call.data=='buyberserk':
+       x=users.find_one({'id':call.from_user.id})
+       if 'berserk' not in x['bot']['bought']:
+           if x['cookie']>=2000:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'berserk'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2000}})
+                medit('Вы успешно приобрели скилл "Берсерк"!',call.message.chat.id,call.message.message_id)
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
