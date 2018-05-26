@@ -186,13 +186,13 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buymedic'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл даёт боту предмет, который даст ему 1 хп при использовании. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл даёт боту предмет, который даст ему 2 хп при использовании. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='liveful':
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyliveful'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 8%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 15%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='dvuzhil':
        kb=types.InlineKeyboardMarkup()
