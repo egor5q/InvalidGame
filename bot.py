@@ -677,7 +677,7 @@ def akchance(energy, target, x, id, bot1):
   elif energy==0:
     chance=0
   if (x+target['miss'])<=chance:
-          damage=random.randint(2, 4)
+          damage=random.randint(3, 4)
           games[id]['res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'        
           target['takendmg']+=damage
           bot1['energy']-=random.randint(2,3)
