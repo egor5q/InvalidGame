@@ -395,6 +395,115 @@ def inline(call):
                
   elif call.data=='close':
       medit('Меню закрыто.', call.message.chat.id, call.message.message_id)
+
+  elif call.data=='equipshield':
+    x=users.find_one({'id':call.from_user.id})
+    if 'shield' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'shield'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Генератор щитов"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'shield'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Генератор щитов"!')
+             
+  elif call.data=='equipmedic':
+    x=users.find_one({'id':call.from_user.id})
+    if 'medic' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'medic'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Медик"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'medic'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Медик"!')
+        
+  elif call.data=='equipliveful':
+    x=users.find_one({'id':call.from_user.id})
+    if 'liveful' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'liveful'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Живучий"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'liveful'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Живучий"!')
+        
+  elif call.data=='equipdvuzhil':
+    x=users.find_one({'id':call.from_user.id})
+    if 'dvuzhil' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'dvuzhil'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Стойкий"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'dvuzhil'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Стойкий"!')
+        
+  elif call.data=='equippricel':
+    x=users.find_one({'id':call.from_user.id})
+    if 'pricel' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'pricel'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Прицел"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'pricel'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Прицел"!')
+        
+  elif call.data=='equipcazn':
+    x=users.find_one({'id':call.from_user.id})
+    if 'cazn' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'cazn'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Казнь"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'cazn'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Казнь"!')
+        
+  elif call.data=='equipberserk':
+    x=users.find_one({'id':call.from_user.id})
+    if 'berserk' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'berserk'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Берсерк"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'berserk'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Берсерк"!')
+        
+  elif call.data=='equipzombie':
+    x=users.find_one({'id':call.from_user.id})
+    if 'zombie' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'zombie'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Зомби"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'zombie'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Зомби"!')
+        
+  elif call.data=='equipgipnoz':
+    x=users.find_one({'id':call.from_user.id})
+    if 'gipnoz' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'gipnoz'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Гипноз"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'gipnoz'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Гипноз"!')
+           
             
               
   
