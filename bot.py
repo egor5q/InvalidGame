@@ -302,7 +302,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='🔮Оракул', callback_data='oracle'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       bot.send_message(call.message.chat.id, 'Ветка: скины', reply_markup=kb)
+       medit('Ветка: скины',call.message.chat.id,call.message.message_id, reply_markup=kb)
         
   elif call.data=='oracle':
        kb=types.InlineKeyboardMarkup()
