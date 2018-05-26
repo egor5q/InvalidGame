@@ -614,7 +614,7 @@ def results(id):
         for ids in games[id]['bots']:
             points+=4
         for ids in games[id]['bots']:
-            for item in games[id]['bots'][ids]['skills']:
+            for itemss in games[id]['bots'][ids]['skills']:
               if games[id]['bots'][ids]['id']!=winner['id']:
                 points+=4
         bot.send_message(id, '🏆'+name+' победил и получил '+str(points)+'⚛️ поинтов!')
