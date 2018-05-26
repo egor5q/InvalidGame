@@ -202,7 +202,7 @@ def inline(call):
            if 'shieldgen' not in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'shieldgen'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1000}})
-                medit('Вы успешно приобрели генератор щитов!',call.message.chat.id,call.message.message_id, reply_markup=kb)
+                medit('Вы успешно приобрели генератор щитов!',call.message.chat.id,call.message.message_id)
            else:
                bot.answer_callback_query(call.id, 'У вас уже есть это!')
        else:
