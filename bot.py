@@ -44,7 +44,7 @@ def upgr(m):
 def me(m):
     try:
       x=users.find_one({'id':m.from_user.id})
-      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'🏵')
+      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️')
     except:
       pass
 
@@ -55,7 +55,7 @@ def k(m):
     try:
       int(x[1])
       users.update_one({'id':m.reply_to_message.from_user.id}, {'$inc':{'cookie':int(x[1])}})
-      bot.send_message(m.chat.id, x[1]+'🏵 поинтов успешно выдано!')
+      bot.send_message(m.chat.id, x[1]+'⚛️ поинтов успешно выдано!')
     except:
         pass
         
@@ -72,8 +72,8 @@ def k(m):
 def buy(m):
     if m.chat.id==m.from_user.id:
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Вы действительно хотите купить кейс с 🏵поинтами?', callback_data='lootbox'), types.InlineKeyboardButton(text='100🍪', callback_data='lootbox'))
-        bot.send_message(m.chat.id, 'Выберите скилл для покупки', reply_markup=kb)
+        kb.add(types.InlineKeyboardButton(text='Да', callback_data='lootbox'), types.InlineKeyboardButton(text='100🍪', callback_data='lootbox'))
+        bot.send_message(m.chat.id, 'Вы действительно хотите купить кейс с 🏵поинтами?', reply_markup=kb)
     
   
   
@@ -255,7 +255,7 @@ def results(id):
         points=8
         for ids in games[id]['bots']:
             points+=2
-        bot.send_message(id, '🏆'+name+' победил и получил '+str(points)+'🏵 поинтов!')
+        bot.send_message(id, '🏆'+name+' победил и получил '+str(points)+'⚛️ поинтов!')
         users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
       else:
         bot.send_message(id, 'Все проиграли!')
