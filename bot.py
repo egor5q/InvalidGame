@@ -843,6 +843,7 @@ def skill(bot,id):
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
     if 'shieldgen' in bot['skills']:
+      if i==0:
         if bot['shieldgen']<=0:
             enemy=[]
             for mob in games[id]['bots']:
@@ -858,6 +859,7 @@ def skill(bot,id):
                 games[id]['res']+='🛡'+bot['name']+' использует щит. Урон заблокирован!\n'
                 bot['shield']=1
                 bot['shieldgen']=5
+                i=1
             
             
     if i==0:
@@ -983,6 +985,9 @@ def actnumber(bot, id):
           skill=0
   else:
     skill=0
+  if npc['hp']<=2 and 'medic' in npc['skills'] and npc['heal']<=0:
+      skill=1
+      
   
       
   if len(npc['items'])>0:
