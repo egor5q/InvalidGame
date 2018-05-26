@@ -861,7 +861,7 @@ def skill(bot,id):
                 pass
             else:
                 games[id]['res']+='🛡'+bot['name']+' использует щит. Урон заблокирован!\n'
-                bot['shield']=1
+                bot['shield']=2
                 bot['shieldgen']=5
                 i=1
                        
