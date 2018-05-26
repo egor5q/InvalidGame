@@ -609,14 +609,14 @@ def dmgs(id):
     for mob in games[id]['bots']:
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
-       if games[id]['bots'][mob]['takendmg']<6:
+       if games[id]['bots'][mob]['takendmg']<games[id]['bots'][mob]['damagelimit']:
         a=1
        else:
         a=1
         while a<games[id]['bots'][mob]['takendmg']:
-            if games[id]['bots'][mob]['takendmg']>=6:
+            if games[id]['bots'][mob]['takendmg']>=games[id]['bots'][mob]['damagelimit']:
                 a+=1
-                games[id]['bots'][mob]['takendmg']-=6
+                games[id]['bots'][mob]['takendmg']-=games[id]['bots'][mob]['damagelimit']
                 
        games[id]['bots'][mob]['hp']-=a
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
@@ -986,6 +986,9 @@ def begingame(id):
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
+        if 'dvuzhil' in games[id]['bots'][ids]['skills']:
+            games[id]['bots'][ids]['hp']+=1
+            games[id]['bots'][ids]['damagelimit']+=3
     giveitems(games[id])
     battle(id)
 
