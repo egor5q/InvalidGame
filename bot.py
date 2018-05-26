@@ -142,11 +142,11 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'bot.shieldgen':0}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'bot.skin':[]}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -1200,7 +1200,8 @@ def createbot(id):
               'damagelimit':6,
               'zombie':0,
               'heal':0,
-              'shieldgen':0
+              'shieldgen':0,
+              'skin':[]
 }
 
 
