@@ -98,6 +98,7 @@ def clear(m):
     if m.from_user.id==441399484:
         try:
             users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.bought':[]}})
+            users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.skills':[]}})
             bot.send_message(m.chat.id, 'Инвентарь юзера успешно очищен!')
         except:
             pass
@@ -426,7 +427,7 @@ def inline(call):
 
   elif call.data=='equipshield':
     x=users.find_one({'id':call.from_user.id})
-    if 'shield' not in x['bot']['skills']:
+    if 'shieldgen' not in x['bot']['skills']:
       if len(x['bot']['skills'])<=1:
         users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'shieldgen'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Генератор щитов"!')
