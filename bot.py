@@ -103,12 +103,11 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'bot.accuracy':0}})
-#                 users.update_many({}, {'$set':{'bot.damagelimit':6}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'bot.zombie':0}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -617,11 +616,17 @@ def dmgs(id):
             if games[id]['bots'][mob]['takendmg']>=games[id]['bots'][mob]['damagelimit']:
                 a+=1
                 games[id]['bots'][mob]['takendmg']-=games[id]['bots'][mob]['damagelimit']
-                
-       games[id]['bots'][mob]['hp']-=a
+       if games[id]['bots'][mob]['zombie']==0:          
+           games[id]['bots'][mob]['hp']-=a
+       else:
+           pass
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        if games[id]['bots'][mob]['hp']<=0:
-           text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+           if 'zombie' not in games[id]['bots'][mob]['skills']:
+              text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+           else:
+              games[id]['bots'][mob]['zombie']=2
+              games[id]['bots'][mob]['hp']=1
               
     games[id]['secondres']='Эффекты:\n'+text
    
@@ -1053,7 +1058,8 @@ def createbot(id):
               'blood':0,
               'bought':[],
               'accuracy':0,
-              'damagelimit':6
+              'damagelimit':6,
+              'zombie':0
 }
 
 
