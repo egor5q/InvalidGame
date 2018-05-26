@@ -838,7 +838,7 @@ def skill(bot,id):
     i=0
     skills=[]
     for item in bot['skills']:
-        skills.append[item]
+        skills.append(item)
     choice=random.choice(skills)
     if choice=='medic':
        if bot['heal']<=0:
