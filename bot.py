@@ -33,6 +33,14 @@ skills=[]
 items=['flash', 'knife']#'shield', 'knife']
 
 
+@bot.message_handler(commands=['skins'])
+def skins(m):
+    x=users.find_one({'id':m.from_user.id})
+    kb=types.InlineKeyboardMarkup()
+    oracle='☑️'
+    if 'oracle' in x['bot']['bought']:
+        pass
+
 @bot.message_handler(commands=['inventory'])
 def invent(m):
   if m.from_user.id==m.chat.id:
@@ -300,8 +308,12 @@ def inline(call):
        medit('Если хп опускается ниже 3х, ваш урон повышается на 2. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='skins':
+       x=users.find_one({'id':call.from_user.id})
+       oracle='☑️'
+       if 'oracle' in x['bot']['bought']:
+            oracle='✅'
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='🔮Оракул', callback_data='oracle'))
+       kb.add(types.InlineKeyboardButton(text=oracle+'🔮Оракул', callback_data='oracle'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Ветка: скины',call.message.chat.id,call.message.message_id, reply_markup=kb)
         
