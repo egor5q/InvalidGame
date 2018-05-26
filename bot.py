@@ -985,7 +985,7 @@ def begingame(id):
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
-                games[id]['bots'][ids]['accuracy']-=15
+            games[id]['bots'][ids]['accuracy']-=15
     giveitems(games[id])
     battle(id)
 
