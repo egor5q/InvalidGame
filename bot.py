@@ -428,12 +428,12 @@ def inline(call):
     x=users.find_one({'id':call.from_user.id})
     if 'shield' not in x['bot']['skills']:
       if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'shield'}})
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'shieldgen'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Генератор щитов"!')
       else:
           bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
     else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'shield'}})
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'shieldgen'}})
         bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Генератор щитов"!')
              
   elif call.data=='equipmedic':
