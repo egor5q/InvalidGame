@@ -72,7 +72,7 @@ def k(m):
 def buy(m):
     if m.chat.id==m.from_user.id:
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Да', callback_data='lootbox'), types.InlineKeyboardButton(text='100🍪', callback_data='lootbox'))
+        kb.add(types.InlineKeyboardButton(text='Да', callback_data='lootbox'), types.InlineKeyboardButton(text='100⚛️', callback_data='lootbox'))
         bot.send_message(m.chat.id, 'Вы действительно хотите купить кейс с 🏵поинтами?', reply_markup=kb)
     
   
@@ -139,37 +139,37 @@ def inline(call):
        
   elif call.data=='shieldgen':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='1000🏵', callback_data='buyshieldgen'))
+       kb.add(types.InlineKeyboardButton(text='1000⚛️', callback_data='buyshieldgen'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Генератор щитов каждые 4 хода даёт боту щит. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='medic':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='1500🏵', callback_data='buymedic'))
+       kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buymedic'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Этот скилл даёт боту предмет, который даст ему 1 хп при использовании. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='liveful':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='2000🏵', callback_data='buyliveful'))
+       kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyliveful'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 8%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='dvuzhil':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='2500🏵', callback_data='buydvuzhil'))
+       kb.add(types.InlineKeyboardButton(text='2500⚛️', callback_data='buydvuzhil'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Этот скилл даёт боту 1 доп. хп в начале матча и увеличивает порог урона на 3. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='pricel':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='1000🏵', callback_data='buypricel'))
+       kb.add(types.InlineKeyboardButton(text='1000⚛️', callback_data='buypricel'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Этот скилл увеличивает шанс попадания из любого оружия на 20%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='cazn':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='1500🏵', callback_data='buycazn'))
+       kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buycazn'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Этот скилл позволяет убить врага, у которого остался 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
@@ -180,9 +180,36 @@ def inline(call):
        
   elif call.data=='zombie':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='1000🏵', callback_data='buyzombie'))
+       kb.add(types.InlineKeyboardButton(text='1000⚛️', callback_data='buyzombie'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('После своей смерти воин живёт еще 2 хода, а затем умирает. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       
+  elif call.data=='gipnoz':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buygipnoz'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Если применить на атакующего врага, он атакует сам себя. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       
+  elif call.data=='berserk':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyberserk'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Если хп опускается ниже 3х, ваш урон повышается на 2. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       
+  elif call.data=='buyshieldgen':
+       x=users.find_one({'id':call.from_user.id})
+       if x['cookie']>=1000:
+           if 'shieldgen' not in x['bought']:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'shieldgen'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1000}})
+                bot.send_message(call.message.chat.id, 'Вы успешно приобрели генератор щитов!')
+           else:
+               bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       else:
+        bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+            
+              
+       medit(text,call.message.chat.id, call.message.message_id, reply_markup=kb)
   
       
 
