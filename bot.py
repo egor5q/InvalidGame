@@ -383,7 +383,7 @@ def battle(id):
      games[id]['bots'][bots][act(bots, id)]=1
   results(id)
 
-def results(id):
+def results(id):           
   for bots in games[id]['bots']:
      if games[id]['bots'][bots]['yvorot']==1:
         yvorot(games[id]['bots'][bots], id)
@@ -399,10 +399,11 @@ def results(id):
   for bots in games[id]['bots']:
       if games[id]['bots'][bots]['attack']==1:
         attack(games[id]['bots'][bots],id)
-        
+              
   for bots in games[id]['bots']:
      if games[id]['bots'][bots]['reload']==1:
         reload(games[id]['bots'][bots], id) 
+        
   
   dmgs(id)
   z=0
@@ -414,10 +415,7 @@ def results(id):
     games[id]['bots'][mobs]['yvorot']=0 
     games[id]['bots'][mobs]['reload']=0 
     games[id]['bots'][mobs]['item']=0
-    if games[id]['bots'][mobs]['name']!='Эльф':
-      games[id]['bots'][mobs]['miss']=0
-    else:
-      games[id]['bots'][mobs]['miss']=0
+    games[id]['bots'][mobs]['miss']=0
     games[id]['bots'][mobs]['shield']=0
     games[id]['bots'][mobs]['takendmg']=0
     games[id]['bots'][mobs]['yvorotkd']-=1
@@ -462,6 +460,11 @@ def dmgs(id):
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0:
             text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.\n'
+        if games[id]['bots'][mob]['blood']!=0:
+              games[id]['bots'][mob]['blood']-=1
+              if games[id]['bots'][mob]['blood']==0:
+                     games[id]['bots'][mob]['hp']-=1
+                     text+='💔'+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
     for mob in games[id]['bots']:
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
@@ -476,6 +479,9 @@ def dmgs(id):
                 
        games[id]['bots'][mob]['hp']-=a
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+       if games[id]['bots'][mob]['hp']<=0:
+           text+='☠️'+games[id]['bots'][mob]['name']+' погибает.'
+              
     games[id]['secondres']='Эффекты:\n'+text
    
     
@@ -584,8 +590,14 @@ def sawchance(energy, target, x, id, bot1):
           bot1['energy']-=2
           blood=random.randint(1, 100)
           if blood<=25:
-            target['blood']=4
-            games[id]['res']+='❣️Цель истекает кровью!\n'
+            if target['blood']==0:
+              target['blood']=4
+              games[id]['res']+='❣️Цель истекает кровью!\n'
+            elif target['blood']==1:
+              games[id]['res']+='❣️Кровотечение усиливается!\n'
+            else:
+                target['blood']-=1
+                games[id]['res']+='❣️Кровотечение усиливается!\n'
                 
   else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
@@ -615,7 +627,10 @@ def attack(bot, id):
 
   
   elif bot['weapon']=='ak':
-      akchance(bot['energy'], target, x, id, bot)          
+      akchance(bot['energy'], target, x, id, bot)  
+
+  elif bot['weapon']=='saw':
+      sawchance(bot['energy'], target, x, id, bot)  
                                      
 
 def yvorot(bot, id):
@@ -652,9 +667,9 @@ def item(bot, id):
             bot['items'].remove('flash')
         else:
             if bot['energy']>=2:
-                attack(bot,id)
+                bot['attack']=1
             else:
-                reload(bot,id)
+                bot['reload']=1
     elif z=='knife':
         if bot['energy']>=2:
             x=random.randint(1,100)
@@ -667,7 +682,7 @@ def item(bot, id):
               games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
               bot['items'].remove('knife')
         else:
-          reload(bot,id)
+          bot['reload']=1
               
                 
                 
@@ -824,7 +839,7 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
         
 
 def begingame(id):
-    spisok=['rock', 'hand', 'ak']
+    spisok=['rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
     giveitems(games[id])
