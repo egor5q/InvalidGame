@@ -222,9 +222,12 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        if 'medic' not in x['bot']['bought']:
            if x['cookie']>=1500:
+              if 'shieldgen' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'medic'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1500}})
                 medit('Вы успешно приобрели скилл "Медик"!',call.message.chat.id,call.message.message_id)
+              else:
+                  bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
@@ -234,9 +237,12 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        if 'liveful' not in x['bot']['bought']:
            if x['cookie']>=2000:
+             if 'medic' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'liveful'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2000}})
                 medit('Вы успешно приобрели скилл "Живучий"!',call.message.chat.id,call.message.message_id)
+             else:
+                bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
@@ -246,9 +252,12 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        if 'dvuzhil' not in x['bot']['bought']:
            if x['cookie']>=2500:
+             if 'liveful' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'dvuzhil'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2500}})
                 medit('Вы успешно приобрели скилл "Двужильность"!',call.message.chat.id,call.message.message_id)
+             else:
+                bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
@@ -270,9 +279,12 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        if 'cazn' not in x['bot']['bought']:
            if x['cookie']>=1500:
+             if 'pricel' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'cazn'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1500}})
                 medit('Вы успешно приобрели скилл "Казнь"!',call.message.chat.id,call.message.message_id)
+             else:
+                bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
@@ -294,9 +306,12 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        if 'gipnoz' not in x['bot']['bought']:
            if x['cookie']>=2000:
+             if 'zombie' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'gipnoz'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2000}})
                 medit('Вы успешно приобрели скилл "Гипноз"!',call.message.chat.id,call.message.message_id)
+             else:
+                bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
@@ -306,9 +321,12 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        if 'berserk' not in x['bot']['bought']:
            if x['cookie']>=2000:
+             if 'cazn' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'berserk'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2000}})
                 medit('Вы успешно приобрели скилл "Берсерк"!',call.message.chat.id,call.message.message_id)
+             else:
+                bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
