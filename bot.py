@@ -819,7 +819,7 @@ def skill(bot,id):
                 if games[id]['bots'][mob]['id']!=bot['id']:
                     enemy.append(games[id]['bots'][mob])
             for mob in enemy:
-            if mob['energy']<3:
+              if mob['energy']<3:
                 low+=1
             if low==len(enemy):
                 pass
