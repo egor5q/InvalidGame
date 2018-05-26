@@ -33,6 +33,16 @@ skills=[]
 items=['flash', 'knife']#'shield', 'knife']
 
 
+@bot.message_handler(commands=['clear'])
+def clear(m):
+    if m.from_user.id==441399484:
+        try:
+            users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.bought':[]}})
+            bot.send_message(m.chat.id, 'Инвентарь юзера успешно очищен!')
+        except:
+            pass
+              
+
 @bot.message_handler(commands=['upgrade'])
 def upgr(m):
     if m.chat.id==m.from_user.id:
