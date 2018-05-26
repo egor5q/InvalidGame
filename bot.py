@@ -172,7 +172,7 @@ def inline(call):
             gipnoz='✅'
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=zombie+'👹Зомби', callback_data='zombie'))
-        kb.add(types.InlineKeyboardButton(text=gipnoz'👁Гипноз', callback_data='gipnoz'))
+        kb.add(types.InlineKeyboardButton(text=gipnoz+'👁Гипноз', callback_data='gipnoz'))
         medit('Ветка: разное', call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
