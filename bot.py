@@ -525,7 +525,7 @@ def akchance(energy, target, x, id, bot1):
   elif energy==3:
     chance=60
   elif energy==2:
-    chance=20
+    chance=50
   elif energy==1:
     chance=5
   elif energy==0:
