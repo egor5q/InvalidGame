@@ -639,11 +639,11 @@ def rockchance(energy, target, x, id, bot1):
   if energy==5:
     chance=95
   elif energy==4:
-    chance=70
+    chance=80
   elif energy==3:
-    chance=55
+    chance=65
   elif energy==2:
-    chance=40
+    chance=50
   elif energy==1:
     chance=20
   elif energy==0:
