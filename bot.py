@@ -103,11 +103,11 @@ def k(m):
         pass
         
 
-@bot.message_handler(commands=['update'])
-def upd(m):
-        if m.from_user.id==441399484:
-                 users.update_many({}, {'$set':{'bot.heal':0}})
-                 print('yes')
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#                 users.update_many({}, {'$set':{'bot.heal':0}})
+#                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -560,6 +560,8 @@ def results(id):
     games[id]['bots'][mobs]['shield']=0
     games[id]['bots'][mobs]['takendmg']=0
     games[id]['bots'][mobs]['yvorotkd']-=1
+    if games[id]['bots'][mobs]['heal']!=0:
+        games[id]['bots'][mobs]['heal']-=1
     if games[id]['bots'][mobs]['die']!=1:
      if games[id]['bots'][mobs]['hp']<1:
       games[id]['bots'][mobs]['die']=1
@@ -798,10 +800,13 @@ def reload(bot2, id):
    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
     
 def skill(bot,id):
-    if bot['energy']>=2:
-        bot['attack']=1
-    else:
-        bot['reload']=1
+    if 'medic' in bot['skills']:
+       if bot['heal']==0:
+           bot['heal']=6
+           bot['hp']+=1
+           games[id]['res']+='💨'+bot['name']+' восстанавливает себе ❤️хп!\n'
+            
+    
     
 
 def item(bot, id):
