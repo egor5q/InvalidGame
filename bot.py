@@ -128,23 +128,23 @@ def itemselect():
 def inline(call):       
   if call.data=='hp':
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Генератор щитов', callback_data='shieldgen'))
-        kb.add(types.InlineKeyboardButton(text='Медик', callback_data='medic'))
-        kb.add(types.InlineKeyboardButton(text='Живучий', callback_data='liveful'))
-        kb.add(types.InlineKeyboardButton(text='Двужильность', callback_data='dvuzhil'))
+        kb.add(types.InlineKeyboardButton(text='🛡Генератор щитов', callback_data='shieldgen'))
+        kb.add(types.InlineKeyboardButton(text='⛑Медик', callback_data='medic'))
+        kb.add(types.InlineKeyboardButton(text='💙Живучий', callback_data='liveful'))
+        kb.add(types.InlineKeyboardButton(text='💪Стойкий', callback_data='dvuzhil'))
         medit('Ветка: ХП', call.message.chat.id, call.message.message_id, reply_markup=kb)
         
   elif call.data=='dmg':
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Прицел', callback_data='pricel'))
-        kb.add(types.InlineKeyboardButton(text='Казнь', callback_data='cazn'))
-        kb.add(types.InlineKeyboardButton(text='Берсерк', callback_data='berserk'))
+        kb.add(types.InlineKeyboardButton(text='🎯Прицел', callback_data='pricel'))
+        kb.add(types.InlineKeyboardButton(text='💔Казнь', callback_data='cazn'))
+        kb.add(types.InlineKeyboardButton(text='😡Берсерк', callback_data='berserk'))
         medit('Ветка: урон', call.message.chat.id, call.message.message_id, reply_markup=kb)
         
   elif call.data=='different':
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Зомби', callback_data='zombie'))
-        kb.add(types.InlineKeyboardButton(text='Гипноз', callback_data='gipnoz'))
+        kb.add(types.InlineKeyboardButton(text='👹Зомби', callback_data='zombie'))
+        kb.add(types.InlineKeyboardButton(text='👁Гипноз', callback_data='gipnoz'))
         medit('Ветка: разное', call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
