@@ -35,7 +35,7 @@ items=['flash', 'knife']#'shield', 'knife']
 
 @bot.message_handler(commands=['inventory'])
 def invent(m):
-    x=users.find_one({m.from_user.id})
+    x=users.find_one({'id':m.from_user.id})
     textt=''
     kb=types.InlineKeyboardMarkup()
     for item in x['bot']['bought']:
