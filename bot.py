@@ -208,15 +208,15 @@ def inline(call):
        
   elif call.data=='buyshieldgen':
        x=users.find_one({'id':call.from_user.id})
-       if x['cookie']>=1000:
-           if 'shieldgen' not in x['bot']['bought']:
+       if 'shieldgen' not in x['bot']['bought']:
+           if x['cookie']>=1000:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'shieldgen'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1000}})
                 medit('Вы успешно приобрели генератор щитов!',call.message.chat.id,call.message.message_id)
            else:
-               bot.answer_callback_query(call.id, 'У вас уже есть это!')
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
-           bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
             
               
   
