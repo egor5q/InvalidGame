@@ -717,7 +717,7 @@ def sawchance(energy, target, x, id, bot1):
   elif energy==4:
     chance=90
   elif energy==3:
-    chance=86
+    chance=80
   elif energy==2:
     chance=65
   elif energy==1:
