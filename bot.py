@@ -839,7 +839,7 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
         
 
 def begingame(id):
-    spisok=['rock', 'hand', 'ak', 'saw']
+    spisok=['saw']#'rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
     giveitems(games[id])
