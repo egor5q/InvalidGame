@@ -556,6 +556,7 @@ def results(id):
     games[id]['bots'][mobs]['reload']=0 
     games[id]['bots'][mobs]['item']=0
     games[id]['bots'][mobs]['miss']=0
+    games[id]['bots'][mobs]['skill']=0
     games[id]['bots'][mobs]['shield']=0
     games[id]['bots'][mobs]['takendmg']=0
     games[id]['bots'][mobs]['yvorotkd']-=1
@@ -900,7 +901,7 @@ def actnumber(bot, id):
         
   x=random.randint(1,100)
   if len(npc['skills'])>0:
-      if x<=50:
+      if x<=45:
           skill=1
       else:
           skill=0
