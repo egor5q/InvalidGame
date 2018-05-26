@@ -110,6 +110,7 @@ def upgr(m):
     if m.chat.id==m.from_user.id:
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='ХП', callback_data='hp'), types.InlineKeyboardButton(text='Урон', callback_data='dmg'),types.InlineKeyboardButton(text='Прочее', callback_data='different'))
+        kb.add(types.InlineKeyboardButton(text='Скины', callback_data='skins'))
         kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
         bot.send_message(m.chat.id, 'Выберите ветку', reply_markup=kb)
 
@@ -297,6 +298,29 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Если хп опускается ниже 3х, ваш урон повышается на 2. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
+  elif call.data=='skins':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='🔮Оракул', callback_data='oracle'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+        
+  elif call.data=='oracle':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='4000⚛️', callback_data='buyoracle'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Скин позволяет воину с 50% шансом избежать фатального урона один раз за игру. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       
+  elif call.data=='buyoracle':
+    x=users.find_one({'id':call.from_user.id})
+    if 'oracle' not in x['bot']['bought']:
+       if x['cookie']>=4000:
+            users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'oracle'}})
+            users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-4000}})
+            medit('Вы успешно приобрели скин "Оракул"!',call.message.chat.id,call.message.message_id)
+       else:
+           bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+    else:
+        bot.answer_callback_query(call.id, 'У вас уже есть это!')
+             
   elif call.data=='buyshieldgen':
        x=users.find_one({'id':call.from_user.id})
        if 'shieldgen' not in x['bot']['bought']:
