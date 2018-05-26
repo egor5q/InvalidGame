@@ -79,7 +79,7 @@ def invent(m):
         elif item=='pricel':
             kb.add(types.InlineKeyboardButton(text=pricel+'🎯Прицел', callback_data='equippricel'))
         elif item=='cazn':
-            kb.add(types.InlineKeyboardButton(text=cazn'💔Казнь', callback_data='equipcazn'))
+            kb.add(types.InlineKeyboardButton(text=cazn+'💔Казнь', callback_data='equipcazn'))
         elif item=='berserk':
             kb.add(types.InlineKeyboardButton(text=berserk+'😡Берсерк', callback_data='equipberserk'))
         elif item=='zombie':
