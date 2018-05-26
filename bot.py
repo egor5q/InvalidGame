@@ -72,11 +72,11 @@ def k(m):
         
 
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                users.update_many({}, {'$set':{'bot.bought':[]}})
-#                print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                users.update_many({}, {'$set':{'bot.blood':0}})
+                print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -503,13 +503,12 @@ def rockchance(energy, target, x, id, bot1):
     chance=1
   if (x+target['miss'])<=chance:
           damage=random.randint(2, 3)
-          stun=random.randint(1, 100)
-          if stun<=20:
-            target['stun']=2
           games[id]['res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=2
+          stun=random.randint(1, 100)
           if stun<=20:
+            target['stun']=2
             games[id]['res']+='🌀Цель оглушена!\n'
           
   else:
@@ -532,7 +531,6 @@ def akchance(energy, target, x, id, bot1):
     chance=0
   if (x+target['miss'])<=chance:
           damage=random.randint(2, 4)
-          stun=random.randint(1, 100)
           games[id]['res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'        
           target['takendmg']+=damage
           bot1['energy']-=random.randint(2,3)
@@ -564,6 +562,34 @@ def handchance(energy, target, x, id, bot1):
   else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['energy']-=1
+       
+       
+def sawchance(energy, target, x, id, bot1):
+  if energy==5:
+    chance=97
+  elif energy==4:
+    chance=90
+  elif energy==3:
+    chance=86
+  elif energy==2:
+    chance=65
+  elif energy==1:
+    chance=30
+  elif energy==0:
+    chance=1
+  if (x+target['miss'])<=chance:
+          damage=random.randint(1,3)
+          games[id]['res']+='⚙️'+bot1['name']+' Стреляет в '+target['name']+' из Пилострела! Нанесено '+str(damage)+' Урона.\n'
+          target['takendmg']+=damage
+          bot1['energy']-=2
+          blood=random.randint(1, 100)
+          if blood<=25:
+            target['blood']=4
+            games[id]['res']+='❣️Цель истекает кровью!\n'
+                
+  else:
+        games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['energy']-=2
     
               
 
@@ -855,6 +881,7 @@ def createbot(id):
               'die':0,
               'yvorotkd':0,
               'id':id,
+              'blood':0,
               'bought':[]
 }
 
