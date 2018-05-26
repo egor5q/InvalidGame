@@ -648,7 +648,7 @@ def rockchance(energy, target, x, id, bot1):
     chance=20
   elif energy==0:
     chance=1
-  if (x+target['miss'])<=chance:
+  if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(2, 3)
           games[id]['res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
@@ -676,7 +676,7 @@ def akchance(energy, target, x, id, bot1):
     chance=5
   elif energy==0:
     chance=0
-  if (x+target['miss'])<=chance:
+  if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(3, 4)
           games[id]['res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'        
           target['takendmg']+=damage
@@ -700,7 +700,7 @@ def handchance(energy, target, x, id, bot1):
     chance=60
   elif energy==0:
     chance=1
-  if (x+target['miss'])<=chance:
+  if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,2)
           games[id]['res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
@@ -724,7 +724,7 @@ def sawchance(energy, target, x, id, bot1):
     chance=30
   elif energy==0:
     chance=1
-  if (x+target['miss'])<=chance:
+  if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,3)
           games[id]['res']+='⚙️'+bot1['name']+' Стреляет в '+target['name']+' из Пилострела! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
@@ -989,6 +989,8 @@ def begingame(id):
         if 'dvuzhil' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=1
             games[id]['bots'][ids]['damagelimit']+=3
+        if 'pricel' in games[id]['bots'][ids]['skills']:
+            games[id]['bots'][ids]['accuracy']+=15
     giveitems(games[id])
     battle(id)
 
