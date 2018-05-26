@@ -564,6 +564,7 @@ def results(id):
     games[id]['bots'][mobs]['takendmg']=0
     games[id]['bots'][mobs]['yvorotkd']-=1
     games[id]['bots'][mobs]['shield']-=1
+    games[id]['bots'][mobs]['shieldgen']-=1
     if games[id]['bots'][mobs]['heal']!=0:
         games[id]['bots'][mobs]['heal']-=1
     if games[id]['bots'][mobs]['die']!=1:
