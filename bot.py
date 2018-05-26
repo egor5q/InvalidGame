@@ -48,6 +48,7 @@ def upgr(m):
     if m.chat.id==m.from_user.id:
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='ХП', callback_data='hp'), types.InlineKeyboardButton(text='Урон', callback_data='dmg'),types.InlineKeyboardButton(text='Прочее', callback_data='different'))
+        kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close')
         bot.send_message(m.chat.id, 'Выберите ветку', reply_markup=kb)
 
 @bot.message_handler(commands=['me'])
@@ -359,6 +360,9 @@ def inline(call):
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
            bot.answer_callback_query(call.id, 'У вас уже есть это!')
+               
+  elif call.data=='close':
+      medit('Меню закрыто.', call.message.chat.id, call.message.message_id)
             
               
   
