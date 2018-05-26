@@ -35,11 +35,17 @@ items=['flash', 'knife']#'shield', 'knife']
 
 @bot.message_handler(commands=['skins'])
 def skins(m):
+  if m.chat.id==m.from_user.id:
     x=users.find_one({'id':m.from_user.id})
     kb=types.InlineKeyboardMarkup()
     oracle='☑️'
-    if 'oracle' in x['bot']['bought']:
-        pass
+    if 'oracle' in x['bot']['skin']:
+        oracle='✅'
+    for ids in x['bot']['bought']:
+        if x['bot']['bought'][ids]=='oracle':
+            kb.add(types.InlineKeyboardButton(text=oracle+'Оракул', callback_data='equiporacle'))
+    kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
+    bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
 
 @bot.message_handler(commands=['inventory'])
 def invent(m):
@@ -322,6 +328,20 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='4000⚛️', callback_data='buyoracle'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Скин позволяет воину с 50% шансом избежать фатального урона один раз за игру. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+                   
+  elif call.data=='equiporacle':
+       x=users.find_one({'id':call.from_user.id})
+       if 'oracle' in x['bot']['skin']:
+           users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skin':'oracle'}})
+           bot.answer_callback_query(call.id, 'Вы успешно сняли скин "Оракул"!')
+       else:
+           if len(x['bot']['skin'])==0:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.skin':'oracle'}})
+                bot.answer_callback_query(call.id, 'Вы успешно экипировали скин "Оракул"!')
+            else:
+                bot.answer_callback_query(call.id, 'Экипировано максимальное количество скинов!')
+                
+           
        
   elif call.data=='buyoracle':
     x=users.find_one({'id':call.from_user.id})
