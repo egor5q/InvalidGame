@@ -35,6 +35,7 @@ items=['flash', 'knife']#'shield', 'knife']
 
 @bot.message_handler(commands=['inventory'])
 def invent(m):
+  if m.from_user.id==m.chat.id:
     x=users.find_one({'id':m.from_user.id})
     textt=''
     kb=types.InlineKeyboardMarkup()
