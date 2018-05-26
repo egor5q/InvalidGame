@@ -836,13 +836,17 @@ def reload(bot2, id):
     
 def skill(bot,id):
     i=0
-    if 'medic' in bot['skills']:
+    skills=[]
+    for item in bot['skills']:
+        skills.append[item]
+    choice=random.choice(skills)
+    if choice=='medic':
        if bot['heal']<=0:
            bot['heal']=7
            bot['hp']+=1
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
-    if 'shieldgen' in bot['skills']:
+    elif choice=='shieldgen':
       if i==0:
         if bot['shieldgen']<=0:
             enemy=[]
@@ -860,8 +864,7 @@ def skill(bot,id):
                 bot['shield']=1
                 bot['shieldgen']=5
                 i=1
-            
-            
+                       
     if i==0:
         if bot['energy']>=2:
             a=random.randint(1,2)
