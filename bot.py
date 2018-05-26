@@ -102,13 +102,15 @@ def k(m):
     except:
         pass
         
+'accuracy':0,
+              'damagelimit':6
 
-
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                users.update_many({}, {'$set':{'bot.blood':0}})
-#                print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'bot.accuracy':0}})
+                 users.update_many({}, {'$set':{'bot.damagelimit':6}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -983,10 +985,18 @@ def begingame(id):
     spisok=['rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
+        if 'liveful' in games[id]['bots'][ids]['skills']:
+            games[id]['bots'][ids]['hp']+=2
+                games[id]['bots'][ids]['accuracy']-=15
     giveitems(games[id])
     battle(id)
 
-            
+vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
+       'dmg':['skill "pricel"', 'skill "kazn"', 'skill "berserk"'],
+       'different':['skill "zombie"', 'skill "hypnos"'],
+       'skins':['wolf', 'cowboy', 'oracle']
+
+}          
   
 
  
@@ -1038,7 +1048,9 @@ def createbot(id):
               'yvorotkd':0,
               'id':id,
               'blood':0,
-              'bought':[]
+              'bought':[],
+              'accuracy':0,
+              'damagelimit':6
 }
 
 
