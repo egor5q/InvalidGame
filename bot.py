@@ -573,9 +573,9 @@ def results(id):
                 name=games[id]['bots'][ids]['name']
                 winner=games[id]['bots'][ids]
       if name!=None:
-        points=8
+        points=6
         for ids in games[id]['bots']:
-            points+=2
+            points+=4
         bot.send_message(id, '🏆'+name+' победил и получил '+str(points)+'⚛️ поинтов!')
         users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
       else:
