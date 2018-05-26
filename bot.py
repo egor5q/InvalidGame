@@ -39,25 +39,53 @@ def invent(m):
     x=users.find_one({'id':m.from_user.id})
     textt=''
     kb=types.InlineKeyboardMarkup()
+    shield='☑️'
+    medic='☑️'
+    liveful='☑️'
+    dvuzhil='☑️'
+    pricel='☑️'
+    cazn='☑️'
+    berserk='☑️'
+    zombie='☑️'
+    gipnoz='☑️'
+    if 'shieldgen' in x['bot']['skills']:
+        shield='✅'
+    if 'medic' in x['bot']['skills']:
+        medic='✅'
+    if 'liveful' in x['bot']['skills']:
+        liveful='✅'
+    if 'dvuzhil' in x['bot']['skills']:
+        dvuzhil='✅'
+    if 'pricel' in x['bot']['skills']:
+        pricel='✅'  
+    if 'cazn' in x['bot']['skills']:
+        cazn='✅'
+    if 'berserk' in x['bot']['skills']:
+        berserk='✅'
+    if 'zombie' in x['bot']['skills']:
+        zombie='✅'
+    if 'gipnoz' in x['bot']['skills']:
+        gipnoz='✅'
+    
     for item in x['bot']['bought']:
         if item=='shieldgen':
-            kb.add(types.InlineKeyboardButton(text='🛡Генератор щитов', callback_data='equipshield'))
+            kb.add(types.InlineKeyboardButton(text=shield+'🛡Генератор щитов', callback_data='equipshield'))
         elif item=='medic':
-            kb.add(types.InlineKeyboardButton(text='⛑Медик', callback_data='equipmedic'))
+            kb.add(types.InlineKeyboardButton(text=medic+'⛑Медик', callback_data='equipmedic'))
         elif item=='liveful':
-            kb.add(types.InlineKeyboardButton(text='💙Живучий', callback_data='equipliveful'))
+            kb.add(types.InlineKeyboardButton(text=liveful+'💙Живучий', callback_data='equipliveful'))
         elif item=='dvuzhil':
-            kb.add(types.InlineKeyboardButton(text='💪Стойкий', callback_data='equipdvuzhil'))
+            kb.add(types.InlineKeyboardButton(text=dvuzhil+'💪Стойкий', callback_data='equipdvuzhil'))
         elif item=='pricel':
-            kb.add(types.InlineKeyboardButton(text='🎯Прицел', callback_data='equippricel'))
+            kb.add(types.InlineKeyboardButton(text=pricel+'🎯Прицел', callback_data='equippricel'))
         elif item=='cazn':
-            kb.add(types.InlineKeyboardButton(text='💔Казнь', callback_data='equipcazn'))
+            kb.add(types.InlineKeyboardButton(text=cazn'💔Казнь', callback_data='equipcazn'))
         elif item=='berserk':
-            kb.add(types.InlineKeyboardButton(text='😡Берсерк', callback_data='equipberserk'))
+            kb.add(types.InlineKeyboardButton(text=berserk+'😡Берсерк', callback_data='equipberserk'))
         elif item=='zombie':
-            kb.add(types.InlineKeyboardButton(text='👹Зомби', callback_data='equipzombie'))
+            kb.add(types.InlineKeyboardButton(text=zombie+'👹Зомби', callback_data='equipzombie'))
         elif item=='gipnoz':
-            kb.add(types.InlineKeyboardButton(text='👁Гипноз', callback_data='equipgipnoz'))
+            kb.add(types.InlineKeyboardButton(text=gipnoz+'👁Гипноз', callback_data='equipgipnoz'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
             
             
