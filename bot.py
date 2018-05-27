@@ -729,7 +729,7 @@ def dmgs(id):
        else:
            pass
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
-    if games[id]['bots'][mob]['hp']<=0:
+     if games[id]['bots'][mob]['hp']<=0:
            if 'zombie' not in games[id]['bots'][mob]['skills']:
               text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
            else:
