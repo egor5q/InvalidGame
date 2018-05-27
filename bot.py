@@ -26,7 +26,7 @@ users=db.users
 
 
 vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
-       'dmg':['skill "pricel"', 'skill "kazn"', 'skill "berserk"'],
+       'dmg':['skill "pricel"', 'skill "assasin"', 'skill "berserk"'],
        'different':['skill "zombie"', 'skill "hypnos"'],
        'skins':['wolf', 'cowboy', 'oracle']
 
@@ -96,7 +96,7 @@ def invent(m):
         elif item=='pricel':
             kb.add(types.InlineKeyboardButton(text=pricel+'🎯Прицел', callback_data='equippricel'))
         elif item=='cazn':
-            kb.add(types.InlineKeyboardButton(text=cazn+'💔Казнь', callback_data='equipcazn'))
+            kb.add(types.InlineKeyboardButton(text=cazn+'💥Ассасин', callback_data='equipcazn'))
         elif item=='berserk':
             kb.add(types.InlineKeyboardButton(text=berserk+'😡Берсерк', callback_data='equipberserk'))
         elif item=='zombie':
@@ -241,7 +241,7 @@ def inline(call):
             berserk='✅'
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=pricel+'🎯Прицел', callback_data='pricel'))
-        kb.add(types.InlineKeyboardButton(text=cazn+'💔Казнь', callback_data='cazn'))
+        kb.add(types.InlineKeyboardButton(text=cazn+'💥Ассасин', callback_data='cazn'))
         kb.add(types.InlineKeyboardButton(text=berserk+'😡Берсерк', callback_data='berserk'))
         medit('Ветка: урон', call.message.chat.id, call.message.message_id, reply_markup=kb)
         
@@ -289,7 +289,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buycazn'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл позволяет убить врага, у которого остался 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл позволяет убить врага, у которого остался 1 хп, не смотря ни на что. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='back':
        kb=types.InlineKeyboardMarkup()
@@ -769,7 +769,11 @@ def rockchance(energy, target, x, id, bot1):
     chance=20
   elif energy==0:
     chance=1
-  if (x+target['miss']-bot1['accuracy'])<=chance:
+  if target['hp']==1 and 'cazn' in bot1['skills']:
+      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+      target['hp']-=1
+  else:
+    if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(2, 3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
@@ -781,7 +785,7 @@ def rockchance(energy, target, x, id, bot1):
             target['stun']=2
             games[id]['res']+='🌀Цель оглушена!\n'
           
-  else:
+    else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['energy']-=2
           
