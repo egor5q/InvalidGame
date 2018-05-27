@@ -271,7 +271,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyliveful'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 15%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 10%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='dvuzhil':
        kb=types.InlineKeyboardMarkup()
@@ -642,9 +642,9 @@ def results(id):
   z=0
   bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
   bot.send_message(id, games[id]['secondres'])
-  die=0      
+  die=0    
+  games[id]['xod']+=1
   for mobs in games[id]['bots']:
-    games[id]['xod']+=1
     games[id]['bots'][mobs]['attack']=0
     games[id]['bots'][mobs]['yvorot']=0 
     games[id]['bots'][mobs]['reload']=0 
@@ -1159,7 +1159,7 @@ def begingame(id):
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
-            games[id]['bots'][ids]['accuracy']-=15
+            games[id]['bots'][ids]['accuracy']-=10
         if 'dvuzhil' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=1
             games[id]['bots'][ids]['damagelimit']+=3
