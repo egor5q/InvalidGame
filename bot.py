@@ -241,8 +241,8 @@ def inline(call):
             berserk='✅'
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=pricel+'🎯Прицел', callback_data='pricel'))
-        kb.add(types.InlineKeyboardButton(text=cazn+'💥Ассасин', callback_data='cazn'))
         kb.add(types.InlineKeyboardButton(text=berserk+'😡Берсерк', callback_data='berserk'))
+        kb.add(types.InlineKeyboardButton(text=cazn+'💥Ассасин', callback_data='cazn'))
         medit('Ветка: урон', call.message.chat.id, call.message.message_id, reply_markup=kb)
         
   elif call.data=='different':
@@ -431,7 +431,7 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        if 'cazn' not in x['bot']['bought']:
            if x['cookie']>=1500:
-             if 'pricel' in x['bot']['bought']:
+             if 'berserk' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'cazn'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1500}})
                 medit('Вы успешно приобрели скилл "Казнь"!',call.message.chat.id,call.message.message_id)
@@ -473,7 +473,7 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        if 'berserk' not in x['bot']['bought']:
            if x['cookie']>=2000:
-             if 'cazn' in x['bot']['bought']:
+             if 'pricel' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'berserk'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2000}})
                 medit('Вы успешно приобрели скилл "Берсерк"!',call.message.chat.id,call.message.message_id)
