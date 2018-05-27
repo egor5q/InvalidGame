@@ -1163,14 +1163,10 @@ def begingame(id):
             games[id]['bots'][ids]['hp']+=1
             games[id]['bots'][ids]['damagelimit']+=3
         if 'pricel' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['accuracy']+=15
+            games[id]['bots'][ids]['accuracy']+=20
     giveitems(games[id])
     battle(id)
 
-vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
-       'dmg':['skill "pricel"', 'skill "kazn"', 'skill "berserk"'],
-       'different':['skill "zombie"', 'skill "hypnos"'],
-       'skins':['wolf', 'cowboy', 'oracle']
 
 }          
   
