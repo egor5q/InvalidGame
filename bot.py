@@ -1259,7 +1259,7 @@ def begingame(id):
         for skill in games[id]['bots'][ids]['skills']:
             text+=skilltoname(skill)+'\n'
         text+='\n'
-    bot.send_message(id, 'Экипированные скиллы:\n\n'+text
+    bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     giveitems(games[id])
     battle(id)
  
