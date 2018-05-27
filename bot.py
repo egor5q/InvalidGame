@@ -1053,10 +1053,16 @@ def actnumber(bot, id):
         
   x=random.randint(1,100)
   if len(npc['skills'])>0:
-      if x<=45:
+    if 'shieldgen' in npc['skills'] and npc['shieldgen']<=0:
+      if x<=75:
           skill=1
       else:
           skill=0
+    else:
+       if x<=50:
+           skill=1
+       else:
+           skill=0
   else:
     skill=0
   if npc['hp']<=2 and 'medic' in npc['skills'] and npc['heal']<=0:
