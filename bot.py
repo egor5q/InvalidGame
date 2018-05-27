@@ -151,11 +151,11 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'bot.target':None}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'bot.gipnoz':0}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -657,6 +657,7 @@ def results(id):
     games[id]['bots'][mobs]['shield']-=1
     games[id]['bots'][mobs]['shieldgen']-=1
     games[id]['bots'][mobs]['target']=None
+    games[id]['bots'][mobs]['gipnoz']-=1
     if games[id]['bots'][mobs]['heal']!=0:
         games[id]['bots'][mobs]['heal']-=1
     if games[id]['bots'][mobs]['die']!=1:
@@ -948,9 +949,28 @@ def skill(bot,id):
                 i=1
               
     elif choice=='gipnoz':
-        if target['energy']>=3:
-            games[id]['res']+='👁‍🗨'+bot['name']+' использует гипноз на '+target['name']+'!\n'
-            target['target']=target
+       if target['energy']>=3:
+         if bot['energy']>=1:
+           if bot['gipnoz']<=0:
+             games[id]['res']+='👁‍🗨'+bot['name']+' использует гипноз на '+target['name']+'!\n'
+             target['target']=target
+             bot['name']['energy']-=1
+             bot['gipnoz']=6
+             i=1
+           else:
+              pass
+         else:
+            a=random.randint(1,2)
+            if a==1:
+                bot['reload']=1
+            else:
+                if len(bot['items'])>=1:
+                     bot['item']=1
+                else:
+                     bot['reload']=1
+       else:
+           pass
+              
             
                        
     if i==0:
