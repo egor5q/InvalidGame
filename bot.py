@@ -772,6 +772,7 @@ def rockchance(energy, target, x, id, bot1):
   if target['hp']==1 and 'cazn' in bot1['skills']:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
+      bot1['energy']=0
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(2, 3)
@@ -803,14 +804,19 @@ def akchance(energy, target, x, id, bot1):
     chance=5
   elif energy==0:
     chance=0
-  if (x+target['miss']-bot1['accuracy'])<=chance:
+  if target['hp']==1 and 'cazn' in bot1['skills']:
+      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+      target['hp']-=1
+      bot1['energy']=0
+  else:
+    if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(3, 4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           games[id]['res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'        
           target['takendmg']+=damage
           bot1['energy']-=random.randint(2,3)
-  else:
+    else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['energy']-=random.randint(2,3)
         
@@ -829,7 +835,12 @@ def handchance(energy, target, x, id, bot1):
     chance=60
   elif energy==0:
     chance=1
-  if (x+target['miss']-bot1['accuracy'])<=chance:
+  if target['hp']==1 and 'cazn' in bot1['skills']:
+      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+      target['hp']-=1
+      bot1['energy']=0
+  else:
+    if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
@@ -837,7 +848,7 @@ def handchance(energy, target, x, id, bot1):
           target['takendmg']+=damage
           bot1['energy']-=1
                 
-  else:
+    else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['energy']-=1
        
@@ -855,7 +866,12 @@ def sawchance(energy, target, x, id, bot1):
     chance=30
   elif energy==0:
     chance=1
-  if (x+target['miss']-bot1['accuracy'])<=chance:
+  if target['hp']==1 and 'cazn' in bot1['skills']:
+      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+      target['hp']-=1
+      bot1['energy']=0
+  else:
+    if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
@@ -873,7 +889,7 @@ def sawchance(energy, target, x, id, bot1):
                 target['blood']-=1
                 games[id]['res']+='❣️Кровотечение усиливается!\n'
                 
-  else:
+    else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['energy']-=2
     
