@@ -963,11 +963,14 @@ def skill(bot,id):
             a=random.randint(1,2)
             if a==1:
                 bot['reload']=1
+                i=1
             else:
                 if len(bot['items'])>=1:
                      bot['item']=1
+                     i=1
                 else:
                      bot['reload']=1
+                     i=1
        else:
            pass
               
