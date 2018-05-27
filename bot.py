@@ -935,13 +935,19 @@ def skill(bot,id):
             if a==1:
                 bot['attack']=1
             else:
-                bot['item']=1
+                if len(bot['items'])>=1:
+                     bot['item']=1
+                else:
+                     bot['attack']=1
         else:
             a=random.randint(1,2)
             if a==1:
                 bot['reload']=1
             else:
-                bot['item']=1
+                if len(bot['items'])>=1:
+                     bot['item']=1
+                else:
+                     bot['reload']=1
             
     
     
