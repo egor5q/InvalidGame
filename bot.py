@@ -1296,7 +1296,7 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
         
 
 def begingame(id):
-    spisok=['rock', 'hand', 'ak', 'saw', 'kinzhal']
+    spisok=['kinzhal']#,'rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
         if 'liveful' in games[id]['bots'][ids]['skills']:
