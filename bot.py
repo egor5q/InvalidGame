@@ -742,6 +742,9 @@ def dmgs(id):
               games[id]['bots'][mob]['zombie']=3
               games[id]['bots'][mob]['hp']=1
               text+='👹'+games[id]['bots'][mob]['name']+' теперь зомби!\n'
+     if games[id]['xod']%5==0:
+       if games[id]['bots'][mob]['id']==87651712:
+              text+=games[id]['bots'][mob]['name']+' сосёт!\n'
        
               
     games[id]['secondres']='Эффекты:\n'+text
