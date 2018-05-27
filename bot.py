@@ -890,9 +890,14 @@ def attack(bot, id):
                                      
 
 def yvorot(bot, id):
-  bot['miss']=+30
-  bot['yvorotkd']=4
-  games[id]['res']+='💨'+bot['name']+' Уворачивается!\n'
+  if 'shieldgen' in bot['skills'] and bot['shieldgen']<=0:
+       games[id]['res']+='🛡'+bot['name']+' использует щит. Урон заблокирован!\n'
+       bot['shield']=1
+       bot['shieldgen']=5
+  else:
+       bot['miss']=+30
+       bot['yvorotkd']=4
+       games[id]['res']+='💨'+bot['name']+' Уворачивается!\n'
     
 
 def reload(bot2, id):
