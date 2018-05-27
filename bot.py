@@ -151,11 +151,11 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'bot.skin':[]}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'bot.target':None}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -656,6 +656,7 @@ def results(id):
     games[id]['bots'][mobs]['yvorotkd']-=1
     games[id]['bots'][mobs]['shield']-=1
     games[id]['bots'][mobs]['shieldgen']-=1
+    games[id]['bots'][mobs]['target']=None
     if games[id]['bots'][mobs]['heal']!=0:
         games[id]['bots'][mobs]['heal']-=1
     if games[id]['bots'][mobs]['die']!=1:
@@ -874,6 +875,8 @@ def attack(bot, id):
   while a[x-1]['die']==1:
        x=random.randint(1,len(a))
   target=games[id]['bots'][a[x-1]['id']]
+  if bot['target']!=None:
+        target=bot['target']
   x=random.randint(1,100)
   
   if bot['weapon']=='rock':
@@ -908,6 +911,14 @@ def reload(bot2, id):
 def skill(bot,id):
     i=0
     skills=[]
+    a=[]
+    for bots in games[id]['bots']:
+        if games[id]['bots'][bots]['id']!=bot['id']:
+            a.append(games[id]['bots'][bots])
+    x=random.randint(1,len(a))
+    while a[x-1]['die']==1:
+       x=random.randint(1,len(a))
+    target=games[id]['bots'][a[x-1]['id']]
     for item in bot['skills']:
         skills.append(item)
     choice=random.choice(skills)
@@ -935,6 +946,12 @@ def skill(bot,id):
                 bot['shield']=1
                 bot['shieldgen']=5
                 i=1
+              
+    elif choice=='gipnoz':
+        if target['energy']>=3:
+            games[id]['res']+='👁‍🗨'+bot['name']+' использует гипноз на '+target['name']+'!\n'
+            target['target']=target
+            
                        
     if i==0:
         if bot['energy']>=2:
@@ -1240,7 +1257,8 @@ def createbot(id):
               'zombie':0,
               'heal':0,
               'shieldgen':0,
-              'skin':[]
+              'skin':[],
+              'target':None
 }
 
 
