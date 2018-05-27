@@ -728,7 +728,18 @@ def dmgs(id):
                 games[id]['bots'][mob]['takendmg']-=games[id]['bots'][mob]['damagelimit']
        if games[id]['bots'][mob]['zombie']==0:
          if games[id]['bots'][mob]['die']!=1:
-           games[id]['bots'][mob]['hp']-=a
+           if 'oracle' not in games[id]['bots'][mob]['skin']:
+             games[id]['bots'][mob]['hp']-=a
+           else:
+            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0:
+               xx=random.randint(1,2)
+               if xx==1:
+                   text+='🔮Оракул '+games[id]['bots'][mob]['name']+' предотвращает свою смерть!\n'
+                   games[id]['bots'][mob]['oracle']=0
+               else:
+                   games[id]['bots'][mob]['hp']-=a
+            else:
+                games[id]['bots'][mob]['hp']-=a
        else:
            pass
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
@@ -1341,6 +1352,7 @@ def createbot(id):
               'heal':0,
               'shieldgen':0,
               'skin':[],
+              'oracle':1,
               'target':None
 }
 
