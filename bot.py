@@ -1169,7 +1169,7 @@ def begingame(id):
     battle(id)
 
 
-}          
+        
   
 
  
