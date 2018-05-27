@@ -28,12 +28,12 @@ users=db.users
 vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
        'dmg':['skill "pricel"', 'skill "assasin"', 'skill "berserk"'],
        'different':['skill "zombie"', 'skill "hypnos"', 'skill ""'],
-       'skins':['wolf', 'cowboy', 'oracle']
+       'skins':['oracle']
 
 }
 skills=[]
 
-items=['flash', 'knife']#'shield', 'knife']
+items=['flash', 'knife']
 
 
 @bot.message_handler(commands=['skins'])
@@ -907,6 +907,47 @@ def sawchance(energy, target, x, id, bot1):
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['energy']-=2
+       
+       
+def kinzhalchance(energy, target, x, id, bot1):
+  if energy==5:
+    chance=90
+  elif energy==4:
+    chance=75
+  elif energy==3:
+    chance=60
+  elif energy==2:
+    chance=40
+  elif energy==1:
+    chance=15
+  elif energy==0:
+    chance=0
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+      target['hp']-=1
+      bot1['energy']=0
+  else:
+    if (x+target['miss']-bot1['accuracy'])<=chance:
+          damage=2
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
+          if target['reload']!=1:
+              games[id]['res']+='🗡'+bot1['name']+' Бъет '+target['name']+' Кинжалом! Нанесено '+str(damage)+' Урона.\n'
+              target['takendmg']+=damage
+              bot1['energy']-=2
+          else:
+              a=random.randint(1,100)
+              if a<=40:
+                   damage=6
+                   games[id]['res']+='⚡️'+bot1['name']+' Наносит критический удар по '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+                   bot1['energy']-=2
+              else:
+                  games[id]['res']+='🗡'+bot1['name']+' Бъет '+target['name']+' Кинжалом! Нанесено '+str(damage)+' Урона.\n'
+                  target['takendmg']+=damage
+                  bot1['energy']-=2               
+    else:
+        games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['energy']-=2
     
               
 
@@ -937,7 +978,10 @@ def attack(bot, id):
       akchance(bot['energy'], target, x, id, bot)  
 
   elif bot['weapon']=='saw':
-      sawchance(bot['energy'], target, x, id, bot)  
+      sawchance(bot['energy'], target, x, id, bot)
+      
+  elif bot['weapon']=='kinzhal':
+    kinzhalchance(bot['energy'], target, x, id, bot)
                                      
 
 def yvorot(bot, id):
@@ -1252,7 +1296,7 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
         
 
 def begingame(id):
-    spisok=['rock', 'hand', 'ak', 'saw']
+    spisok=['rock', 'hand', 'ak', 'saw', 'kinzhal']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
         if 'liveful' in games[id]['bots'][ids]['skills']:
