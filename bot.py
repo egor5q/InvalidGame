@@ -151,11 +151,11 @@ def k(m):
         pass
         
 
-@bot.message_handler(commands=['update'])
-def upd(m):
-        if m.from_user.id==441399484:
-                 users.update_many({}, {'$set':{'bot.gipnoz':0}})
-                 print('yes')
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#                 users.update_many({}, {'$set':{'bot.gipnoz':0}})
+#                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
