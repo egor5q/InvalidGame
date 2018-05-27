@@ -552,12 +552,12 @@ def inline(call):
     if 'cazn' not in x['bot']['skills']:
       if len(x['bot']['skills'])<=1:
         users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'cazn'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Казнь"!')
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Ассасин"!')
       else:
           bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
     else:
         users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'cazn'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Казнь"!')
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Ассасин"!')
         
   elif call.data=='equipberserk':
     x=users.find_one({'id':call.from_user.id})
