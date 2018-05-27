@@ -784,7 +784,7 @@ def rockchance(energy, target, x, id, bot1):
     chance=20
   elif energy==0:
     chance=1
-  if target['hp']==1 and 'cazn' in bot1['skills']:
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
       bot1['energy']=0
@@ -819,7 +819,7 @@ def akchance(energy, target, x, id, bot1):
     chance=5
   elif energy==0:
     chance=0
-  if target['hp']==1 and 'cazn' in bot1['skills']:
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
       bot1['energy']=0
@@ -850,7 +850,7 @@ def handchance(energy, target, x, id, bot1):
     chance=60
   elif energy==0:
     chance=1
-  if target['hp']==1 and 'cazn' in bot1['skills']:
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
       bot1['energy']=0
@@ -881,7 +881,7 @@ def sawchance(energy, target, x, id, bot1):
     chance=30
   elif energy==0:
     chance=1
-  if target['hp']==1 and 'cazn' in bot1['skills']:
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
       bot1['energy']=0
