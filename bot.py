@@ -744,6 +744,7 @@ def dmgs(id):
               text+='👹'+games[id]['bots'][mob]['name']+' теперь зомби!\n'
      if games[id]['xod']%5==0:
        if games[id]['bots'][mob]['id']==87651712:
+          if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]>0:
               text+=games[id]['bots'][mob]['name']+' сосёт!\n'
        
               
@@ -1251,12 +1252,37 @@ def begingame(id):
             games[id]['bots'][ids]['damagelimit']+=3
         if 'pricel' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['accuracy']+=15
+    text=''
+    
+    for ids in games[id]['bots']:  
+        text+=games[id]['bots'][ids]['name']+':\n'
+        for skill in games[id]['bots'][ids]['skills']:
+            text+=skilltoname(skill)+'\n'
+        text+='\n'
+    bot.send_message(id, 'Экипированные скиллы:\n\n'+text
     giveitems(games[id])
     battle(id)
+ 
 
-
-        
-  
+def skilltoname(x):
+    if x=='shieldgen':
+        return 'Генератор щитов'
+    elif x=='medic':
+        return 'Медик'
+    elif x=='liveful':
+        return 'Живучий'
+    elif x=='dvuzhil':
+        return 'Стойкий'
+    elif x=='pricel':
+        return 'Прицел'
+    elif x=='cazn':
+        return 'Ассасин'
+    elif x=='berserk':
+        return 'Берсерк'
+    elif x=='zombie':
+        return 'Зомби'
+    elif x=='gipnoz':
+        return 'Гипнотизёр'
 
  
 def createbott(id, y):
