@@ -27,7 +27,7 @@ users=db.users
 
 vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
        'dmg':['skill "pricel"', 'skill "assasin"', 'skill "berserk"'],
-       'different':['skill "zombie"', 'skill "hypnos"'],
+       'different':['skill "zombie"', 'skill "hypnos"', 'skill ""'],
        'skins':['wolf', 'cowboy', 'oracle']
 
 }
@@ -287,7 +287,7 @@ def inline(call):
        
   elif call.data=='cazn':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buycazn'))
+       kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buycazn'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Этот скилл позволяет убить врага, у которого остался 1 хп, не смотря ни на что. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
@@ -312,7 +312,7 @@ def inline(call):
        
   elif call.data=='berserk':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyberserk'))
+       kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buyberserk'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Если хп опускается ниже 2х, ваш урон повышается на 2. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
