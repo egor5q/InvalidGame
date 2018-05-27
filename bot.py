@@ -640,10 +640,11 @@ def results(id):
         games[id]['bots'][ids]['takendmg']=0
   dmgs(id)
   z=0
-  bot.send_message(id, 'Результаты хода:\n'+games[id]['res']+'\n\n')
+  bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
   bot.send_message(id, games[id]['secondres'])
   die=0      
   for mobs in games[id]['bots']:
+    games[id]['xod']+=1
     games[id]['bots'][mobs]['attack']=0
     games[id]['bots'][mobs]['yvorot']=0 
     games[id]['bots'][mobs]['reload']=0 
@@ -1192,7 +1193,8 @@ def creategame(id):
         'results':'',
         'secondres':'',
         'res':'',
-        'started':0
+        'started':0,
+        'xod':1
             
         
              }
