@@ -954,7 +954,7 @@ def skill(bot,id):
            if bot['gipnoz']<=0:
              games[id]['res']+='👁‍🗨'+bot['name']+' использует гипноз на '+target['name']+'!\n'
              target['target']=target
-             bot['name']['energy']-=1
+             bot['energy']-=1
              bot['gipnoz']=6
              i=1
            else:
