@@ -732,6 +732,8 @@ def dmgs(id):
        else:
            pass
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+     if games[id]['bots'][mob]['hp']<=1 and 'berserk' in games[id]['bots'][mob]['skills']:
+         text+='😡Берсерк '+games[id]['bots'][mob]['name']+' входит в ярость и получает +2 урона!\n'
      if games[id]['bots'][mob]['hp']<=0:
            if 'zombie' not in games[id]['bots'][mob]['skills']:
              if games[id]['bots'][mob]['die']!=1:
@@ -740,6 +742,7 @@ def dmgs(id):
               games[id]['bots'][mob]['zombie']=3
               games[id]['bots'][mob]['hp']=1
               text+='👹'+games[id]['bots'][mob]['name']+' теперь зомби!\n'
+       
               
     games[id]['secondres']='Эффекты:\n'+text
    
