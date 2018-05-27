@@ -937,7 +937,7 @@ def kinzhalchance(energy, target, x, id, bot1):
               bot1['energy']-=2
           else:
               a=random.randint(1,100)
-              if a<=60:
+              if a<=80:
                    damage=6
                    games[id]['res']+='⚡️'+bot1['name']+' Наносит критический удар по '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
                    bot1['energy']-=2
@@ -1297,7 +1297,7 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
         
 
 def begingame(id):
-    spisok=['kinzhal']#,'rock', 'hand', 'ak', 'saw']
+    spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
         if 'liveful' in games[id]['bots'][ids]['skills']:
