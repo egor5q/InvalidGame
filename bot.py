@@ -314,7 +314,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyberserk'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Если хп опускается ниже 3х, ваш урон повышается на 2. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Если хп опускается ниже 2х, ваш урон повышается на 2. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
@@ -768,6 +768,8 @@ def rockchance(energy, target, x, id, bot1):
     chance=1
   if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(2, 3)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
           games[id]['res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=2
@@ -796,6 +798,8 @@ def akchance(energy, target, x, id, bot1):
     chance=0
   if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(3, 4)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
           games[id]['res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'        
           target['takendmg']+=damage
           bot1['energy']-=random.randint(2,3)
@@ -820,6 +824,8 @@ def handchance(energy, target, x, id, bot1):
     chance=1
   if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,3)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
           games[id]['res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=1
@@ -844,6 +850,8 @@ def sawchance(energy, target, x, id, bot1):
     chance=1
   if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,3)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
           games[id]['res']+='⚙️'+bot1['name']+' Стреляет в '+target['name']+' из Пилострела! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=2
