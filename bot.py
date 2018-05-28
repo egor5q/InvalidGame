@@ -65,6 +65,7 @@ def invent(m):
     berserk='☑️'
     zombie='☑️'
     gipnoz='☑️'
+    cube='☑️'
     if 'shieldgen' in x['bot']['skills']:
         shield='✅'
     if 'medic' in x['bot']['skills']:
@@ -83,6 +84,8 @@ def invent(m):
         zombie='✅'
     if 'gipnoz' in x['bot']['skills']:
         gipnoz='✅'
+    if 'cube' in x['bot']['skills']:
+        cube='✅'
     
     for item in x['bot']['bought']:
         if item=='shieldgen':
@@ -103,6 +106,8 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=zombie+'👹Зомби', callback_data='equipzombie'))
         elif item=='gipnoz':
             kb.add(types.InlineKeyboardButton(text=gipnoz+'👁Гипноз', callback_data='equipgipnoz'))
+       elif item=='cube':
+            kb.add(types.InlineKeyboardButton(text=cube+'🎲Куб рандома', callback_data='equipcube'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
             
