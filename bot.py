@@ -1360,7 +1360,7 @@ def begingame(id):
             if skilltoname(skill)!='Куб рандома':
                 text+=skilltoname(skill)+'\n'
             else:
-                text+=skilltoname(skill)+'('+bots['skills'][len(bots['skills'])-1]+')\n'
+                text+=skilltoname(skill)+'\n'
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     giveitems(games[id])
