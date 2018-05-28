@@ -36,6 +36,41 @@ skills=[]
 items=['flash', 'knife']
 
 
+@bot.message_handler(commands=['weapons'])
+def weapon(m):
+  if m.chat.id==m.from_user.id:
+    x=users.find_one({'id':m.from_user.id})
+    kb=types.InlineKeyboardMarkup()
+    hand='☑️'
+    pistol='☑️'
+    rock='☑️'
+    saw='☑️'
+    kinzhal='☑️'
+    if 'hand' in x['bot']['weapons']:
+        hand='✅'
+    if 'ak' in x['bot']['weapons']:
+        pistol='✅'
+    if 'rock' in x['bot']['weapons']:
+        rock='✅'
+    if 'saw' in x['bot']['weapons']:
+        saw='✅'
+    if 'kinzhal' in x['bot']['weapons']:
+        kinzhal='✅'
+    for ids in x['bot']['weapons']:
+        if ids=='hand':
+            kb.add(types.InlineKeyboardButton(text=oracle+'Кулаки', callback_data='equiphand'))
+        if ids=='ak':
+            kb.add(types.InlineKeyboardButton(text=oracle+'Пистолет', callback_data='equippistol'))
+        if ids=='rock':
+            kb.add(types.InlineKeyboardButton(text=oracle+'Камень', callback_data='equiprock'))
+        if ids=='saw':
+            kb.add(types.InlineKeyboardButton(text=oracle+'Пилострел', callback_data='equipsaw'))
+        if ids=='kinzhal':
+            kb.add(types.InlineKeyboardButton(text=oracle+'Кинжал', callback_data='equipkinzhal'))
+    kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
+    bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
+
+
 @bot.message_handler(commands=['skins'])
 def skins(m):
   if m.chat.id==m.from_user.id:
