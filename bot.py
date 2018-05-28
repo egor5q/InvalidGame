@@ -47,12 +47,7 @@ def weapon(m):
     y=userstrug.find_one({'id':m.from_user.id})
     x=users.find_one({'id':m.from_user.id})
     kb=types.InlineKeyboardMarkup()
-    hand='☑️'
-    pistol='☑️'
-    rock='☑️'
-    saw='☑️'
-    kinzhal='☑️'
-    hand='✅'
+
     if '🔫' in y['inventory']:
         pistol='✅'
     if '☄️' in y['inventory']:
@@ -61,16 +56,15 @@ def weapon(m):
         saw='✅'
     if '🗡' in y['inventory']:
         kinzhal='✅'
-    
-        kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
-        if '🔫' in y['inventory']:
-            kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-        if '☄️' in y['inventory']:
-            kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
-        if '⚙️' in y['inventory']:
-            kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
-        if '🗡' in y['inventory']:
-            kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
+    kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
+    if '🔫' in y['inventory']:
+        kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
+    if '☄️' in y['inventory']:
+        kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
+    if '⚙️' in y['inventory']:
+        kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
+    if '🗡' in y['inventory']:
+        kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
 
