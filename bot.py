@@ -1268,7 +1268,7 @@ def actnumber(bot, id):
         yvorot=0
         
   x=random.randint(1,100)
-  if len(npc['skills'])>0:
+  if len(npc['skills'])>0 and 'active' in npc['skills']:
     if 'shieldgen' in npc['skills'] and npc['shieldgen']<=0:
       if x<=75:
           skill=1
@@ -1278,14 +1278,12 @@ def actnumber(bot, id):
        if x<=50:
            skill=1
        else:
-           skill=0
+           skill=0 
   else:
     skill=0
-  if npc['hp']<=2 and 'medic' in npc['skills'] and npc['heal']<=0:
+  if 'medic' in npc['skills'] and npc['heal']<=0:
       skill=1
-      
-  
-      
+        
   if len(npc['items'])>0:
     x=random.randint(1,100)
     if x<=35:
@@ -1379,6 +1377,13 @@ def begingame(id):
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
+        active=['shieldgen', 'medic', 'gipnoz']
+        yes=0
+        for i in active:
+            if i in games[id]['bots'][ids]['skills']:
+                yes=1  
+        if yes==1:
+              games[id]['bots'][ids]['skills'].append('active')
         if 'cube' in games[id]['bots'][ids]['skills']:
             a=['shieldgen', 'medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz']
             z=(random.choice(a))
@@ -1401,13 +1406,14 @@ def begingame(id):
         for skill in games[id]['bots'][ids]['skills']:
           if randomm==0:
             bots=games[id]['bots'][ids]
-            if skill!='cube':
+            if skill!='cube' and skill!='active':
                 text+=skilltoname(skill)+'\n'
             else:
-                randomm=bots['skills'][len(bots['skills'])-1]
-                text+=skilltoname(skill)+'('+skilltoname(bots['skills'][len(bots['skills'])-1])+')\n'
+                if skill!='active':
+                    randomm=bots['skills'][len(bots['skills'])-1]
+                    text+=skilltoname(skill)+'('+skilltoname(bots['skills'][len(bots['skills'])-1])+')\n'
           else:
-              if skill!=randomm:
+              if skill!=randomm and skill!='active':
                     text+=skilltoname(skill)+'\n'
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
