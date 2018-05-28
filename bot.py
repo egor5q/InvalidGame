@@ -1217,19 +1217,19 @@ def actnumber(bot, id):
   if npc['energy']>0 and npc['energy']<=2:
     x=random.randint(1,100)
     if npc['weapon']!='hand':
-     if x<=15:
+     if x<=20:
        attack=1
      else:
        attack=0
     else:
-      if x<=70:
+      if x<=75:
         attack=1
       else:
         attack=0
   elif npc['energy']>=3:
     x=random.randint(1,100)
     if npc['weapon']!='hand':
-      if x<=70:
+      if x<=75:
         attack=1
       else:
         attack=0
