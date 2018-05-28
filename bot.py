@@ -44,7 +44,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['weapons'])
 def weapon(m):
   if m.chat.id==m.from_user.id:
-    
+    y=userstrug.find_one({'id':m.from_user.id})
     x=users.find_one({'id':m.from_user.id})
     kb=types.InlineKeyboardMarkup()
     hand='☑️'
@@ -52,15 +52,14 @@ def weapon(m):
     rock='☑️'
     saw='☑️'
     kinzhal='☑️'
-    if 'hand' in x['bot']['weapons']:
-        hand='✅'
-    if 'ak' in x['bot']['weapons']:
+    hand='✅'
+    if '🔫' in y['inventory']:
         pistol='✅'
-    if 'rock' in x['bot']['weapons']:
+    if '☄️' in y['inventory']:
         rock='✅'
-    if 'saw' in x['bot']['weapons']:
+    if '⚙️' in y['inventory']:
         saw='✅'
-    if 'kinzhal' in x['bot']['weapons']:
+    if '🗡' in y['inventory']:
         kinzhal='✅'
     for ids in x['bot']['weapons']:
         if ids=='hand':
