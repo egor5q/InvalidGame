@@ -327,9 +327,9 @@ def inline(call):
        
   elif call.data=='cube':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='6000⚛️', callback_data='buycube'))
+       kb.add(types.InlineKeyboardButton(text='7000⚛️', callback_data='buycube'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('В начале матча этот куб превращается в случайный скилл. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('В начале матча этот куб превращается в случайный скилл. Можно купить, не покупая предыдущие улучшения. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
@@ -461,9 +461,9 @@ def inline(call):
   elif call.data=='buycube':
        x=users.find_one({'id':call.from_user.id})
        if 'cube' not in x['bot']['bought']:
-           if x['cookie']>=6000:
+           if x['cookie']>=7000:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'cube'}})
-                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-6000}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-7000}})
                 medit('Вы успешно приобрели скилл "Куб рандома"!',call.message.chat.id,call.message.message_id)
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
