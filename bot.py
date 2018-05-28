@@ -808,19 +808,16 @@ def dmgs(id):
            if 'oracle' not in games[id]['bots'][mob]['skin']:
              games[id]['bots'][mob]['hp']-=a
            else:
-            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0:
-               xx=random.randint(1,2)
-               if xx==1:
+            xx=random.randint(1,2)
+            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0 and xx==1:
                    text+='🔮Оракул '+games[id]['bots'][mob]['name']+' предотвращает свою смерть!\n'
                    games[id]['bots'][mob]['oracle']=0
-               else:
-                   games[id]['bots'][mob]['hp']-=a
             else:
                 games[id]['bots'][mob]['hp']-=a
        else:
            pass
        text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
-     if games[id]['bots'][mob]['hp']<=1 and 'berserk' in games[id]['bots'][mob]['skills']:
+       if games[id]['bots'][mob]['hp']<=1 and 'berserk' in games[id]['bots'][mob]['skills']:
          text+='😡Берсерк '+games[id]['bots'][mob]['name']+' входит в ярость и получает +2 урона!\n'
      if games[id]['bots'][mob]['hp']<=0:
            if 'zombie' not in games[id]['bots'][mob]['skills']:
