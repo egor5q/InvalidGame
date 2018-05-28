@@ -1340,6 +1340,9 @@ def begingame(id):
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['weapon']=random.choice(spisok)
+        if 'cube' in games[id]['bots'][ids]['skills']:
+            a=['shieldgen', 'medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz']
+            games[id]['bots'][ids]['skills'].append(random.choice(a))
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
@@ -1348,9 +1351,6 @@ def begingame(id):
             games[id]['bots'][ids]['damagelimit']+=3
         if 'pricel' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['accuracy']+=15
-        if 'cube' in games[id]['bots'][ids]['skills']:
-            a=['shieldgen', 'medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz']
-            games[id]['bots'][ids]['skills'].append(random.choice(a))
     text=''
     
     for ids in games[id]['bots']: 
