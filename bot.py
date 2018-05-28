@@ -690,7 +690,7 @@ def inline(call):
   elif call.data=='equiphand':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-      if y['bot']['weapon']==None:
+    if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'hand'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Кулаки"!')
       elif y['bot']['weapon']=='hand':
