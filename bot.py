@@ -1058,7 +1058,7 @@ def skill(bot,id):
     choice=random.choice(skills)
     if choice=='medic':
        if bot['heal']<=0:
-           bot['heal']=7
+           bot['heal']=8
            bot['hp']+=1
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
@@ -1078,7 +1078,7 @@ def skill(bot,id):
             else:
                 games[id]['res']+='🛡'+bot['name']+' использует щит. Урон заблокирован!\n'
                 bot['shield']=1
-                bot['shieldgen']=5
+                bot['shieldgen']=6
                 i=1
               
     elif choice=='gipnoz':
