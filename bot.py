@@ -61,16 +61,15 @@ def weapon(m):
         saw='✅'
     if '🗡' in y['inventory']:
         kinzhal='✅'
-    for ids in x['bot']['weapons']:
-        if ids=='hand':
-            kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
-        if ids=='ak':
+    
+        kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
+        if '🔫' in y['inventory']:
             kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-        if ids=='rock':
+        if '☄️' in y['inventory']:
             kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
-        if ids=='saw':
+        if '⚙️' in y['inventory']:
             kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
-        if ids=='kinzhal':
+        if '🗡' in y['inventory']:
             kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
