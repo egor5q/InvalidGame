@@ -1071,7 +1071,7 @@ def yvorot(bot, id):
        bot['shieldgen']=6
   else:
        bot['miss']=+30
-       bot['yvorotkd']=4
+       bot['yvorotkd']=7
        games[id]['res']+='💨'+bot['name']+' Уворачивается!\n'
     
 
