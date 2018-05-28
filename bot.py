@@ -26,8 +26,8 @@ users=db.users
 
 
 vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
-       'dmg':['skill "pricel"', 'skill "berserk"','skill "crit"','skill "assasin"'],
-       'different':['skill "zombie"', 'skill "hypnos"', 'skill ""'],
+       'dmg':['skill "pricel"', 'skill "berserk"','skill ""','skill "assasin"'],
+       'different':['skill "zombie"', 'skill "hypnos"', 'skill "cube"'],
        'skins':['oracle']
 
 }
@@ -84,6 +84,8 @@ def skins(m):
             kb.add(types.InlineKeyboardButton(text=oracle+'Оракул', callback_data='equiporacle'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
+  else:
+       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
 
 @bot.message_handler(commands=['inventory'])
 def invent(m):
@@ -145,7 +147,8 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=cube+'🎲Куб рандома', callback_data='equipcube'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
-            
+  else:
+      bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
             
         
            
@@ -170,6 +173,8 @@ def upgr(m):
         kb.add(types.InlineKeyboardButton(text='Скины', callback_data='skins'))
         kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
         bot.send_message(m.chat.id, 'Выберите ветку', reply_markup=kb)
+    else:
+       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
 
 @bot.message_handler(commands=['me'])
 def me(m):
