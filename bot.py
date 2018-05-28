@@ -1356,8 +1356,8 @@ def begingame(id):
     for ids in games[id]['bots']:  
         text+=games[id]['bots'][ids]['name']+':\n'
         for skill in games[id]['bots'][ids]['skills']:
-            if skilltoname(skill)!='Куб рандома':
             bots=games[id]['bots'][ids]
+            if skilltoname(skill)!='Куб рандома':
                 text+=skilltoname(skill)+'\n'
             else:
                 text+=skilltoname(skill)+'('+bots['skills'][len(bots['skills'])-1]+')\n'
