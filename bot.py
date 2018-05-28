@@ -695,7 +695,7 @@ def inline(call):
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Кулаки"!')
     elif y['bot']['weapon']=='hand':
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Кулаки"!')
-      else:
+    else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
         
   elif call.data=='equippistol':
