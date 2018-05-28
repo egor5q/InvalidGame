@@ -320,7 +320,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyliveful'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 20%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 15%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='dvuzhil':
        kb=types.InlineKeyboardMarkup()
@@ -1392,7 +1392,7 @@ def begingame(id):
             games[id]['bots'][ids]['skills'].append(z)
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
-            games[id]['bots'][ids]['accuracy']-=20
+            games[id]['bots'][ids]['accuracy']-=15
         if 'dvuzhil' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=1
             games[id]['bots'][ids]['damagelimit']+=3
