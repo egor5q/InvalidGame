@@ -215,6 +215,7 @@ def inline(call):
   berserk='☑️'
   zombie='☑️'
   gipnoz='☑️'
+  cube='☑️'
   x=users.find_one({'id':call.from_user.id})
   if call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
@@ -250,6 +251,8 @@ def inline(call):
             zombie='✅'
         if 'gipnoz' in x['bot']['bought']:
             gipnoz='✅'
+        if 'cube' in x['bot']['bought']:
+            cube='✅'
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=zombie+'👹Зомби', callback_data='zombie'))
         kb.add(types.InlineKeyboardButton(text=gipnoz+'👁Гипноз', callback_data='gipnoz'))
