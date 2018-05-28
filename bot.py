@@ -24,6 +24,11 @@ client=MongoClient(client1)
 db=client.cookiewars
 users=db.users
 
+client2=os.environ['database2']
+client3=MongoClient(client2)
+db2=client3.trug
+userstrug=db2.users
+
 
 vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
        'dmg':['skill "pricel"', 'skill "berserk"','skill ""','skill "assasin"'],
@@ -39,6 +44,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['weapons'])
 def weapon(m):
   if m.chat.id==m.from_user.id:
+    
     x=users.find_one({'id':m.from_user.id})
     kb=types.InlineKeyboardMarkup()
     hand='☑️'
