@@ -681,6 +681,7 @@ def inline(call):
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'rock'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Камень"!')
       elif y['bot']['weapon']=='rock':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Камень"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
@@ -694,6 +695,7 @@ def inline(call):
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'hand'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Кулаки"!')
     elif y['bot']['weapon']=='hand':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Кулаки"!')
     else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
@@ -706,6 +708,7 @@ def inline(call):
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'ak'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пистолет"!')
       elif y['bot']['weapon']=='ak':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Пистолет"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
@@ -720,6 +723,7 @@ def inline(call):
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'saw'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пиломет"!')
       elif y['bot']['weapon']=='ak':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Пиломет"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
@@ -734,6 +738,7 @@ def inline(call):
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'kinzhal'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Кинжал"!')
       elif y['bot']['weapon']=='ak':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Кинжал"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
