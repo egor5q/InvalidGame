@@ -1446,7 +1446,8 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
 def begingame(id):
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
-        games[id]['bots'][ids]['weapon']=random.choice(spisok)
+        if games[id]['bots'][ids]['weapon']==None:
+            games[id]['bots'][ids]['weapon']='hand'
         active=['shieldgen', 'medic', 'gipnoz']
         yes=0
         for i in active:
