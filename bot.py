@@ -140,7 +140,7 @@ def upgr(m):
 def me(m):
     try:
       x=users.find_one({'id':m.from_user.id})
-      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️')
+      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️')
     except:
       pass
 
