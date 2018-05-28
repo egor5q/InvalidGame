@@ -1063,7 +1063,7 @@ def yvorot(bot, id):
   if 'shieldgen' in bot['skills'] and bot['shieldgen']<=0:
        games[id]['res']+='🛡'+bot['name']+' использует щит. Урон заблокирован!\n'
        bot['shield']=1
-       bot['shieldgen']=5
+       bot['shieldgen']=6
   else:
        bot['miss']=+30
        bot['yvorotkd']=4
@@ -1290,8 +1290,8 @@ def actnumber(bot, id):
   else:
     item=0
   reload=0
-  if attack==0 and yvorot==0 and item==0:
-    if npc['energy']==5:
+  if attack==0 and yvorot==0 and item==0 and skill==0:
+    if npc['energy']>=3:
       attack=1
     else:
       reload=1
