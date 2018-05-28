@@ -1353,14 +1353,20 @@ def begingame(id):
             games[id]['bots'][ids]['skills'].append(random.choice(a))
     text=''
     
-    for ids in games[id]['bots']:  
+    for ids in games[id]['bots']: 
+        random=0
         text+=games[id]['bots'][ids]['name']+':\n'
         for skill in games[id]['bots'][ids]['skills']:
+          if random==0:
             bots=games[id]['bots'][ids]
             if skilltoname(skill)!='Куб рандома':
                 text+=skilltoname(skill)+'\n'
             else:
-                text+=skilltoname(skill)+'\n'
+                random=bots['skills'][len(bots['skills'])-1])
+                text+=skilltoname(skill)+'('+skilltoname(bots['skills'][len(bots['skills'])-1])+')\n'
+          else:
+              if skill!=random:
+                    text+=skilltoname(skill)+'\n'
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     giveitems(games[id])
