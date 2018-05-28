@@ -26,7 +26,7 @@ users=db.users
 
 
 vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
-       'dmg':['skill "pricel"', 'skill "assasin"', 'skill "berserk"'],
+       'dmg':['skill "pricel"', 'skill "berserk"','skill "crit"','skill "assasin"'],
        'different':['skill "zombie"', 'skill "hypnos"', 'skill ""'],
        'skins':['oracle']
 
@@ -253,6 +253,7 @@ def inline(call):
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=zombie+'👹Зомби', callback_data='zombie'))
         kb.add(types.InlineKeyboardButton(text=gipnoz+'👁Гипноз', callback_data='gipnoz'))
+        kb.add(types.InlineKeyboardButton(text=cube+'🎲Куб рандома', callback_data='cube'))
         medit('Ветка: разное', call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
@@ -287,7 +288,7 @@ def inline(call):
        
   elif call.data=='cazn':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buycazn'))
+       kb.add(types.InlineKeyboardButton(text='2500⚛️', callback_data='buycazn'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Этот скилл позволяет убить врага, у которого остался 1 хп, не смотря ни на что. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
@@ -302,19 +303,25 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buyzombie'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('После своей смерти воин живёт еще 3 хода, а затем умирает. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('После своей смерти воин живёт еще 3 хода, а затем умирает. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='gipnoz':
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buygipnoz'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Если применить на атакующего врага, он атакует сам себя. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Если применить на атакующего врага, он атакует сам себя. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='berserk':
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buyberserk'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Если хп опускается ниже 2х, ваш урон повышается на 2. Хотите преобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Если хп опускается ниже 2х, ваш урон повышается на 2. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       
+  elif call.data=='cube':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='6000⚛️', callback_data='buycube'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('В начале матча этот куб превращается в случайный скилл. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
@@ -437,6 +444,19 @@ def inline(call):
                 medit('Вы успешно приобрели скилл "Казнь"!',call.message.chat.id,call.message.message_id)
              else:
                 bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+       
+       
+  elif call.data=='buycube':
+       x=users.find_one({'id':call.from_user.id})
+       if 'cube' not in x['bot']['bought']:
+           if x['cookie']>=6000:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'cube'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-6000}})
+                medit('Вы успешно приобрели скилл "Куб рандома"!',call.message.chat.id,call.message.message_id)
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
@@ -571,6 +591,18 @@ def inline(call):
         users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'berserk'}})
         bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Берсерк"!')
         
+  elif call.data=='equipcube':
+    x=users.find_one({'id':call.from_user.id})
+    if 'cube' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'cube'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Куб рандома"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'cube'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Куб рандома"!')          
+    
   elif call.data=='equipzombie':
     x=users.find_one({'id':call.from_user.id})
     if 'zombie' not in x['bot']['skills']:
@@ -1308,12 +1340,18 @@ def begingame(id):
             games[id]['bots'][ids]['damagelimit']+=3
         if 'pricel' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['accuracy']+=15
+        if 'cube' in games[id]['bots'][ids]['skills']:
+            a=['shieldgen', 'medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz']
+            games[id]['bots'][ids]['skills'].append(random.choice(a))
     text=''
     
     for ids in games[id]['bots']:  
         text+=games[id]['bots'][ids]['name']+':\n'
         for skill in games[id]['bots'][ids]['skills']:
-            text+=skilltoname(skill)+'\n'
+            if skilltoname(skill)!='Куб рандома':
+                text+=skilltoname(skill)+'\n'
+            else:
+                text+=skilltoname(skill)+'('+games[id]['bots']['skills'][2]+')\n'
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     giveitems(games[id])
@@ -1339,6 +1377,8 @@ def skilltoname(x):
         return 'Зомби'
     elif x=='gipnoz':
         return 'Гипнотизёр'
+    elif x=='cube':
+       return 'Куб рандома'
 
  
 def createbott(id, y):
