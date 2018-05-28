@@ -987,9 +987,9 @@ def kinzhalchance(energy, target, x, id, bot1):
   if energy==5:
     chance=90
   elif energy==4:
-    chance=75
+    chance=80
   elif energy==3:
-    chance=60
+    chance=70
   elif energy==2:
     chance=40
   elif energy==1:
