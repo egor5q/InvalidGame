@@ -1362,7 +1362,7 @@ def begingame(id):
             if skilltoname(skill)!='Куб рандома':
                 text+=skilltoname(skill)+'\n'
             else:
-                random=bots['skills'][len(bots['skills'])-1])
+                random=bots['skills'][len(bots['skills'])-1]
                 text+=skilltoname(skill)+'('+skilltoname(bots['skills'][len(bots['skills'])-1])+')\n'
           else:
               if skill!=random:
