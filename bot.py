@@ -722,7 +722,7 @@ def results(id):
               if games[id]['bots'][ids]['id']!=winner['id']:
                 points+=4
         winner2=users.find_one({'id':winner['id']})
-        bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['name']+' - '+str(points)+'⚛️ поинтов!')
+        bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов!')
         users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
         users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
       else:
