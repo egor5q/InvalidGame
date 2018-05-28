@@ -693,7 +693,7 @@ def inline(call):
     if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'hand'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Кулаки"!')
-      elif y['bot']['weapon']=='hand':
+    elif y['bot']['weapon']=='hand':
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Кулаки"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
