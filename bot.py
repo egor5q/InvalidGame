@@ -320,7 +320,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyliveful'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 15%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 20%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='dvuzhil':
        kb=types.InlineKeyboardMarkup()
@@ -701,20 +701,20 @@ def results(id):
         
   for bots in games[id]['bots']:
      if games[id]['bots'][bots]['skill']==1:
-        skill(games[id]['bots'][bots], id) 
-        
+        skill(games[id]['bots'][bots], id)   
+              
   for bots in games[id]['bots']:
       if games[id]['bots'][bots]['item']==1:
           item(games[id]['bots'][bots], id) 
-        
-  for bots in games[id]['bots']:
-      if games[id]['bots'][bots]['attack']==1:
-        attack(games[id]['bots'][bots],id)
               
   for bots in games[id]['bots']:
      if games[id]['bots'][bots]['reload']==1:
-        reload(games[id]['bots'][bots], id) 
-        
+        reload(games[id]['bots'][bots], id)          
+              
+  for bots in games[id]['bots']:
+      if games[id]['bots'][bots]['attack']==1:
+        attack(games[id]['bots'][bots],id)
+                     
   for ids in games[id]['bots']:
     if games[id]['bots'][ids]['shield']>=1:
         games[id]['bots'][ids]['takendmg']=0
