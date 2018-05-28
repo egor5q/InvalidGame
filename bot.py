@@ -58,15 +58,15 @@ def weapon(m):
         kinzhal='✅'
     for ids in x['bot']['weapons']:
         if ids=='hand':
-            kb.add(types.InlineKeyboardButton(text=oracle+'Кулаки', callback_data='equiphand'))
+            kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
         if ids=='ak':
-            kb.add(types.InlineKeyboardButton(text=oracle+'Пистолет', callback_data='equippistol'))
+            kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
         if ids=='rock':
-            kb.add(types.InlineKeyboardButton(text=oracle+'Камень', callback_data='equiprock'))
+            kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
         if ids=='saw':
-            kb.add(types.InlineKeyboardButton(text=oracle+'Пилострел', callback_data='equipsaw'))
+            kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
         if ids=='kinzhal':
-            kb.add(types.InlineKeyboardButton(text=oracle+'Кинжал', callback_data='equipkinzhal'))
+            kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
 
