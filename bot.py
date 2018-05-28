@@ -184,7 +184,7 @@ def me(m):
 
 @bot.message_handler(commands=['p'])
 def k(m):
-  if m.from_user.id==441399484:
+  if m.from_user.id==441399484 or m.from_user.id==55888804:
     x=m.text.split('/p')
     try:
       int(x[1])
