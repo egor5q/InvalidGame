@@ -830,6 +830,7 @@ def results(id):
         for ids in games[id]['bots']:
             for itemss in games[id]['bots'][ids]['skills']:
               if games[id]['bots'][ids]['id']!=winner['id']:
+               if itemss!='cube' and itemss!='active':
                 points+=4
         winner2=users.find_one({'id':winner['id']})
         bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов!')
