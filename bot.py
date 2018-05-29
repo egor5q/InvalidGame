@@ -993,7 +993,6 @@ def dmgs(id):
               if 'paukovod' in games[id]['bots'][mob]['skills']:
                   text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
                   pauk.append(games[id]['bots'][mob]['id'])
-                  games[id]['bots'].update(createpauk(games[id]['bots'][mob]['id']))
            else:
               games[id]['bots'][mob]['zombie']=3
               games[id]['bots'][mob]['hp']=1
