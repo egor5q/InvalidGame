@@ -1360,34 +1360,34 @@ def item(bot, id):
     target=games[id]['bots'][a[x-1]['id']]
   else:
     target=games[id]['bots'][0]
-    x=[]
-    i=1
-    for items in bot['items']:
-        x.append(items)
-    z=random.choice(x)
-    if z=='flash':
-        if target['energy']>=3:
-            games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
-            target['energy']=0
-            bot['items'].remove('flash')
-        else:
-            if bot['energy']>=2:
-                bot['attack']=1
-            else:
-                bot['reload']=1
-    elif z=='knife':
-        if bot['energy']>=2:
-            x=random.randint(1,100)
-            bot['energy']-=2
-            if x>target['miss']+10:
-                games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
-                target['takendmg']+=3
-                bot['items'].remove('knife')
-            else:
-              games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
+  x=[]
+  i=1
+  for items in bot['items']:
+      x.append(items)
+  z=random.choice(x)
+  if z=='flash':
+      if target['energy']>=3:
+          games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
+          target['energy']=0
+          bot['items'].remove('flash')
+      else:
+          if bot['energy']>=2:
+              bot['attack']=1
+          else:
+              bot['reload']=1
+  elif z=='knife':
+      if bot['energy']>=2:
+          x=random.randint(1,100)
+          bot['energy']-=2
+          if x>target['miss']+10:
+              games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
+              target['takendmg']+=3
               bot['items'].remove('knife')
-        else:
-          bot['reload']=1
+          else:
+            games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
+            bot['items'].remove('knife')
+      else:
+        bot['reload']=1
         
         
               
