@@ -859,7 +859,8 @@ def results(id):
   for ids in games[id]['bots']:
       if games[id]['bots'][ids]['die']==1:
             die+=1
-  if die+1>=len(games[id]['bots']):
+  if 0 not in games[id]['bots']:
+   if die+1>=len(games[id]['bots']):
       z=1
       name=None
       for ids in games[id]['bots']:
@@ -884,7 +885,11 @@ def results(id):
             bot.send_message(id, '🏆'+name+' победил!')
       else:
         bot.send_message(id, 'Все проиграли!')
-    
+  else:
+       if games[id]['bots'][0]['hp']<=0:
+           bot.send_message(id, '🏆Босс побеждён!')
+           z=1
+       
   games[id]['results']=''
   games[id]['res']=''
   games[id]['secondres']=''
