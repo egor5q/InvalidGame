@@ -1651,7 +1651,8 @@ def createbot(id):
               'oracle':1,
               'target':None,
               'exp':0,
-              'weapons':['hand']
+              'weapons':['hand'],
+              'gipnoz':0
 }
 
 
