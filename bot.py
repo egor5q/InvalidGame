@@ -79,6 +79,7 @@ def createboss(id):
 @bot.message_handler(commands=['addboss'])
 def addboss(m):
     if m.chat.id in games:
+       if games[m.chat.id]['started']==0:
           games[m.chat.id]['bots'].update(createboss(0))
           bot.send_message(m.chat.id, 'Босс успешно добавлен!')
     
