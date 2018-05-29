@@ -65,7 +65,7 @@ def createboss(id):
               'blood':0,
               'bought':[],
               'accuracy':0,
-              'damagelimit':6,
+              'damagelimit':15,
               'zombie':0,
               'heal':0,
               'shieldgen':0,
