@@ -956,6 +956,7 @@ def dmgs(id):
                 games[id]['bots'][mob]['die']=1
                 text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
     for mob in games[id]['bots']:
+     pauk=[]
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
        if games[id]['bots'][mob]['takendmg']<games[id]['bots'][mob]['damagelimit']:
@@ -991,6 +992,7 @@ def dmgs(id):
               text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
               if 'paukovod' in games[id]['bots'][mob]['skills']:
                   text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
+                  pauk.append(games[id]['bots'][mob]['id'])
                   games[id]['bots'].update(createpauk(games[id]['bots'][mob]['id']))
            else:
               games[id]['bots'][mob]['zombie']=3
@@ -1000,8 +1002,8 @@ def dmgs(id):
        if games[id]['bots'][mob]['id']==87651712:
           if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['hp']>0:
               text+=games[id]['bots'][mob]['name']+' сосёт!\n'
-       
-              
+    for item in pauk:
+       games[id]['bots'].update(createpauk(item))
     games[id]['secondres']='Эффекты:\n'+text
    
     
