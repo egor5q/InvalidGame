@@ -42,7 +42,7 @@ items=['flash', 'knife']
 
 
 def createboss(id):
-    return({id:{'name': 'Босс',
+    return{id:{'name': 'Босс',
               'weapon':'light',
               'skills':[],
               'team':None,
@@ -73,7 +73,7 @@ def createboss(id):
               'oracle':1,
               'target':None,
               'exp':0,
-              'weapons':['hand']
+              'weapons':['hand']}}
 
 @bot.message_handler(commands=['addboss'])
 def addboss(m):
