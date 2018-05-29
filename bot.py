@@ -1242,10 +1242,10 @@ def reload(bot2, id):
    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
     
 def skill(bot,id):
-  if 0 not in games[id]['bots']:
     i=0
     skills=[]
     a=[]
+  if 0 not in games[id]['bots']:
     for bots in games[id]['bots']:
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
