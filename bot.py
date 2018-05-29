@@ -1272,7 +1272,7 @@ def skill(bot,id):
     for item in bot['skills']:
         skills.append(item)
     choice=random.choice(skills)
-    if choice=='medic':
+  if choice=='medic':
        if bot['heal']<=0:
            bot['heal']=8
            bot['hp']+=1
