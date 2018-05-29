@@ -1660,6 +1660,8 @@ def begingame(id):
             games[id]['bots'][ids]['damagelimit']+=3
         if 'pricel' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['accuracy']+=15
+        if 'paukovod' in games[id]['bots'][ids]['skills']:
+            games[id]['bots'][ids]['hp']-=2
     text=''
     
     for ids in games[id]['bots']: 
