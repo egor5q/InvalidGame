@@ -1192,7 +1192,7 @@ def lightchance(energy, target, x, id, bot1):
       
 def attack(bot, id):
   a=[]
-  if 0 not in games['id']['bots']:
+  if 0 not in games[id]['bots']:
     for bots in games[id]['bots']:
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
