@@ -1205,6 +1205,7 @@ def attack(bot, id):
     x=random.randint(1,100)
   else:
     target=games[id]['bots'][0]
+    x=random.randint(1,100)
   
   if bot['weapon']=='rock':
       rockchance(bot['energy'], target, x, id, bot)          
