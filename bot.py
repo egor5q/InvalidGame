@@ -76,6 +76,42 @@ def createboss(id):
               'gipnoz':0,
               'weapons':['hand']}}
 
+
+def createpauk(id):
+    return{-id:{'name': 'Паук',
+              'weapon':'bite',
+              'skills':[],
+              'team':None,
+              'hp':2,
+              'maxenergy':5,
+              'energy':5,
+              'items':[],           
+              'attack':0,
+              'yvorot':0,
+              'reload':0,
+              'skill':0,
+              'item':0,
+              'miss':0,
+              'shield':0,
+              'stun':0,
+              'takendmg':0,
+              'die':0,
+              'yvorotkd':0,
+              'id':id,
+              'blood':0,
+              'bought':[],
+              'accuracy':0,
+              'damagelimit':6,
+              'zombie':0,
+              'heal':0,
+              'shieldgen':0,
+              'skin':[],
+              'oracle':1,
+              'target':None,
+              'exp':0,
+              'gipnoz':0,
+              'weapons':['hand']}}
+
 #@bot.message_handler(commands=['addboss'])
 #def addboss(m):
 #    if m.chat.id in games:
@@ -237,11 +273,11 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'bot.weapons':['hand']}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_one({'id':441399484}, {'$push':{'bot.skills':'paukovod'}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -953,6 +989,9 @@ def dmgs(id):
            if 'zombie' not in games[id]['bots'][mob]['skills']:
              if games[id]['bots'][mob]['die']!=1:
               text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+              if 'paukovod' in games[id]['bots'][mob]['skills']:
+                  text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
+                  games[id]['bots'].update(createpauk(games[id]['bots'][mob]['id']))
            else:
               games[id]['bots'][mob]['zombie']=3
               games[id]['bots'][mob]['hp']=1
@@ -1184,6 +1223,43 @@ def lightchance(energy, target, x, id, bot1):
     else:
         games[id]['res']+='💨Молния босса ударила мимо '+target['name']+'!\n'
         bot1['energy']-=5
+        
+def bitechance(energy, target, x, id, bot1):
+  if energy==5:
+    chance=90
+  elif energy==4:
+    chance=80
+  elif energy==3:
+    chance=70
+  elif energy==2:
+    chance=60
+  elif energy==1:
+    chance=50
+  elif energy==0:
+    chance=0
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+      target['hp']-=1
+      bot1['energy']=0
+  else:
+    if (x+target['miss']-bot1['accuracy'])<=chance:
+          damage=1
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
+          x=random.randint(1,100)
+          stun=0
+          if x<=50:
+                stun=1
+          games[id]['res']+='🕷'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          if stun==1:
+                text+='🤢Цель поражена ядом! Энергия снижена на 3.'
+                target['energy']-=3
+          target['takendmg']+=damage
+          bot1['energy']-=2
+        
+    else:
+        games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
+        bot1['energy']-=2
     
               
 
