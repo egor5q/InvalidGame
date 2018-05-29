@@ -1205,7 +1205,7 @@ def attack(bot, id):
     x=random.randint(1,100)
   else:
     for bots in games[id]['bots']:
-      if games[id]['bots'][bots]['id']==0 and games[id]['bots'][bots]['id']!=bot['id']
+      if games[id]['bots'][bots]['id']==0 and games[id]['bots'][bots]['id']!=bot['id']:
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
         x=random.randint(1,len(a))
