@@ -1428,7 +1428,7 @@ def actnumber(bot, id):
   x=random.randint(1,100)  
   low=0
   enemy=[]
-  if 0 not in games[id]['bots']:
+  if 0 not in games[id]['bots'] or games[id]['bots']['id']==0:
     for mob in games[id]['bots']:
       if games[id]['bots'][mob]['id']!=npc['id']:
         enemy.append(games[id]['bots'][mob])
