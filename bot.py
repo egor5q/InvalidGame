@@ -30,7 +30,7 @@ db2=client3.trug
 userstrug=db2.users
 
 
-vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"'],          
+vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"', 'skill "undead"'],          
        'dmg':['skill "pricel"', 'skill "berserk"','skill ""','skill "assasin"'],
        'different':['skill "zombie"', 'skill "hypnos"', 'skill "cube"'],
        'skins':['oracle']
@@ -737,7 +737,7 @@ def inline(call):
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'kinzhal'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Кинжал"!')
-      elif y['bot']['weapon']=='ak':
+      elif y['bot']['weapon']=='kinzhal':
           users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Кинжал"!')
       else:
