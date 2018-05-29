@@ -46,7 +46,7 @@ def createboss(id):
               'weapon':'light',
               'skills':[],
               'team':None,
-              'hp':100,
+              'hp':1000,
               'maxenergy':5,
               'energy':5,
               'items':[],           
@@ -938,7 +938,10 @@ def dmgs(id):
                 games[id]['bots'][mob]['hp']-=a
        else:
            pass
-       text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+       if games[id]['bots'][mob]['hp']<100:
+           text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+       else:
+           text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        if games[id]['bots'][mob]['hp']==1 and 'berserk' in games[id]['bots'][mob]['skills']:
          text+='😡Берсерк '+games[id]['bots'][mob]['name']+' входит в ярость и получает +2 урона!\n'
      if games[id]['bots'][mob]['hp']<=0:
