@@ -1269,9 +1269,9 @@ def skill(bot,id):
     target=games[id]['bots'][a[x-1]['id']]
   else:
     target=games[id]['bots'][0]
-    for item in bot['skills']:
-        skills.append(item)
-    choice=random.choice(skills)
+  for item in bot['skills']:
+      skills.append(item)
+  choice=random.choice(skills)
   if choice=='medic':
        if bot['heal']<=0:
            bot['heal']=8
