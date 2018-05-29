@@ -1704,6 +1704,8 @@ def skilltoname(x):
         return 'Гипнотизёр'
     elif x=='cube':
        return 'Куб рандома'
+    elif x=='paukovod':
+       return 'Пауковод'
 
  
 def createbott(id, y):
