@@ -46,7 +46,7 @@ def createboss(id):
               'weapon':'light',
               'skills':[],
               'team':None,
-              'hp':6,
+              'hp':4,
               'maxenergy':5,
               'energy':5,
               'items':[],           
