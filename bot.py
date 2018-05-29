@@ -1204,9 +1204,22 @@ def attack(bot, id):
         target=bot['target']
     x=random.randint(1,100)
   else:
-    target=games[id]['bots'][0]
-    x=random.randint(1,100)
-  
+    for bots in games[id]['bots']:
+      if games[id]['bots'][bots]['id']==0 and games[id]['bots'][bots]['id']!=bot['id']
+        if games[id]['bots'][bots]['id']!=bot['id']:
+            a.append(games[id]['bots'][bots])
+        x=random.randint(1,len(a))
+        while a[x-1]['die']==1:
+            x=random.randint(1,len(a))
+        target=games[id]['bots'][a[x-1]['id']]
+        if bot['target']!=None:
+            target=bot['target'] 
+        target=games[id]['bots'][0]
+        x=random.randint(1,100)
+      else:
+        target=games[id]['bots'][0]
+  x=random.randint(1,100)
+
   if bot['weapon']=='rock':
       rockchance(bot['energy'], target, x, id, bot)          
       
