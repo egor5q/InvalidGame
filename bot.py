@@ -1210,6 +1210,9 @@ def attack(bot, id):
       
   elif bot['weapon']=='kinzhal':
     kinzhalchance(bot['energy'], target, x, id, bot)
+
+  elif bot['weapon']=='light':
+    lightchance(bot['energy'], target, x, id, bot)
                                      
 
 def yvorot(bot, id):
