@@ -1278,7 +1278,7 @@ def skill(bot,id):
            bot['hp']+=1
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
-    elif choice=='shieldgen':
+  elif choice=='shieldgen':
       if i==0:
         if bot['shieldgen']<=0:
             enemy=[]
@@ -1297,7 +1297,7 @@ def skill(bot,id):
                 bot['shieldgen']=6
                 i=1
               
-    elif choice=='gipnoz':
+  elif choice=='gipnoz':
        if target['energy']>=3:
          if bot['energy']>=1:
            if bot['gipnoz']<=0:
@@ -1325,7 +1325,7 @@ def skill(bot,id):
               
             
                        
-    if i==0:
+  if i==0:
         if bot['energy']>=2:
             a=random.randint(1,2)
             if a==1:
