@@ -73,6 +73,7 @@ def createboss(id):
               'oracle':1,
               'target':None,
               'exp':0,
+              'gipnoz':0
               'weapons':['hand']}}
 
 @bot.message_handler(commands=['addboss'])
