@@ -1187,16 +1187,19 @@ def lightchance(energy, target, x, id, bot1):
       
 def attack(bot, id):
   a=[]
-  for bots in games[id]['bots']:
-    if games[id]['bots'][bots]['id']!=bot['id']:
-      a.append(games[id]['bots'][bots])
-  x=random.randint(1,len(a))
-  while a[x-1]['die']==1:
+  if 0 not in games['id']['bots']:
+    for bots in games[id]['bots']:
+        if games[id]['bots'][bots]['id']!=bot['id']:
+            a.append(games[id]['bots'][bots])
+    x=random.randint(1,len(a))
+    while a[x-1]['die']==1:
        x=random.randint(1,len(a))
-  target=games[id]['bots'][a[x-1]['id']]
-  if bot['target']!=None:
+    target=games[id]['bots'][a[x-1]['id']]
+    if bot['target']!=None:
         target=bot['target']
-  x=random.randint(1,100)
+    x=random.randint(1,100)
+  else:
+    target=games[id]['bots'][0]
   
   if bot['weapon']=='rock':
       rockchance(bot['energy'], target, x, id, bot)          
@@ -1234,6 +1237,7 @@ def reload(bot2, id):
    games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
     
 def skill(bot,id):
+  if 0 not in games[id]['bots']:
     i=0
     skills=[]
     a=[]
@@ -1244,6 +1248,8 @@ def skill(bot,id):
     while a[x-1]['die']==1:
        x=random.randint(1,len(a))
     target=games[id]['bots'][a[x-1]['id']]
+  else:
+    target=games[id]['bots'][0]
     for item in bot['skills']:
         skills.append(item)
     choice=random.choice(skills)
@@ -1324,6 +1330,7 @@ def skill(bot,id):
     
 
 def item(bot, id):
+  if 0 not in games[id]['bots']:
     a=[]
     for bots in games[id]['bots']:
         if games[id]['bots'][bots]['id']!=bot['id']:
@@ -1332,6 +1339,8 @@ def item(bot, id):
     while a[x-1]['die']==1:
        x=random.randint(1,len(a))
     target=games[id]['bots'][a[x-1]['id']]
+  else:
+    target=games[id]['bots'][0]
     x=[]
     i=1
     for items in bot['items']:
@@ -1400,9 +1409,12 @@ def actnumber(bot, id):
   x=random.randint(1,100)  
   low=0
   enemy=[]
-  for mob in games[id]['bots']:
-   if games[id]['bots'][mob]['id']!=npc['id']:
-    enemy.append(games[id]['bots'][mob])
+  if 0 not in games[id]['bots']:
+    for mob in games[id]['bots']:
+      if games[id]['bots'][mob]['id']!=npc['id']:
+        enemy.append(games[id]['bots'][mob])
+  else:
+    enemy.append(games[id]['bots'][0])
   for mob in enemy:
    if mob['energy']<3 or mob['stun']>0:
     low+=1
