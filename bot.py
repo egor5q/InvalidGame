@@ -32,7 +32,7 @@ userstrug=db2.users
 
 vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"', 'skill "undead"'],          
        'dmg':['skill "pricel"', 'skill "berserk"','skill ""','skill "assasin"'],
-       'different':['skill "zombie"', 'skill "hypnos"', 'skill "cube"'],
+       'different':['skill "zombie"', 'skill "hypnos"', 'skill "cube"', 'paukovod'],
        'skins':['oracle']
 
 }
@@ -40,6 +40,48 @@ skills=[]
 
 items=['flash', 'knife']
 
+
+def createboss(id):
+    return({id:{'name': 'Босс',
+              'weapon':'light',
+              'skills':[],
+              'team':None,
+              'hp':6,
+              'maxenergy':5,
+              'energy':5,
+              'items':[],           
+              'attack':0,
+              'yvorot':0,
+              'reload':0,
+              'skill':0,
+              'item':0,
+              'miss':0,
+              'shield':0,
+              'stun':0,
+              'takendmg':0,
+              'die':0,
+              'yvorotkd':0,
+              'id':0,
+              'blood':0,
+              'bought':[],
+              'accuracy':0,
+              'damagelimit':6,
+              'zombie':0,
+              'heal':0,
+              'shieldgen':0,
+              'skin':[],
+              'oracle':1,
+              'target':None,
+              'exp':0,
+              'weapons':['hand']
+
+@bot.message_handler(commands=['addboss'])
+def addboss(m):
+  if m.from_user.id==441399484:\
+      if m.chat.id in games:
+          games[m.chat.id]['bots'].update(createboss(0))
+          bot.send_message(m.chat.id, 'Босс успешно добавлен!')
+    
 
 @bot.message_handler(commands=['weapons'])
 def weapon(m):
@@ -832,10 +874,13 @@ def results(id):
               if games[id]['bots'][ids]['id']!=winner['id']:
                if itemss!='cube' and itemss!='active':
                 points+=4
-        winner2=users.find_one({'id':winner['id']})
-        bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов!')
-        users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
-        users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
+        if winner['id']!=0:
+            winner2=users.find_one({'id':winner['id']})
+            bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов!')
+            users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
+            users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
+        else:
+            bot.send_message(id, '🏆'+name+' победил!')
       else:
         bot.send_message(id, 'Все проиграли!')
     
@@ -1099,6 +1144,37 @@ def kinzhalchance(energy, target, x, id, bot1):
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['energy']-=2
+                
+             
+def lightchance(energy, target, x, id, bot1):
+  if energy==5:
+    chance=50
+  elif energy==4:
+    chance=50
+  elif energy==3:
+    chance=10
+  elif energy==2:
+    chance=1
+  elif energy==1:
+    chance=1
+  elif energy==0:
+    chance=1
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+      target['hp']-=1
+      bot1['energy']=0
+  else:
+    if (x+target['miss']-bot1['accuracy'])<=chance:
+          damage=100
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
+          games[id]['res']+='⚠️'+bot1['name']+' Бъет '+target['name']+' Молнией! Нанесено '+str(damage)+' Урона.\n'
+          target['takendmg']+=damage
+          bot1['energy']-=5
+        
+    else:
+        games[id]['res']+='💨Молния босса ударила мимо '+target['name']+'!\n'
+        bot1['energy']-=5
     
               
 
