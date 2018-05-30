@@ -275,12 +275,11 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'bot.mainskill':[]}})
-#                 users.update_many({}, {'$set':{'bot.mainitem':[]}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'cookiecoef':1.10}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -916,7 +915,7 @@ def results(id):
             for itemss in games[id]['bots'][ids]['skills']:
               if games[id]['bots'][ids]['id']!=winner['id']:
                if itemss!='cube' and itemss!='active':
-                points+=4
+                points+=2
         if winner['id']!=0:
             winner2=users.find_one({'id':winner['id']})
             bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов!')
@@ -1711,7 +1710,8 @@ def createuser(id, username, name):
            'bot':createbot(id),
            'username':username,
            'name':name,
-           'cookie':0
+           'cookie':0,
+           'cookiecoef':10
           }
     
         
