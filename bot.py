@@ -930,6 +930,7 @@ def results(id):
             y=userstrug.find_one({'id':winner['id']})
             if y!=None:
               cookie=round(points*winner2['cookiecoef'], 0)
+              cookie=int(cookie)
               bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки!')
               userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
             else:
