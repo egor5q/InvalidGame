@@ -273,11 +273,12 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'bot.mainskill':None}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'bot.mainskill':[]}})
+                 users.update_many({}, {'$set':{'bot.mainitem':[]}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -1538,27 +1539,42 @@ def actnumber(bot, id):
         
   x=random.randint(1,100)
   if len(npc['skills'])>0 and 'active' in npc['skills']:
-    if 'shieldgen' in npc['skills'] and npc['shieldgen']<=0:
-      if x<=75:
-          skill=1
-      else:
-          skill=0
+    if 'gipnoz' in npc['skills'] and npc['gipnoz']<=0:
+        if low==len(enemy):
+           gipn=0
+        else:
+            gipn=1
+            npc['mainskill'].append('gipnoz')
+            skill=1
     else:
-       if x<=50:
-           skill=1
-       else:
-           skill=0 
+        gipn=0
+    if gipn==0:
+        skill=0
+    else:
+        skill=1       
   else:
     skill=0
   if 'medic' in npc['skills'] and npc['heal']<=0:
       skill=1
         
   if len(npc['items'])>0:
-    x=random.randint(1,100)
-    if x<=35:
-      item=1
-    else:
-      item=0
+    knife=0
+    flash=0
+    if 'flash' in npc['items']:
+        if low==len(enemy):
+            flash=0
+        else:
+            flash=1
+            npc['mainitem'].append('flash')
+    if 'knife' in npc['items']:
+        knife=1
+        npc['mainitem'].append('knife')
+    if knife==1 or flash==1:      
+        x=random.randint(1,100)
+        if x<=50:
+            item=1
+        else:
+            item=0
   else:
     item=0
   reload=0
@@ -1777,7 +1793,8 @@ def createbot(id):
               'oracle':1,
               'target':None,
               'exp':0,
-              'mainskill':None,
+              'mainskill':[],
+              'mainitem':[],
               'weapons':['hand'],
               'gipnoz':0
 }
