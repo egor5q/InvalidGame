@@ -888,6 +888,8 @@ def results(id):
     games[id]['bots'][mobs]['shieldgen']-=1
     games[id]['bots'][mobs]['target']=None
     games[id]['bots'][mobs]['gipnoz']-=1
+    games[id]['bots'][mobs]['mainskill']=[]
+    games[id]['bots'][mobs]['mainitem']=[]
     if games[id]['bots'][mobs]['heal']!=0:
         games[id]['bots'][mobs]['heal']-=1
     if games[id]['bots'][mobs]['die']!=1:
@@ -1345,6 +1347,7 @@ def skill(bot,id):
         while a[x-1]['die']==1:
             x=random.randint(1,len(a))
       elif 'gipnoz' in bot['mainskill']:
+        x=random.randint(1,len(a))
         while a[x-1]['die']==1 and a[x-1]['energy']<=2:
                 x=random.randint(1,len(a))
       target=games[id]['bots'][a[x-1]['id']]
