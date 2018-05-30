@@ -259,7 +259,7 @@ def upgr(m):
 
 @bot.message_handler(commands=['me'])
 def me(m):
-  if m.reply_to_message.from_user.id==None:
+  if m.reply_to_message==None:
     try:
       x=users.find_one({'id':m.from_user.id})
       bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️')
