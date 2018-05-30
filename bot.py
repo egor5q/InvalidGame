@@ -147,7 +147,9 @@ def weapon(m):
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
    except:
-       bot.send_message(m.chat.id, 'Сначала напишите @TrugRuBot!')
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton('👤❇️| Авторизоваться', url='t.me/TrugRuBot?start=switch_to_pm'))
+       bot.send_message(m.chat.id, 'Сначала авторизуйтесь в Траг!')
 
 
 @bot.message_handler(commands=['skins'])
