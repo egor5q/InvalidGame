@@ -1341,10 +1341,10 @@ def skill(bot,id):
       for bots in games[id]['bots']:
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
-      if games[id]['bots'][bot]['mainskill']==None:
+      if games[id]['bots'][bot]['mainskill']==[]:
         while a[x-1]['die']==1:
             x=random.randint(1,len(a))
-      else:
+      elif 'gipnoz' in games[id]['bots'][bot]['mainskill']:
         while a[x-1]['die']==1 and a[x-1]['energy']<=2:
                 x=random.randint(1,len(a))
       target=games[id]['bots'][a[x-1]['id']]
@@ -1353,82 +1353,26 @@ def skill(bot,id):
     target=games[id]['bots'][0]
   for item in bot['skills']:
       skills.append(item)
-  if bot['mainskill']==None:
+  if bot['mainskill']==[]:
       choice=random.choice(skills)
-  else:
-      choice=bot['mainskill']
+  else:       
+      choice=random.choice(bot['mainskill'])
   if choice=='medic':
        if bot['heal']<=0:
            bot['heal']=7
            bot['hp']+=1
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
-  elif choice=='shieldgen':
-      if i==0:
-        if bot['shieldgen']<=0:
-            enemy=[]
-            for mob in games[id]['bots']:
-                if games[id]['bots'][mob]['id']!=bot['id']:
-                    enemy.append(games[id]['bots'][mob])
-            low=0
-            for mob in enemy:
-              if mob['energy']<3:
-                low+=1
-            if low==len(enemy):
-                pass
-            else:
-                games[id]['res']+='🛡'+bot['name']+' использует щит. Урон заблокирован!\n'
-                bot['shield']=1
-                bot['shieldgen']=6
-                i=1
               
   elif choice=='gipnoz':
-       if target['energy']>=3:
-         if bot['energy']>=1:
-           if bot['gipnoz']<=0:
              games[id]['res']+='👁‍🗨'+bot['name']+' использует гипноз на '+target['name']+'!\n'
              target['target']=target
              bot['energy']-=1
              bot['gipnoz']=6
              i=1
-           else:
-              pass
-         else:
-            a=random.randint(1,2)
-            if a==1:
-                bot['reload']=1
-                i=1
-            else:
-                if len(bot['items'])>=1:
-                     bot['item']=1
-                     i=1
-                else:
-                     bot['reload']=1
-                     i=1
-       else:
-           pass
               
             
                        
-  if i==0:
-        if bot['energy']>=2:
-            a=random.randint(1,2)
-            if a==1:
-                bot['attack']=1
-            else:
-                if len(bot['items'])>=1:
-                     bot['item']=1
-                else:
-                     bot['attack']=1
-        else:
-            a=random.randint(1,2)
-            if a==1:
-                bot['reload']=1
-            else:
-                if len(bot['items'])>=1:
-                     bot['item']=1
-                else:
-                     bot['reload']=1
             
     
     
@@ -1440,8 +1384,13 @@ def item(bot, id):
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
     x=random.randint(1,len(a))
-    while a[x-1]['die']==1:
-       x=random.randint(1,len(a))
+    if bot['mainitem']==[]:
+        while a[x-1]['die']==1:
+            x=random.randint(1,len(a))
+    else:
+        if 'flash' in bot['mainitem']:
+            while a[x-1]['die']==1 and a[x-1]['energy']<=2:
+                x=random.randint(1,len(a))
     target=games[id]['bots'][a[x-1]['id']]
   else:
     target=games[id]['bots'][0]
@@ -1449,30 +1398,26 @@ def item(bot, id):
   i=1
   for items in bot['items']:
       x.append(items)
-  z=random.choice(x)
+  if bot['mainitem']==[]:
+    z=random.choice(x)
+  else:
+    z=random.choice(bot['mainitem'])
   if z=='flash':
-      if target['energy']>=3:
           games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
           target['energy']=0
           bot['items'].remove('flash')
-      else:
-          if bot['energy']>=2:
-              bot['attack']=1
-          else:
-              bot['reload']=1
+
   elif z=='knife':
-      if bot['energy']>=2:
           x=random.randint(1,100)
           bot['energy']-=2
           if x>target['miss']+10:
-              games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
-              target['takendmg']+=3
+              games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 2 урона.\n'
+              target['takendmg']+=2
               bot['items'].remove('knife')
           else:
             games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
             bot['items'].remove('knife')
-      else:
-        bot['reload']=1
+
         
         
               
@@ -1556,6 +1501,7 @@ def actnumber(bot, id):
     skill=0
   if 'medic' in npc['skills'] and npc['heal']<=0:
       skill=1
+      npc['mainskill'].append('medic')
         
   if len(npc['items'])>0:
     knife=0
@@ -1566,7 +1512,7 @@ def actnumber(bot, id):
         else:
             flash=1
             npc['mainitem'].append('flash')
-    if 'knife' in npc['items']:
+    if 'knife' in npc['items'] and npc['energy']>=2:
         knife=1
         npc['mainitem'].append('knife')
     if knife==1 or flash==1:      
@@ -1671,7 +1617,7 @@ def begingame(id):
         if yes==1:
               games[id]['bots'][ids]['skills'].append('active')
         if 'cube' in games[id]['bots'][ids]['skills']:
-            a=['shieldgen', 'medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz']
+            a=['medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz']
             z=(random.choice(a))
             while z in games[id]['bots'][ids]['skills']:
                z=(random.choice(a))
