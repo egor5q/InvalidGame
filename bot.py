@@ -1337,21 +1337,28 @@ def skill(bot,id):
   skills=[]
   a=[]
   if 0 not in games[id]['bots']:
-    for bots in games[id]['bots']:
+      for bots in games[id]['bots']:
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
-    x=random.randint(1,len(a))
-    while a[x-1]['die']==1:
-       x=random.randint(1,len(a))
+      if games[id]['bots'][bot]['mainskill']==None:
+        while a[x-1]['die']==1:
+            x=random.randint(1,len(a))
+      else:
+        while a[x-1]['die']==1 and a[x-1]['energy']<=2:
+                x=random.randint(1,len(a))
     target=games[id]['bots'][a[x-1]['id']]
-  else:
+   
+  else:    
     target=games[id]['bots'][0]
   for item in bot['skills']:
       skills.append(item)
-  choice=random.choice(skills)
+  if bot['mainskill']==None:
+      choice=random.choice(skills)
+  else:
+      choice=bot['mainskill']
   if choice=='medic':
        if bot['heal']<=0:
-           bot['heal']=8
+           bot['heal']=7
            bot['hp']+=1
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
