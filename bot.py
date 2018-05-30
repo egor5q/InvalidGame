@@ -1524,6 +1524,8 @@ def actnumber(bot, id):
             item=1
         else:
             item=0
+    else:
+       item=0
   else:
     item=0
   reload=0
