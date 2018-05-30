@@ -920,7 +920,8 @@ def results(id):
                 points+=2
         if winner['id']!=0:
             winner2=users.find_one({'id':winner['id']})
-            bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов!')
+            cookie=round(points*winner2['cookiecoef'], 0)
+            bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов и '+)
             users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
             users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
         else:
@@ -1713,7 +1714,7 @@ def createuser(id, username, name):
            'username':username,
            'name':name,
            'cookie':0,
-           'cookiecoef':10
+           'cookiecoef':0,10
           }
     
         
