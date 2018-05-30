@@ -1729,7 +1729,7 @@ def createuser(id, username, name):
            'username':username,
            'name':name,
            'cookie':0,
-           'cookiecoef':0,10
+           'cookiecoef':0.10
           }
     
         
