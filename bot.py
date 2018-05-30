@@ -259,11 +259,18 @@ def upgr(m):
 
 @bot.message_handler(commands=['me'])
 def me(m):
+  if m.reply_to_message.from_user.id==None:
     try:
       x=users.find_one({'id':m.from_user.id})
       bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️')
     except:
       pass
+  else:
+      try:
+        x=users.find_one({'id':m.reply_to_message.from_user.id})
+        bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️')
+      except:
+        pass
 
 @bot.message_handler(commands=['p'])
 def k(m):
@@ -920,8 +927,13 @@ def results(id):
                 points+=2
         if winner['id']!=0:
             winner2=users.find_one({'id':winner['id']})
-            cookie=round(points*winner2['cookiecoef'], 0)
-            bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов и '+)
+            y=userstrug.find_one({'id':winner['id']})
+            if y!=None:
+              cookie=round(points*winner2['cookiecoef'], 0)
+              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки!')
+              userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
+            else:
+              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов! Куки получить не удалось - для этого надо зарегистрироваться в @TrugRuBot!')
             users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
             users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
         else:
@@ -1615,11 +1627,14 @@ def goo(m):
 @bot.message_handler(commands=['begin'])
 def begin(m):
   if m.chat.id==-1001208357368:
+   if m.from_user.id==441399484:
      if m.chat.id not in games:
         games.update(creategame(m.chat.id))
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
+   else:
+       bot.send_message(m.chat.id, 'Временные технические работы! Для дополнительной информации спрашивать Пасюка.')
   else:
        bot.send_message(m.chat.id, 'На данный момент играть можно только в чате @cookiewars.')
         
