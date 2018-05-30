@@ -1345,16 +1345,17 @@ def skill(bot,id):
       for bots in games[id]['bots']:
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
+      x=random.randint(1,len(a))
       if bot['mainskill']==[]:
         while a[x-1]['die']==1:
             x=random.randint(1,len(a))
       elif 'gipnoz' in bot['mainskill']:
        for ii in a:
-              if a['energy']>=3:
+              if a[ii]['energy']>=3:
                   yes=1
        x=random.randint(1,len(a))
        if yes==1:
-        while a[x-1]['die']==1 and a[x-1]['energy']<=2:
+        while a[x-1]['die']==1 or a[x-1]['energy']<=2:
                 x=random.randint(1,len(a))
        else:
            while a[x-1]['die']==1:
@@ -1403,10 +1404,10 @@ def item(bot, id):
         if 'flash' in bot['mainitem']:
           yes=0
           for ii in a:
-           if a[x-1]['energy']>=3:
+           if a[ii]['energy']>=3:
                   yes=1
           if yes==1:
-            while a[x-1]['die']==1 and a[x-1]['energy']<=2:
+            while a[x-1]['die']==1 or a[x-1]['energy']<=2:
                 x=random.randint(1,len(a))
           else:
               while a[x-1]['die']==1:
