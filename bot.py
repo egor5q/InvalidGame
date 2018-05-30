@@ -1418,7 +1418,7 @@ def item(bot, id):
         if 'flash' in bot['mainitem']:
           yes=0
           for ii in games[id]['bots']:
-           if games[id]['bots'][ii]['energy']>=3:
+           if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']!=1:
                   yes=1
           if yes==1:
             while a[x-1]['die']==1 or a[x-1]['energy']<=2:
