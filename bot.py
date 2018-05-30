@@ -997,7 +997,7 @@ def dmgs(id):
                   text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
                   pauk.append(games[id]['bots'][mob]['id'])
            else:
-              games[id]['bots'][mob]['zombie']=3
+              games[id]['bots'][mob]['zombie']=2
               games[id]['bots'][mob]['hp']=1
               text+='👹'+games[id]['bots'][mob]['name']+' теперь зомби!\n'
      if games[id]['xod']%5==0:
