@@ -1341,10 +1341,10 @@ def skill(bot,id):
       for bots in games[id]['bots']:
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
-      if games[id]['bots'][bot]['mainskill']==[]:
+      if bot['mainskill']==[]:
         while a[x-1]['die']==1:
             x=random.randint(1,len(a))
-      elif 'gipnoz' in games[id]['bots'][bot]['mainskill']:
+      elif 'gipnoz' in bot['mainskill']:
         while a[x-1]['die']==1 and a[x-1]['energy']<=2:
                 x=random.randint(1,len(a))
       target=games[id]['bots'][a[x-1]['id']]
