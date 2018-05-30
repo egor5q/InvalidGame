@@ -273,11 +273,11 @@ def k(m):
         pass
         
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_one({'id':441399484}, {'$pull':{'bot.skills':'paukovod'}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'bot.mainskill':None}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -1777,6 +1777,7 @@ def createbot(id):
               'oracle':1,
               'target':None,
               'exp':0,
+              'mainskill':None,
               'weapons':['hand'],
               'gipnoz':0
 }
