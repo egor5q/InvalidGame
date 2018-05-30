@@ -123,10 +123,10 @@ def createpauk(id):
 @bot.message_handler(commands=['weapons'])
 def weapon(m):
   if m.chat.id==m.from_user.id:
-    y=userstrug.find_one({'id':m.from_user.id})
-    x=users.find_one({'id':m.from_user.id})
-    kb=types.InlineKeyboardMarkup()
-
+   y=userstrug.find_one({'id':m.from_user.id})
+   x=users.find_one({'id':m.from_user.id})
+   kb=types.InlineKeyboardMarkup()
+   try:
     if '🔫' in y['inventory']:
         pistol='✅'
     if '☄️' in y['inventory']:
@@ -146,6 +146,8 @@ def weapon(m):
         kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
+   except:
+       bot.send_message(m.chat.id, 'Сначала напишите @TrugRuBot!')
 
 
 @bot.message_handler(commands=['skins'])
