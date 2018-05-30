@@ -1357,7 +1357,7 @@ def skill(bot,id):
         while a[x-1]['die']==1 and a[x-1]['energy']<=2:
                 x=random.randint(1,len(a))
        else:
-           while a[x-1]['die']==1
+           while a[x-1]['die']==1:
                x=random.randint(1,len(a))
       target=games[id]['bots'][a[x-1]['id']]
    
