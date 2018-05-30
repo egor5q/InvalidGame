@@ -1364,8 +1364,8 @@ def skill(bot,id):
         while a[x-1]['die']==1:
             x=random.randint(1,len(a))
       elif 'gipnoz' in bot['mainskill']:
-       for ii in a:
-              if a[ii]['energy']>=3:
+       for ii in games[id]['bots']:
+              if games[id]['bots'][ii]['energy']>=3:
                   yes=1
        x=random.randint(1,len(a))
        if yes==1:
@@ -1417,8 +1417,8 @@ def item(bot, id):
     else:
         if 'flash' in bot['mainitem']:
           yes=0
-          for ii in a:
-           if a[ii]['energy']>=3:
+          for ii in games[id]['bots']:
+           if games[id]['bots'][ii]['energy']>=3:
                   yes=1
           if yes==1:
             while a[x-1]['die']==1 or a[x-1]['energy']<=2:
