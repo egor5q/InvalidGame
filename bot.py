@@ -1423,12 +1423,16 @@ def item(bot, id):
         if 'flash' in bot['mainitem']:
           yes=0
           for ii in games[id]['bots']:
-           if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']!=1:
+             if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']!=1:
                   yes=1
           if yes==1:
-            while a[x-1]['die']==1 or a[x-1]['energy']<=2:
+            live=[]
+            for ids in a:
+              if ids['die']!=1:
+                 live.append(ids)
+            while live[x-1]['energy']<=2:
                 print('while5')
-                x=random.randint(1,len(a))
+                x=random.randint(1,len(live))
           else:
               while a[x-1]['die']==1:
                   print('while6')
@@ -1507,7 +1511,7 @@ def actnumber(bot, id):
        else:
               enemy.append(games[id]['bots'][0])
   for mob in enemy:
-   if mob['energy']<3 or mob['stun']>0:
+   if mob['energy']<=2 or mob['stun']>0:
     low+=1
   if low==len(enemy):
    yvorot=0
@@ -1549,7 +1553,7 @@ def actnumber(bot, id):
     knife=0
     flash=0
     if 'flash' in npc['items']:
-        if low==len(enemy):
+        if low>=len(enemy):
             flash=0
         else:
             flash=1
