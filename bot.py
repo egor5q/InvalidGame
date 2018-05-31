@@ -13,6 +13,7 @@ from pymongo import MongoClient
 from requests.exceptions import ReadTimeout
 from requests.exceptions import ConnectionError
 
+
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
@@ -241,6 +242,7 @@ def clear(m):
         try:
             users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.bought':[]}})
             users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.skills':[]}})
+            users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.skin':[]}})
             bot.send_message(m.chat.id, 'Инвентарь юзера успешно очищен!')
         except:
             pass
@@ -766,7 +768,7 @@ def inline(call):
   elif call.data=='equiprock':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    if '☄️' in x['inventory']:
+    if '☄' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'rock'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Камень"!')
@@ -808,13 +810,13 @@ def inline(call):
   elif call.data=='equipsaw':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    if '⚙️' in x['inventory']:
+    if '⚙' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'saw'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пиломет"!')
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пилострел"!')
       elif y['bot']['weapon']=='saw':
           users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
-          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Пиломет"!')
+          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Пилострел"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
     else:
@@ -928,12 +930,14 @@ def results(id):
         if winner['id']!=0:
             winner2=users.find_one({'id':winner['id']})
             y=userstrug.find_one({'id':winner['id']})
-            if y!=None:
+            try:
               cookie=round(points*winner2['cookiecoef'], 0)
-              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки!')
+              cookie=int(cookie)
+              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки!')
               userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
-            else:
-              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов! Куки получить не удалось - для этого надо зарегистрироваться в @TrugRuBot!')
+            except:
+              
+                bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['name']+' - '+str(points)+'⚛️ поинтов! Куки получить не удалось - для этого надо зарегистрироваться в @TrugRuBot!')
             users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
             users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
         else:
@@ -1000,7 +1004,10 @@ def dmgs(id):
        else:
            pass
        if games[id]['bots'][mob]['hp']<100:
+         if games[id]['bots'][mob]['id']!=581167827:
            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+         else:
+            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'💙'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        else:
            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        if games[id]['bots'][mob]['hp']==1 and 'berserk' in games[id]['bots'][mob]['skills']:
@@ -1040,7 +1047,7 @@ def rockchance(energy, target, x, id, bot1):
   elif energy==4:
     chance=80
   elif energy==3:
-    chance=65
+    chance=70
   elif energy==2:
     chance=50
   elif energy==1:
@@ -1071,13 +1078,13 @@ def rockchance(energy, target, x, id, bot1):
           
 def akchance(energy, target, x, id, bot1):
   if energy==5:
-    chance=90
+    chance=85
   elif energy==4:
     chance=70
   elif energy==3:
     chance=60
   elif energy==2:
-    chance=50
+    chance=30
   elif energy==1:
     chance=5
   elif energy==0:
@@ -1106,7 +1113,7 @@ def handchance(energy, target, x, id, bot1):
   elif energy==4:
     chance=90
   elif energy==3:
-    chance=75
+    chance=80
   elif energy==2:
     chance=70
   elif energy==1:
@@ -1174,15 +1181,15 @@ def sawchance(energy, target, x, id, bot1):
        
 def kinzhalchance(energy, target, x, id, bot1):
   if energy==5:
-    chance=90
+    chance=95
   elif energy==4:
     chance=80
   elif energy==3:
-    chance=70
+    chance=75
   elif energy==2:
     chance=40
   elif energy==1:
-    chance=15
+    chance=25
   elif energy==0:
     chance=0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
@@ -1200,7 +1207,7 @@ def kinzhalchance(energy, target, x, id, bot1):
               bot1['energy']-=2
           else:
               a=random.randint(1,100)
-              if a<=80:
+              if a<=100:
                    damage=9
                    games[id]['res']+='⚡️'+bot1['name']+' Наносит критический удар по '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
                    bot1['energy']-=2
@@ -1362,6 +1369,7 @@ def skill(bot,id):
       x=random.randint(1,len(a))
       if bot['mainskill']==[]:
         while a[x-1]['die']==1:
+            print('while1')
             x=random.randint(1,len(a))
       elif 'gipnoz' in bot['mainskill']:
        for ii in games[id]['bots']:
@@ -1370,9 +1378,11 @@ def skill(bot,id):
        x=random.randint(1,len(a))
        if yes==1:
         while a[x-1]['die']==1 or a[x-1]['energy']<=2:
+                print('while2')
                 x=random.randint(1,len(a))
        else:
            while a[x-1]['die']==1:
+               print('while3')
                x=random.randint(1,len(a))
       target=games[id]['bots'][a[x-1]['id']]
    
@@ -1413,18 +1423,26 @@ def item(bot, id):
     x=random.randint(1,len(a))
     if bot['mainitem']==[]:
         while a[x-1]['die']==1:
+            print('while4')
             x=random.randint(1,len(a))
     else:
         if 'flash' in bot['mainitem']:
           yes=0
           for ii in games[id]['bots']:
-           if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']!=1:
+             if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']!=1:
                   yes=1
           if yes==1:
-            while a[x-1]['die']==1 or a[x-1]['energy']<=2:
-                x=random.randint(1,len(a))
+            live=[]
+            for ids in a:
+              if ids['die']!=1:
+                 live.append(ids)
+            x=random.randint(1, len(live))
+            while live[x-1]['energy']<=2:
+                print('while5')
+                x=random.randint(1,len(live))
           else:
               while a[x-1]['die']==1:
+                  print('while6')
                   x=random.randint(1,len(a))
     target=games[id]['bots'][a[x-1]['id']]
   else:
@@ -1445,7 +1463,7 @@ def item(bot, id):
   elif z=='knife':
           x=random.randint(1,100)
           bot['energy']-=2
-          if x>target['miss']+10:
+          if x>target['miss']:
               games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 2 урона.\n'
               target['takendmg']+=2
               bot['items'].remove('knife')
@@ -1474,10 +1492,16 @@ def actnumber(bot, id):
      else:
        attack=0
     else:
+     if npc['accuracy']>=-5:
       if x<=75:
         attack=1
       else:
         attack=0
+     else:
+       if x<=30:
+         attack=1
+       else:
+         attack=0
   elif npc['energy']>=3:
     x=random.randint(1,100)
     if npc['weapon']!='hand':
@@ -1500,7 +1524,7 @@ def actnumber(bot, id):
        else:
               enemy.append(games[id]['bots'][0])
   for mob in enemy:
-   if mob['energy']<3 or mob['stun']>0:
+   if mob['energy']<=2 or mob['stun']>0:
     low+=1
   if low==len(enemy):
    yvorot=0
@@ -1542,7 +1566,7 @@ def actnumber(bot, id):
     knife=0
     flash=0
     if 'flash' in npc['items']:
-        if low==len(enemy):
+        if low>=len(enemy):
             flash=0
         else:
             flash=1
@@ -1586,6 +1610,35 @@ def act(bot, id):
   
 
 
+@bot.message_handler(commands=['help'])
+def helpp(m):
+  if m.from_user.id==m.chat.id:
+    bot.send_message(m.chat.id, '''Игра "CookieWars". Главная суть игры в том, что вам в процессе игры делать ничего не надо - боец сам 
+выбирает оптимальные действия. Вы только должны будете экипировать ему скиллы и оружие, и отправить в бой.\n\n
+*Как отправить бойца на арену?*\nДля этого надо начать игру в чате @cookiewarsru, нажав команду /begin. После этого другие игроки жмут 
+кнопку "Присоединиться", которая появится после начала игры в чате, пуская своих бойцов на арену. Когда все желающие присоединятся, 
+кто-то должен будет нажать команду /go, и игра начнётся. Если в игре участвует больше, чем 2 бойца, они сами будут решать, какую 
+цель атаковать.\n\n*Теперь про самого бойца.*\nКаждый боец имеет следующие характеристики:\nЗдоровье\nЭнергия\nОружие\nСкиллы
+Скин\n\nТеперь обо всём по порядку.\n*Здоровье* - показатель количества жизней бойца. Стандартно у всех 4 жизни, но с помощью 
+скиллов можно увеличить этот предел. Потеря здоровья происходит по такому принципу: кто за ход получил урона больше остальных, тот и теряет жизни. 
+Если несколько бойцов получили одинаково много урона, то все они потеряют здоровье. Сколько единиц - зависит от принятого урона.
+Стандартно, за каждые 6 единиц урона по бойцу он теряет дополнительную жизнь. То есть, получив 1-5 урона, боец потеряет 1 хп. Но получив 6 урона, 
+боец потеряет 2 хп, а получив 12 - 3. Предел урона можно увеличить с помощью скиллов. Разберём пример:\n
+Боец Вася, Петя и Игорь бьют друг друга. Вася нанёс Пете 3 урона, Петя нанёс Васе 2 урона, а Игорь нанёс 3 урона Васе. Считаем полученный бойцами урон:\n
+Вася: 5\nПетя:3\nИгорь:0\nВ итоге Вася потеряет 1 хп, а остальные не потеряют ничего, кроме потраченной на атаку энергии. Об этом позже.\n
+*Энергия*\nПочти на каждое действие бойцы тратят энергию. Стандартно её у всех по 5 единиц. Каждое оружие тратит определённое количество 
+энергии за атаку, некоторые скиллы тоже. Чем меньше энергии в данный момент, тем меньше шанс промахнуться по врагу. Иногда боец должен 
+тратить ход на перезарядку, восстанавливая всю энергию.\n
+*Оружие*\nКаждое оружие в игре уникально и имеет свои особенности. Про них можно узнать в Траг боте, выбивая оружие из лутбоксов.\n
+*Скиллы* - Важная часть игры. За заработанные в боях или выбитые в Траг ⚛️поинты вы можете приобрести полезные скиллы для вашего бойца. О них в /upgrade.
+Но купить скилл мало - его надо *экипировать*. Делается это командой /inventory. Максимум можно надеть на себя 2 скилла.\n
+*Скины*\nСкины - личность вашего бойца, дающая дополнительную способность, не конкурирующую со скиллами. Подробнее: /upgrade.\n
+Зовите друзей, выпускайте бойцов на арену - и наслаждайтесь зрелищем!
+''', parse_mode='markdown')
+  else:
+      bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
+       
+       
 @bot.message_handler(commands=['start'])
 def start(m):
   x=m.text.split('/start')
@@ -1598,7 +1651,7 @@ def start(m):
           if y['bot']['id'] not in games[int(x[1])]['ids']:
            if y['bot']['name']!=None:
             games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
-            bot.send_message(m.chat.id, 'Вы присоединились!')
+            bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
             bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+y['bot']['name']+') присоединился!')
             games[int(x[1])]['ids'].append(m.from_user.id)
            else:
@@ -1607,7 +1660,7 @@ def start(m):
         pass
   if users.find_one({'id':m.from_user.id})==None:
         try:
-            bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный персонаж - селянин. В будущем вы можете улучшить его за куки!')
+            bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный персонаж - селянин. В будущем вы можете улучшить его за куки! Подробнее об игре можно узнать с помощью команды /help.')
             users.insert_one(createuser(m.from_user.id, m.from_user.username, m.from_user.first_name))
         except:
             bot.send_message(m.chat.id, 'Напишите боту в личку!')
@@ -1627,14 +1680,11 @@ def goo(m):
 @bot.message_handler(commands=['begin'])
 def begin(m):
   if m.chat.id==-1001208357368:
-   if m.from_user.id==441399484:
      if m.chat.id not in games:
         games.update(creategame(m.chat.id))
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
-   else:
-       bot.send_message(m.chat.id, 'Временные технические работы! Для дополнительной информации спрашивать Пасюка.')
   else:
        bot.send_message(m.chat.id, 'На данный момент играть можно только в чате @cookiewars.')
         
@@ -1795,3 +1845,4 @@ while True:
     except(ReadTimeout, ConnectionError):
         pass
 
+       
