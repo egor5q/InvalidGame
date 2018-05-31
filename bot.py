@@ -930,12 +930,12 @@ def results(id):
         if winner['id']!=0:
             winner2=users.find_one({'id':winner['id']})
             y=userstrug.find_one({'id':winner['id']})
-            if y!=None:
+            try:
               cookie=round(points*winner2['cookiecoef'], 0)
               cookie=int(cookie)
               bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки!')
               userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
-            else:
+            except:
               bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а @'+winner2['username']+' - '+str(points)+'⚛️ поинтов! Куки получить не удалось - для этого надо зарегистрироваться в @TrugRuBot!')
             users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
             users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
