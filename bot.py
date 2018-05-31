@@ -125,7 +125,7 @@ def weapon(m):
     if m.chat.id==m.from_user.id:
         if userstrug.find_one({'id': m.from_user.id}) is not None:
             kb = types.InlineKeyboardMarkup()
-            if users.find_one({'id': c.from_user.id, 'inventory':{'$exists': True}}):
+            if users.find_one({'id': c.from_user.id, 'inventory':{'$exists': True}}) is not None:
                 y=userstrug.find_one({'id':m.from_user.id})
                 x=users.find_one({'id':m.from_user.id})
                 if '🔫' in y['inventory']:
