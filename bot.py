@@ -52,10 +52,10 @@ skills=[]
 items=['flash', 'knife']
 
 
-@bot.message_handler(commands=['xxxx'])
-def xxxx(m):
-   users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.weapon':None}})
-   bot.send_message(m.chat.id, 'Всё')
+#@bot.message_handler(commands=['xxxx'])
+#def xxxx(m):
+#   users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.weapon':None}})
+#   bot.send_message(m.chat.id, 'Всё')
 
 def createboss(id):
     return{id:{'name': 'Босс',
