@@ -31,6 +31,16 @@ db2=client3.trug
 userstrug=db2.users
 
 
+@bot.message_handler(commands=['dropname'])
+def dropname(m):
+   try:
+       x=users.find_one({'id':m.reply_to_message.from_user.id})
+       if x!=None:
+           users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.name':None}})
+           bot.send_message(m.chat.id, 'Имя пользователя успешно удалено!')
+   except:
+    pass
+
 vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"', 'skill "undead"'],          
        'dmg':['skill "pricel"', 'skill "berserk"','skill ""','skill "assasin"'],
        'different':['skill "zombie"', 'skill "hypnos"', 'skill "cube"', 'paukovod'],
