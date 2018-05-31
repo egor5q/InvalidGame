@@ -1476,7 +1476,7 @@ def item(bot, id):
                 dd+=1
             livex=1
           else:
-              x=random.randint(1,len(live))
+         
               while a[x-1]['die']==1:
                   print('while6')
                   x=random.randint(1,len(a))
