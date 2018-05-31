@@ -1587,6 +1587,19 @@ def act(bot, id):
   
 
 
+@bot.message_handler(commands=['help'])
+def helpp(m):
+  if m.from_user.id==m.chat.id:
+    bot.send_message(m.chat.id, '''Игра "CookieWars". Главная суть игры в том, что вам в процессе игры делать ничего не надо - боец сам 
+    выбирает оптимальные действия. Вы только должны будете экипировать ему скиллы и оружие, и отправить в бой.\n\n
+    *Как отправить бойца на арену?*\nДля этого надо начать игру в чате @cookiewarsru, нажав команду /begin. После этого другие игроки жмут 
+    кнопку "Присоединиться", которая появится после начала игры в чате, пуская своих бойцов на арену. Когда все желающие присоединятся, 
+    кто-то должен будет нажать команду /go, и игра начнётся. Если в игре участвует больше, чем 2 бойца, они сами будут решать, какую 
+    цель атаковать.\n\n*Теперь про самого бойца.*\nКаждый боец имеет следующие характеристики:\nЗдоровье\nЭнергия\nОружие\nСкиллы\n
+    Скин\nТеперь обо всём по порядку.\nЗдоровье - показатель количества жизней бойца. Стандартно у всех 4 жизни, но с помощью 
+    скиллов можно увеличить этот предел.''')
+       
+       
 @bot.message_handler(commands=['start'])
 def start(m):
   x=m.text.split('/start')
@@ -1599,7 +1612,7 @@ def start(m):
           if y['bot']['id'] not in games[int(x[1])]['ids']:
            if y['bot']['name']!=None:
             games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
-            bot.send_message(m.chat.id, 'Вы присоединились!')
+            bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
             bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+y['bot']['name']+') присоединился!')
             games[int(x[1])]['ids'].append(m.from_user.id)
            else:
@@ -1608,7 +1621,7 @@ def start(m):
         pass
   if users.find_one({'id':m.from_user.id})==None:
         try:
-            bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный персонаж - селянин. В будущем вы можете улучшить его за куки!')
+            bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный персонаж - селянин. В будущем вы можете улучшить его за куки! Подробнее об игре можно узнать с помощью команды /help.')
             users.insert_one(createuser(m.from_user.id, m.from_user.username, m.from_user.first_name))
         except:
             bot.send_message(m.chat.id, 'Напишите боту в личку!')
