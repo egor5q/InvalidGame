@@ -1440,9 +1440,11 @@ def item(bot, id):
               if ids['die']!=1:
                  live.append(ids)
             x=random.randint(1, len(live))
-            while live[x-1]['energy']<=2:
+            dd=0
+            while live[x-1]['energy']<=2 and dd<=100:
                 print('while5')
                 x=random.randint(1,len(live))
+                dd+=1
           else:
               while a[x-1]['die']==1:
                   print('while6')
