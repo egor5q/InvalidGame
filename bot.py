@@ -132,7 +132,7 @@ def weapon(m):
         pistol='✅'
     if '☄️' in y['inventory']:
         rock='✅'
-    if '⚙️' in y['inventory']:
+    if '⚙️'in y['inventory']:
         saw='✅'
     if '🗡' in y['inventory']:
         kinzhal='✅'
