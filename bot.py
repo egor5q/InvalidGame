@@ -1501,6 +1501,10 @@ def item(bot, id):
   elif z=='knife':
           x=random.randint(1,100)
           bot['energy']-=2
+          z=random.randint(1, len(a))
+          while a[z-1]['die']==1:
+            z=random.randint(1,len(a))
+          target=a[z-1]
           if x>target['miss']:
               games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 2 урона.\n'
               target['takendmg']+=2
