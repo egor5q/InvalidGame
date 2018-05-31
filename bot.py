@@ -1072,7 +1072,7 @@ def rockchance(energy, target, x, id, bot1):
           
 def akchance(energy, target, x, id, bot1):
   if energy==5:
-    chance=90
+    chance=85
   elif energy==4:
     chance=70
   elif energy==3:
@@ -1201,7 +1201,7 @@ def kinzhalchance(energy, target, x, id, bot1):
               bot1['energy']-=2
           else:
               a=random.randint(1,100)
-              if a<=80:
+              if a<=100:
                    damage=9
                    games[id]['res']+='⚡️'+bot1['name']+' Наносит критический удар по '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
                    bot1['energy']-=2
