@@ -1363,6 +1363,7 @@ def skill(bot,id):
       x=random.randint(1,len(a))
       if bot['mainskill']==[]:
         while a[x-1]['die']==1:
+            print('while1')
             x=random.randint(1,len(a))
       elif 'gipnoz' in bot['mainskill']:
        for ii in games[id]['bots']:
@@ -1371,9 +1372,11 @@ def skill(bot,id):
        x=random.randint(1,len(a))
        if yes==1:
         while a[x-1]['die']==1 or a[x-1]['energy']<=2:
+                print('while2')
                 x=random.randint(1,len(a))
        else:
            while a[x-1]['die']==1:
+               print('while3')
                x=random.randint(1,len(a))
       target=games[id]['bots'][a[x-1]['id']]
    
@@ -1414,6 +1417,7 @@ def item(bot, id):
     x=random.randint(1,len(a))
     if bot['mainitem']==[]:
         while a[x-1]['die']==1:
+            print('while4')
             x=random.randint(1,len(a))
     else:
         if 'flash' in bot['mainitem']:
@@ -1423,9 +1427,11 @@ def item(bot, id):
                   yes=1
           if yes==1:
             while a[x-1]['die']==1 or a[x-1]['energy']<=2:
+                print('while5')
                 x=random.randint(1,len(a))
           else:
               while a[x-1]['die']==1:
+                  print('while6')
                   x=random.randint(1,len(a))
     target=games[id]['bots'][a[x-1]['id']]
   else:
@@ -1446,7 +1452,7 @@ def item(bot, id):
   elif z=='knife':
           x=random.randint(1,100)
           bot['energy']-=2
-          if x>target['miss']+10:
+          if x>target['miss']:
               games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 2 урона.\n'
               target['takendmg']+=2
               bot['items'].remove('knife')
