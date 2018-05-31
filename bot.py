@@ -1111,7 +1111,7 @@ def handchance(energy, target, x, id, bot1):
   elif energy==4:
     chance=90
   elif energy==3:
-    chance=75
+    chance=80
   elif energy==2:
     chance=70
   elif energy==1:
@@ -1489,10 +1489,16 @@ def actnumber(bot, id):
      else:
        attack=0
     else:
+     if npc['accuracy']>=-5:
       if x<=75:
         attack=1
       else:
         attack=0
+     else:
+       if x<=30:
+         attack=1
+       else:
+         attack=0
   elif npc['energy']>=3:
     x=random.randint(1,100)
     if npc['weapon']!='hand':
