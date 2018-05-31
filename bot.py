@@ -130,18 +130,18 @@ def weapon(m):
    try:
     if '🔫' in y['inventory']:
         pistol='✅'
-    if '☄️' in y['inventory']:
+    if '☄' in y['inventory']:
         rock='✅'
-    if '⚙️'in y['inventory']:
+    if '⚙' in y['inventory']:
         saw='✅'
     if '🗡' in y['inventory']:
         kinzhal='✅'
     kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
     if '🔫' in y['inventory']:
         kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-    if '☄️' in y['inventory']:
+    if '☄' in y['inventory']:
         kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
-    if '⚙️' in y['inventory']:
+    if '⚙' in y['inventory']:
         kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
     if '🗡' in y['inventory']:
         kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
