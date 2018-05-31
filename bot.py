@@ -1435,6 +1435,7 @@ def item(bot, id):
             for ids in a:
               if ids['die']!=1:
                  live.append(ids)
+            x=random.randint(1, len(live))
             while live[x-1]['energy']<=2:
                 print('while5')
                 x=random.randint(1,len(live))
