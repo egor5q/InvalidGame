@@ -150,7 +150,7 @@ def weapon(m):
    except:
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton('👤❇️| Авторизоваться', url='t.me/TrugRuBot?start=switch_to_pm'))
-       bot.send_message(m.chat.id, 'Сначала авторизуйтесь в Траг!')
+       bot.send_message(m.chat.id, 'Для получения доступа к этому разделу, авторизуйтесь в TRUG')
 
 
 @bot.message_handler(commands=['skins'])
