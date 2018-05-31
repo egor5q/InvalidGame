@@ -767,7 +767,7 @@ def inline(call):
   elif call.data=='equiprock':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    if '☄️' in x['inventory']:
+    if '☄' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'rock'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Камень"!')
@@ -809,7 +809,7 @@ def inline(call):
   elif call.data=='equipsaw':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    if '⚙️' in x['inventory']:
+    if '⚙' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'saw'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пиломет"!')
