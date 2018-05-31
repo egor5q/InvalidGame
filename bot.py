@@ -148,7 +148,7 @@ def weapon(m):
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
-    except:
+   except:
        pass
   else:
     kb=types.InlineKeyboardMarkup()
