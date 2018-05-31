@@ -156,6 +156,7 @@ def weapon(m):
          kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
      if '🗡' in y['inventory']:
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
+     kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
    except:
@@ -852,6 +853,14 @@ def inline(call):
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
     else:
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
+         
+  elif call.data=='gunoff':
+      y=users.find_one({'id':call.from_user.id})
+      if y!=None:
+        users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли оружие!')
+      else:
+        pass
            
             
               
@@ -1098,9 +1107,9 @@ def akchance(energy, target, x, id, bot1):
   elif energy==4:
     chance=70
   elif energy==3:
-    chance=60
+    chance=55
   elif energy==2:
-    chance=30
+    chance=35
   elif energy==1:
     chance=5
   elif energy==0:
@@ -1116,10 +1125,10 @@ def akchance(energy, target, x, id, bot1):
               damage+=2
           games[id]['res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'        
           target['takendmg']+=damage
-          bot1['energy']-=2
+          bot1['energy']-=random.randint(2,3)
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-        bot1['energy']-=2
+        bot1['energy']-=random.randint(2,3)
         
         
         
