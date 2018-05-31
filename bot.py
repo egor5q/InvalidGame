@@ -1456,6 +1456,7 @@ def item(bot, id):
             print('while4')
             x=random.randint(1,len(a))
     else:
+        livex=0
         if 'flash' in bot['mainitem']:
           yes=0
           for ii in games[id]['bots']:
@@ -1472,11 +1473,14 @@ def item(bot, id):
                 print('while5')
                 x=random.randint(1,len(live))
                 dd+=1
+                livex=1
           else:
               while a[x-1]['die']==1:
                   print('while6')
                   x=random.randint(1,len(a))
     target=games[id]['bots'][a[x-1]['id']]
+    if livex==1:
+         target=games[id]['bots'][live[x-1]['id']]
   else:
     target=games[id]['bots'][0]
   x=[]
