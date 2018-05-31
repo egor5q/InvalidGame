@@ -812,10 +812,10 @@ def inline(call):
     if '⚙' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'saw'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пиломет"!')
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пилострел"!')
       elif y['bot']['weapon']=='saw':
           users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
-          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Пиломет"!')
+          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Пилострел"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
     else:
