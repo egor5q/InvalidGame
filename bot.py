@@ -1041,7 +1041,7 @@ def rockchance(energy, target, x, id, bot1):
   elif energy==4:
     chance=80
   elif energy==3:
-    chance=65
+    chance=70
   elif energy==2:
     chance=50
   elif energy==1:
@@ -1078,7 +1078,7 @@ def akchance(energy, target, x, id, bot1):
   elif energy==3:
     chance=60
   elif energy==2:
-    chance=50
+    chance=30
   elif energy==1:
     chance=5
   elif energy==0:
@@ -1175,15 +1175,15 @@ def sawchance(energy, target, x, id, bot1):
        
 def kinzhalchance(energy, target, x, id, bot1):
   if energy==5:
-    chance=90
+    chance=95
   elif energy==4:
     chance=80
   elif energy==3:
-    chance=70
+    chance=75
   elif energy==2:
     chance=40
   elif energy==1:
-    chance=15
+    chance=25
   elif energy==0:
     chance=0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
