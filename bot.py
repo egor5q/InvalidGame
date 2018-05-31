@@ -317,7 +317,7 @@ def delete(m):
 def name(m):
     text=m.text.split(' ')
     if len(text)==2:
-     if len(text[1]<=15:
+     if len(text[1])<=15:
       x=users.find_one({'id':m.from_user.id})
       users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[1]}})
       bot.send_message(m.chat.id, 'Вы успешно изменили имя бойца на '+text[1]+'!')
