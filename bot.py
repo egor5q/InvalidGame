@@ -242,6 +242,7 @@ def clear(m):
         try:
             users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.bought':[]}})
             users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.skills':[]}})
+            users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.skin':[]}})
             bot.send_message(m.chat.id, 'Инвентарь юзера успешно очищен!')
         except:
             pass
