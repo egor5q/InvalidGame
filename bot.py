@@ -122,34 +122,35 @@ def createpauk(id):
 
 @bot.message_handler(commands=['weapons'])
 def weapon(m):
-  if m.chat.id==m.from_user.id:
-   y=userstrug.find_one({'id':m.from_user.id})
-   x=users.find_one({'id':m.from_user.id})
-   kb=types.InlineKeyboardMarkup()
-   try:
-    if '🔫' in y['inventory']:
-        pistol='✅'
-    if '☄️' in y['inventory']:
-        rock='✅'
-    if '⚙️' in y['inventory']:
-        saw='✅'
-    if '🗡' in y['inventory']:
-        kinzhal='✅'
-    kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
-    if '🔫' in y['inventory']:
-        kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-    if '☄️' in y['inventory']:
-        kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
-    if '⚙️' in y['inventory']:
-        kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
-    if '🗡' in y['inventory']:
-        kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
-    kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
-    bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
-   except:
-       kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton('👤❇️| Авторизоваться', url='t.me/TrugRuBot?start=switch_to_pm'))
-       bot.send_message(m.chat.id, 'Сначала авторизуйтесь в Траг!')
+  if userstrug.find_one({'id':m.from_user.id}) is not None:
+    if m.chat.id==m.from_user.id:
+     y=userstrug.find_one({'id':m.from_user.id})
+     x=users.find_one({'id':m.from_user.id})
+     kb=types.InlineKeyboardMarkup()
+     try:
+      if '🔫' in y['inventory']:
+          pistol='✅'
+      if '☄️' in y['inventory']:
+          rock='✅'
+      if '⚙️' in y['inventory']:
+          saw='✅'
+      if '🗡' in y['inventory']:
+          kinzhal='✅'
+      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
+      if '🔫' in y['inventory']:
+          kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
+      if '☄️' in y['inventory']:
+          kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
+      if '⚙️' in y['inventory']:
+          kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
+      if '🗡' in y['inventory']:
+          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
+      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
+      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
+  else:
+    kb=types.InlineKeyboardMarkup()
+    kb.add(types.InlineKeyboardButton('👤❇️| Авторизоваться', url='t.me/TrugRuBot?start=switch_to_pm'))
+    bot.send_message(m.chat.id, 'Сначала авторизуйтесь в Траг!')
 
 
 @bot.message_handler(commands=['skins'])
