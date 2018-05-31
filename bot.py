@@ -1469,12 +1469,14 @@ def item(bot, id):
                  live.append(ids)
             x=random.randint(1, len(live))
             dd=0
+            x=random.randint(1, len(live))
             while live[x-1]['energy']<=2 and dd<=100:
                 print('while5')
                 x=random.randint(1,len(live))
                 dd+=1
-                livex=1
+            livex=1
           else:
+              x=random.randint(1,len(live))
               while a[x-1]['die']==1:
                   print('while6')
                   x=random.randint(1,len(a))
