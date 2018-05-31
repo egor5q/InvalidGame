@@ -1690,13 +1690,14 @@ def start(m):
       if games[int(x[1])]['started']==0:
         y=users.find_one({'id':m.from_user.id})
         if y!=None:
-          if y['bot']['id'] not in games[int(x[1])]['ids']:
-           if y['bot']['name']!=None:
+         if y['bot']['id'] not in games[int(x[1])]['ids']:
+          if y['bot']['name']!=None:
+           if games[int(x[1])]['started']==0:
             games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
             bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
             bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+y['bot']['name']+') присоединился!')
             games[int(x[1])]['ids'].append(m.from_user.id)
-           else:
+          else:
              bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
   except:
         pass
@@ -1737,6 +1738,7 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
         
 
 def begingame(id):
+ if games[id]['started2']!=1:
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['weapon']==None:
@@ -1784,8 +1786,10 @@ def begingame(id):
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     giveitems(games[id])
+    games[id]['started2']=1
     battle(id)
- 
+ else:
+   pass
 
 def skilltoname(x):
     if x=='shieldgen':
@@ -1834,7 +1838,8 @@ def creategame(id):
         'secondres':'',
         'res':'',
         'started':0,
-        'xod':1
+        'xod':1,
+        'started2':0
             
         
              }
