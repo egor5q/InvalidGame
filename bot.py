@@ -1016,10 +1016,13 @@ def dmgs(id):
         a=1
        else:
         a=1
-        while a<games[id]['bots'][mob]['takendmg']:
+        ff=0
+        while a<games[id]['bots'][mob]['takendmg'] and ff!=1:
             if games[id]['bots'][mob]['takendmg']>=games[id]['bots'][mob]['damagelimit']:
                 a+=1
                 games[id]['bots'][mob]['takendmg']-=games[id]['bots'][mob]['damagelimit']
+            else:
+               ff=1
        if games[id]['bots'][mob]['zombie']==0:
          if games[id]['bots'][mob]['die']!=1:
            if 'oracle' not in games[id]['bots'][mob]['skin']:
