@@ -1330,8 +1330,10 @@ def attack(bot, id):
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
     x=random.randint(1,len(a))
-    while a[x-1]['die']==1:
+    dd=0
+    while a[x-1]['die']==1 and dd<100::
        x=random.randint(1,len(a))
+       dd+=1
     target=games[id]['bots'][a[x-1]['id']]
     if bot['target']!=None:
         target=bot['target']
@@ -1342,7 +1344,9 @@ def attack(bot, id):
         if games[id]['bots'][bots]['id']!=bot['id']:
             a.append(games[id]['bots'][bots])
         x=random.randint(1,len(a))
-        while a[x-1]['die']==1:
+        dd=0
+        while a[x-1]['die']==1 and dd<100:
+            dd+=1
             x=random.randint(1,len(a))
         target=games[id]['bots'][a[x-1]['id']]
         if bot['target']!=None:
@@ -1452,8 +1456,10 @@ def item(bot, id):
             a.append(games[id]['bots'][bots])
     x=random.randint(1,len(a))
     if bot['mainitem']==[]:
-        while a[x-1]['die']==1:
+        dd=0
+        while a[x-1]['die']==1 and dd<100:
             print('while4')
+            dd+=1
             x=random.randint(1,len(a))
     else:
         livex=0
