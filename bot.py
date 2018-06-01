@@ -1740,7 +1740,7 @@ def begin(m):
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
   else:
-       bot.send_message(m.chat.id, 'На данный момент играть можно только в чате @cookiewars.')
+       bot.send_message(m.chat.id, 'На данный момент играть можно только в чате @cookiewarsru.')
         
         
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
