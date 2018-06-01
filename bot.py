@@ -1241,7 +1241,7 @@ def kinzhalchance(energy, target, x, id, bot1):
           else:
               a=random.randint(1,100)
               if a<=100:
-                   damage=9
+                   damage=6
                    games[id]['res']+='⚡️'+bot1['name']+' Наносит критический удар по '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
                    bot1['energy']-=5
                    target['takendmg']+=damage
