@@ -1231,7 +1231,7 @@ def kinzhalchance(energy, target, x, id, bot1):
       bot1['energy']=0
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=2
+          damage=1
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           if target['reload']!=1:
@@ -1243,7 +1243,7 @@ def kinzhalchance(energy, target, x, id, bot1):
               if a<=100:
                    damage=9
                    games[id]['res']+='⚡️'+bot1['name']+' Наносит критический удар по '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
-                   bot1['energy']-=2
+                   bot1['energy']-=5
                    target['takendmg']+=damage
               else:
                   games[id]['res']+='🗡'+bot1['name']+' Бъет '+target['name']+' Кинжалом! Нанесено '+str(damage)+' Урона.\n'
