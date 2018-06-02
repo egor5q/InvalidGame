@@ -1353,7 +1353,7 @@ def bitechance(energy, target, x, id, bot1):
       bot1['energy']=0
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=3
+          damage=5
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           x=random.randint(1,100)
@@ -1365,7 +1365,7 @@ def bitechance(energy, target, x, id, bot1):
                 games[id]['res']+='🤢Цель поражена ядом! Её энергия снижена на 2.'
                 target['energy']-=2
           target['takendmg']+=damage
-          bot1['energy']-=2
+          bot1['energy']-=5
         
     else:
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
