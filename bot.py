@@ -94,7 +94,7 @@ def createboss(id):
 
 
 def createpauk(id):
-    return{-id:{'name': 'Паук',
+    return{id-(id*2):{'name': 'Паук',
               'weapon':'bite',
               'skills':[],
               'team':None,
@@ -113,7 +113,7 @@ def createpauk(id):
               'takendmg':0,
               'die':0,
               'yvorotkd':0,
-              'id':id,
+              'id':-id,
               'blood':0,
               'bought':[],
               'accuracy':0,
@@ -204,6 +204,7 @@ def invent(m):
     zombie='☑️'
     gipnoz='☑️'
     cube='☑️'
+    paukovod='☑️'
     if 'shieldgen' in x['bot']['skills']:
         shield='✅'
     if 'medic' in x['bot']['skills']:
@@ -222,6 +223,8 @@ def invent(m):
         zombie='✅'
     if 'gipnoz' in x['bot']['skills']:
         gipnoz='✅'
+    if 'paukovod' in x['bot']['skills']:
+        paukovod='✅'
     if 'cube' in x['bot']['skills']:
         cube='✅'
     
@@ -244,6 +247,8 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=zombie+'👹Зомби', callback_data='equipzombie'))
         elif item=='gipnoz':
             kb.add(types.InlineKeyboardButton(text=gipnoz+'👁Гипноз', callback_data='equipgipnoz'))
+        elif item=='paukovod':
+            kb.add(types.InlineKeyboardButton(text=paukovod+'🕷Пауковод', callback_data='equippaukovod'))
         elif item=='cube':
             kb.add(types.InlineKeyboardButton(text=cube+'🎲Куб рандома', callback_data='equipcube'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
@@ -373,6 +378,7 @@ def inline(call):
   zombie='☑️'
   gipnoz='☑️'
   cube='☑️'
+  paukovod='☑️'
   x=users.find_one({'id':call.from_user.id})
   if call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
@@ -410,9 +416,12 @@ def inline(call):
             gipnoz='✅'
         if 'cube' in x['bot']['bought']:
             cube='✅'
+        if 'paukovod' in x['bot']['bought']:
+            paukovod='✅'
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=zombie+'👹Зомби', callback_data='zombie'))
         kb.add(types.InlineKeyboardButton(text=gipnoz+'👁Гипноз', callback_data='gipnoz'))
+        kb.add(types.InlineKeyboardButton(text=paukovod+'🕷Пауковод', callback_data='paukovod'))
         kb.add(types.InlineKeyboardButton(text=cube+'🎲Куб рандома', callback_data='cube'))
         medit('Ветка: разное', call.message.chat.id, call.message.message_id, reply_markup=kb)
        
@@ -470,6 +479,12 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buygipnoz'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Если применить на атакующего врага, он атакует сам себя. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+    
+  elif call.data=='paukovod':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='2500⚛️', callback_data='buypaukovod'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Хп бойца снижено на 2. После смерти боец призывает разьяренного паука, у которого 2 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='berserk':
        kb=types.InlineKeyboardMarkup()
@@ -648,6 +663,22 @@ def inline(call):
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
            bot.answer_callback_query(call.id, 'У вас уже есть это!')
+            
+  elif call.data=='buypaukovod':
+       x=users.find_one({'id':call.from_user.id})
+       if 'paukovod' not in x['bot']['bought']:
+           if x['cookie']>=2500:
+             if 'gipnoz' in x['bot']['bought']:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'paukovod'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2500}})
+                medit('Вы успешно приобрели скилл "Пауковод"!',call.message.chat.id,call.message.message_id)
+             else:
+                bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+            
        
   elif call.data=='buyberserk':
        x=users.find_one({'id':call.from_user.id})
@@ -786,6 +817,18 @@ def inline(call):
     else:
         users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'gipnoz'}})
         bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Гипноз"!')
+        
+  elif call.data=='equippaukovod':
+    x=users.find_one({'id':call.from_user.id})
+    if 'paukovod' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'paukovod'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Пауковод"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'paukovod'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Пауковод"!')
        
   elif call.data=='equiprock':
     x=userstrug.find_one({'id':call.from_user.id})
@@ -946,8 +989,13 @@ def results(id):
       name=None
       for ids in games[id]['bots']:
             if games[id]['bots'][ids]['die']!=1:
+                if games[id]['bots'][ids]['id']<0:
+                  games[id]['bots'][ids]['id']-=(games[id]['bots'][ids]['id']*2)
+                  games[id]['bots'][ids]['name']=games[id]['bots'][ids]['name']
+                  print(games[id]['bots'][ids]['id'])
                 name=games[id]['bots'][ids]['name']
                 winner=games[id]['bots'][ids]
+                print(winner['id'])
       if name!=None:
         points=6
         for ids in games[id]['bots']:
@@ -1008,8 +1056,8 @@ def dmgs(id):
             if games[id]['bots'][mob]['zombie']==0:
                 games[id]['bots'][mob]['die']=1
                 text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+    pauk=[]
     for mob in games[id]['bots']:
-     pauk=[]
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
        if games[id]['bots'][mob]['takendmg']<games[id]['bots'][mob]['damagelimit']:
@@ -1049,19 +1097,21 @@ def dmgs(id):
            if 'zombie' not in games[id]['bots'][mob]['skills']:
              if games[id]['bots'][mob]['die']!=1:
               text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
-              if 'paukovod' in games[id]['bots'][mob]['skills']:
-                  text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
-                  pauk.append(games[id]['bots'][mob]['id'])
            else:
               games[id]['bots'][mob]['zombie']=3
               games[id]['bots'][mob]['hp']=1
               text+='👹'+games[id]['bots'][mob]['name']+' теперь зомби!\n'
+           if 'paukovod' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
+                  text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
+                  pauk.append(games[id]['bots'][mob]['id'])
      if games[id]['xod']%5==0:
        if games[id]['bots'][mob]['id']==87651712:
           if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['hp']>0:
               text+=games[id]['bots'][mob]['name']+' сосёт!\n'
-    for item in pauk:
-       games[id]['bots'].update(createpauk(item))
+    for itemss in pauk:
+       games[id]['bots'].update(createpauk(itemss))
+       print('pauk')
+       print(games[id]['bots'])
     games[id]['secondres']='Эффекты:\n'+text
    
     
@@ -1231,7 +1281,7 @@ def kinzhalchance(energy, target, x, id, bot1):
       bot1['energy']=0
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=random.randint(0,1)
+          damage=1
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           if target['reload']!=1:
@@ -1290,7 +1340,7 @@ def bitechance(energy, target, x, id, bot1):
   elif energy==4:
     chance=80
   elif energy==3:
-    chance=70
+    chance=75
   elif energy==2:
     chance=60
   elif energy==1:
@@ -1298,12 +1348,12 @@ def bitechance(energy, target, x, id, bot1):
   elif energy==0:
     chance=0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+      games[id]['res']+='💀Голодный Паук доедает ослабевшего '+target['name']+'!\n'
       target['hp']-=1
       bot1['energy']=0
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=1
+          damage=3
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           x=random.randint(1,100)
@@ -1312,7 +1362,7 @@ def bitechance(energy, target, x, id, bot1):
                 stun=1
           games[id]['res']+='🕷'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           if stun==1:
-                text+='🤢Цель поражена ядом! Энергия снижена на 3.'
+                games[id]['res']+='🤢Цель поражена ядом! Её энергия снижена на 3.'
                 target['energy']-=3
           target['takendmg']+=damage
           bot1['energy']-=2
@@ -1378,6 +1428,9 @@ def attack(bot, id):
 
   elif bot['weapon']=='light':
     lightchance(bot['energy'], target, x, id, bot)
+   
+  elif bot['weapon']=='bite':
+    bitechance(bot['energy'], target, x, id, bot)
                                      
 
 def yvorot(bot, id):
@@ -1735,7 +1788,7 @@ def goo(m):
 
 @bot.message_handler(commands=['begin'])
 def begin(m):
-  if m.chat.id==-1001208357368:
+  if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:
         games.update(creategame(m.chat.id))
         kb=types.InlineKeyboardMarkup()
@@ -1904,5 +1957,4 @@ if __name__ == '__main__':
      #   bot.polling()
    # except(ReadTimeout, ConnectionError):
       #  pass
-
        
