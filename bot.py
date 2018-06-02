@@ -1471,7 +1471,7 @@ def skill(bot,id):
         live=0
         for ids in a:
             if ids['die']!=1:
-               zz.append(a[ids])
+               zz.append(ids)
                live=1
         if live==1:
           while zz[x-1]['energy']<=2 and dd<100:
