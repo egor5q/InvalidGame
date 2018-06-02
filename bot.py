@@ -1362,8 +1362,8 @@ def bitechance(energy, target, x, id, bot1):
                 stun=1
           games[id]['res']+='🕷'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           if stun==1:
-                games[id]['res']+='🤢Цель поражена ядом! Её энергия снижена на 3.'
-                target['energy']-=3
+                games[id]['res']+='🤢Цель поражена ядом! Её энергия снижена на 2.'
+                target['energy']-=2
           target['takendmg']+=damage
           bot1['energy']-=5
         
