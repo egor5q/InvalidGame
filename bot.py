@@ -1474,6 +1474,7 @@ def skill(bot,id):
                zz.append(ids)
                live=1
         if live==1:
+          dd=0
           while zz[x-1]['energy']<=2 and dd<100:
                 print('while2')
                 x=random.randint(1,len(a))
