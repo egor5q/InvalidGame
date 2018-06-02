@@ -1467,9 +1467,17 @@ def skill(bot,id):
                   yes=1
        x=random.randint(1,len(a))
        if yes==1:
-        while a[x-1]['die']==1 or a[x-1]['energy']<=2:
+        zz=[]
+        live=0
+        for ids in a:
+            if a[ids]['die']!=1:
+               zz.append(a[ids])
+               live=1
+        if live==1:
+          while zz[x-1]['energy']<=2 and dd<100:
                 print('while2')
                 x=random.randint(1,len(a))
+                dd+=1
        else:
            while a[x-1]['die']==1:
                print('while3')
