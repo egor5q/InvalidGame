@@ -117,7 +117,7 @@ def createpauk(id):
               'blood':0,
               'bought':[],
               'accuracy':0,
-              'damagelimit':6,
+              'damagelimit':9,
               'zombie':0,
               'heal':0,
               'shieldgen':0,
@@ -1336,7 +1336,7 @@ def lightchance(energy, target, x, id, bot1):
         
 def bitechance(energy, target, x, id, bot1):
   if energy==5:
-    chance=90
+    chance=100
   elif energy==4:
     chance=80
   elif energy==3:
@@ -1362,14 +1362,14 @@ def bitechance(energy, target, x, id, bot1):
                 stun=1
           games[id]['res']+='🕷'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           if stun==1:
-                games[id]['res']+='🤢Цель поражена ядом! Её энергия снижена на 2.'
-                target['energy']-=2
+                games[id]['res']+='🤢Цель поражена ядом! Её энергия снижена на 3.'
+                target['energy']-=3
           target['takendmg']+=damage
           bot1['energy']-=5
         
     else:
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
-        bot1['energy']-=2
+        bot1['energy']-=5
     
               
 
