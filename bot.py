@@ -1161,13 +1161,13 @@ def rockchance(energy, target, x, id, bot1):
           
 def akchance(energy, target, x, id, bot1):
   if energy==5:
-    chance=85
+    chance=80
   elif energy==4:
     chance=70
   elif energy==3:
-    chance=55
+    chance=50
   elif energy==2:
-    chance=35
+    chance=30
   elif energy==1:
     chance=5
   elif energy==0:
