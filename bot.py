@@ -1517,8 +1517,8 @@ def item(bot, id):
             ddd+=1
           target=a[z-1]
           if x>target['miss']:
-              games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 2 урона.\n'
-              target['takendmg']+=2
+              games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
+              target['takendmg']+=3
               bot['items'].remove('knife')
           else:
             games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
@@ -1583,7 +1583,7 @@ def actnumber(bot, id):
    yvorot=0
   else:
    if npc['energy']<=2:
-    if x<=45 and npc['yvorotkd']<=0:
+    if x<=50 and npc['yvorotkd']<=0:
       yvorot=1
     else:
       yvorot=0
@@ -1593,6 +1593,8 @@ def actnumber(bot, id):
         yvorot=1
       else:
         yvorot=0
+   if 'shieldgen' in npc['skills'] and npc['shieldgen']<=0 and low<len(enemy):
+      yvorot=1
         
   x=random.randint(1,100)
   if len(npc['skills'])>0 and 'active' in npc['skills']:
