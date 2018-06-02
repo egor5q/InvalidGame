@@ -1231,7 +1231,7 @@ def kinzhalchance(energy, target, x, id, bot1):
       bot1['energy']=0
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=1
+          damage=random.randint(0,1)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           if target['reload']!=1:
