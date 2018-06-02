@@ -1470,7 +1470,7 @@ def skill(bot,id):
         zz=[]
         live=0
         for ids in a:
-            if a[ids]['die']!=1:
+            if ids['die']!=1:
                zz.append(a[ids])
                live=1
         if live==1:
