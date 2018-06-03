@@ -1209,7 +1209,7 @@ def handchance(energy, target, x, id, bot1):
       bot1['energy']=0
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=random.randint(1,2)
+          damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           games[id]['res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
