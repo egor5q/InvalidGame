@@ -1868,11 +1868,11 @@ def begin(m):
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
         x=users.find({})
         for ids in x:
-            if x.ids.'enablejoin'==1 and x.ids..'joinbots'>0:
-               games[m.chat.id]['bots'].update(createbott(x[ids]['id'], x[ids]['bot']))
-               games[m.chat.id]['ids'].append(x[ids]['id'])
-               users.update_one({'id':x[ids]['id']}, {'$inc':{'joinbots':-1}})
-               bot.send_message(m.chat.id, x[ids]['name']+' (боец '+x[ids]['bot']['name']+') присоединился! (🤖Автоджоин)')
+            if ids['enablejoin']==1 and ids['joinbots']>0:
+               games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
+               games[m.chat.id]['ids'].append(ids['id'])
+               users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
+               bot.send_message(m.chat.id, ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)')
   else:
        bot.send_message(m.chat.id, 'На данный момент играть можно только в чате @cookiewarsru.')
         
