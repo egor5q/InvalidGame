@@ -929,14 +929,14 @@ def inline(call):
       kb.add(types.InlineKeyboardButton(text='-1🤖', callback_data='-1'),types.InlineKeyboardButton(text='-2🤖', callback_data='-2'),types.InlineKeyboardButton(text='-5🤖', callback_data='-5'))
       kb.add(types.InlineKeyboardButton(text='-10🤖', callback_data='-10'),types.InlineKeyboardButton(text='-50🤖', callback_data='-50'),types.InlineKeyboardButton(text='-100🤖', callback_data='-100'))
       kb.add(types.InlineKeyboardButton(text='Купить', callback_data='buyjoinbots'))
-      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 30❇️ опыта.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*30)+'❇️',call.message.chat.id, call.message.message_id,  reply_markup=kb)
+      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10❇️ опыта.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'❇️',call.message.chat.id, call.message.message_id,  reply_markup=kb)
       
   elif call.data=='buyjoinbots':
       y=users.find_one({'id':call.from_user.id})
-      if y['currentjoinbots']*30<=y['bot']['exp']:
+      if y['currentjoinbots']*10<=y['bot']['exp']:
         x=y['currentjoinbots']
         users.update_one({'id':call.from_user.id}, {'$inc':{'joinbots':y['currentjoinbots']}})
-        users.update_one({'id':call.from_user.id}, {'$inc':{'exp':y['currentjoinbots']*-30}})
+        users.update_one({'id':call.from_user.id}, {'$inc':{'exp':-(y['currentjoinbots']*10)}})
         users.update_one({'id':call.from_user.id}, {'$set':{'currentjoinbots':0}})
         medit('Вы успешно приобрели '+str(x)+'🤖 джоин ботов!', call.message.chat.id, call.message.message_id)
       else:
@@ -956,7 +956,7 @@ def inline(call):
       else:
           users.update_one({'id':call.from_user.id}, {'$inc':{'currentjoinbots':int(call.data)}})
       y=users.find_one({'id':call.from_user.id})
-      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 30❇️ опыта.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*30)+'❇️', call.message.chat.id, call.message.message_id, reply_markup=kb)
+      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10❇️ опыта.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'❇️', call.message.chat.id, call.message.message_id, reply_markup=kb)
       
   
       
