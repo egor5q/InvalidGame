@@ -51,6 +51,15 @@ skills=[]
 
 items=['flash', 'knife']
 
+@bot.message_handler(commands=['autojoin'])
+def autojoin(m):
+  if m.from_user.id==m.chat.id:
+    kb=types.InlineKeyboardMarkup()
+    kb.add(types.InlineKeyboardButton(text='Купить джойн-ботов', callback_data='buyjoin')
+    kb.add(types.InlineKeyboardButton(text='Активировать джойн-ботов', callback_data='usejoin')
+    bot.send_message(m.chat.id, 'Выберите действие.', reply_markup=kb)
+  else:
+      bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
 
 #@bot.message_handler(commands=['xxxx'])
 #def xxxx(m):
@@ -308,13 +317,14 @@ def k(m):
       bot.send_message(m.chat.id, x[1]+'⚛️ поинтов успешно выдано!')
     except:
         pass
-        
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'cookiecoef':0.10}})
-#                 print('yes')
+
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 users.update_many({}, {'$set':{'joinbots':0}})
+                 users.update_many({}, {'$set':{'enablejoin':0}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -1900,7 +1910,9 @@ def createuser(id, username, name):
            'username':username,
            'name':name,
            'cookie':0,
-           'cookiecoef':0.10
+           'cookiecoef':0.10,
+           'joinbots':0,
+           'enablejoin':0
           }
     
         
