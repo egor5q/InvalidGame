@@ -1481,9 +1481,8 @@ def skill(bot,id):
                 x=random.randint(1,len(zz))
                 dd+=1
        else:
-           while a[x-1]['die']==1:
-               print('while3')
-               x=random.randint(1,len(a))
+         bot.send_message(id, '@Loshadkin, баг с гипнозом, приди!')
+
       target=games[id]['bots'][a[x-1]['id']]
    
   else:    
