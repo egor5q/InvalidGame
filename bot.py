@@ -698,10 +698,10 @@ def inline(call):
   elif call.data=='buyberserk':
        x=users.find_one({'id':call.from_user.id})
        if 'berserk' not in x['bot']['bought']:
-           if x['cookie']>=2000:
+           if x['cookie']>=1500:
              if 'pricel' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'berserk'}})
-                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2000}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-1500}})
                 medit('Вы успешно приобрели скилл "Берсерк"!',call.message.chat.id,call.message.message_id)
              else:
                 bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
