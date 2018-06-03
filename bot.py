@@ -936,7 +936,7 @@ def inline(call):
       if y['currentjoinbots']*10<=y['bot']['exp']:
         x=y['currentjoinbots']
         users.update_one({'id':call.from_user.id}, {'$inc':{'joinbots':y['currentjoinbots']}})
-        users.update_one({'id':call.from_user.id}, {'$inc':{'exp':-(y['currentjoinbots']*10)}})
+        users.update_one({'id':call.from_user.id}, {'$inc':{'bot.exp':-(y['currentjoinbots']*10)}})
         users.update_one({'id':call.from_user.id}, {'$set':{'currentjoinbots':0}})
         medit('Вы успешно приобрели '+str(x)+'🤖 джоин ботов!', call.message.chat.id, call.message.message_id)
       else:
