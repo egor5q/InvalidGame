@@ -1826,7 +1826,7 @@ def begingame(id):
         if yes==1:
               games[id]['bots'][ids]['skills'].append('active')
         if 'cube' in games[id]['bots'][ids]['skills']:
-            a=['medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz']
+            a=['medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz', 'paukovod']
             z=(random.choice(a))
             while z in games[id]['bots'][ids]['skills']:
                z=(random.choice(a))
