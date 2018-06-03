@@ -55,8 +55,8 @@ items=['flash', 'knife']
 def autojoin(m):
   if m.from_user.id==m.chat.id:
     kb=types.InlineKeyboardMarkup()
-    kb.add(types.InlineKeyboardButton(text='Купить джойн-ботов', callback_data='buyjoin')
-    kb.add(types.InlineKeyboardButton(text='Активировать джойн-ботов', callback_data='usejoin')
+    kb.add(types.InlineKeyboardButton(text='Купить джойн-ботов', callback_data='buyjoin'))
+    kb.add(types.InlineKeyboardButton(text='Активировать джойн-ботов', callback_data='usejoin'))
     bot.send_message(m.chat.id, 'Выберите действие.', reply_markup=kb)
   else:
       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
@@ -919,6 +919,10 @@ def inline(call):
         bot.answer_callback_query(call.id, 'Вы успешно сняли оружие!')
       else:
         pass
+           
+  elif call.data=='buyjoin':
+      y=users.find_one({'id':call.from_user.id})
+      
            
             
               
