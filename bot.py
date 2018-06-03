@@ -929,7 +929,7 @@ def inline(call):
       kb.add(types.InlineKeyboardButton(text='-1🤖', callback_data='-1'),types.InlineKeyboardButton(text='-2🤖', callback_data='-2'),types.InlineKeyboardButton(text='-5🤖', callback_data='-5'))
       kb.add(types.InlineKeyboardButton(text='-10🤖', callback_data='-10'),types.InlineKeyboardButton(text='-50🤖', callback_data='-50'),types.InlineKeyboardButton(text='-100🤖', callback_data='-100'))
       kb.add(types.InlineKeyboardButton(text='Купить', callback_data='buyjoinbots'))
-      medit('Выберите количество джойн-ботов для покупки. Текущее количество: '+str(y['currentjoinbots']),call.chat.id, call.message.message_id,  reply_markup=kb)
+      medit('Выберите количество джойн-ботов для покупки. Текущее количество: '+str(y['currentjoinbots']),call.message.chat.id, call.message.message_id,  reply_markup=kb)
       
   else:
       kb=types.InlineKeyboardMarkup()
@@ -943,7 +943,7 @@ def inline(call):
       else:
           users.update_one({'id':call.from_user.id}, {'$inc':{'currentjoinbots':int(call.data)}})
       y=users.find_one({'id':call.from_user.id})
-      medit('Выберите количество джойн-ботов для покупки. Текущее количество: '+str(y['currentjoinbots']), call.chat.id, call.message.message_id, reply_markup=kb)
+      medit('Выберите количество джойн-ботов для покупки. Текущее количество: '+str(y['currentjoinbots']), call.message.chat.id, call.message.message_id, reply_markup=kb)
       
   
       
