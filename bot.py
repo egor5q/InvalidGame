@@ -54,9 +54,13 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['autojoin'])
 def autojoin(m):
   if m.from_user.id==m.chat.id:
+    enable='☑️'
+    x=users.find_one({'id':m.from_user.id})
+    if x['enablejoin']==1:
+         enable='✅'
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton(text='Купить джойн-ботов', callback_data='buyjoin'))
-    kb.add(types.InlineKeyboardButton(text='Активировать джойн-ботов', callback_data='usejoin'))
+    kb.add(types.InlineKeyboardButton(text=enable+'Активировать джойн-ботов', callback_data='usejoin'))
     bot.send_message(m.chat.id, 'Выберите действие.', reply_markup=kb)
   else:
       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
@@ -938,11 +942,19 @@ def inline(call):
         users.update_one({'id':call.from_user.id}, {'$inc':{'joinbots':y['currentjoinbots']}})
         users.update_one({'id':call.from_user.id}, {'$inc':{'bot.exp':-(y['currentjoinbots']*10)}})
         users.update_one({'id':call.from_user.id}, {'$set':{'currentjoinbots':0}})
-        medit('Вы успешно приобрели '+str(x)+'🤖 джоин ботов!', call.message.chat.id, call.message.message_id)
+        medit('Вы успешно приобрели '+str(x)+'🤖 джойн-ботов!', call.message.chat.id, call.message.message_id)
       else:
         medit('Недостаточно опыта!', call.message.chat.id, call.message.message_id)
-          
       
+  elif call.data=='usejoin':
+      x=users.find_one({'id':call.from_user.id})
+      if x['enablejoin']==0:
+          users.update_one({'id':call.from_user.id}, {'$set':{'enablejoin':1}})
+          medit('Автоджоин успешно включён!', call.message.chat.id, call.message.message_id)
+      else:
+          users.update_one({'id':call.from_user.id}, {'$set':{'enablejoin':0}})
+          medit('Автоджоин успешно выключен!', call.message.chat.id, call.message.message_id)
+        
   else:
       kb=types.InlineKeyboardMarkup()
       kb.add(types.InlineKeyboardButton(text='+1🤖', callback_data='+1'),types.InlineKeyboardButton(text='+2🤖', callback_data='+2'),types.InlineKeyboardButton(text='+5🤖', callback_data='+5'))
