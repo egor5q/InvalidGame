@@ -1639,9 +1639,9 @@ def actnumber(bot, id):
        else:
               enemy.append(games[id]['bots'][0])
   for mob in enemy:
-   if mob['energy']<=2 or mob['stun']>0:
+   if mob['energy']<=2 or mob['stun']>0 or mob['die']==1:
     low+=1
-  if low==len(enemy):
+  if low=>len(enemy):
    yvorot=0
   else:
    if npc['energy']<=2:
@@ -1651,7 +1651,7 @@ def actnumber(bot, id):
       yvorot=0
    elif npc['energy']>=3:
       x=random.randint(1,100)
-      if x<=20 and npc['yvorotkd']<=0:
+      if x<=25 and npc['yvorotkd']<=0:
         yvorot=1
       else:
         yvorot=0
