@@ -1868,7 +1868,7 @@ def begin(m):
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
         x=users.find({})
         for ids in x:
-            if x[ids]['enablejoin']==1 and x[ids]['joinbots']>0:
+            if x.ids.'enablejoin'==1 and x.ids..'joinbots'>0:
                games[m.chat.id]['bots'].update(createbott(x[ids]['id'], x[ids]['bot']))
                games[m.chat.id]['ids'].append(x[ids]['id'])
                users.update_one({'id':x[ids]['id']}, {'$inc':{'joinbots':-1}})
