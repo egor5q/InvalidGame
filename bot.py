@@ -429,7 +429,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1000⚛️', callback_data='buyshieldgen'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Генератор щитов каждые 4 хода даёт боту щит. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Генератор щитов каждые 5 хода даёт боту щит. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='medic':
        kb=types.InlineKeyboardMarkup()
