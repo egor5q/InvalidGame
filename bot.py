@@ -324,6 +324,7 @@ def upd(m):
         if m.from_user.id==441399484:
                  users.update_many({}, {'$set':{'joinbots':0}})
                  users.update_many({}, {'$set':{'enablejoin':0}})
+                 users.update_many({}, {'$set':{'currentjoinbots':0}})
                  print('yes')
                 
 
@@ -922,6 +923,10 @@ def inline(call):
            
   elif call.data=='buyjoin':
       y=users.find_one({'id':call.from_user.id})
+      kb=types.InlineKeyboardMarkup()
+      kb.add(types.InlineKeyboardButton(text='+1🤖', callback_data='+1'),types.InlineKeyboardButton(text='+2🤖', callback_data='+2'),types.InlineKeyboardButton(text='+5🤖', callback_data='+5'))
+      kb.add(types.InlineKeyboardButton(text='+10🤖', callback_data='+10'),types.InlineKeyboardButton(text='+50🤖', callback_data='+50'),types.InlineKeyboardButton(text='+100🤖', callback_data='+100'))
+      bot.send_message(call.chat.id, 'Выберите количество джойн-ботов для покупки. Текущее количество: 0', reply_markup=kb)
       
            
             
@@ -1916,7 +1921,8 @@ def createuser(id, username, name):
            'cookie':0,
            'cookiecoef':0.10,
            'joinbots':0,
-           'enablejoin':0
+           'enablejoin':0,
+           'currentjoinbots':0
           }
     
         
