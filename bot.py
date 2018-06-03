@@ -928,7 +928,7 @@ def inline(call):
       kb.add(types.InlineKeyboardButton(text='+10🤖', callback_data='+10'),types.InlineKeyboardButton(text='+50🤖', callback_data='+50'),types.InlineKeyboardButton(text='+100🤖', callback_data='+100'))
       kb.add(types.InlineKeyboardButton(text='-1🤖', callback_data='-1'),types.InlineKeyboardButton(text='-2🤖', callback_data='-2'),types.InlineKeyboardButton(text='-5🤖', callback_data='-5'))
       kb.add(types.InlineKeyboardButton(text='-10🤖', callback_data='-10'),types.InlineKeyboardButton(text='-50🤖', callback_data='-50'),types.InlineKeyboardButton(text='-100🤖', callback_data='-100'))
-      kb.add(types.InlineKeyboardButton(text='Купить', callback_data='buyjoinbots')
+      kb.add(types.InlineKeyboardButton(text='Купить', callback_data='buyjoinbots'))
       medit('Выберите количество джойн-ботов для покупки. Текущее количество: '+str(y['currentjoinbots']),call.chat.id, call.message.message_id,  reply_markup=kb)
       
   else:
