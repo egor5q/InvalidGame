@@ -1641,7 +1641,7 @@ def actnumber(bot, id):
   for mob in enemy:
    if mob['energy']<=2 or mob['stun']>0 or mob['die']==1:
     low+=1
-  if low=>len(enemy):
+  if low>=len(enemy):
    yvorot=0
   else:
    if npc['energy']<=2:
