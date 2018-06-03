@@ -307,7 +307,7 @@ def me(m):
   else:
       try:
         x=users.find_one({'id':m.reply_to_message.from_user.id})
-        bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️')
+        bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖')
       except:
         pass
 
@@ -1866,6 +1866,13 @@ def begin(m):
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
+        x=users.find_many({})
+        for ids in x:
+            if x[ids]['enablejoin']==1 and x[ids]['joinbots']>0:
+               games[m.chat.id]['bots'].update(createbott(x[ids]['id'], x[ids]['bot']))
+               games[m.chat.id]['ids'].append(x[ids]['id'])
+               users.update_one({'id':x[ids]['id']}, {'$inc':{'joinbots':-1}})
+               bot.send_message(m.chat.id, x[ids]['name']+' (боец '+x[ids]['bot']['name']+') присоединился! (🤖Автоджоин)')
   else:
        bot.send_message(m.chat.id, 'На данный момент играть можно только в чате @cookiewarsru.')
         
