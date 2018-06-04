@@ -1277,11 +1277,11 @@ def handchance(energy, target, x, id, bot1):
               damage+=2
           games[id]['res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
-          bot1['energy']-=1
+          bot1['energy']-=random.randint(1,2)
                 
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
-        bot1['energy']-=1
+        bot1['energy']-=random.randint(1,2)
        
        
 def sawchance(energy, target, x, id, bot1):
