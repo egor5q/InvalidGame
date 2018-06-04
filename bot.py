@@ -937,7 +937,7 @@ def inline(call):
       
   elif call.data=='buyjoinbots':
       y=users.find_one({'id':call.from_user.id})
-      if y['currentjoinbots']*10<=y['bot']['exp']:
+      if y['currentjoinbots']*10<=y['cookie']:
         x=y['currentjoinbots']
         users.update_one({'id':call.from_user.id}, {'$inc':{'joinbots':y['currentjoinbots']}})
         users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-(y['currentjoinbots']*10)}})
