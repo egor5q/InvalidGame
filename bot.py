@@ -944,7 +944,7 @@ def inline(call):
         users.update_one({'id':call.from_user.id}, {'$set':{'currentjoinbots':0}})
         medit('Вы успешно приобрели '+str(x)+'🤖 джойн-ботов!', call.message.chat.id, call.message.message_id)
       else:
-        medit('Недостаточно опыта!', call.message.chat.id, call.message.message_id)
+        medit('Недостаточно поинтов!', call.message.chat.id, call.message.message_id)
       
   elif call.data=='usejoin':
       x=users.find_one({'id':call.from_user.id})
@@ -1867,12 +1867,12 @@ def begin(m):
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
         x=users.find({})
-        #for ids in x:
-          #  if ids['enablejoin']==1 and ids['joinbots']>0:
-              # games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
-            #   games[m.chat.id]['ids'].append(ids['id'])
-           #    users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
-              # bot.send_message(m.chat.id, ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)')
+        for ids in x:
+            if ids['enablejoin']==1 and ids['joinbots']>0:
+               games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
+               games[m.chat.id]['ids'].append(ids['id'])
+               users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
+               bot.send_message(m.chat.id, ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)')
   else:
        bot.send_message(m.chat.id, 'На данный момент играть можно только в чате @cookiewarsru.')
         
