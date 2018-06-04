@@ -1310,7 +1310,7 @@ def sawchance(energy, target, x, id, bot1):
           target['takendmg']+=damage
           bot1['energy']-=2
           blood=random.randint(1, 100)
-          if blood<=25:
+          if blood<=35:
             if target['blood']==0:
               target['blood']=4
               games[id]['res']+='❣️Цель истекает кровью!\n'
