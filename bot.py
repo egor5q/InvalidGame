@@ -1161,7 +1161,7 @@ def dmgs(id):
              if games[id]['bots'][mob]['die']!=1:
               text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
            else:
-              games[id]['bots'][mob]['zombie']=3
+              games[id]['bots'][mob]['zombie']=2
               games[id]['bots'][mob]['hp']=1
               text+='👹'+games[id]['bots'][mob]['name']+' теперь зомби!\n'
            if 'paukovod' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
