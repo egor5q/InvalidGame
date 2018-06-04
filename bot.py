@@ -323,13 +323,14 @@ def k(m):
         pass
 
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#                 users.update_many({}, {'$set':{'joinbots':0}})
-#                 users.update_many({}, {'$set':{'enablejoin':0}})
-#                 users.update_many({}, {'$set':{'currentjoinbots':0}})
-#                 print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+                 x=users.find({})
+                 for ids in x:
+                     exp=ids['joinbots']*10
+                     users.update_one({'id':ids['id']}, {'$inc':{'bot.exp':exp}})
+                 print('yes')
                 
 
 @bot.message_handler(commands=['buybox'])
@@ -933,14 +934,14 @@ def inline(call):
       kb.add(types.InlineKeyboardButton(text='-1🤖', callback_data='-1'),types.InlineKeyboardButton(text='-2🤖', callback_data='-2'),types.InlineKeyboardButton(text='-5🤖', callback_data='-5'))
       kb.add(types.InlineKeyboardButton(text='-10🤖', callback_data='-10'),types.InlineKeyboardButton(text='-50🤖', callback_data='-50'),types.InlineKeyboardButton(text='-100🤖', callback_data='-100'))
       kb.add(types.InlineKeyboardButton(text='Купить', callback_data='buyjoinbots'))
-      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10❇️ опыта.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'❇️',call.message.chat.id, call.message.message_id,  reply_markup=kb)
+      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'⚛️',call.message.chat.id, call.message.message_id,  reply_markup=kb)
       
   elif call.data=='buyjoinbots':
       y=users.find_one({'id':call.from_user.id})
       if y['currentjoinbots']*10<=y['bot']['exp']:
         x=y['currentjoinbots']
         users.update_one({'id':call.from_user.id}, {'$inc':{'joinbots':y['currentjoinbots']}})
-        users.update_one({'id':call.from_user.id}, {'$inc':{'bot.exp':-(y['currentjoinbots']*10)}})
+        users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-(y['currentjoinbots']*10)}})
         users.update_one({'id':call.from_user.id}, {'$set':{'currentjoinbots':0}})
         medit('Вы успешно приобрели '+str(x)+'🤖 джойн-ботов!', call.message.chat.id, call.message.message_id)
       else:
@@ -968,7 +969,7 @@ def inline(call):
       else:
           users.update_one({'id':call.from_user.id}, {'$inc':{'currentjoinbots':int(call.data)}})
       y=users.find_one({'id':call.from_user.id})
-      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10❇️ опыта.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'❇️', call.message.chat.id, call.message.message_id, reply_markup=kb)
+      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'⚛️', call.message.chat.id, call.message.message_id, reply_markup=kb)
       
   
       
