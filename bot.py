@@ -328,8 +328,7 @@ def upd(m):
         if m.from_user.id==441399484:
                  x=users.find({})
                  for ids in x:
-                     exp=ids['joinbots']*10
-                     users.update_one({'id':ids['id']}, {'$inc':{'bot.exp':exp}})
+                     users.update_one({'id':ids['id']}, {'$set':{'joinbots':0}})
                  print('yes')
                 
 
