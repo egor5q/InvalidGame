@@ -1178,7 +1178,7 @@ def dmgs(id):
                         else:
                             text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
-                        games[id]['bots'][mob]['blood']=7
+                        games[id]['bots'][mob]['blood']=6
                         text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
             else:
                     print('Noneeeee')
@@ -1191,7 +1191,7 @@ def dmgs(id):
                         else:
                             text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
-                        games[id]['bots'][mob]['blood']=7
+                        games[id]['bots'][mob]['blood']=6
                         text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
                         
         if games[id]['bots'][mob]['zombie']!=0:
@@ -2132,8 +2132,7 @@ def dailybox():
    t.start()
 
 if True:
-   t=threading.Timer(900, dailybox)
-   t.start()
+   dailybox()
 
 if __name__ == '__main__':
   bot.polling(none_stop=True)
