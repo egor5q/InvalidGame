@@ -1176,7 +1176,7 @@ def dmgs(id):
                         else:
                             text+='💔👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
-                        games[id]['bots'][mob]['blood']=4
+                        games[id]['bots'][mob]['blood']=5
                         text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
             else:
                     if games[id]['bots'][mob]['blood']!=0:
@@ -1189,7 +1189,7 @@ def dmgs(id):
                             text+='💔👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
                         games[id]['bots'][mob]['blood']=2
-                        text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
+                        text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
                         
         if games[id]['bots'][mob]['zombie']!=0:
             games[id]['bots'][mob]['zombie']-=1
