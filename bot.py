@@ -1181,6 +1181,7 @@ def dmgs(id):
                         games[id]['bots'][mob]['blood']=5
                         text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
             else:
+                    print('Noneeeee')
                     if games[id]['bots'][mob]['blood']!=0:
                         games[id]['bots'][mob]['blood']-=1
                         if games[id]['bots'][mob]['blood']==0:
