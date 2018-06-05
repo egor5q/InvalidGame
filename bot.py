@@ -457,7 +457,7 @@ def inline(call):
         if 'vampire' in x['bot']['bought']:
             vampire='✅'
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text=zombie+'❣️Вампир', callback_data='vampire'))
+        kb.add(types.InlineKeyboardButton(text=zombie+'😈Вампир', callback_data='vampire'))
         medit('Ветка: вампиризм', call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
