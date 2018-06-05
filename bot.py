@@ -343,7 +343,7 @@ def buy(m):
     if x['dailybox']==1:
       try:
          y=random.randint(25,75)
-         users.update_one({'id':m.from_user.id}, {'$inc':{'cookies':y}})
+         users.update_one({'id':m.from_user.id}, {'$inc':{'cookie':y}})
          users.update_one({'id':m.from_user.id}, {'$set':{'dailybox':0}})
          bot.send_message(m.chat.id, 'Вы открыли Поинтбокс и получили '+str(y)+'⚛️ поинтов!')
       except:
