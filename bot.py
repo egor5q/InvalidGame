@@ -328,16 +328,23 @@ def upd(m):
         if m.from_user.id==441399484:
                  x=users.find({})
                  for ids in x:
-                     users.update_one({'id':ids['id']}, {'$set':{'joinbots':0}})
+                     users.update_one({'id':ids['id']}, {'$set':{'dailybox':1}})
                  print('yes')
                 
 
-@bot.message_handler(commands=['buybox'])
+@bot.message_handler(commands=['dailybox'])
 def buy(m):
-    if m.chat.id==m.from_user.id:
-        kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Да', callback_data='lootbox'), types.InlineKeyboardButton(text='100⚛️', callback_data='lootbox'))
-        bot.send_message(m.chat.id, 'Вы действительно хотите купить кейс с 🏵поинтами?', reply_markup=kb)
+    x=users.find_one({'id':m.from_user.id})
+    if x['dailybox']==1:
+      try:
+         y=random.randint(25,75)
+         users.update_one({'id':m.from_user.id}, {'$inc':{'cookies':y}})
+         users.update_one({'id':m.from_user.id}, {'$set':{'dailybox':0}})
+         bot.send_message(m.chat.id, 'Вы открыли Поинтбокс и получили '+str(y)+'⚛️ поинтов!')
+      except:
+         bot.send_message(m.chat.id, 'Вас нет в списке бота! Сначала напишите ему в личку /start.')
+    else:
+      bot.send_message(m.chat.id, 'Вы уже открывали Поинтбокс сегодня! Приходите завтра после 00:00 по МСК.')
     
   
   
@@ -1973,7 +1980,8 @@ def createuser(id, username, name):
            'cookiecoef':0.10,
            'joinbots':0,
            'enablejoin':0,
-           'currentjoinbots':0
+           'currentjoinbots':0,
+           'dailybox':1
           }
     
         
@@ -2030,6 +2038,23 @@ def createbot(id):
               'weapons':['hand'],
               'gipnoz':0
 }
+
+def dailybox():
+   x=time.ctime()
+   x=x.split(" ")
+   print(x)
+   x=x[4]
+   print(x)
+   x=x.split(":")
+   x=x[0]+3
+   print(x)
+   if x==0:
+      x=users.update_many({}, {'$set':{'dailybox':1}})
+   dailybox()
+
+if True:
+   t=threading.Timer(900, dailybox)
+   t.start()
 
 if __name__ == '__main__':
   bot.polling(none_stop=True)
