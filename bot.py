@@ -323,13 +323,13 @@ def k(m):
         pass
 
 
-@bot.message_handler(commands=['update'])
-def upd(m):
-        if m.from_user.id==441399484:
-                 x=users.find({})
-                 for ids in x:
-                     users.update_one({'id':ids['id']}, {'$set':{'dailybox':1}})
-                 print('yes')
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#                 x=users.find({})
+#                 for ids in x:
+#                     users.update_one({'id':ids['id']}, {'$set':{'dailybox':1}})
+#                 print('yes')
                 
 
 @bot.message_handler(commands=['dailybox'])
