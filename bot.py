@@ -218,6 +218,7 @@ def invent(m):
     gipnoz='☑️'
     cube='☑️'
     paukovod='☑️'
+    vampire='☑️'
     if 'shieldgen' in x['bot']['skills']:
         shield='✅'
     if 'medic' in x['bot']['skills']:
@@ -240,6 +241,8 @@ def invent(m):
         paukovod='✅'
     if 'cube' in x['bot']['skills']:
         cube='✅'
+    if 'vampire' in x['bot']['skills']:
+        vampire='✅'
     
     for item in x['bot']['bought']:
         if item=='shieldgen':
@@ -264,6 +267,8 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=paukovod+'🕷Пауковод', callback_data='equippaukovod'))
         elif item=='cube':
             kb.add(types.InlineKeyboardButton(text=cube+'🎲Куб рандома', callback_data='equipcube'))
+        if item=='vampire':
+            kb.add(types.InlineKeyboardButton(text=shield+'😈Вампир', callback_data='equipvampire'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
   else:
@@ -290,7 +295,7 @@ def upgr(m):
     if m.chat.id==m.from_user.id:
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='ХП', callback_data='hp'), types.InlineKeyboardButton(text='Урон', callback_data='dmg'),types.InlineKeyboardButton(text='Прочее', callback_data='different'))
-        kb.add(types.InlineKeyboardButton(text='Скины', callback_data='skins'))
+        kb.add(types.InlineKeyboardButton(text='Вампиризм', callback_data='vampirizm'),types.InlineKeyboardButton(text='Скины', callback_data='skins'))
         kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
         bot.send_message(m.chat.id, 'Выберите ветку', reply_markup=kb)
     else:
@@ -401,6 +406,7 @@ def inline(call):
   gipnoz='☑️'
   cube='☑️'
   paukovod='☑️'
+  vampire='☑️'
   x=users.find_one({'id':call.from_user.id})
   if call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
@@ -446,6 +452,13 @@ def inline(call):
         kb.add(types.InlineKeyboardButton(text=paukovod+'🕷Пауковод', callback_data='paukovod'))
         kb.add(types.InlineKeyboardButton(text=cube+'🎲Куб рандома', callback_data='cube'))
         medit('Ветка: разное', call.message.chat.id, call.message.message_id, reply_markup=kb)
+         
+  elif call.data=='vampirizm':
+        if 'vampire' in x['bot']['bought']:
+            vampire='✅'
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text=zombie+'❣️Вампир', callback_data='vampire'))
+        medit('Ветка: вампиризм', call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
        kb=types.InlineKeyboardMarkup()
@@ -520,6 +533,12 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('В начале матча этот куб превращается в случайный скилл. Можно купить, не покупая предыдущие улучшения. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
+  elif call.data=='vampire':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyvampire'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Если боец атаковал и отнял у врага хп, он восстанавливает себе 1 хп. Иначе он получает кровотечение. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+      
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
        oracle='☑️'
@@ -716,6 +735,18 @@ def inline(call):
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
            bot.answer_callback_query(call.id, 'У вас уже есть это!')
+            
+  elif call.data=='buyvampire':
+       x=users.find_one({'id':call.from_user.id})
+       if 'vampire' not in x['bot']['bought']:
+           if x['cookie']>=2000:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'vampire'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2000}})
+                medit('Вы успешно приобрели скилл "Вампир"!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
                
   elif call.data=='close':
       medit('Меню закрыто.', call.message.chat.id, call.message.message_id)
@@ -814,7 +845,19 @@ def inline(call):
           bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
     else:
         users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'cube'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Куб рандома"!')          
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Куб рандома"!')      
+      
+  elif call.data=='equipvampire':
+    x=users.find_one({'id':call.from_user.id})
+    if 'vampire' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'vampire'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Вампир"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'vampire'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Вампир"!')    
     
   elif call.data=='equipzombie':
     x=users.find_one({'id':call.from_user.id})
@@ -1121,6 +1164,36 @@ def dmgs(id):
               if games[id]['bots'][mob]['blood']==0 and games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['zombie']<=0:
                      games[id]['bots'][mob]['hp']-=1
                      text+='💔'+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
+        if 'vampire' in games[id]['bots'][mob]['skills']:
+            if games[id]['bots'][mob]['target']!=None:
+                if games[id]['bots'][mob]['target']['takendmg']==c:
+                    games[id]['bots'][mob]['hp']+=1
+                    text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ❤️хп!'
+                else:
+                    if games[id]['bots'][mob]['blood']!=0:
+                        games[id]['bots'][mob]['blood']-=1
+                        if games[id]['bots'][mob]['blood']==0:
+                            if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['zombie']<=0:
+                                games[id]['bots'][mob]['hp']-=1
+                                text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
+                        else:
+                            text+='💔👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
+                    else:
+                        games[id]['bots'][mob]['blood']=2
+                        text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!'
+            else:
+                    if games[id]['bots'][mob]['blood']!=0:
+                        games[id]['bots'][mob]['blood']-=1
+                        if games[id]['bots'][mob]['blood']==0:
+                            if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['zombie']<=0:
+                                games[id]['bots'][mob]['hp']-=1
+                                text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
+                        else:
+                            text+='💔👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
+                    else:
+                        games[id]['bots'][mob]['blood']=2
+                        text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!'
+                        
         if games[id]['bots'][mob]['zombie']!=0:
             games[id]['bots'][mob]['zombie']-=1
             if games[id]['bots'][mob]['zombie']==0:
@@ -1966,6 +2039,8 @@ def skilltoname(x):
        return 'Куб рандома'
     elif x=='paukovod':
        return 'Пауковод'
+    elif x=='vampire':
+       return 'Вампир'
 
  
 def createbott(id, y):
