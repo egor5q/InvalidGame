@@ -1443,7 +1443,7 @@ def attack(bot, id):
   a=[]
   if 0 not in games[id]['bots']:
     for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id']:
+        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id']:
             a.append(games[id]['bots'][bots])
     x=random.randint(1,len(a))
     dd=0
@@ -1517,7 +1517,7 @@ def skill(bot,id):
   a=[]
   if 0 not in games[id]['bots']:
       for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id']:
+        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id']:
             a.append(games[id]['bots'][bots])
       x=random.randint(1,len(a))
       if bot['mainskill']==[]:
@@ -1580,7 +1580,7 @@ def item(bot, id):
   if 0 not in games[id]['bots']:
     a=[]
     for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id']:
+        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id']:
             a.append(games[id]['bots'][bots])
     x=random.randint(1,len(a))
     if bot['mainitem']==[]:
