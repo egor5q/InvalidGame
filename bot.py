@@ -1020,10 +1020,7 @@ def inline(call):
       y=users.find_one({'id':call.from_user.id})
       medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'⚛️', call.message.chat.id, call.message.message_id, reply_markup=kb)
       
-  
-      
-           
-            
+          
               
   
       
@@ -1180,7 +1177,7 @@ def dmgs(id):
                             text+='💔👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
                         games[id]['bots'][mob]['blood']=4
-                        text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
+                        text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
             else:
                     if games[id]['bots'][mob]['blood']!=0:
                         games[id]['bots'][mob]['blood']-=1
@@ -1192,7 +1189,7 @@ def dmgs(id):
                             text+='💔👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
                         games[id]['bots'][mob]['blood']=2
-                        text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!'
+                        text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
                         
         if games[id]['bots'][mob]['zombie']!=0:
             games[id]['bots'][mob]['zombie']-=1
