@@ -1107,11 +1107,11 @@ def dmgs(id):
     text=''
     for mob in games[id]['bots']:
         games[id]['bots'][mob]['stun']-=1
-        if games[id]['bots'][mob]['stun']==0:
+        if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
             text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.\n'
         if games[id]['bots'][mob]['blood']!=0:
               games[id]['bots'][mob]['blood']-=1
-              if games[id]['bots'][mob]['blood']==0:
+              if games[id]['bots'][mob]['blood']==0 and games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['zombie']<=0:
                      games[id]['bots'][mob]['hp']-=1
                      text+='💔'+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
         if games[id]['bots'][mob]['zombie']!=0:
