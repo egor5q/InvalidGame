@@ -1165,7 +1165,7 @@ def dmgs(id):
             if games[id]['bots'][mob]['target']!=None:
                 print('1')
                 print(games[id]['bots'][mob]['target']['takendmg'])
-                if games[id]['bots'][mob]['target']['takendmg']==c:
+                if games[id]['bots'][mob]['target']['takendmg']==c and c>0:
                     games[id]['bots'][mob]['hp']+=1
                     text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ❤️хп!\n'
                 else:
