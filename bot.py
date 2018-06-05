@@ -2122,7 +2122,8 @@ def dailybox():
    print(x)
    if x==0:
       x=users.update_many({}, {'$set':{'dailybox':1}})
-   dailybox()
+   t=threading.Timer(900, dailybox)
+   t.start()
 
 if True:
    t=threading.Timer(900, dailybox)
