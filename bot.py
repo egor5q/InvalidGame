@@ -1533,6 +1533,7 @@ def attack(bot, id):
     target=games[id]['bots'][a[x-1]['id']]
     if bot['target']!=None:
         target=bot['target']
+    bot['target']=target
     x=random.randint(1,100)
   else:
     for bots in games[id]['bots']:
@@ -1697,6 +1698,7 @@ def item(bot, id):
     target=games[id]['bots'][a[x-1]['id']]
     if livex==1:
          target=games[id]['bots'][live[x-1]['id']]
+    
   else:
     target=games[id]['bots'][0]
   x=[]
@@ -1721,6 +1723,7 @@ def item(bot, id):
             z=random.randint(1,len(a))
             ddd+=1
           target=a[z-1]
+          bot['target']=target
           if x>target['miss']:
               games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
               target['takendmg']+=3
