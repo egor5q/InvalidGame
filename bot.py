@@ -1163,6 +1163,8 @@ def dmgs(id):
                      text+='💔'+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
         if 'vampire' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
             if games[id]['bots'][mob]['target']!=None:
+                print('1')
+                print(games[id]['bots'][mob]['target']['takendmg'])
                 if games[id]['bots'][mob]['target']['takendmg']==c:
                     games[id]['bots'][mob]['hp']+=1
                     text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ❤️хп!\n'
@@ -1188,7 +1190,7 @@ def dmgs(id):
                         else:
                             text+='💔👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
-                        games[id]['bots'][mob]['blood']=2
+                        games[id]['bots'][mob]['blood']=5
                         text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
                         
         if games[id]['bots'][mob]['zombie']!=0:
