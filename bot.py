@@ -2124,7 +2124,7 @@ def dailybox():
    x=x[4]
    print(x)
    x=x.split(":")
-   x=x[0]+3
+   x=int(x[0])+3
    print(x)
    if x==0:
       x=users.update_many({}, {'$set':{'dailybox':1}})
