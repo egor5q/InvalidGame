@@ -1399,15 +1399,15 @@ def lightchance(energy, target, x, id, bot1):
         
 def bitechance(energy, target, x, id, bot1):
   if energy==5:
-    chance=100
-  elif energy==4:
-    chance=80
-  elif energy==3:
     chance=75
-  elif energy==2:
+  elif energy==4:
     chance=60
-  elif energy==1:
+  elif energy==3:
     chance=50
+  elif energy==2:
+    chance=40
+  elif energy==1:
+    chance=20
   elif energy==0:
     chance=0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
