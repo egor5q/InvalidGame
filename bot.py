@@ -1399,7 +1399,7 @@ def lightchance(energy, target, x, id, bot1):
         
 def bitechance(energy, target, x, id, bot1):
   if energy==5:
-    chance=75
+    chance=90
   elif energy==4:
     chance=60
   elif energy==3:
