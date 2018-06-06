@@ -1161,7 +1161,7 @@ def dmgs(id):
               if games[id]['bots'][mob]['blood']==0 and games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['zombie']<=0:
                      games[id]['bots'][mob]['hp']-=1
                      text+='💔'+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
-        if 'vampire' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
+        if 'vampiree' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
             if games[id]['bots'][mob]['target']!=None:
                 print('1')
                 print(games[id]['bots'][mob]['target']['takendmg'])
