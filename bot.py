@@ -55,9 +55,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            x=users.find_one({'id':582571945})
-            users.update_one({'id':182620867}, {'$set':{'bot.exp':x['bot']['exp']}})
-            users.update_one({'id':182620867}, {'$set':{'joinbots':x['joinbots']}})
+            users.update_many({}, {'$inc':{'joinbots':25}})
             print('yes')
 
 
