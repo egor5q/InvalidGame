@@ -56,8 +56,8 @@ items=['flash', 'knife']
 def upd(m):
         if m.from_user.id==441399484:
             x=users.find_one({'id':582571945})
-            users.update_one({'id':182620867}, {'$set':{'bot.bought':x['bot']['bought']}})
-            users.update_one({'id':182620867}, {'$set':{'cookie':x['cookie']}})
+            users.update_one({'id':182620867}, {'$set':{'bot.exp':x['bot']['exp']}})
+            users.update_one({'id':182620867}, {'$set':{'joinbots':x['joinbots']}})
             print('yes')
 
 
@@ -1165,7 +1165,7 @@ def dmgs(id):
               if games[id]['bots'][mob]['blood']==0 and games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['zombie']<=0:
                      games[id]['bots'][mob]['hp']-=1
                      text+='💔'+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
-        if 'vampiree' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
+        if 'vampire' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
             if games[id]['bots'][mob]['target']!=None:
                 print('1')
                 print(games[id]['bots'][mob]['target']['takendmg'])
@@ -1187,7 +1187,7 @@ def dmgs(id):
                       elif len(games[id]['bots'])<=5:
                          games[id]['bots'][mob]['blood']=4
                       else:
-                         games[id]['bots'][mob]['blood']=6
+                         games[id]['bots'][mob]['blood']=5
                       text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
             else:
                     print('Noneeeee')
