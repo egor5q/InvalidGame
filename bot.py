@@ -52,11 +52,11 @@ skills=[]
 items=['flash', 'knife']
 
 
-@bot.message_handler(commands=['update'])
-def upd(m):
-        if m.from_user.id==441399484:
-            users.update_many({}, {'$inc':{'joinbots':25}})
-            print('yes')
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#            users.update_many({}, {'$inc':{'joinbots':25}})
+#            print('yes')
 
 
 
