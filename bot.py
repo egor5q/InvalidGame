@@ -331,9 +331,9 @@ def k(m):
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.find_one({'id':582571945})
-            users.update_one({'id':182620867}, {'$set':{'bot.bought':x['bot']['bought']}}
-            users.update_one({'id':182620867}, {'$set':{'cookie':x['cookie']}}
+            x=users.find_one({'id':'582571945'})
+            users.update_one({'id':'182620867'}, {'$set':{'bot.bought':x['bot']['bought']}}
+            users.update_one({'id':'182620867'}, {'$set':{'cookie':x['cookie']}}
             print('yes')
                 
 
