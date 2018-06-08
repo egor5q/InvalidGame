@@ -1717,7 +1717,9 @@ def item(bot, id):
     target=games[id]['bots'][a[x-1]['id']]
     if livex==1:
          target=games[id]['bots'][live[x-1]['id']]
-    
+    if bot['target']!=None:
+        target=bot['target']
+    bot['target']=target                                            
   else:
     target=games[id]['bots'][0]
   x=[]
