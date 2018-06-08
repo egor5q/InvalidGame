@@ -1743,8 +1743,6 @@ def item(bot, id):
           while a[z-1]['die']==1 and ddd<100:
             z=random.randint(1,len(a))
             ddd+=1
-          target=a[z-1]
-          bot['target']=target
           if x>target['miss']:
               games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
               target['takendmg']+=3
