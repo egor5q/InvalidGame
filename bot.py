@@ -1934,6 +1934,7 @@ def start(m):
           if y['bot']['name']!=None:
            if games[int(x[1])]['started']==0:
             games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
+            users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
             bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
             bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+y['bot']['name']+') присоединился!')
             games[int(x[1])]['ids'].append(m.from_user.id)
