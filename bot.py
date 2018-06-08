@@ -1311,6 +1311,7 @@ def rockchance(energy, target, x, id, bot1):
           
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
         bot1['energy']-=2
           
           
@@ -1341,6 +1342,7 @@ def akchance(energy, target, x, id, bot1):
           bot1['energy']-=random.randint(2,3)
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
         bot1['energy']-=random.randint(2,3)
         
         
@@ -1373,6 +1375,7 @@ def handchance(energy, target, x, id, bot1):
                 
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
         bot1['energy']-=random.randint(1,2)
        
        
@@ -1414,6 +1417,7 @@ def sawchance(energy, target, x, id, bot1):
                 
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
         bot1['energy']-=2
        
        
@@ -1456,6 +1460,7 @@ def kinzhalchance(energy, target, x, id, bot1):
                   bot1['energy']-=2               
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
         bot1['energy']-=2
                 
              
@@ -1487,6 +1492,7 @@ def lightchance(energy, target, x, id, bot1):
         
     else:
         games[id]['res']+='💨Молния босса ударила мимо '+target['name']+'!\n'
+        bot1['target']=None
         bot1['energy']-=5
         
 def bitechance(energy, target, x, id, bot1):
@@ -1524,6 +1530,7 @@ def bitechance(energy, target, x, id, bot1):
         
     else:
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
         bot1['energy']-=5
     
               
