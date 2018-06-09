@@ -336,7 +336,18 @@ def k(m):
     except:
         pass
 
-
+      
+      
+@bot.message_handler(commands=['j'])
+def j(m):
+  if m.from_user.id==441399484 or m.from_user.id==55888804:
+    x=m.text.split('/j')
+    try:
+      int(x[1])
+      users.update_one({'id':m.reply_to_message.from_user.id}, {'$inc':{'joinbots':int(x[1])}})
+      bot.send_message(m.chat.id, x[1]+'🤖 джойн-ботов успешно выдано!')
+    except:
+        pass
                 
 
 @bot.message_handler(commands=['dailybox'])
@@ -1183,9 +1194,9 @@ def dmgs(id):
                       if len(games[id]['bots'])<=3:
                         games[id]['bots'][mob]['blood']=3
                       elif len(games[id]['bots'])<=5:
-                         games[id]['bots'][mob]['blood']=4
+                         games[id]['bots'][mob]['blood']=3
                       else:
-                         games[id]['bots'][mob]['blood']=5
+                         games[id]['bots'][mob]['blood']=3
                       text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
             else:
                     print('Noneeeee')
@@ -1201,9 +1212,9 @@ def dmgs(id):
                       if len(games[id]['bots'])<=3:
                           games[id]['bots'][mob]['blood']=3
                       elif len(games[id]['bots'])<=5:
-                         games[id]['bots'][mob]['blood']=4
+                         games[id]['bots'][mob]['blood']=3
                       else:
-                         games[id]['bots'][mob]['blood']=6
+                         games[id]['bots'][mob]['blood']=3
                       text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
                         
         if games[id]['bots'][mob]['zombie']!=0:
