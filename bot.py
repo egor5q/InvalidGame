@@ -2155,16 +2155,11 @@ def dailybox():
 if True:
    dailybox()
 
-while True:
-   
-    try:
-        bot.polling()
-    except(ReadTimeout, ConnectionError):
-        pass
+
    
    
-#if __name__ == '__main__':
-  #bot.polling(none_stop=True)
+if __name__ == '__main__':
+  bot.polling(none_stop=True)
 
 #while True:
    # try:
