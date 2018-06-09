@@ -1192,11 +1192,11 @@ def dmgs(id):
                             text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
                       if len(games[id]['bots'])<=3:
-                        games[id]['bots'][mob]['blood']=3
+                        games[id]['bots'][mob]['blood']=4
                       elif len(games[id]['bots'])<=5:
-                         games[id]['bots'][mob]['blood']=3
+                         games[id]['bots'][mob]['blood']=4
                       else:
-                         games[id]['bots'][mob]['blood']=3
+                         games[id]['bots'][mob]['blood']=4
                       text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
             else:
                     print('Noneeeee')
@@ -1210,11 +1210,11 @@ def dmgs(id):
                             text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
                       if len(games[id]['bots'])<=3:
-                          games[id]['bots'][mob]['blood']=3
+                          games[id]['bots'][mob]['blood']=4
                       elif len(games[id]['bots'])<=5:
-                         games[id]['bots'][mob]['blood']=3
+                         games[id]['bots'][mob]['blood']=4
                       else:
-                         games[id]['bots'][mob]['blood']=3
+                         games[id]['bots'][mob]['blood']=4
                       text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
                         
         if games[id]['bots'][mob]['zombie']!=0:
