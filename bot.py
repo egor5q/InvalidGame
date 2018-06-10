@@ -1216,6 +1216,15 @@ def dmgs(id):
                       else:
                          games[id]['bots'][mob]['blood']=3
                       text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
+                     
+        if 'zeus' in games[id]['bots'][mob]['skills']:
+            x=random.randint(1,100)
+            if x<=4:
+                for ids in games[id]['bots']:
+                    if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
+                        games[id]['bots'][ids]['hp']-=1
+                text+='🌩Зевс '+games[id]['bots'][mob]['name']+' вызывает молнию! Все его враги теряют 1хп.'
+        
                         
         if games[id]['bots'][mob]['zombie']!=0:
             games[id]['bots'][mob]['zombie']-=1
