@@ -449,7 +449,7 @@ def inline(call):
         kb.add(types.InlineKeyboardButton(text=medic+'⛑Медик', callback_data='medic'))
         kb.add(types.InlineKeyboardButton(text=liveful+'💙Живучий', callback_data='liveful'))
         kb.add(types.InlineKeyboardButton(text=dvuzhil+'💪Стойкий', callback_data='dvuzhil'))
-        kb.add(types.InlineKeyboardButton(text=dvuzhil+'💨Ниндзя', callback_data='nindza'))
+        kb.add(types.InlineKeyboardButton(text=nindza+'💨Ниндзя', callback_data='nindza'))
         medit('Ветка: ХП', call.message.chat.id, call.message.message_id, reply_markup=kb)
         
   elif call.data=='dmg':
@@ -537,7 +537,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='3500⚛️', callback_data='buyzeus'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Позволяет с шансом 5% в конце каждого хода отнять всем соперникам 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Позволяет с шансом 8% в конце каждого хода отнять всем соперникам 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='back':
        kb=types.InlineKeyboardMarkup()
@@ -1305,7 +1305,7 @@ def dmgs(id):
                      
         if 'zeus' in games[id]['bots'][mob]['skills']:
             x=random.randint(1,100)
-            if x<=5:
+            if x<=8:
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
