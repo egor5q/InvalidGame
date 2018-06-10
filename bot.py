@@ -2229,13 +2229,16 @@ def dailybox():
     x=int(x[0])+3
     print(x)
     if x==24 and y<=15:
-      x=users.update_many({}, {'$set':{'dailybox':1}})
+      users.update_many({}, {'$set':{'dailybox':1}})
    except:
       pass
    t=threading.Timer(900, dailybox)
    t.start()
-   
-      
+bot.message_handler(commands=['boxreload'])   
+def boxreload(m):
+  if m.from_user.id==441399484:
+    users.update_many({}, {'$set':{'dailybox':1}})   
+    bot.send_message(m.chat.id, 'Дейлибоксы обновлены!')
 
 if True:
    dailybox()
