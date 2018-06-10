@@ -1278,11 +1278,11 @@ def dmgs(id):
                             pass#text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
                       if len(games[id]['bots'])<=3:
-                        games[id]['bots'][mob]['blood']=3
+                        games[id]['bots'][mob]['blood']=2
                       elif len(games[id]['bots'])<=5:
-                         games[id]['bots'][mob]['blood']=3
+                         games[id]['bots'][mob]['blood']=2
                       else:
-                         games[id]['bots'][mob]['blood']=3
+                         games[id]['bots'][mob]['blood']=2
                       text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
             else:
                     print('Noneeeee')
@@ -1296,11 +1296,11 @@ def dmgs(id):
                             pass#text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
                       if len(games[id]['bots'])<=3:
-                          games[id]['bots'][mob]['blood']=3
+                          games[id]['bots'][mob]['blood']=2
                       elif len(games[id]['bots'])<=5:
-                         games[id]['bots'][mob]['blood']=3
+                         games[id]['bots'][mob]['blood']=2
                       else:
-                         games[id]['bots'][mob]['blood']=3
+                         games[id]['bots'][mob]['blood']=2
                       text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
                      
         if 'zeus' in games[id]['bots'][mob]['skills']:
