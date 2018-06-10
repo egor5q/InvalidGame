@@ -228,6 +228,7 @@ def invent(m):
     cube='☑️'
     paukovod='☑️'
     vampire='☑️'
+    zeus='☑️'
     if 'shieldgen' in x['bot']['skills']:
         shield='✅'
     if 'medic' in x['bot']['skills']:
@@ -252,6 +253,8 @@ def invent(m):
         cube='✅'
     if 'vampire' in x['bot']['skills']:
         vampire='✅'
+    if 'zeus' in x['bot']['skills']:
+        zeus='✅'
     
     for item in x['bot']['bought']:
         if item=='shieldgen':
@@ -277,7 +280,9 @@ def invent(m):
         elif item=='cube':
             kb.add(types.InlineKeyboardButton(text=cube+'🎲Куб рандома', callback_data='equipcube'))
         if item=='vampire':
-            kb.add(types.InlineKeyboardButton(text=shield+'😈Вампир', callback_data='equipvampire'))
+            kb.add(types.InlineKeyboardButton(text=vampire+'😈Вампир', callback_data='equipvampire'))
+        if item=='zeus':
+            kb.add(types.InlineKeyboardButton(text=zeus+'🌩Зевс', callback_data='equipzeus'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
   else:
@@ -420,6 +425,7 @@ def inline(call):
   cube='☑️'
   paukovod='☑️'
   vampire='☑️'
+  zeus='☑️'
   x=users.find_one({'id':call.from_user.id})
   if call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
@@ -444,10 +450,13 @@ def inline(call):
             cazn='✅'
         if 'berserk' in x['bot']['bought']:
             berserk='✅'
+        if 'zeus' in x['bot']['bought']:
+            zeus='✅'
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=pricel+'🎯Прицел', callback_data='pricel'))
         kb.add(types.InlineKeyboardButton(text=berserk+'😡Берсерк', callback_data='berserk'))
         kb.add(types.InlineKeyboardButton(text=cazn+'💥Ассасин', callback_data='cazn'))
+        kb.add(types.InlineKeyboardButton(text=zeus+'🌩Зевс', callback_data='zeus'))
         medit('Ветка: урон', call.message.chat.id, call.message.message_id, reply_markup=kb)
         
   elif call.data=='different':
@@ -508,6 +517,12 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='2500⚛️', callback_data='buycazn'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Этот скилл позволяет убить врага, у которого остался 1 хп, не смотря ни на что. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+         
+  elif call.data=='zeus':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='3500⚛️', callback_data='buyzeus'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Позволяет с шансом 5% в конце каждого хода отнять всем соперникам 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='back':
        kb=types.InlineKeyboardMarkup()
@@ -677,6 +692,21 @@ def inline(call):
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
            bot.answer_callback_query(call.id, 'У вас уже есть это!')
+            
+  elif call.data=='buyzeus':
+       x=users.find_one({'id':call.from_user.id})
+       if 'zeus' not in x['bot']['bought']:
+           if x['cookie']>=3500:
+             if 'cazn' in x['bot']['bought']:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'zeus'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-3500}})
+                medit('Вы успешно приобрели скилл "Зевс"!',call.message.chat.id,call.message.message_id)
+             else:
+                bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
        
        
   elif call.data=='buycube':
@@ -835,6 +865,18 @@ def inline(call):
     else:
         users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'cazn'}})
         bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Ассасин"!')
+      
+  elif call.data=='equipzeus':
+    x=users.find_one({'id':call.from_user.id})
+    if 'zeus' not in x['bot']['skills']:
+      if len(x['bot']['skills'])<=1:
+        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'zeus'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Зевс"!')
+      else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+    else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'zeus'}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Зевс"!')
         
   elif call.data=='equipberserk':
     x=users.find_one({'id':call.from_user.id})
@@ -1219,7 +1261,7 @@ def dmgs(id):
                      
         if 'zeus' in games[id]['bots'][mob]['skills']:
             x=random.randint(1,100)
-            if x<=4:
+            if x<=5:
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
@@ -1230,6 +1272,7 @@ def dmgs(id):
             games[id]['bots'][mob]['zombie']-=1
             if games[id]['bots'][mob]['zombie']==0:
                 games[id]['bots'][mob]['die']=1
+                games[id]['bots'][mob]['hp']=0
                 text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
     pauk=[]
     for mob in games[id]['bots']:
