@@ -1231,7 +1231,7 @@ def dmgs(id):
                                 games[id]['bots'][mob]['hp']-=1
                                 text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
                         else:
-                            text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
+                            pass#text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
                       if len(games[id]['bots'])<=3:
                         games[id]['bots'][mob]['blood']=3
@@ -1249,7 +1249,7 @@ def dmgs(id):
                                 games[id]['bots'][mob]['hp']-=1
                                 text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
                         else:
-                            text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
+                            pass#text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
                     else:
                       if len(games[id]['bots'])<=3:
                           games[id]['bots'][mob]['blood']=3
@@ -1265,7 +1265,7 @@ def dmgs(id):
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
-                text+='🌩Зевс '+games[id]['bots'][mob]['name']+' вызывает молнию! Все его враги теряют 1хп.'
+                text+='🌩Зевс '+games[id]['bots'][mob]['name']+' вызывает молнию! Все его враги теряют ❤️хп.\n'
         
                         
         if games[id]['bots'][mob]['zombie']!=0:
