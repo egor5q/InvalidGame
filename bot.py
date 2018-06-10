@@ -287,7 +287,7 @@ def invent(m):
         if item=='zeus':
             kb.add(types.InlineKeyboardButton(text=zeus+'🌩Зевс', callback_data='equipzeus'))
         if item=='nindza':
-            kb.add(types.InlineKeyboardButton(text=zeus+'💨Ниндзя', callback_data='equipnindza'))
+            kb.add(types.InlineKeyboardButton(text=nindza+'💨Ниндзя', callback_data='equipnindza'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
   else:
