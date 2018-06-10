@@ -580,7 +580,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyvampire'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Если боец атаковал и отнял у врага хп, он восстанавливает себе 1 хп. Иначе он получает кровотечение. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Если боец атаковал и отнял хп у врага, с шансом 25% он восстановит себе 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
       
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
@@ -1265,43 +1265,11 @@ def dmgs(id):
                 print('1')
                 print(games[id]['bots'][mob]['target']['takendmg'])
                 if games[id]['bots'][mob]['target']['takendmg']==c and c>0:
+                  a=random.randint(1,100)
+                  if a<=25:
                     games[id]['bots'][mob]['hp']+=1
                     text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ❤️хп!\n'
-                else:
-                    if games[id]['bots'][mob]['blood']!=0:
-                        games[id]['bots'][mob]['blood']-=1
-                        if games[id]['bots'][mob]['blood']==0:
-                            if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['zombie']<=0:
-                                games[id]['bots'][mob]['hp']-=1
-                                text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
-                        else:
-                            pass#text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
-                    else:
-                      if len(games[id]['bots'])<=3:
-                        games[id]['bots'][mob]['blood']=2
-                      elif len(games[id]['bots'])<=5:
-                         games[id]['bots'][mob]['blood']=2
-                      else:
-                         games[id]['bots'][mob]['blood']=2
-                      text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
-            else:
-                    print('Noneeeee')
-                    if games[id]['bots'][mob]['blood']!=0:
-                        games[id]['bots'][mob]['blood']-=1
-                        if games[id]['bots'][mob]['blood']==0:
-                            if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['zombie']<=0:
-                                games[id]['bots'][mob]['hp']-=1
-                                text+='💔👿Вампир '+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
-                        else:
-                            pass#text+='❣️👿Кровотечение вампира '+games[id]['bots'][mob]['name']+' усиливается!\n'
-                    else:
-                      if len(games[id]['bots'])<=3:
-                          games[id]['bots'][mob]['blood']=2
-                      elif len(games[id]['bots'])<=5:
-                         games[id]['bots'][mob]['blood']=2
-                      else:
-                         games[id]['bots'][mob]['blood']=2
-                      text+='❣️👿Вампир '+games[id]['bots'][mob]['name']+' голодает и истекает кровью!\n'
+    
                      
         if 'zeus' in games[id]['bots'][mob]['skills']:
             x=random.randint(1,100)
