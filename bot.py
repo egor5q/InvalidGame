@@ -2161,10 +2161,12 @@ def dailybox():
     print(x)
     if x==24 and y<=15:
       x=users.update_many({}, {'$set':{'dailybox':1}})
-    t=threading.Timer(900, dailybox)
-    t.start()
    except:
       pass
+   t=threading.Timer(900, dailybox)
+   t.start()
+   
+      
 
 if True:
    dailybox()
