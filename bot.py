@@ -2234,7 +2234,8 @@ def dailybox():
       pass
    t=threading.Timer(900, dailybox)
    t.start()
-bot.message_handler(commands=['boxreload'])   
+   
+@bot.message_handler(commands=['boxreload'])   
 def boxreload(m):
   if m.from_user.id==441399484:
     users.update_many({}, {'$set':{'dailybox':1}})   
