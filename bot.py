@@ -1315,8 +1315,7 @@ def dmgs(id):
         if games[id]['bots'][mob]['zombie']!=0:
             games[id]['bots'][mob]['zombie']-=1
             if games[id]['bots'][mob]['zombie']==0:
-                games[id]['bots'][mob]['die']=1
-                games[id]['bots'][mob]['hp']=0
+                games[id]['bots'][mob]['die']=1               
                 text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
     pauk=[]
     for mob in games[id]['bots']:
