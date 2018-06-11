@@ -2316,6 +2316,7 @@ if True:
         while check==True:
           try:
             bot.polling(none_stop=True,timeout=1)
+            print('checkkk')
             check = False
           except (requests.exceptions.ConnectionError):
             time.sleep(1)
