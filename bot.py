@@ -55,7 +55,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.maxhp':0}})
+            users.update_many({}, {'$set':{'games':0}})
             print('yes')
 
 
@@ -2207,7 +2207,8 @@ def createuser(id, username, name):
            'joinbots':0,
            'enablejoin':0,
            'currentjoinbots':0,
-           'dailybox':1
+           'dailybox':1,
+           'games':0
           }
     
         
