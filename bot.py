@@ -52,11 +52,11 @@ skills=[]
 items=['flash', 'knife']
 
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#            users.update_many({}, {'$inc':{'joinbots':25}})
-#            print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+            users.update_many({}, {'$set':{'bot.maxhp':0}})
+            print('yes')
 
 
 
@@ -1167,6 +1167,8 @@ def results(id):
   die=0    
   games[id]['xod']+=1
   for mobs in games[id]['bots']:
+    if games[id]['bots'][mobs]['hp']>games[id]['bots'][mobs]['maxhp']:
+        games[id]['bots'][mobs]['hp']=games[id]['bots'][mobs]['maxhp']
     games[id]['bots'][mobs]['attack']=0
     games[id]['bots'][mobs]['yvorot']=0 
     games[id]['bots'][mobs]['reload']=0 
@@ -2077,7 +2079,7 @@ def begingame(id):
         if yes==1:
               games[id]['bots'][ids]['skills'].append('active')
         if 'cube' in games[id]['bots'][ids]['skills']:
-            a=['medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz', 'paukovod']
+            a=['medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz', 'paukovod', 'vampire', 'zeus', 'nindza']
             z=(random.choice(a))
             while z in games[id]['bots'][ids]['skills']:
                z=(random.choice(a))
@@ -2094,6 +2096,7 @@ def begingame(id):
             games[id]['bots'][ids]['hp']-=2
         if 'nindza' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['miss']+=20
+        games[id]['bots'][ids]['maxhp']=games[id]['bots'][ids]['hp']
     text=''
     
     for ids in games[id]['bots']: 
@@ -2189,6 +2192,7 @@ def createbot(id):
               'skills':[],
               'team':None,
               'hp':4,
+              'maxhp':0,
               'maxenergy':5,
               'energy':5,
               'items':[],           
