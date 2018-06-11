@@ -2253,17 +2253,13 @@ try:
 
 except requests.ReadTimeout:
 
-        print("!!! READTIME OUT !!!")
-
-        traceback_error_string=traceback.format_exc()
-
-       
+        print("!!! READTIME OUT !!!")           
 
         bot.stop_polling()
 
         time.sleep(1)
 
-        check = True;
+        check = True
 
         while(check):
 
@@ -2271,11 +2267,11 @@ except requests.ReadTimeout:
 
                 bot.polling(none_stop=True,timeout=1)
 
-                check = False;
+                check = False
 
             except requests.exceptions.ConnectionError:
 
-                time.sleep(1);
+                time.sleep(1)
    
 #if __name__ == '__main__':
  # bot.polling(none_stop=True)
