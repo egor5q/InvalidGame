@@ -1217,16 +1217,19 @@ def results(id):
         if winner['id']!=0:
             winner2=users.find_one({'id':winner['id']})
             y=userstrug.find_one({'id':winner['id']})
-            try:
+            if id==-1001208357368:
+             try:
               cookie=round(points*winner2['cookiecoef'], 0)
               cookie=int(cookie)
               bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки!')
               userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
-            except:
+             except:
               
                 bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов! Куки получить не удалось - для этого надо зарегистрироваться в @TrugRuBot!')
-            users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
-            users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
+             users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
+             users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
+            else:
+                  bot.send_message(id, '🏆'+name+' победил! Но награду за победу можно получить только в оффициальном чате - @cookiewarsru!')
         else:
             bot.send_message(id, '🏆'+name+' победил!')
       else:
@@ -2037,22 +2040,21 @@ def goo(m):
 
 @bot.message_handler(commands=['begin'])
 def begin(m):
-  if m.chat.id==-1001208357368:#-229396706:
+ # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:
         games.update(creategame(m.chat.id))
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
         x=users.find({})
-        for ids in x:
+        if m.chat.id==-1001208357368:
+         for ids in x:
             if ids['enablejoin']==1 and ids['joinbots']>0:
                games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[m.chat.id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
                bot.send_message(m.chat.id, ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)')
-  else:
-       bot.send_message(m.chat.id, 'На данный момент играть можно только в чате @cookiewarsru.')
-        
+ 
         
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
     return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
