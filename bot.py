@@ -2274,6 +2274,8 @@ def createbot(id):
 }
 
 def dailybox():
+   t=threading.Timer(900, dailybox)
+   t.start()
    x=time.ctime()
    x=x.split(" ")
    print(x)
@@ -2288,8 +2290,8 @@ def dailybox():
       users.update_many({}, {'$set':{'dailybox':1}})
    except:
       pass
-   t=threading.Timer(900, dailybox)
-   t.start()
+  
+
    
 @bot.message_handler(commands=['boxreload'])   
 def boxreload(m):
@@ -2305,8 +2307,8 @@ if True:
 if True:
  try:
    print('7777')
-   bot.polling(none_stop=True)#,timeout=600)
- except: #(requests.ReadTimeout):
+   bot.polling(none_stop=True,timeout=600)
+ except (requests.ReadTimeout):
         print('!!! READTIME OUT !!!')           
         bot.stop_polling()
         time.sleep(1)
