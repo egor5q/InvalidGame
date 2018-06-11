@@ -2249,11 +2249,11 @@ if True:
 
 try:
 
-        bot.polling(none_stop=True,timeout=600)
+        bot.polling(none_stop=True)#,timeout=600)
 
 except: #(requests.ReadTimeout):
 
-        print("!!! READTIME OUT !!!")           
+        print('!!! READTIME OUT !!!')           
 
         bot.stop_polling()
 
