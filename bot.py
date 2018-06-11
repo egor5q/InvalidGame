@@ -2246,18 +2246,16 @@ if True:
 
 
   
+if True:
+ try:
+   bot.polling(none_stop=True)#,timeout=600)
+ except: #(requests.ReadTimeout):
 
-try:
+        print('!!! READTIME OUT !!!')           
 
-        bot.polling(none_stop=True)#,timeout=600)
+        bot.stop_polling()
 
-except: #(requests.ReadTimeout):
-
-       # print('!!! READTIME OUT !!!')           
-
-        # bot.stop_polling()
-
-        #time.sleep(1)
+        time.sleep(1)
 
         check = True
 
