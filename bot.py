@@ -148,6 +148,7 @@ def createpauk(id):
               'target':None,
               'exp':0,
               'gipnoz':0,
+              'maxhp':2,
               'weapons':['hand']}}
 
 #@bot.message_handler(commands=['addboss'])
@@ -1775,15 +1776,10 @@ def item(bot, id):
           for ii in games[id]['bots']:
              if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']!=1:
                   yes=1
-          if yes==1:
-            live=[]
-            for ids in a:
-              if ids['die']!=1:
-                 live.append(ids)
-            x=random.randint(1, len(live))
+          if yes==1:        
             dd=0
-            x=random.randint(1, len(live))
-            while live[x-1]['energy']<=2 and dd<=100:
+            x=random.randint(1, len(a))
+            while live[x-1]['energy']<=2 and live[x-1]['die']==1 and dd<=100:
                 print('while5')
                 x=random.randint(1,len(live))
                 dd+=1
