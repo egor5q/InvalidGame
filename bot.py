@@ -2255,7 +2255,7 @@ except: #(requests.ReadTimeout):
 
         print('!!! READTIME OUT !!!')           
 
-        bot.stop_polling()
+        bot.stop_polling
 
         time.sleep(1)
 
