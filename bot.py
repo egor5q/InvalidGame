@@ -580,7 +580,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyvampire'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Если боец атаковал и отнял хп у врага, с шансом 25% он восстановит себе 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Если боец атаковал и отнял хп у врага, с шансом 18% он восстановит себе 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
       
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
