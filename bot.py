@@ -2054,6 +2054,8 @@ def begin(m):
                games[m.chat.id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
                bot.send_message(m.chat.id, ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)')
+        if m.chat.id!=-1001208357368:
+         bot.send_message(441399484, 'Где-то началась игра!')
  
         
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
