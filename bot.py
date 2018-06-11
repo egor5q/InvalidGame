@@ -1229,7 +1229,7 @@ def results(id):
              users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
              users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
             else:
-                  bot.send_message(id, '🏆'+name+' победил! Но награду за победу можно получить только в оффициальном чате - @cookiewarsru!')
+                  bot.send_message(id, '🏆'+name+' победил! Но награду за победу можно получить только в официальном чате - @cookiewarsru!')
         else:
             bot.send_message(id, '🏆'+name+' победил!')
       else:
