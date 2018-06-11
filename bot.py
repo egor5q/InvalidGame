@@ -2245,15 +2245,45 @@ if True:
    dailybox()
 
 
-   
+  
+
+try:
+
+        bot.polling(none_stop=True,timeout=60 * 10)
+
+except requests.ReadTimeout:
+
+        print("!!! READTIME OUT !!!")
+
+        traceback_error_string=traceback.format_exc()
+
+       
+
+        bot.stop_polling()
+
+        time.sleep(1)
+
+        check = True;
+
+        while(check):
+
+            try:
+
+                bot.polling(none_stop=True,timeout=1)
+
+                check = False;
+
+            except requests.exceptions.ConnectionError:
+
+                time.sleep(1);
    
 #if __name__ == '__main__':
  # bot.polling(none_stop=True)
 
-while True:
-    try:
-        bot.polling()
-    except:
-        pass
-    time.sleep(0.1)
+#while True:
+#    try:
+  #      bot.polling()
+ #   except:
+  #      pass
+#    time.sleep(0.1)
        
