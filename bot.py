@@ -2256,11 +2256,11 @@ if True:
         time.sleep(1)
         check = True
         while check==True:
-            try:
-                bot.polling(none_stop=True,timeout=1)
-                check = False
-            except (requests.exceptions.ConnectionError):
-                time.sleep(1)
+          try:
+            bot.polling(none_stop=True,timeout=1)
+            check = False
+          except (requests.exceptions.ConnectionError):
+            time.sleep(1)
    
 #if __name__ == '__main__':
  # bot.polling(none_stop=True)
