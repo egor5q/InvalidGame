@@ -1257,6 +1257,10 @@ def results(id):
               if games[id]['bots'][ids]['id']!=winner['id']:
                if itemss!='cube' and itemss!='active':
                 points+=2
+        for ids in games[id]['bots']:
+            for itemss in games[id]['bots'][ids]['skin']:
+              if games[id]['bots'][ids]['id']!=winner['id']:
+                points+=2
         if winner['id']!=0:
             winner2=users.find_one({'id':winner['id']})
             y=userstrug.find_one({'id':winner['id']})
