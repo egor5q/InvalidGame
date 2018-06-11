@@ -586,10 +586,14 @@ def inline(call):
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
        oracle='☑️'
+       robot='☑️'
        if 'oracle' in x['bot']['bought']:
             oracle='✅'
+       if 'robot' in x['bot']['bought']:
+            robot='✅'
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text=oracle+'🔮Оракул', callback_data='oracle'))
+       kb.add(types.InlineKeyboardButton(text=robot+'🅿️Робот', callback_data='robot'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Ветка: скины',call.message.chat.id,call.message.message_id, reply_markup=kb)
         
@@ -598,6 +602,12 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='4000⚛️', callback_data='buyoracle'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Скин позволяет воину с 50% шансом избежать фатального урона один раз за игру. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+         
+  elif call.data=='robot':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='5000⚛️', callback_data='buyrobot'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Скин увеличивает максимальный уровень энергии бойца на 1. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
                    
   elif call.data=='equiporacle':
        x=users.find_one({'id':call.from_user.id})
@@ -610,9 +620,19 @@ def inline(call):
                 bot.answer_callback_query(call.id, 'Вы успешно экипировали скин "Оракул"!')
            else:
                 bot.answer_callback_query(call.id, 'Экипировано максимальное количество скинов!')
-                
-           
-       
+               
+  elif call.data=='equiprobot':
+       x=users.find_one({'id':call.from_user.id})
+       if 'robot' in x['bot']['skin']:
+           users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skin':'robot'}})
+           bot.answer_callback_query(call.id, 'Вы успешно сняли скин "Робот"!')
+       else:
+           if len(x['bot']['skin'])==0:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.skin':'robot'}})
+                bot.answer_callback_query(call.id, 'Вы успешно экипировали скин "Робот"!')
+           else:
+                bot.answer_callback_query(call.id, 'Экипировано максимальное количество скинов!')
+                                 
   elif call.data=='buyoracle':
     x=users.find_one({'id':call.from_user.id})
     if 'oracle' not in x['bot']['bought']:
@@ -622,6 +642,21 @@ def inline(call):
             medit('Вы успешно приобрели скин "Оракул"!',call.message.chat.id,call.message.message_id)
        else:
            bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+    else:
+        bot.answer_callback_query(call.id, 'У вас уже есть это!')
+         
+  elif call.data=='buyrobot':
+    x=users.find_one({'id':call.from_user.id})
+    if 'robot' not in x['bot']['bought']:
+      if 'oracle' in x['bot']['bought']:
+       if x['cookie']>=5000:
+            users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'robot'}})
+            users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-5000}})
+            medit('Вы успешно приобрели скин "Робот"!',call.message.chat.id,call.message.message_id)
+       else:
+           bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+      else:
+           bot.answer_callback_query(call.id, 'Для начала купите предыдущее улучшение!')
     else:
         bot.answer_callback_query(call.id, 'У вас уже есть это!')
              
@@ -1360,7 +1395,7 @@ def dmgs(id):
   
   
 def rockchance(energy, target, x, id, bot1):
-  if energy==5:
+  if energy>=5:
     chance=95
   elif energy==4:
     chance=80
@@ -1396,7 +1431,7 @@ def rockchance(energy, target, x, id, bot1):
           
           
 def akchance(energy, target, x, id, bot1):
-  if energy==5:
+  if energy>=5:
     chance=80
   elif energy==4:
     chance=70
@@ -1428,7 +1463,7 @@ def akchance(energy, target, x, id, bot1):
         
         
 def handchance(energy, target, x, id, bot1):
-  if energy==5:
+  if energy>=5:
     chance=99
   elif energy==4:
     chance=90
@@ -1460,7 +1495,7 @@ def handchance(energy, target, x, id, bot1):
        
        
 def sawchance(energy, target, x, id, bot1):
-  if energy==5:
+  if energy>=5:
     chance=97
   elif energy==4:
     chance=90
@@ -1502,7 +1537,7 @@ def sawchance(energy, target, x, id, bot1):
        
        
 def kinzhalchance(energy, target, x, id, bot1):
-  if energy==5:
+  if energy>=5:
     chance=95
   elif energy==4:
     chance=80
@@ -1545,7 +1580,7 @@ def kinzhalchance(energy, target, x, id, bot1):
                 
              
 def lightchance(energy, target, x, id, bot1):
-  if energy==5:
+  if energy>=5:
     chance=50
   elif energy==4:
     chance=50
@@ -1576,7 +1611,7 @@ def lightchance(energy, target, x, id, bot1):
         bot1['energy']-=5
         
 def bitechance(energy, target, x, id, bot1):
-  if energy==5:
+  if energy>=5:
     chance=90
   elif energy==4:
     chance=60
@@ -1689,7 +1724,7 @@ def yvorot(bot, id):
 
 def reload(bot2, id):
    bot2['energy']=bot2['maxenergy']
-   games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до 5!\n'
+   games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
     
 def skill(bot,id):
   i=0
@@ -2092,6 +2127,8 @@ def begingame(id):
         if 'nindza' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['miss']+=20
         games[id]['bots'][ids]['maxhp']=games[id]['bots'][ids]['hp']
+        if 'robot' in games[id]['bots'][ids]['skin']:
+            games[id]['bots'][ids]['maxenergy']+=1
     text=''
     
     for ids in games[id]['bots']: 
