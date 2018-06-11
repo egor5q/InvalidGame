@@ -1779,9 +1779,9 @@ def item(bot, id):
           if yes==1:        
             dd=0
             x=random.randint(1, len(a))
-            while live[x-1]['energy']<=2 and live[x-1]['die']==1 and dd<=100:
+            while a[x-1]['energy']<=2 and a[x-1]['die']==1 and dd<=100:
                 print('while5')
-                x=random.randint(1,len(live))
+                x=random.randint(1,len(a))
                 dd+=1
             livex=1
           else:
@@ -1790,8 +1790,6 @@ def item(bot, id):
                   print('while6')
                   x=random.randint(1,len(a))
     target=games[id]['bots'][a[x-1]['id']]
-    if livex==1:
-         target=games[id]['bots'][live[x-1]['id']]
     if bot['target']!=None:
         target=bot['target']
     bot['target']=target                                            
@@ -1809,6 +1807,7 @@ def item(bot, id):
           games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
           target['energy']=0
           bot['items'].remove('flash')
+          bot['target']=None
 
   elif z=='knife':
           x=random.randint(1,100)
