@@ -2251,7 +2251,7 @@ try:
 
         bot.polling(none_stop=True,timeout=600)
 
-except requests.ReadTimeout:
+except (requests.ReadTimeout):
 
         print("!!! READTIME OUT !!!")           
 
@@ -2269,7 +2269,7 @@ except requests.ReadTimeout:
 
                 check = False
 
-            except requests.exceptions.ConnectionError:
+            except (requests.exceptions.ConnectionError):
 
                 time.sleep(1)
    
