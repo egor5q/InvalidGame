@@ -2251,25 +2251,15 @@ if True:
    print('7777')
    bot.polling(none_stop=True)#,timeout=600)
  except: #(requests.ReadTimeout):
-
         print('!!! READTIME OUT !!!')           
-
         bot.stop_polling()
-
         time.sleep(1)
-
         check = True
-
-        while(check):
-
+        while check==True:
             try:
-
                 bot.polling(none_stop=True,timeout=1)
-
                 check = False
-
             except (requests.exceptions.ConnectionError):
-
                 time.sleep(1)
    
 #if __name__ == '__main__':
