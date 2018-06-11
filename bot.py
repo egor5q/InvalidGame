@@ -2248,6 +2248,7 @@ if True:
   
 if True:
  try:
+   print('7777')
    bot.polling(none_stop=True)#,timeout=600)
  except: #(requests.ReadTimeout):
 
@@ -2257,7 +2258,7 @@ if True:
 
         time.sleep(1)
 
-        check = True
+        check = True
 
         while(check):
 
