@@ -2257,7 +2257,7 @@ except: #(requests.ReadTimeout):
 
         # bot.stop_polling()
 
-        time.sleep(1)
+        #time.sleep(1)
 
         check = True
 
