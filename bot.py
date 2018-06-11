@@ -201,11 +201,16 @@ def skins(m):
     x=users.find_one({'id':m.from_user.id})
     kb=types.InlineKeyboardMarkup()
     oracle='☑️'
+    robot='☑️'
     if 'oracle' in x['bot']['skin']:
         oracle='✅'
+    if 'robot' in x['bot']['skin']:
+        robot='✅'
     for ids in x['bot']['bought']:
         if ids=='oracle':
             kb.add(types.InlineKeyboardButton(text=oracle+'Оракул', callback_data='equiporacle'))
+        if ids=='robot':
+            kb.add(types.InlineKeyboardButton(text=robot+'Робот', callback_data='equiprobot'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
   else:
