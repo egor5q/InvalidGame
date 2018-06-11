@@ -2249,7 +2249,7 @@ if True:
 
 try:
 
-        bot.polling(none_stop=True,timeout=60 * 10)
+        bot.polling(none_stop=True,timeout=600)
 
 except requests.ReadTimeout:
 
