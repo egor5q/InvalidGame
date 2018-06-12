@@ -1788,7 +1788,7 @@ def skill(bot,id):
       choice=random.choice(bot['mainskill'])
   if choice=='medic':
        if bot['heal']<=0:
-           bot['heal']=7
+           bot['heal']=10
            bot['hp']+=1
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
