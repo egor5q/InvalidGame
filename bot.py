@@ -1790,6 +1790,7 @@ def skill(bot,id):
        if bot['heal']<=0:
            bot['heal']=10
            bot['hp']+=1
+           bot['energy']=0
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
               
