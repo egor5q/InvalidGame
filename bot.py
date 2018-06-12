@@ -1328,7 +1328,7 @@ def dmgs(id):
                      
         if 'zeus' in games[id]['bots'][mob]['skills']:
             x=random.randint(1,100)
-            if x<=8:
+            if x<=5:
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
