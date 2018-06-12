@@ -1321,7 +1321,7 @@ def dmgs(id):
                 print(games[id]['bots'][mob]['target']['takendmg'])
                 if games[id]['bots'][mob]['target']['takendmg']==c and c>0:
                   a=random.randint(1,100)
-                  if a<=15:
+                  if a<=10:
                     games[id]['bots'][mob]['hp']+=1
                     text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ❤️хп!\n'
     
