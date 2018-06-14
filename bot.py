@@ -2137,7 +2137,7 @@ def begingame(id):
             games[id]['bots'][ids]['hp']+=1
             games[id]['bots'][ids]['damagelimit']+=3
         if 'medic' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['heal']==9
+            games[id]['bots'][ids]['heal']=9
         if 'pricel' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['accuracy']+=15
         if 'paukovod' in games[id]['bots'][ids]['skills']:
