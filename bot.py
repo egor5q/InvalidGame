@@ -1321,14 +1321,14 @@ def dmgs(id):
                 print(games[id]['bots'][mob]['target']['takendmg'])
                 if games[id]['bots'][mob]['target']['takendmg']==c and c>0:
                   a=random.randint(1,100)
-                  if a<=10:
+                  if a<=5:
                     games[id]['bots'][mob]['hp']+=1
                     text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ❤️хп!\n'
     
                      
         if 'zeus' in games[id]['bots'][mob]['skills']:
             x=random.randint(1,100)
-            if x<=5:
+            if x<=2:
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
@@ -1788,12 +1788,17 @@ def skill(bot,id):
       choice=random.choice(bot['mainskill'])
   if choice=='medic':
        if bot['heal']<=0:
+         a=random.randint(1,100)
+         if a<60:
            bot['heal']=10
            bot['hp']+=1
            bot['energy']=0
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
-              
+         else:
+              games[id]['res']+='⛑Медику '+bot['name']+' не удалось восстановить хп!\n'
+              bot['heal']=10
+               
   elif choice=='gipnoz':
              games[id]['res']+='👁‍🗨'+bot['name']+' использует гипноз на '+target['name']+'!\n'
              target['target']=target
