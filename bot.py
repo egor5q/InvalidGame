@@ -2290,6 +2290,7 @@ def dailybox():
    x=x[4]
    print(x)
    x=x.split(":")
+   print(x)
    y=int(x[1])
    x=int(x[0])+3
    print(x)
