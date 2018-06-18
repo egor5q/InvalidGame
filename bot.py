@@ -2287,7 +2287,7 @@ def dailybox():
    x=time.ctime()
    x=x.split(" ")
    print(x)
-   x=x[4]
+   x=x[3]
    print(x)
    x=x.split(":")
    print(x)
