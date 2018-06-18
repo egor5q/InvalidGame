@@ -2290,14 +2290,11 @@ def dailybox():
    x=x[4]
    print(x)
    x=x.split(":")
-   try:
-    y=int(x[1])
-    x=int(x[0])+3
-    print(x)
-    if x==24 and y<=15:
-      users.update_many({}, {'$set':{'dailybox':1}})
-   except:
-      pass
+   y=int(x[1])
+   x=int(x[0])+3
+   print(x)
+   if x==24 and y<=15:
+     users.update_many({}, {'$set':{'dailybox':1}})
   
 
    
