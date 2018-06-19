@@ -369,7 +369,8 @@ def j(m):
 @bot.message_handler(commands=['dailybox'])
 def buy(m):
     x=users.find_one({'id':m.from_user.id})
-    if x['dailybox']==1:
+    if x!=None:
+     if x['dailybox']==1:
       try:
          y=random.randint(25,75)
          users.update_one({'id':m.from_user.id}, {'$inc':{'cookie':y}})
@@ -377,7 +378,7 @@ def buy(m):
          bot.send_message(m.chat.id, 'Вы открыли Поинтбокс и получили '+str(y)+'⚛️ поинтов!')
       except:
          bot.send_message(m.chat.id, 'Вас нет в списке бота! Сначала напишите ему в личку /start.')
-    else:
+     else:
       bot.send_message(m.chat.id, 'Вы уже открывали Поинтбокс сегодня! Приходите завтра после 00:00 по МСК.')
     
   
