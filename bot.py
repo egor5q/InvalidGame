@@ -2161,6 +2161,7 @@ def begin(m):
                bot.send_message(m.chat.id, ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)')
          for ids in x:
             if ids['ping']==1:
+               print('pinggg')
                try:
                   bot.send_message(ids['id'], 'В чате @cookiewarsru началась игра!') 
                except:
