@@ -420,7 +420,7 @@ def buy(m):
   
 @bot.message_handler(commands=['delete'])
 def delete(m):
-    if m.from_user.id==441399484 or m.from_user.id==60727377:
+    if m.from_user.id==441399484 or m.from_user.id==60727377 or m.from_user.id==137499781:
         if m.chat.id in games:
             del games[m.chat.id]
             bot.send_message(m.chat.id, 'Игра была удалена!')
