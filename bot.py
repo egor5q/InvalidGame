@@ -31,6 +31,19 @@ db2=client3.trug
 userstrug=db2.users
 
 
+@bot.message_handler(commands=['nextgame'])
+def nextgame(m):
+   x=users.find_one({'id':m.from_user.id})
+   if x!=None:
+      if x['ping']==1:
+         users.update_one({'id':m.from_user.id}, {'$set':{'ping':1}})
+         bot.send_message(m.chat.id, 'Оповещения о начале игр включены!')
+      else:
+         users.update_one({'id':m.from_user.id}, {'$set':{'ping':0}})
+         bot.send_message(m.chat.id, 'Оповещения о начале игр выключены!')
+         
+         
+
 @bot.message_handler(commands=['dropname'])
 def dropname(m):
    try:
@@ -55,7 +68,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.rank':0}})
+            users.update_many({}, {'$set':{'ping':0}})
             print('yes')
 
 
@@ -2146,6 +2159,13 @@ def begin(m):
                games[m.chat.id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
                bot.send_message(m.chat.id, ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)')
+         for ids in x:
+            if ids['ping']==1:
+               try:
+                  bot.send_message(ids['id'], 'В чате @cookiewarsru началась игра!') 
+               except:
+                  pass
+               
         if m.chat.id!=-1001208357368:
          bot.send_message(441399484, 'Где-то началась игра!')
  
@@ -2262,6 +2282,7 @@ def createuser(id, username, name):
            'currentjoinbots':0,
            'dailybox':1,
            'games':0,
+           'ping':0
           }
     
         
