@@ -36,11 +36,11 @@ def nextgame(m):
    x=users.find_one({'id':m.from_user.id})
    if x!=None:
       if x['ping']==1:
-         users.update_one({'id':m.from_user.id}, {'$set':{'ping':1}})
-         bot.send_message(m.chat.id, 'Оповещения о начале игр включены!')
-      else:
          users.update_one({'id':m.from_user.id}, {'$set':{'ping':0}})
          bot.send_message(m.chat.id, 'Оповещения о начале игр выключены!')
+      else:
+         users.update_one({'id':m.from_user.id}, {'$set':{'ping':1}})
+         bot.send_message(m.chat.id, 'Оповещения о начале игр включены!')
          
          
 
