@@ -55,7 +55,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'dailybox':1}})
+            users.update_many({}, {'$set':{'bot.rank':0}})
             print('yes')
 
 
@@ -328,16 +328,51 @@ def upgr(m):
 
 @bot.message_handler(commands=['me'])
 def me(m):
+  x=users.find_one({'id':m.from_user.id})
+  if x!=None:
+      exp=x['bot']['exp']
+      if exp<=100:
+         rang='Новичок'
+      elif exp<=200:
+         rang='Эсквайер'
+      elif exp<=500:
+         rang='Оруженосец'
+      elif exp<=800:
+         rang='Солдат'
+      elif exp<=1500:
+         rang='Опытный боец'
+      elif exp<=2000:
+         rang='Офицер'
+      elif exp<=3000:
+         rang='Подполковник'
+      elif exp<=3500:
+         rang='Полковник'
+      elif exp<=5000:
+         rang='Генерал'
+      elif exp<=7000:
+         rang='Оракул'
+      elif exp<=8500:
+         rang='Повелитель'
+      elif exp<=10000:
+         rang='Машина для убийств'
+      elif exp<=15000:
+         rang='Бессмертный'
+      elif exp<=50000:
+         rang='Мутант'
+      elif exp<=100000:
+         rang='Бог'
+      else:
+         rang='Пасюк'
   if m.reply_to_message==None:
     try:
       x=users.find_one({'id':m.from_user.id})
-      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games']))
+      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang)
     except:
       pass
   else:
       try:
         x=users.find_one({'id':m.reply_to_message.from_user.id})
-        bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games']))
+        bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang)
       except:
         pass
 
@@ -2223,7 +2258,7 @@ def createuser(id, username, name):
            'enablejoin':0,
            'currentjoinbots':0,
            'dailybox':1,
-           'games':0
+           'games':0,
           }
     
         
@@ -2276,6 +2311,7 @@ def createbot(id):
               'oracle':1,
               'target':None,
               'exp':0,
+              'rank':0,
               'mainskill':[],
               'mainitem':[],
               'weapons':['hand'],
