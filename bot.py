@@ -139,7 +139,7 @@ def createpauk(id):
               'blood':0,
               'bought':[],
               'accuracy':0,
-              'damagelimit':9,
+              'damagelimit':7,
               'zombie':0,
               'heal':0,
               'shieldgen':0,
