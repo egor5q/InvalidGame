@@ -2346,6 +2346,8 @@ def skilltoname(x):
        return 'Зевс'
     elif x=='nindza':
        return 'Ниндзя'
+    elif x=='bloodmage':
+       return 'Маг крови'
 
  
 def createbott(id, y):
