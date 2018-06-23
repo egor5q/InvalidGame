@@ -9,6 +9,7 @@ import threading
 from emoji import emojize
 from telebot import types
 from pymongo import MongoClient
+from emoji import emojize
 
 from requests.exceptions import ReadTimeout
 from requests.exceptions import ConnectionError
@@ -1512,11 +1513,14 @@ def dmgs(id):
                 games[id]['bots'][mob]['hp']-=a
        else:
            pass
+       pop=emojize(':poop:', use_aliases=True)
        if games[id]['bots'][mob]['hp']<100:
-         if games[id]['bots'][mob]['id']!=581167827:
-           text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+         if games[id]['bots'][mob]['id']==581167827:
+           text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'💙'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+         elif games[id]['bots'][mob]['id']==256659642:
+            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+pop*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
          else:
-            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'💙'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'            
        else:
            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        if games[id]['bots'][mob]['hp']==1 and 'berserk' in games[id]['bots'][mob]['skills']:
