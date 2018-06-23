@@ -1868,7 +1868,7 @@ def item(bot, id):
   if 0 not in games[id]['bots']:
     a=[]
     for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id']:
+        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id'] and games[id]['bots'][bots]['die']!=1:
             a.append(games[id]['bots'][bots])
     x=random.randint(1,len(a))
     if bot['mainitem']==[]:
