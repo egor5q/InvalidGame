@@ -65,17 +65,17 @@ skills=[]
 items=['flash', 'knife']
 
 
-@bot.message_handler(commands=['update'])
-def upd(m):
-        if m.from_user.id==441399484:
-            x=users.find({})
-            for ids in x:
-               if 'cube' in ids['bot']['bought']:
-                  users.update_one({'id':ids['id']}, {'$inc':{'cookie':7000}})
-                  users.update_one({'id':ids['id']}, {'$pull':{'bot.bought':'cube'}})
-                  users.update_one({'id':ids['id']}, {'$pull':{'bot.skills':'cube'}})
-                  bot.send_message(ids['id'], 'Куб рандома был удалён из игры! Вы получили компенсацию в размере 7000 поинтов.')
-            print('yes')
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#            x=users.find({})
+#            for ids in x:
+#               if 'cube' in ids['bot']['bought']:
+#                  users.update_one({'id':ids['id']}, {'$inc':{'cookie':7000}})
+#                  users.update_one({'id':ids['id']}, {'$pull':{'bot.bought':'cube'}})
+#                  users.update_one({'id':ids['id']}, {'$pull':{'bot.skills':'cube'}})
+#                  bot.send_message(ids['id'], 'Куб рандома был удалён из игры! Вы получили компенсацию в размере 7000 поинтов.')
+#            print('yes')
 
 
 @bot.message_handler(commands=['donate'])
