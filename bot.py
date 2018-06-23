@@ -72,7 +72,14 @@ def upd(m):
             print('yes')
 
 
-
+@bot.message_handler(commands=['donate'])
+def donate(m):
+   bot.send_message(m.chat.id, 'Донат - покупка игровых ресурсов за реальные деньги.\n'+
+                    'Курс: 1000⚛ за 100 рублей. Доя совершения платежа переведите желаемую сумму на карту:\n'+
+                    '`5336 6900 5562 4037, указав свой ник (через @).\nКак только я зайду в сеть, то начислю поинты в соответствии с курсом.\n'+
+                    'При покупке от 500р начисляется бонус - дополнительные 1000⚛.', parse_mode'markdown')
+            
+            
 @bot.message_handler(commands=['autojoin'])
 def autojoin(m):
   if m.from_user.id==m.chat.id:
