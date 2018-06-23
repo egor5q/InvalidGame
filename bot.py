@@ -1359,7 +1359,7 @@ def results(id):
              try:
               cookie=round(points*winner2['cookiecoef'], 0)
               cookie=int(cookie)
-              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2 поинта и 2 опыта!')
+              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
               userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
              except:
               
@@ -1438,7 +1438,7 @@ def dmgs(id):
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
                 else:
                  randd=random.randint(1,100)
-                 if randd<=75:
+                 if randd<=100:
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
