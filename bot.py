@@ -660,7 +660,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='4500⚛️', callback_data='buybloodmage'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Когда боец умирает, он имеет 75% шанс отнять по 1хп двум случайным врагам. Если при этом кто-нибудь умрет, он воскреснет с 1хп. За бой может быть использовано многократно. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Когда боец умирает, он имеет 60% шанс отнять по 1хп двум случайным врагам. Если при этом кто-нибудь умрет, он воскреснет с 1хп. За бой может быть использовано многократно. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
       
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
@@ -1448,7 +1448,7 @@ def dmgs(id):
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
                 else:
                  randd=random.randint(1,100)
-                 if randd<=75:
+                 if randd<=60:
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
@@ -1525,7 +1525,7 @@ def dmgs(id):
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
               else:
                  randd=random.randint(1,100)
-                 if randd<=75:
+                 if randd<=60:
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
