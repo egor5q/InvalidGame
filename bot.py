@@ -1453,16 +1453,17 @@ def dmgs(id):
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
                         a.append(games[id]['bots'][ids])
-                  x1=random.choice(a)
-                  x2=None
-                  if len(a)>1:
+                  if len(a)>0:
+                   x1=random.choice(a)
+                   x2=None
+                   if len(a)>1:
                      x2=random.choice(a)
                      while x2==x1:
                         x2=random.choice(a)
-                  x1['hp']-=1
-                  if x2!=None:
+                   x1['hp']-=1
+                   if x2!=None:
                      x2['hp']-=1
-                  if x2!=None:
+                   if x2!=None:
                      if x2['hp']<=0 or x1['hp']<=0:
                         text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+' и воскресает с 1❤️!\n'
                         games[id]['bots'][mob]['hp']=1
@@ -1472,13 +1473,15 @@ def dmgs(id):
                            text+='☠️'+x2['name']+' погибает.\n'
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', но никого не убивает, и погибает окончательно.\n'
-                  else:
+                   else:
                      if x1['hp']<=0:
                         text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+' и воскресает с 1❤️!\n'
                         games[id]['bots'][mob]['hp']=1
                         text+='☠️'+x1['name']+' погибает.\n'
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', но не убивает цель, и погибает окончательно.\n'
+                  else:
+                     text+='☠️'+x1['name']+' погибает.\n'
                  else:
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
     pauk=[]
@@ -1530,16 +1533,17 @@ def dmgs(id):
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
                         a.append(games[id]['bots'][ids])
-                  x1=random.choice(a)
-                  x2=None
-                  if len(a)>1:
+                  if len(a)>0:
+                   x1=random.choice(a)
+                   x2=None
+                   if len(a)>1:
                      x2=random.choice(a)
                      while x2==x1:
                         x2=random.choice(a)
-                  x1['hp']-=1
-                  if x2!=None:
+                   x1['hp']-=1
+                   if x2!=None:
                      x2['hp']-=1
-                  if x2!=None:
+                   if x2!=None:
                      if x2['hp']<=0 or x1['hp']<=0:
                         text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', и воскресает с 1❤️!\n'
                         games[id]['bots'][mob]['hp']=1
@@ -1551,7 +1555,7 @@ def dmgs(id):
                            x2['die']=1
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', но никого не убивает, и погибает окончательно.\n'
-                  else:
+                   else:
                      if x1['hp']<=0:
                         text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', и воскресает с 1❤️!\n'
                         games[id]['bots'][mob]['hp']=1
@@ -1559,6 +1563,8 @@ def dmgs(id):
                         x1['die']=1
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', но не убивает цель, и погибает окончательно.\n'
+                  else:
+                     text+='☠️'+x1['name']+' погибает.\n'
                  else:
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
            else:
