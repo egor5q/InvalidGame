@@ -1438,7 +1438,7 @@ def dmgs(id):
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
                 else:
                  randd=random.randint(1,100)
-                 if randd<=100:
+                 if randd<=75:
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
