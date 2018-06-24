@@ -1532,7 +1532,7 @@ def dmgs(id):
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
               else:
                  randd=random.randint(1,100)
-                 if randd<=100:
+                 if randd<=85:
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
@@ -2339,7 +2339,7 @@ def begingame(id):
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
         if 'dvuzhil' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['hp']+=1
+            games[id]['bots'][ids]['hp']+=0
             games[id]['bots'][ids]['damagelimit']+=3
         if 'medic' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['heal']=9
