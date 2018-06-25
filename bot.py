@@ -71,11 +71,18 @@ skills=[]
 items=['flash', 'knife']
 
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#            users.update_many({}, {'$set':{'referals':[]}})
-#            print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+            users.update_many({}, {'$set':{'referals':[]}})
+            users.update_many({}, {'$set':{'prize1':0}})
+            users.update_many({}, {'$set':{'prize2':0}})
+            users.update_many({}, {'$set':{'prize3':0}})
+            users.update_many({}, {'$set':{'prize4':0}})
+            users.update_many({}, {'$set':{'prize5':0}})
+            users.update_many({}, {'$set':{'prize6':0}})
+            users.update_many({}, {'$set':{'prize7':0}})
+            print('yes')
             
             
 @bot.message_handler(commands=['massbattle'])
@@ -1373,6 +1380,8 @@ def results(id):
             winner2=users.find_one({'id':winner['id']})
             y=userstrug.find_one({'id':winner['id']})
             if id==-1001208357368:
+             x=users.find({})
+             
              try:
               cookie=round(points*winner2['cookiecoef'], 0)
               cookie=int(cookie)
@@ -2419,8 +2428,14 @@ def creategame(id):
         'res':'',
         'started':0,
         'xod':1,
-        'started2':0
-            
+        'started2':0,
+        'prize1':0,
+        'prize2':0,
+        'prize3':0,
+        'prize4':0,
+        'prize5':0,
+        'prize6':0,
+        'prize7':0
         
              }
            }
