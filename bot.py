@@ -2236,7 +2236,7 @@ def start(m):
         print(z)
         i=0
         for ids in x:
-            if ids['id']==z[1]:
+            if ids['id']==int(z[1]):
                i=1
         if i==1:
            print('i=1')
