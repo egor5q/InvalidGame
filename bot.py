@@ -113,7 +113,7 @@ def autojoin(m):
 #   bot.send_message(m.chat.id, 'Всё')
 
 def createboss(id):
-    return{id:{'name': 'Босс',
+    return{'name': 'Босс',
               'weapon':'light',
               'skills':[],
               'team':None,
