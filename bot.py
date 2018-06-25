@@ -1388,8 +1388,10 @@ def results(id):
              for ids in games[id]['bots']:
                user=users.find_one({'id':games[id]['bots'][ids]['id']})
                i=games[id]['bots'][ids]['exp']
-               if i<=200 and user['prize1']==0:
-                  bot.send_message(
+               if user['inviter']!=None:
+               if i>100 and user['prize1']==0:
+                  bot.send_message(user['inviter'], 'Ваш приглашённый игрок получил ранг "Эсквайр"! Вы получаете 50⚛️.')
+                  
                users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.exp':2}})
                users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'cookie':2}})
             else:
@@ -2247,6 +2249,7 @@ def start(m):
         if i==1:
            print('i=1')
            users.update_one({'id':int(z[1])}, {'$push':{'referals':m.from_user.id}})
+           users.update_one({'id':m.from_user.id}, {'$set':{'inviter':int(z[1])}})
            try:
              bot.send_message(int(z[1]), 'По вашей ссылке зашёл пользователь '+m.from_user.first_name+'! По мере достижения им званий вы будете получать за него бонус - 50⚛️ за каждое.')
            except:
