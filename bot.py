@@ -71,17 +71,17 @@ skills=[]
 items=['flash', 'knife']
 
 
-@bot.message_handler(commands=['update'])
-def upd(m):
-        if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'referals':[]}})
-            users.update_many({}, {'$set':{'prize1':0}})
-            users.update_many({}, {'$set':{'prize2':0}})
-            users.update_many({}, {'$set':{'prize3':0}})
-            users.update_many({}, {'$set':{'prize4':0}})
-            users.update_many({}, {'$set':{'prize5':0}})
-            users.update_many({}, {'$set':{'prize6':0}})
-            users.update_many({}, {'$set':{'prize7':0}})
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#            users.update_many({}, {'$set':{'referals':[]}})
+#            users.update_many({}, {'$set':{'prize1':0}})
+#            users.update_many({}, {'$set':{'prize2':0}})
+#            users.update_many({}, {'$set':{'prize3':0}})
+#            users.update_many({}, {'$set':{'prize4':0}})
+#            users.update_many({}, {'$set':{'prize5':0}})
+#            users.update_many({}, {'$set':{'prize6':0}})
+#            users.update_many({}, {'$set':{'prize7':0}})
             print('yes')
             
             
@@ -1393,6 +1393,9 @@ def results(id):
              users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
              users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
              for ids in games[id]['bots']:
+               user=users.find_one({'id':games[id]['bots'][ids]['id']})
+               i=games[id]['bots'][ids]['exp']
+               if i<=200 and user['
                users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.exp':2}})
                users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'cookie':2}})
             else:
@@ -2414,7 +2417,14 @@ def createuser(id, username, name):
            'dailybox':1,
            'games':0,
            'ping':0,
-           'referals':[]
+           'referals':[],
+           'prize1':0,
+           'prize2':0,
+           'prize3':0,
+           'prize4':0,
+           'prize5':0,
+           'prize6':0,
+           'prize7':0
           }
     
         
@@ -2429,13 +2439,6 @@ def creategame(id):
         'started':0,
         'xod':1,
         'started2':0,
-        'prize1':0,
-        'prize2':0,
-        'prize3':0,
-        'prize4':0,
-        'prize5':0,
-        'prize6':0,
-        'prize7':0
         
              }
            }
