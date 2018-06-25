@@ -1574,8 +1574,8 @@ def dmgs(id):
            if 'oracle' not in games[id]['bots'][mob]['skin']:
              games[id]['bots'][mob]['hp']-=a
            else:
-            xx=random.randint(1,2)
-            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0 and xx==1:
+            xx=random.randint(1,100)
+            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0 and xx<=40:
                    text+='🔮Оракул '+games[id]['bots'][mob]['name']+' предотвращает свою смерть!\n'
                    games[id]['bots'][mob]['oracle']=0
             else:
