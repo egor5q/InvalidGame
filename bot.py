@@ -32,6 +32,11 @@ db2=client3.trug
 userstrug=db2.users
 
 
+@bot.message_handler(commands=['referal'])
+def ref(m):
+   bot.send_message(m.chat.id, 'Присоединяйся к игре CookieWars! Прокачай своего бойца, отправь в бой и наслаждайся тем, как он сам уничтожает соперника!\n'+
+                    'https://telegram.me/cookiewarsbot?start='+str(m.from_user.id))
+
 @bot.message_handler(commands=['nextgame'])
 def nextgame(m):
    x=users.find_one({'id':m.from_user.id})
@@ -1446,46 +1451,7 @@ def dmgs(id):
             if games[id]['bots'][mob]['zombie']==0:
                 games[id]['bots'][mob]['die']=1     
                 games[id]['bots'][mob]['energy']=0
-                if 'bloodmage' not in games[id]['bots'][mob]['skills']:
-                  text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
-                else:
-                 randd=random.randint(1,100)
-                 if randd<=60:
-                  a=[]
-                  for ids in games[id]['bots']:
-                     if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
-                        a.append(games[id]['bots'][ids])
-                  if len(a)>0:
-                   x1=random.choice(a)
-                   x2=None
-                   if len(a)>1:
-                     x2=random.choice(a)
-                     while x2==x1:
-                        x2=random.choice(a)
-                   x1['hp']-=1
-                   if x2!=None:
-                     x2['hp']-=1
-                   if x2!=None:
-                     if x2['hp']<=0 or x1['hp']<=0:
-                        text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+' и воскресает с 1❤️!\n'
-                        games[id]['bots'][mob]['hp']=1
-                        if x1['hp']<=0:
-                           text+='☠️'+x1['name']+' погибает.\n'
-                        if x2['hp']<=0:
-                           text+='☠️'+x2['name']+' погибает.\n'
-                     else:
-                        text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', но никого не убивает, и погибает окончательно.\n'
-                   else:
-                     if x1['hp']<=0:
-                        text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+' и воскресает с 1❤️!\n'
-                        games[id]['bots'][mob]['hp']=1
-                        text+='☠️'+x1['name']+' погибает.\n'
-                     else:
-                        text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', но не убивает цель, и погибает окончательно.\n'
-                  else:
-                     text+='☠️'+x1['name']+' погибает.\n'
-                 else:
-                  text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                
     pauk=[]
     for mob in games[id]['bots']:
      if games[id]['bots'][mob]['takendmg']==c:
@@ -1533,7 +1499,7 @@ def dmgs(id):
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
               else:
                  randd=random.randint(1,100)
-                 if randd<=85:
+                 if randd<=90:
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
@@ -1554,19 +1520,20 @@ def dmgs(id):
                         text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', и воскресает с 1❤️!\n'
                         games[id]['bots'][mob]['hp']=1
                         if x1['hp']<=0:
-                           text+='☠️'+x1['name']+' погибает.\n'
-                           x1['die']=1
+                           text+='👹'+x1['name']+' теперь зомби!\n'
+                           x1['zombie']=3
                         if x2['hp']<=0:
-                           text+='☠️'+x2['name']+' погибает.\n'
-                           x2['die']=1
+                           text+='☠️'+x2['name']+' теперь зомби!\n'
+                           x2['zombie']=3
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', но никого не убивает, и погибает окончательно.\n'
                    else:
                      if x1['hp']<=0:
                         text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', и воскресает с 1❤️!\n'
                         games[id]['bots'][mob]['hp']=1
-                        text+='☠️'+x1['name']+' погибает.\n'
-                        x1['die']=1
+                        text+='👹'+x1['name']+' теперь зомби!\n'
+                        x1['zombie']=3
+                        x1['hp']=1
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', но не убивает цель, и погибает окончательно.\n'
                   else:
@@ -1591,12 +1558,6 @@ def dmgs(id):
     games[id]['secondres']='Эффекты:\n'+text
    
     
-
-    
-    
-    
-  
-  
   
   
   
