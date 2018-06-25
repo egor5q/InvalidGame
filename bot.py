@@ -2278,9 +2278,9 @@ def begin(m):
          bot.send_message(m.chat.id, text)
          x=users.find({})
          for idss in x:
-            print('idddddd')
+            
             if idss['ping']==1:
-               print('pinggg')
+              
                try:
                   bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
                except:
