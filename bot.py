@@ -66,11 +66,18 @@ skills=[]
 items=['flash', 'knife']
 
 
-@bot.message_handler(commands=['update'])
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#            users.update_many({}, {'$set':{'referals':[]}})
+#            print('yes')
+            
+            
+@bot.message_handler(commands=['massbattle'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'referals':[]}})
-            print('yes')
+            users.update_many({}, {'$inc':{'joinbots':1}})
+            bot.send_message(m.chat.id, 'Каждому игроку был выдан 1 джойн бот!')
 
 
 @bot.message_handler(commands=['donate'])
@@ -2262,6 +2269,18 @@ def start(m):
             users.insert_one(createuser(m.from_user.id, m.from_user.username, m.from_user.first_name))
         except:
             bot.send_message(m.chat.id, 'Напишите боту в личку!')
+        x=users.find({})
+        z=m.text.split('/start')
+        i=0
+        for ids in x:
+            if ids['id']==z[1]:
+               i=1
+        if i==1:
+           users.update_one({'id':z[1]}, {'$push':{'referals':m.from_user.id}})
+           try:
+             bot.send_message(z[1], 'По вашей ссылке зашёл пользователь '+m.from_user.first_name+'! По мере достижения им званий вы будете получать за него бонус - 50⚛️ за каждое.')
+           except:
+             pass
     
   
 @bot.message_handler(commands=['go'])
