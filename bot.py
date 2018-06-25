@@ -1451,6 +1451,7 @@ def dmgs(id):
             if games[id]['bots'][mob]['zombie']==0:
                 games[id]['bots'][mob]['die']=1     
                 games[id]['bots'][mob]['energy']=0
+                text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
                 
     pauk=[]
     for mob in games[id]['bots']:
@@ -1521,7 +1522,7 @@ def dmgs(id):
                         games[id]['bots'][mob]['hp']=1
                         if x1['hp']<=0:
                            text+='👹'+x1['name']+' теперь зомби!\n'
-                           x1['zombie']=3
+                           x1['zombie']=2
                         if x2['hp']<=0:
                            text+='☠️'+x2['name']+' теперь зомби!\n'
                            x2['zombie']=3
@@ -1532,7 +1533,7 @@ def dmgs(id):
                         text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', и воскресает с 1❤️!\n'
                         games[id]['bots'][mob]['hp']=1
                         text+='👹'+x1['name']+' теперь зомби!\n'
-                        x1['zombie']=3
+                        x1['zombie']=2
                         x1['hp']=1
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', но не убивает цель, и погибает окончательно.\n'
