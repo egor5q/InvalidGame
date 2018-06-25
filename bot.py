@@ -618,7 +618,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='3500⚛️', callback_data='buyzeus'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Позволяет с шансом 83 в конце каждого хода отнять всем соперникам 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Позволяет с шансом 3% в конце каждого хода отнять всем соперникам 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='back':
        kb=types.InlineKeyboardMarkup()
