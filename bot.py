@@ -2372,6 +2372,7 @@ def begin(m):
         if m.chat.id==-1001208357368:
          text=''
          for ids in x:
+          if ids['id']!=0:
             if ids['enablejoin']==1 and ids['joinbots']>0:
                games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[m.chat.id]['ids'].append(ids['id'])
