@@ -145,7 +145,7 @@ def createboss(id):
               'target':None,
               'exp':0,
               'gipnoz':0,
-              'weapons':['hand']}}
+              'weapons':['hand']}
 
 
 def createpauk(id):
