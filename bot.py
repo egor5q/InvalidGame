@@ -82,7 +82,7 @@ items=['flash', 'knife']
 #            users.update_many({}, {'$set':{'prize5':0}})
 #            users.update_many({}, {'$set':{'prize6':0}})
 #            users.update_many({}, {'$set':{'prize7':0}})
-            print('yes')
+#            print('yes')
             
             
 @bot.message_handler(commands=['massbattle'])
