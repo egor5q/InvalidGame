@@ -2240,9 +2240,9 @@ def start(m):
                i=1
         if i==1:
            print('i=1')
-           users.update_one({'id':z[1]}, {'$push':{'referals':m.from_user.id}})
+           users.update_one({'id':int(z[1])}, {'$push':{'referals':m.from_user.id}})
            try:
-             bot.send_message(z[1], 'По вашей ссылке зашёл пользователь '+m.from_user.first_name+'! По мере достижения им званий вы будете получать за него бонус - 50⚛️ за каждое.')
+             bot.send_message(int(z[1]), 'По вашей ссылке зашёл пользователь '+m.from_user.first_name+'! По мере достижения им званий вы будете получать за него бонус - 50⚛️ за каждое.')
            except:
              pass
     
