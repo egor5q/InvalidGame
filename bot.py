@@ -2268,12 +2268,14 @@ def begin(m):
         bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
+         text=''
          for ids in x:
             if ids['enablejoin']==1 and ids['joinbots']>0:
                games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[m.chat.id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
-               bot.send_message(m.chat.id, ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)')
+               text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n')
+         bot.send_message(m.chat.id, text)
          x=users.find({})
          for idss in x:
             print('idddddd')
