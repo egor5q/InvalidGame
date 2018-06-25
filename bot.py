@@ -1482,7 +1482,7 @@ def results(id):
                      except:
                         pass
                   try:
-                     bot.send_message(user['id'], 'Вы получили ранг "Бог"! Награда: '+str(prize7)+'⚛️')\
+                     bot.send_message(user['id'], 'Вы получили ранг "Бог"! Награда: '+str(prize7)+'⚛️')
                   except:
                         pass
                   users.update_one({'id':user['id']}, {'$set':{'prize7':1}})
