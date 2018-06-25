@@ -2381,7 +2381,7 @@ def begin(m):
          bot.send_message(m.chat.id, text)
          x=users.find({})
          for idss in x:
-            
+          if idss['id']!=0:
             if idss['ping']==1:
               
                try:
