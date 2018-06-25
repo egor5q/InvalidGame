@@ -74,7 +74,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'inviter':None}})
+            users.insert_one({createboss(0})
             print('yes')
             
             
@@ -117,7 +117,7 @@ def createboss(id):
               'weapon':'light',
               'skills':[],
               'team':None,
-              'hp':100,
+              'hp':5000,
               'maxenergy':5,
               'energy':5,
               'items':[],           
@@ -2367,7 +2367,7 @@ def begin(m):
         games.update(creategame(m.chat.id))
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
-        bot.send_message(m.chat.id, 'Игра началась! Список игроков:\n\n', reply_markup=kb)
+        bot.send_message(m.chat.id, 'Игра началась!\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
          text=''
@@ -2391,7 +2391,25 @@ def begin(m):
         if m.chat.id!=-1001208357368:
          bot.send_message(441399484, 'Где-то началась игра!')
  
+      
+   
+@bot.message_handler(commands=['tournier'])
+def begin(m):
+  if m.chat.id==-1001208357368:#-229396706:
+     if m.chat.id not in games:
+        games.update(creategame(m.chat.id))
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         
+        bot.send_message(m.chat.id, 'Начинается турнир!\n\n', reply_markup=kb)
+        x=users.find({})
+        
+
+   
+  else:
+   bot.send_message(m.chat.id, 'Турнир можно играть только в официальном чате!')
+   
+   
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
     return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
                                  parse_mode=parse_mode)        
