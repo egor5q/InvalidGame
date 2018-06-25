@@ -1372,10 +1372,10 @@ def results(id):
         if winner['id']!=0:
             prize1=150
             prize2=200
-            prize3=30
-            prize4=400
-            prize5=500
-            prize6=600
+            prize3=300
+            prize4=450
+            prize5=600
+            prize6=800
             prize7=10000
             winner2=users.find_one({'id':winner['id']})
             y=userstrug.find_one({'id':winner['id']})
