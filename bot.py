@@ -2512,6 +2512,7 @@ if True:
 if True:
  try:
    print('7777')
+   bot.send_message(-1001208357368, 'Бот был перезагружен!')
    bot.polling(none_stop=True,timeout=600)
  except (requests.ReadTimeout):
         print('!!! READTIME OUT !!!')           
