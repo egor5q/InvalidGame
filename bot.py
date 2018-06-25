@@ -71,18 +71,11 @@ skills=[]
 items=['flash', 'knife']
 
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#            users.update_many({}, {'$set':{'referals':[]}})
-#            users.update_many({}, {'$set':{'prize1':0}})
-#            users.update_many({}, {'$set':{'prize2':0}})
-#            users.update_many({}, {'$set':{'prize3':0}})
-#            users.update_many({}, {'$set':{'prize4':0}})
-#            users.update_many({}, {'$set':{'prize5':0}})
-#            users.update_many({}, {'$set':{'prize6':0}})
-#            users.update_many({}, {'$set':{'prize7':0}})
-#            print('yes')
+@bot.message_handler(commands=['update'])
+def upd(m):
+        if m.from_user.id==441399484:
+            users.update_many({}, {'$set':{'inviter':None}})
+            print('yes')
             
             
 @bot.message_handler(commands=['massbattle'])
@@ -97,7 +90,7 @@ def donate(m):
    bot.send_message(m.chat.id, 'Донат - покупка игровых ресурсов за реальные деньги.\n'+
                     'Курс: 1000⚛ за 100 рублей. Для совершения платежа, переведите желаемую сумму (не меньше 50р) на карту:\n'+
                     '`5336 6900 5562 4037`, указав свой ник (через @).\nКак только я зайду в сеть, то начислю поинты в соответствии с курсом.\n'+
-                    'При покупке от 500р начисляется бонус - дополнительные 1000⚛.', parse_mode='markdown')
+                    'При покупке от 500р начисляется бонус - дополнительные 1000⚛. При сумме покупок больше, чем на 800р - уникальные смайлики для хп в подарок!\nТак же их можно купить за 300 рублей.', parse_mode='markdown')
             
             
 @bot.message_handler(commands=['autojoin'])
@@ -1395,7 +1388,8 @@ def results(id):
              for ids in games[id]['bots']:
                user=users.find_one({'id':games[id]['bots'][ids]['id']})
                i=games[id]['bots'][ids]['exp']
-               if i<=200 and user['
+               if i<=200 and user['prize1']==0:
+                  bot.send_message(
                users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.exp':2}})
                users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'cookie':2}})
             else:
@@ -2418,6 +2412,7 @@ def createuser(id, username, name):
            'games':0,
            'ping':0,
            'referals':[],
+           'inviter':None,
            'prize1':0,
            'prize2':0,
            'prize3':0,
