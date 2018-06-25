@@ -1398,9 +1398,9 @@ def results(id):
                i=games[id]['bots'][ids]['exp']
                if i>100 and user['prize1']==0:
                   if user['inviter']!=None:
-                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':prize1/2}})
+                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize1/2)}})
                      try:
-                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Эсквайр"! Вы получаете '+str(prize1/2)+'⚛️.')
+                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Эсквайр"! Вы получаете '+str(int(prize1/2))+'⚛️.')
                      except:
                         pass
                   try:
@@ -1411,9 +1411,9 @@ def results(id):
                   users.update_one({'id':user['id']}, {'$inc':{'cookie':prize1}})
                if i>500 and user['prize2']==0:
                   if user['inviter']!=None:
-                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':prize2/2}})
+                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize2/2)}})
                      try:
-                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Солдат"! Вы получаете '+str(prize2/2)+'⚛️.')
+                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Солдат"! Вы получаете '+str(int(prize2/2))+'⚛️.')
                      except:
                         pass
                   try:
@@ -1424,9 +1424,9 @@ def results(id):
                   users.update_one({'id':user['id']}, {'$inc':{'cookie':prize2}})
                if i>800 and user['prize3']==0:
                   if user['inviter']!=None:
-                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':prize3/2}})
+                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize3/2)}})
                      try:
-                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Опытный боец"! Вы получаете '+str(prize3/2)+'⚛️.')
+                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Опытный боец"! Вы получаете '+str(int(prize3/2))+'⚛️.')
                      except:
                         pass
                   try:
@@ -1437,9 +1437,9 @@ def results(id):
                   users.update_one({'id':user['id']}, {'$inc':{'cookie':prize3}})
                if i>2000 and user['prize4']==0:
                   if user['inviter']!=None:
-                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':prize4/2}})
+                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize4/2)}})
                      try:
-                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Подполковник"! Вы получаете '+str(prize4/2)+'⚛️.')
+                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Подполковник"! Вы получаете '+str(int(prize4/2))+'⚛️.')
                      except:
                         pass
                   try:
@@ -1450,9 +1450,9 @@ def results(id):
                   users.update_one({'id':user['id']}, {'$inc':{'cookie':prize4}})
                if i>3500 and user['prize5']==0:
                   if user['inviter']!=None:
-                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':prize5/2}})
+                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize5/2)}})
                      try:
-                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Генерал"! Вы получаете '+str(prize5/2)+'⚛️.')
+                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Генерал"! Вы получаете '+str(int(prize5/2))+'⚛️.')
                      except:
                         pass
                   try:
@@ -1463,9 +1463,9 @@ def results(id):
                   users.update_one({'id':user['id']}, {'$inc':{'cookie':prize5}})
                if i>7000 and user['prize6']==0:
                   if user['inviter']!=None:
-                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':prize6/2}})
+                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize6/2)}})
                      try:
-                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Повелитель"! Вы получаете '+str(prize6/2)+'⚛️.')
+                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Повелитель"! Вы получаете '+str(int(prize6/2))+'⚛️.')
                      except:
                         pass
                   try:
@@ -1476,9 +1476,9 @@ def results(id):
                   users.update_one({'id':user['id']}, {'$inc':{'cookie':prize6}})
                if i>50000 and user['prize7']==0:
                   if user['inviter']!=None:
-                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':prize7/2}})
+                     users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize7/2)}})
                      try:
-                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Бог"! Вы получаете '+str(prize7/2)+'⚛️.')
+                        bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Бог"! Вы получаете '+str(int(prize7/2))+'⚛️.')
                      except:
                         pass
                   try:
