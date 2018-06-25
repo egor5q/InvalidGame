@@ -2232,11 +2232,13 @@ def start(m):
             bot.send_message(m.chat.id, 'Напишите боту в личку!')
         x=users.find({})
         z=m.text.split('/start')
+        print(z)
         i=0
         for ids in x:
             if ids['id']==z[1]:
                i=1
         if i==1:
+           print('i=1')
            users.update_one({'id':z[1]}, {'$push':{'referals':m.from_user.id}})
            try:
              bot.send_message(z[1], 'По вашей ссылке зашёл пользователь '+m.from_user.first_name+'! По мере достижения им званий вы будете получать за него бонус - 50⚛️ за каждое.')
