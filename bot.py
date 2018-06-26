@@ -1609,9 +1609,8 @@ def dmgs(id):
                   if len(a)>0:
                    x1=random.choice(a)
                    x2=None
-                   if len(a)>1:
-                     x2=random.choice(a)
-                     while x2==x1:
+                   
+     
                    x2=None
                    x1['hp']-=1
                    if x2!=None:
