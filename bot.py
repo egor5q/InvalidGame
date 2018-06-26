@@ -1575,7 +1575,7 @@ def dmgs(id):
              games[id]['bots'][mob]['hp']-=a
            else:
             xx=random.randint(1,100)
-            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0 and xx<=40:
+            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0 and xx<=30:
                    text+='🔮Оракул '+games[id]['bots'][mob]['name']+' предотвращает свою смерть!\n'
                    games[id]['bots'][mob]['oracle']=0
             else:
@@ -1601,7 +1601,7 @@ def dmgs(id):
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
               else:
                  randd=random.randint(1,100)
-                 if randd<=90:
+                 if randd<=50:
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
