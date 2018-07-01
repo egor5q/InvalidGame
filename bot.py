@@ -2597,15 +2597,18 @@ def dailybox():
    x=time.ctime()
    x=x.split(" ")
    print(x)
-   x=x[3]
-   print(x)
-   x=x.split(":")
-   print(x)
-   y=int(x[1])
-   x=int(x[0])+3
-   print(x)
-   if x==24 and y<=15:
+   try:
+    x=x[3]
+    print(x)
+    x=x.split(":")
+    print(x)
+    y=int(x[1])
+    x=int(x[0])+3
+    print(x)
+    if x==24 and y<=15:
      users.update_many({}, {'$set':{'dailybox':1}})
+   except:
+    pass
   
 
    
