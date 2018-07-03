@@ -11,6 +11,7 @@ from telebot import types
 from pymongo import MongoClient
 from emoji import emojize
 
+
 from requests.exceptions import ReadTimeout
 from requests.exceptions import ConnectionError
 
@@ -2597,18 +2598,19 @@ def dailybox():
    x=time.ctime()
    x=x.split(" ")
    print(x)
-   try:
-    x=x[3]
-    print(x)
-    x=x.split(":")
-    print(x)
-    y=int(x[1])
-    x=int(x[0])+3
-    print(x)
-    if x==24 and y<=15:
-     users.update_many({}, {'$set':{'dailybox':1}})
-   except:
-    pass
+   if len(x)>3:
+      x=x[3]
+      print(x)
+      x=x.split(":")
+      print(x)
+      y=int(x[1])
+      x=int(x[0])+3
+      print(x)
+      if x==24 and y<=15:
+         users.update_many({}, {'$set':{'dailybox':1}})
+   else:
+      print('ОШИБКА ДЕЙЛИКА!!!')
+      bot.send_message(-1001208357368, 'Ошибка дейлибокса!! @Loshadkin приди!')
   
 
    
