@@ -2593,8 +2593,12 @@ def dailybox():
    x=time.ctime()
    x=x.split(" ")
    print(x)
+   for ids in x:
+      for idss in ids:
+         if idss==':':
+            tru=x[ids]
    try:
-      x=x[4]
+      x=tru
       print(x)
       x=x.split(":")
       print(x)
@@ -2604,7 +2608,7 @@ def dailybox():
       if x==24 and y<=15:
          users.update_many({}, {'$set':{'dailybox':1}})
    except:
-      x=x[3]
+      x=tru
       print(x)
       x=x.split(":")
       print(x)
