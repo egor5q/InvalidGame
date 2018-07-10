@@ -2596,7 +2596,7 @@ def dailybox():
    for ids in x:
       for idss in ids:
          if idss==':':
-            tru=x[ids]
+            tru=ids
    try:
       x=tru
       print(x)
