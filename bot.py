@@ -2593,7 +2593,7 @@ def dailybox():
    x=time.ctime()
    x=x.split(" ")
    print(x)
-   if len(x)>3:
+   try:
       x=x[4]
       print(x)
       x=x.split(":")
@@ -2603,9 +2603,16 @@ def dailybox():
       print(x)
       if x==24 and y<=15:
          users.update_many({}, {'$set':{'dailybox':1}})
-   else:
-      print('ОШИБКА ДЕЙЛИКА!!!')
-      bot.send_message(-1001208357368, 'Ошибка дейлибокса!! @Loshadkin приди!')
+   except:
+      x=x[3]
+      print(x)
+      x=x.split(":")
+      print(x)
+      y=int(x[1])
+      x=int(x[0])+3
+      print(x)
+      if x==24 and y<=15:
+         users.update_many({}, {'$set':{'dailybox':1}})
   
 
    
