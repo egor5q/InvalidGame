@@ -2358,15 +2358,26 @@ def goo(m):
         else:
             bot.send_message(m.chat.id, 'Недостаточно игроков!')
     
-
+def starttimer(id):
+   if m.chat.id in games:
+        if len(games[m.chat.id]['bots'])>=2:
+         if games[m.chat.id]['started']==0:
+           begingame(m.chat.id)
+           games[m.chat.id]['started']=1
+        else:
+            bot.send_message(m.chat.id, 'Прошло 5 минут, игра автоматически удалилась. Недостаточно игроков!')
+            del games[m.chat.id]
+   
+   
 @bot.message_handler(commands=['begin'])
 def begin(m):
  # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:
         games.update(creategame(m.chat.id))
+        t=threading.Timer(300, starttimer, args=[m.chat.id])
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
-        bot.send_message(m.chat.id, 'Игра началась!\n\n', reply_markup=kb)
+        bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
          text=''
@@ -2391,23 +2402,7 @@ def begin(m):
         if m.chat.id!=-1001208357368:
          bot.send_message(441399484, 'Где-то началась игра!')
  
-      
-   
-@bot.message_handler(commands=['tournier'])
-def begin(m):
-  if m.chat.id==-1001208357368:#-229396706:
-     if m.chat.id not in games:
-        games.update(creategame(m.chat.id))
-        kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
-        
-        bot.send_message(m.chat.id, 'Начинается турнир!\n\n', reply_markup=kb)
-        x=users.find({})
-        
 
-   
-  else:
-   bot.send_message(m.chat.id, 'Турнир можно играть только в официальном чате!')
    
    
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
