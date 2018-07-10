@@ -2375,6 +2375,7 @@ def begin(m):
      if m.chat.id not in games:
         games.update(creategame(m.chat.id))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
+        t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
