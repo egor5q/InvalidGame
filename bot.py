@@ -1386,7 +1386,10 @@ def results(id):
               cookie=round(points*winner2['cookiecoef'], 0)
               cookie=int(cookie)
               bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
-              bot.send_message(winner2['id'], '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+              try:
+               bot.send_message(winner2['id'], '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+              except:
+               pass
               userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
              except:
                 
