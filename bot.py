@@ -209,6 +209,8 @@ def weapon(m):
          saw='✅'
      if '🗡' in y['inventory']:
          kinzhal='✅'
+     if '🗡' in y['inventory']:
+         bow='✅'
      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
      if '🔫' in y['inventory']:
          kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
@@ -218,6 +220,8 @@ def weapon(m):
          kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
      if '🗡' in y['inventory']:
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
+     if '🏹' in y['inventory']:
+         kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
      kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
@@ -861,18 +865,7 @@ def inline(call):
        else:
            bot.answer_callback_query(call.id, 'У вас уже есть это!')
        
-       
-  elif call.data=='buycube':
-       x=users.find_one({'id':call.from_user.id})
-       if 'cube' not in x['bot']['bought']:
-           if x['cookie']>=12000:
-                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'cube'}})
-                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-12000}})
-                medit('Вы успешно приобрели скилл "Куб рандома"!',call.message.chat.id,call.message.message_id)
-           else:
-               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
-       else:
-           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+      
        
   elif call.data=='buyzombie':
        x=users.find_one({'id':call.from_user.id})
@@ -1069,18 +1062,7 @@ def inline(call):
     else:
         users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'berserk'}})
         bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Берсерк"!')
-        
-  elif call.data=='equipcube':
-    x=users.find_one({'id':call.from_user.id})
-    if 'cube' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'cube'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Куб рандома"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'cube'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Куб рандома"!')      
+          
       
   elif call.data=='equipvampire':
     x=users.find_one({'id':call.from_user.id})
@@ -1209,6 +1191,22 @@ def inline(call):
       elif y['bot']['weapon']=='kinzhal':
           users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Кинжал"!')
+      else:
+        bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
+    else:
+        bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
+         
+         
+elif call.data=='equipbow':
+    x=userstrug.find_one({'id':call.from_user.id})
+    y=users.find_one({'id':call.from_user.id})
+    if '🏹' in x['inventory']:
+      if y['bot']['weapon']==None:
+        users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'bow'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Лук"!')
+      elif y['bot']['weapon']=='bow':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
+          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Лук"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
     else:
@@ -1849,6 +1847,44 @@ def kinzhalchance(energy, target, x, id, bot1):
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=2
+         
+         
+         
+def bowchance(energy, target, x, id, bot1):
+  if energy>=5:
+    chance=1000
+  elif energy==4:
+    chance=0
+  elif energy==3:
+    chance=0
+  elif energy==2:
+    chance=0
+  elif energy==1:
+    chance=0
+  elif energy==0:
+    chance=0
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+      target['hp']-=1
+      bot1['energy']=0
+  else:
+    if bot1['bowcharge']==1:
+      bot1['bowcharge']=0
+      if (x+target['miss']-bot1['accuracy'])<=chance:
+          damage=6
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
+          games[id]['res']+='🏹'+bot1['name']+' Стреляет в '+target['name']+' из лука! Нанесено '+str(damage)+' Урона.\n'
+          target['takendmg']+=damage
+          bot1['energy']-=5
+                   
+      else:
+        games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'! (Такого не может быть. Пишите @Loshadkin, с ботом хуйня!)\n'
+        bot1['target']=None
+        bot1['energy']-=5
+    else:
+      bot1['bowcharge']=1
+      games[id]['res']+='🏹'+bot1['name']+' Натягивает тетиву лука!\n'
                 
              
 def lightchance(energy, target, x, id, bot1):
@@ -1981,6 +2017,9 @@ def attack(bot, id):
    
   elif bot['weapon']=='bite':
     bitechance(bot['energy'], target, x, id, bot)
+    
+  elif bot['weapon']=='bow':
+    bowchance(bot['energy'], target, x, id, bot)
                                      
 
 def yvorot(bot, id):
@@ -2609,7 +2648,8 @@ def createbot(id):
               'mainskill':[],
               'mainitem':[],
               'weapons':['hand'],
-              'gipnoz':0
+              'gipnoz':0,
+              'bowcharge':0
 }
 
 def dailybox():
