@@ -2403,13 +2403,13 @@ def goo(m):
     
 def starttimer(id):
    if id in games:
-        if len(games[m.chat.id]['bots'])>=2:
-         if games[m.chat.id]['started']==0:
-           begingame(m.chat.id)
-           games[m.chat.id]['started']=1
+        if len(games[id]['bots'])>=2:
+         if games[id]['started']==0:
+           begingame(id)
+           games[id]['started']=1
         else:
-            bot.send_message(m.chat.id, 'Прошло 5 минут, игра автоматически удалилась. Недостаточно игроков!')
-            del games[m.chat.id]
+            bot.send_message(id, 'Прошло 5 минут, игра автоматически удалилась. Недостаточно игроков!')
+            del games[id]
    
    
 @bot.message_handler(commands=['withoutautojoin'])
@@ -2437,7 +2437,7 @@ def begin(m):
  # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:
         games.update(creategame(m.chat.id))
-        t=threading.Timer(300, starttimer, args=[m.chat.id])
+        t=threading.Timer(5, starttimer, args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
