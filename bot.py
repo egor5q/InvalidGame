@@ -2437,7 +2437,7 @@ def begin(m):
  # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:
         games.update(creategame(m.chat.id))
-        t=threading.Timer(5, starttimer, args=[m.chat.id])
+        t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
