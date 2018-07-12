@@ -1197,7 +1197,7 @@ def inline(call):
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
          
          
-elif call.data=='equipbow':
+  elif call.data=='equipbow':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
     if '🏹' in x['inventory']:
