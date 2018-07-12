@@ -1854,15 +1854,15 @@ def bowchance(energy, target, x, id, bot1):
   if energy>=5:
     chance=1000
   elif energy==4:
-    chance=0
+    chance=1000
   elif energy==3:
-    chance=0
+    chance=1000
   elif energy==2:
-    chance=0
+    chance=1000
   elif energy==1:
-    chance=0
+    chance=1000
   elif energy==0:
-    chance=0
+    chance=1000
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
