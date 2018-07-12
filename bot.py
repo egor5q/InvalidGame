@@ -2373,6 +2373,27 @@ def starttimer(id):
             del games[m.chat.id]
    
    
+@bot.message_handler(commands=['withoutautojoin'])
+def withoutauto(m):
+   # if m.chat.id==-1001208357368:#-229396706:
+     if m.chat.id not in games and m.from_user.id==441399484:
+        games.update(creategame(m.chat.id))
+        t=threading.Timer(300, starttimer, args=[m.chat.id])
+        t.start()
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
+        x=users.find({})
+         x=users.find({})
+         for idss in x:
+          if idss['id']!=0:
+            if idss['ping']==1:
+               try:
+                  bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
+               except:
+                  pass
+   
+   
 @bot.message_handler(commands=['begin'])
 def begin(m):
  # if m.chat.id==-1001208357368:#-229396706:
