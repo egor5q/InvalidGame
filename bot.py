@@ -587,7 +587,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buymedic'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл даёт боту возможность восстанавливать себе 1 хп каждые 9 ходов. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл даёт боту возможность восстанавливать себе 1 хп каждые 9 ходов с шансом 60%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='liveful':
        kb=types.InlineKeyboardMarkup()
@@ -672,7 +672,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='4500⚛️', callback_data='buybloodmage'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Когда боец умирает, он имеет 90% шанс отнять по 1хп случайному врагу. Если при этом враг умрет, маг воскреснет с 1хп, а убитый станет зомби. За бой может быть использовано многократно. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Когда боец умирает, он имеет 50% шанс отнять по 1хп случайному врагу. Если при этом враг умрет, маг воскреснет с 1хп, а убитый станет зомби. За бой может быть использовано многократно. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
       
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
@@ -692,7 +692,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='4000⚛️', callback_data='buyoracle'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Скин позволяет воину с 50% шансом избежать фатального урона один раз за игру. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Скин позволяет воину с 30% шансом избежать фатального урона один раз за игру. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
          
   elif call.data=='robot':
        kb=types.InlineKeyboardMarkup()
