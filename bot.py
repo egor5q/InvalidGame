@@ -1381,7 +1381,7 @@ def results(id):
             if id==-1001208357368:
              x=users.find({})
              try:
-              cookie=round(points*winner2['cookiecoef'], 0)
+              cookie=round(points*0.04, 0)
               cookie=int(cookie)
               bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
               try:
