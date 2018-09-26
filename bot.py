@@ -1872,7 +1872,7 @@ def bowchance(energy, target, x, id, bot1):
     if bot1['bowcharge']==1:
       bot1['bowcharge']=0
       if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=5
+          damage=6
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           games[id]['res']+='🏹'+bot1['name']+' Стреляет в '+target['name']+' из лука! Нанесено '+str(damage)+' Урона.\n'
