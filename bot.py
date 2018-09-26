@@ -1853,17 +1853,17 @@ def kinzhalchance(energy, target, x, id, bot1):
          
 def bowchance(energy, target, x, id, bot1):
   if energy>=5:
-    chance=1000
+    chance=50
   elif energy==4:
-    chance=1000
+    chance=50
   elif energy==3:
-    chance=1000
+    chance=50
   elif energy==2:
-    chance=1000
+    chance=50
   elif energy==1:
-    chance=1000
+    chance=50
   elif energy==0:
-    chance=1000
+    chance=50
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
@@ -1877,12 +1877,12 @@ def bowchance(energy, target, x, id, bot1):
               damage+=2
           games[id]['res']+='🏹'+bot1['name']+' Стреляет в '+target['name']+' из лука! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
-          bot1['energy']-=5
+          bot1['energy']-=6
                    
       else:
-        games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'! (Такого не может быть. Пишите @Loshadkin, с ботом хуйня!)\n'
+        games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['target']=None
-        bot1['energy']-=5
+        bot1['energy']-=6
     else:
       bot1['bowcharge']=1
       games[id]['res']+='🏹'+bot1['name']+' Натягивает тетиву лука!\n'
