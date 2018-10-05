@@ -2669,22 +2669,22 @@ def dailybox():
             tru=ids
    try:
       x=tru
-      print(x)
+      
       x=x.split(":")
-      print(x)
+      
       y=int(x[1])
       x=int(x[0])+3
-      print(x)
+     
       if x==24 and y<=15:
          users.update_many({}, {'$set':{'dailybox':1}})
    except:
       x=tru
-      print(x)
+      
       x=x.split(":")
-      print(x)
+      
       y=int(x[1])
       x=int(x[0])+3
-      print(x)
+      
       if x==24 and y<=15:
          users.update_many({}, {'$set':{'dailybox':1}})
   
@@ -2702,30 +2702,8 @@ if True:
 
   
 if True:
- try:
+ 
    print('7777')
    bot.send_message(-1001208357368, 'Бот был перезагружен!')
    bot.polling(none_stop=True,timeout=600)
- except (requests.ReadTimeout):
-        print('!!! READTIME OUT !!!')           
-        bot.stop_polling()
-        time.sleep(1)
-        check = True
-        while check==True:
-          try:
-            bot.polling(none_stop=True,timeout=1)
-            print('checkkk')
-            check = False
-          except (requests.exceptions.ConnectionError):
-            time.sleep(1)
-   
-#if __name__ == '__main__':
- # bot.polling(none_stop=True)
-
-#while True:
-#    try:
-  #      bot.polling()
- #   except:
-  #      pass
-#    time.sleep(0.1)
-       
+ 
