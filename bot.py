@@ -2662,7 +2662,7 @@ def dailybox():
    t.start()
    x=time.ctime()
    x=x.split(" ")
-   print(x)
+   print(x
    for ids in x:
       for idss in ids:
          if idss==':':
