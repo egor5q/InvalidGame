@@ -1857,17 +1857,17 @@ def kinzhalchance(energy, target, x, id, bot1):
          
 def bowchance(energy, target, x, id, bot1):
   if energy>=5:
-    chance=50
+    chance=60
   elif energy==4:
-    chance=50
+    chance=60
   elif energy==3:
-    chance=50
+    chance=60
   elif energy==2:
-    chance=50
+    chance=60
   elif energy==1:
-    chance=50
+    chance=60
   elif energy==0:
-    chance=50
+    chance=60
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
@@ -1875,7 +1875,7 @@ def bowchance(energy, target, x, id, bot1):
   else:
     if bot1['bowcharge']==1:
       bot1['bowcharge']=0
-      if (x+target['miss']-bot1['accuracy'])<=chance:
+      if (x+(target['miss'])-bot1['accuracy'])<=chance:
           damage=6
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
