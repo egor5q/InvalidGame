@@ -1270,13 +1270,13 @@ def inline(call):
   elif call.data=='equipmagic':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-      if y['bot']['weapon']==None:
+    if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'magic'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Волшебная палочка"!')
-      elif y['bot']['weapon']=='magic':
+    elif y['bot']['weapon']=='magic':
           users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Волшебная палочка"!')
-      else:
+    else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
          
   elif call.data=='gunoff':
