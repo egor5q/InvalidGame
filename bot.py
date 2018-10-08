@@ -2544,6 +2544,7 @@ def begin(m):
         games.update(creategame(m.chat.id))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
+        games[m.chat.id]['timer']=t
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
@@ -2583,6 +2584,12 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
 
 def begingame(id):
  if games[id]['started2']!=1:
+    try:
+      games[id]['timer'].cancel()
+      del games[id]['timer']
+      print('timer cancelled')
+    except:
+      pass
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['weapon']==None:
@@ -2714,6 +2721,7 @@ def creategame(id):
         'started':0,
         'xod':1,
         'started2':0,
+        'timer':None
         
              }
            }
