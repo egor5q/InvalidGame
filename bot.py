@@ -2011,6 +2011,50 @@ def bitechance(energy, target, x, id, bot1):
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=5
+         
+         
+         
+def rhinochance(energy, target, x, id, bot1):
+  if energy>=5:
+    chance=93
+  elif energy==4:
+    chance=68
+  elif energy==3:
+    chance=51
+  elif energy==2:
+    chance=39
+  elif energy==1:
+    chance=30
+  elif energy<=0:
+    chance=0
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      games[id]['res']+='💀Голодный Паук доедает ослабевшего '+target['name']+'!\n'
+      target['hp']-=1
+      bot1['energy']=0
+  else:
+    if (x+target['miss']-bot1['accuracy'])<=chance:
+          damage=random.randint(1,8)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
+          x=random.randint(1,100)
+          eat=0
+          if x<=7:
+                eat=1
+          games[id]['res']+='🦏'+bot1['name']+' бъёт '+target['name']+' рогом! Нанесено '+str(damage)+' Урона.\n'
+          if eat==1:
+                loss=1
+                stunn=random.randint(3,5)
+                games[id]['res']+='🦏'+bot1['name']+' в бешенстве! Он уничтожает свою цель и теряет '+str(loss)+' хп. '+\
+                bot1['name']+' получает оглушение на '+str(stunn-1)+' хода!'
+                bot1['stun']=stunn
+                target['hp']-=target['hp']
+          target['takendmg']+=damage
+          bot1['energy']-=3
+        
+    else:
+        games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
+        bot1['energy']-=3
     
               
 
@@ -2474,13 +2518,13 @@ def starttimer(id):
 @bot.message_handler(commands=['withoutautojoin'])
 def withoutauto(m):
    # if m.chat.id==-1001208357368:#-229396706:
-     if m.chat.id not in games and m.from_user.id==441399484:
+     if m.chat.id not in games:# and m.from_user.id==441399484:
         games.update(creategame(m.chat.id))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
-        bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
+        bot.send_message(m.chat.id, 'Игра без автоприсоединений началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
         x=users.find({})
         for idss in x:
           if idss['id']!=0:
