@@ -27,6 +27,9 @@ client1=os.environ['database']
 client=MongoClient(client1)
 db=client.cookiewars
 users=db.users
+tournier=db.tournier
+reserv=db.reserv
+variables=db.variables
 
 client2=os.environ['database2']
 client3=MongoClient(client2)
@@ -49,9 +52,51 @@ def nextgame(m):
       else:
          users.update_one({'id':m.from_user.id}, {'$set':{'ping':1}})
          bot.send_message(m.chat.id, 'Оповещения о начале игр включены!')
+    
+   
+   
+    
+@bot.message_handler(commands=['tourreg'])   
+def tourreg(m):
+   x=users.find_one({'id':m.from_user.id})
+   if x!=None:
+      y=tournier.find_one({'id':m.from_user.id})
+      p=tournier.find({})
+      t=0
+      if y==None:
+         for ids in p:
+            t+=1
+         if t<16:
+             tournier.insert_one({'id':m.from_user.id})
+             bot.send_message(m.chat.id, 'Вы успешно зарегистрировались! Ожидайте '+
+                          'начала турнира в группе @cookietour.')
+         else:
+            reserv.insert_one({'id':m.from_user.id})
+            bot.send_message(m.chat.id, 'Уде зарегистрировано 16 участников!'+
+                             'Вы были добавлены в резерв.')
          
-         
+text=''
+x=tournier.find({})
+for ids in x:
+   usr=users.find_one({'id':ids['id']})
+   text+='['+usr['bot']['name']+']('
+for ids in 
+msg=bot.send_message(-1001286101511, 'Список участников турнира:\n\n')
+print(msg.message_id)
 
+@bot.message_handler(commands=['offgames'])
+def offgames(m):
+   if m.from_user.id==441399484:
+      variables.update_one({'vars':'main'},{'$set':{'enablegames':0}})
+      bot.send_message(m.chat.id, 'Режим технических работ включён!')
+      
+@bot.message_handler(commands=['ongames'])
+def offgames(m):
+   if m.from_user.id==441399484:
+      variables.update_one({'vars':'main'},{'$set':{'enablegames':1}})
+      bot.send_message(m.chat.id, 'Режим технических работ выключен!')
+            
+   
 @bot.message_handler(commands=['dropname'])
 def dropname(m):
    try:
@@ -2439,6 +2484,8 @@ def withoutauto(m):
    
 @bot.message_handler(commands=['begin'])
 def begin(m):
+   y=variables.find_one({'vars':'main'})
+   if y['enablegames']==1:                      
  # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:
         games.update(creategame(m.chat.id))
@@ -2469,7 +2516,9 @@ def begin(m):
                   pass
                
         if m.chat.id!=-1001208357368:
-         bot.send_message(441399484, 'Где-то началась игра!')
+           bot.send_message(441399484, 'Где-то началась игра!')
+   else:
+        bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.')
  
 
    
