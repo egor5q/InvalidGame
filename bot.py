@@ -80,15 +80,7 @@ def tourreg(m):
             usr=users.find_one({'id':ids['id']})
             text+='['+usr['bot']['name']+'](tg://user?id='+str(usr['id'])+')\n'
          medit('Список участников турнира:\n\n'+text,-1001286101511,7, parse_mode='markdown')
-         
-text=''
-x=tournier.find({})
-for ids in x:
-   usr=users.find_one({'id':ids['id']})
-   text+='['+usr['bot']['name']+']('
-
-msg=bot.send_message(-1001286101511, 'Список участников турнира:\n\n')
-print(msg.message_id)
+        
 
 @bot.message_handler(commands=['offgames'])
 def offgames(m):
