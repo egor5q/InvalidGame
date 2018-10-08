@@ -74,17 +74,17 @@ def tourreg(m):
             reserv.insert_one({'id':m.from_user.id})
             bot.send_message(m.chat.id, 'Уде зарегистрировано 16 участников!'+
                              'Вы были добавлены в резерв.')
-         text=''
-         x=tournier.find({})
-         for ids in x:
+     text=''
+     x=tournier.find({})
+     for ids in x:
             usr=users.find_one({'id':ids['id']})
             text+='['+usr['bot']['name']+'](tg://user?id='+str(usr['id'])+')\n'
-         x=reserv.find({})
-         reservtext=''
-         for ids in x:
+     x=reserv.find({})
+     reservtext=''
+     for ids in x:
             usr=users.find_one({'id':ids['id']})
             reservtext+='['+usr['bot']['name']+'](tg://user?id='+str(usr['id'])+')\n'       
-         medit('Список участников турнира (всего '+str(t)+'):\n\n'+text+'\n\nРезерв:\n'+reservtext,-1001286101511,7, parse_mode='markdown')
+     medit('Список участников турнира (всего '+str(t)+'):\n\n'+text+'\n\nРезерв:\n'+reservtext,-1001286101511,7, parse_mode='markdown')
         
 
 @bot.message_handler(commands=['offgames'])
