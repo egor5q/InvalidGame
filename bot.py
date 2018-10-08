@@ -2434,9 +2434,12 @@ def start(m):
         z=m.text.split('/start')
         print(z)
         i=0
-        for ids in x:
+        try:
+          for ids in x:
             if ids['id']==int(z[1]):
                i=1
+        except:
+            pass
         if i==1:
            print('i=1')
            users.update_one({'id':int(z[1])}, {'$push':{'referals':m.from_user.id}})
