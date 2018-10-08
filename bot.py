@@ -63,9 +63,9 @@ def tourreg(m):
       y=tournier.find_one({'id':m.from_user.id})
       p=tournier.find({})
       t=0
-      if y==None:
-         for ids in p:
-            t+=1
+      for ids in p:
+          t+=1
+      if y==None:        
          if t<16:
              tournier.insert_one({'id':m.from_user.id})
              bot.send_message(m.chat.id, 'Вы успешно зарегистрировались! Ожидайте '+
