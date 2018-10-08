@@ -274,6 +274,10 @@ def weapon(m):
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
      if '🏹' in y['inventory']:
          kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
+     i=variables.find_one({'vars':'main'})
+     if i['enableallweapons']==1:
+         kb.add(types.InlineKeyboardButton(text='Волшебная палочка', callback_data='equipmagic'))
+     if 
      kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
@@ -1264,6 +1268,18 @@ def inline(call):
     else:
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
          
+  elif call.data=='equipmagic':
+    x=userstrug.find_one({'id':call.from_user.id})
+    y=users.find_one({'id':call.from_user.id})
+      if y['bot']['weapon']==None:
+        users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'magic'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Волшебная палочка"!')
+      elif y['bot']['weapon']=='magic':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
+          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Волшебная палочка"!')
+      else:
+        bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
+         
   elif call.data=='gunoff':
       y=users.find_one({'id':call.from_user.id})
       if y!=None:
@@ -2126,6 +2142,9 @@ def attack(bot, id):
     
   elif bot['weapon']=='bow':
     bowchance(bot['energy'], target, x, id, bot)
+      
+  elif bot['weapon']=='magic':
+    rhinochance(bot['energy'], target, x, id, bot)
                                      
 
 def yvorot(bot, id):
@@ -2650,6 +2669,12 @@ def begingame(id):
                     text+=skilltoname(skill)+'\n'
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
+    tt2=''
+    for ids in games[id]['bots']:
+         if games[id]['bots'][ids]['weapon']=='magic':
+            tt2+='Волшебная палочка бойца 'games[id]['bots'][ids]['name']+' превращает его в случайное животное: Носорог!\n'
+    if tt2!='':
+      bot.send_message(id, tt2)
     giveitems(games[id])
     games[id]['started2']=1
     battle(id)
