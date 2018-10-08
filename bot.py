@@ -2027,13 +2027,19 @@ def rhinochance(energy, target, x, id, bot1):
     chance=30
   elif energy<=0:
     chance=0
+  rhinomaxdmg=int(os.environ['rhinomaxdmg'])
+  rhinomindmg=int(os.environ['rhinomindmg'])
+  rhinominloss=int(os.environ['rhinominloss'])
+  rhinomaxloss=int(os.environ['rhinomaxloss'])
+  rhinominstun=int(os.environ['rhinominstun'])
+  rhinomaxstun=int(os.environ['rhinomaxstun'])
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💀Голодный Паук доедает ослабевшего '+target['name']+'!\n'
+      games[id]['res']+='Носорог топчет '+target['name']+'!\n'
       target['hp']-=1
       bot1['energy']=0
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=random.randint(1,8)
+          damage=random.randint(rhinomindmg,rhinomaxdmg)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           x=random.randint(1,100)
@@ -2042,10 +2048,10 @@ def rhinochance(energy, target, x, id, bot1):
                 eat=1
           games[id]['res']+='🦏'+bot1['name']+' бъёт '+target['name']+' рогом! Нанесено '+str(damage)+' Урона.\n'
           if eat==1:
-                loss=1
-                stunn=random.randint(3,5)
+                loss=random.randint(rhinominloss,rhinomaxloss)
+                stunn=random.randint(rhinominstun,rhinomaxstun)
                 games[id]['res']+='👿'+bot1['name']+' в бешенстве! Он уничтожает свою цель и теряет '+str(loss)+' хп. '+\
-                bot1['name']+' получает оглушение на '+str(stunn-1)+' хода!'
+                '🌀'+bot1['name']+' получает оглушение на '+str(stunn-1)+' хода!'
                 bot1['stun']=stunn
                 target['hp']-=target['hp']
           target['takendmg']+=damage
