@@ -68,6 +68,7 @@ def tourreg(m):
       if y==None:        
          if t<16:
              tournier.insert_one({'id':m.from_user.id})
+             t+=1
              bot.send_message(m.chat.id, 'Вы успешно зарегистрировались! Ожидайте '+
                           'начала турнира в группе @cookietour.')
          else:
