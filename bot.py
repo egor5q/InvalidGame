@@ -80,6 +80,7 @@ def tourreg(m):
             usr=users.find_one({'id':ids['id']})
             text+='['+usr['bot']['name']+'](tg://user?id='+str(usr['id'])+')\n'
          x=reserv.find({})
+         reservtext=''
          for ids in x:
             usr=users.find_one({'id':ids['id']})
             reservtext+='['+usr['bot']['name']+'](tg://user?id='+str(usr['id'])+')\n'       
