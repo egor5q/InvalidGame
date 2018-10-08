@@ -2044,7 +2044,7 @@ def rhinochance(energy, target, x, id, bot1):
           if eat==1:
                 loss=1
                 stunn=random.randint(3,5)
-                games[id]['res']+='🦏'+bot1['name']+' в бешенстве! Он уничтожает свою цель и теряет '+str(loss)+' хп. '+\
+                games[id]['res']+='👿'+bot1['name']+' в бешенстве! Он уничтожает свою цель и теряет '+str(loss)+' хп. '+\
                 bot1['name']+' получает оглушение на '+str(stunn-1)+' хода!'
                 bot1['stun']=stunn
                 target['hp']-=target['hp']
