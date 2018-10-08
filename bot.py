@@ -54,7 +54,7 @@ def nextgame(m):
          bot.send_message(m.chat.id, 'Оповещения о начале игр включены!')
     
    
-   
+  
     
 @bot.message_handler(commands=['tourreg'])   
 def tourreg(m):
