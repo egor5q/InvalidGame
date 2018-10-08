@@ -2671,7 +2671,7 @@ def begingame(id):
     tt2=''
     for ids in games[id]['bots']:
          if games[id]['bots'][ids]['weapon']=='magic':
-            tt2+='Волшебная палочка бойца 'games[id]['bots'][ids]['name']+' превращает его в случайное животное: Носорог!\n'
+            tt2+='Волшебная палочка бойца '+games[id]['bots'][ids]['name']+' превращает его в случайное животное: Носорог!\n'
     if tt2!='':
       bot.send_message(id, tt2)
     giveitems(games[id])
