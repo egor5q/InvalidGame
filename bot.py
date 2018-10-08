@@ -80,7 +80,7 @@ x=tournier.find({})
 for ids in x:
    usr=users.find_one({'id':ids['id']})
    text+='['+usr['bot']['name']+']('
-for ids in 
+
 msg=bot.send_message(-1001286101511, 'Список участников турнира:\n\n')
 print(msg.message_id)
 
