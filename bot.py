@@ -1339,6 +1339,7 @@ def inline(call):
 
 def giveitems(game):
     for ids in game['bots']:
+      if game['bots'][ids]['weapon']!='magic':
         game['bots'][ids]['items'].append(random.choice(items))
         game['bots'][ids]['items'].append(random.choice(items))
   
@@ -2629,12 +2630,6 @@ def begingame(id):
                 yes=1  
         if yes==1:
               games[id]['bots'][ids]['skills'].append('active')
-        if 'cube' in games[id]['bots'][ids]['skills']:
-            a=['medic', 'liveful', 'dvuzhil', 'pricel', 'cazn', 'berserk', 'zombie', 'gipnoz', 'paukovod', 'vampire', 'zeus', 'nindza']
-            z=(random.choice(a))
-            while z in games[id]['bots'][ids]['skills']:
-               z=(random.choice(a))
-            games[id]['bots'][ids]['skills'].append(z)
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
