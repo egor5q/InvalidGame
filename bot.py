@@ -127,7 +127,10 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.bowcharge':0}})
+            users.update_many({}, {'$set':{'bot.currentarmor':0}})
+            users.update_many({}, {'$set':{'bot.armorturns':0}})
+            users.update_many({}, {'$set':{'bot.boundwith':None}})
+            users.update_many({}, {'$set':{'bot.boundtime':0}})
             print('yes')
             
             
@@ -235,7 +238,13 @@ def createpauk(id):
               'exp':0,
               'gipnoz':0,
               'maxhp':2,
-              'weapons':['hand']}}
+              'currentarmor':0,
+              'armorturns':0,
+              'boundwith':None,
+              'boundtime':0,
+              'weapons':['hand']
+                     }
+          }
 
 #@bot.message_handler(commands=['addboss'])
 #def addboss(m):
@@ -1387,6 +1396,7 @@ def results(id):
   die=0    
   games[id]['xod']+=1
   for mobs in games[id]['bots']:
+    player=games[id]['bots'][mobs]
     if games[id]['bots'][mobs]['hp']>games[id]['bots'][mobs]['maxhp']:
         games[id]['bots'][mobs]['hp']=games[id]['bots'][mobs]['maxhp']
     games[id]['bots'][mobs]['attack']=0
@@ -1398,6 +1408,12 @@ def results(id):
       games[id]['bots'][mobs]['miss']=20
     games[id]['bots'][mobs]['skill']=0
     games[id]['bots'][mobs]['shield']=0
+    games[id]['bots'][mobs]['armorturns']-=1
+    if games[id]['bots'][mobs]['armorturns']==0:
+        games[id]['bots'][mobs]['currentarmor']=0
+    games[id]['bots'][mobs]['boundtime']-=1
+    if games[id]['bots'][mobs]['boundtime']==0:
+        games[id]['bots'][mobs]['boundwith']=None
     games[id]['bots'][mobs]['takendmg']=0
     games[id]['bots'][mobs]['yvorotkd']-=1
     games[id]['bots'][mobs]['shield']-=1
@@ -1589,10 +1605,17 @@ def results(id):
                    
 def dmgs(id):
     c=0
+    text=''
     for ids in games[id]['bots']:
+        if games[id]['bots'][ids]['boundwith']!=None:
+            games[id]['bots'][ids]['takendmg']+=games[id]['bots'][ids]['boundwith']['takendmg']
+            text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(games[id]['bots'][ids]['boundwith']['takendmg'])+\
+            ' дополнительного урона!\n'
+        games[id]['bots'][ids]['takendmg']-=games[id]['bots'][ids]['currentarmor']
+        if games[id]['bots'][ids]['currentarmor']>0:
+            text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
         if games[id]['bots'][ids]['takendmg']>c:
             c=games[id]['bots'][ids]['takendmg']
-    text=''
     for mob in games[id]['bots']:
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
@@ -2050,7 +2073,7 @@ def rhinochance(energy, target, x, id, bot1):
   rhinominstun=int(os.environ['rhinominstun'])
   rhinomaxstun=int(os.environ['rhinomaxstun'])
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='Носорог топчет '+target['name']+'!\n'
+      games[id]['res']+='Носорог топчет '+target['name']+'! Цель погибает.\n'
       target['hp']-=1
       bot1['energy']=0
   else:
@@ -2060,14 +2083,14 @@ def rhinochance(energy, target, x, id, bot1):
               damage+=2
           x=random.randint(1,100)
           eat=0
-          if x<=7:
+          if x<=10:
                 eat=1
           games[id]['res']+='🦏'+bot1['name']+' бъёт '+target['name']+' рогом! Нанесено '+str(damage)+' Урона.\n'
           if eat==1:
-                loss=random.randint(rhinominloss,rhinomaxloss)
+                loss=0
                 stunn=random.randint(rhinominstun,rhinomaxstun)
-                games[id]['res']+='👿'+bot1['name']+' в бешенстве! Он уничтожает свою цель и теряет '+str(loss)+' хп. '+\
-                '🌀'+bot1['name']+' получает оглушение на '+str(stunn-1)+' хода!'
+                games[id]['res']+='👿'+bot1['name']+' в бешенстве! Он уничтожает свою цель. '+\
+                '🌀'+bot1['name']+' получает оглушение на '+str(stunn-1)+' хода!\n'
                 bot1['stun']=stunn
                 target['hp']-=target['hp']
           target['takendmg']+=damage
@@ -2077,6 +2100,65 @@ def rhinochance(energy, target, x, id, bot1):
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=3
+        
+        
+def demonchance(energy, target, x, id, bot1):
+  if energy>=5:
+    chance=91
+  elif energy==4:
+    chance=75
+  elif energy==3:
+    chance=61
+  elif energy==2:
+    chance=42
+  elif energy==1:
+    chance=22
+  elif energy<=0:
+    chance=0
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      games[id]['res']+='Демон изгоняет '+target['name']+'!\n Цель погибает.'
+      target['hp']-=1
+      bot1['energy']=0
+  else:
+    if (x+target['miss']-bot1['accuracy'])<=chance:
+          damage=random.randint(1,3)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
+          x=random.randint(1,100)
+          eat=0
+          if x<=18:
+                eat=1
+          games[id]['res']+='💮'+bot1['name']+' накладывает порчу на '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          if eat==1:
+                enemys=[]
+                for ids in games[id]['bots']:
+                    if games[id]['bots'][ids]['id']!=bot1['id']:
+                        enemys.append(games[id]['bots'][ids])
+                target1=random.choice(enemys)
+                enemys.remove(target1)
+                if len(enemys)>0:
+                    target2=random.choice(enemys)
+                    enemys.remove(target2)
+                else:
+                    target2=target1
+                target1['boundwith']=target2
+                target2['boundwith']=target1
+                boundtime=random.randint(3,4)
+                if target1!=target2:
+                    games[id]['res']+='☯'+bot1['name']+' связывает души '+target1['name']+\
+                    ' и '+target2['name']+'! Каждый из них будет дополнительно получать урон другого '+str(boundtime-1)+\
+                    ' следующих хода, включая этот!\n'
+                else:
+                    games[id]['res']+='☯'+bot1['name']+' проклинает душу '+target1['name']+'! '+str(boundtime-1)+\
+                    ' следующих хода, включая этот, он будет получать удвоенный урон!'
+                    
+          target['takendmg']+=damage
+          bot1['energy']-=2
+        
+    else:
+        games[id]['res']+='💨'+bot1['name']+' не удалось наложить порчу на '+target['name']+'!\n'
+        bot1['target']=None
+        bot1['energy']-=2
     
               
 
@@ -2793,7 +2875,11 @@ def createbot(id):
               'mainitem':[],
               'weapons':['hand'],
               'gipnoz':0,
-              'bowcharge':0
+              'bowcharge':0,
+              'currentarmor':0,
+              'armorturns':0,
+              'boundwith':None,
+              'boundtime':0
 }
 
 def dailybox():
