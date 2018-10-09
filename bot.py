@@ -61,7 +61,7 @@ def gift(m):
    z=int(m.text.split('/gift ')[1])
    if x!=None and y!=None:
       if z>=0:
-         if x['cooki']>z:
+         if x['cookie']>z:
            try:
              users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
              users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
