@@ -305,7 +305,11 @@ def weapon(m):
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
    except:
-       pass
+     kb=types.InlineKeyboardMarkup()
+     kb.add(types.InlineKeyboardButton(text='Волшебная палочка', callback_data='equipmagic'))
+     kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
+     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
+     bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
   else:
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton('👤❇️| Авторизоваться', url='t.me/TrugRuBot?start=switch_to_pm'))
