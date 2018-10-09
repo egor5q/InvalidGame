@@ -2213,7 +2213,7 @@ def rhinochance(energy, target, x, id, bot1):
                 games[id]['res']+='👿'+bot1['name']+' в бешенстве! Он наносит критический удар по цели. Нанесено '+\
                 str(critdmg)+' урона!\n'+'🌀'+bot1['name']+' получает оглушение на '+str(stunn-1)+' хода!\n'
                 bot1['stun']=stunn
-                target['hp']-=target['hp']
+                
           target['takendmg']+=damage
           bot1['energy']-=3
         
