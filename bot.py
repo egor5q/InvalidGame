@@ -1611,18 +1611,16 @@ def dmgs(id):
     text=''
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['boundwith']!=None:
-            tdg=0
-            tdg+=games[id]['bots'][ids]['boundwith']['takendmg']
-            games[id]['bots'][ids]['takendmg']+=tdg
+            tdg1=games[id]['bots'][ids]['boundwith']['takendmg']
+            tdg2=games[id]['bots'][ids]['takendmg']
+            games[id]['bots'][ids]['takendmg']+=tdg1
             if games[id]['bots'][ids]['boundwith']!=games[id]['bots'][ids]:             
              if games[id]['bots'][ids]['boundacted']==0:
-               games[id]['bots'][ids]['boundwith']['takendmg']+=games[id]['bots'][ids]['takendmg']-tdg
+               games[id]['bots'][ids]['boundwith']['takendmg']+=tdg2
                games[id]['bots'][ids]['boundwith']['boundacted']=1
                games[id]['bots'][ids]['boundacted']=1
                tdg=0
-            else:
-               pass
-            text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(games[id]['bots'][ids]['boundwith']['takendmg']-tdg)+\
+            text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(tdg1)+\
             ' дополнительного урона!\n'
         games[id]['bots'][ids]['takendmg']-=games[id]['bots'][ids]['currentarmor']
         if games[id]['bots'][ids]['currentarmor']>0:
