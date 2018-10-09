@@ -2300,7 +2300,7 @@ def pigchance(energy, target, x, id, bot1):
                 
       
 def zombiechance(energy, target, x, id, bot1):
-    if energy>=5:
+  if energy>=5:
     chance=90
   elif energy==4:
     chance=70
