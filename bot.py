@@ -2297,7 +2297,7 @@ def pigchance(energy, target, x, id, bot1):
           damage=random.randint(0,0)
           x=random.randint(1,100)
           summon=0
-          if x<=100:
+          if x<=15:
                 summon=1
           games[id]['res']+='🐷'+bot1['name']+' ничего не делает. Нанесено '+str(damage)+' Урона.\n'
           if summon==1:
