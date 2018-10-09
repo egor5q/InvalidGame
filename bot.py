@@ -1714,6 +1714,8 @@ def dmgs(id):
             if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0 and xx<=30:
                    text+='🔮Оракул '+games[id]['bots'][mob]['name']+' предотвращает свою смерть!\n'
                    games[id]['bots'][mob]['oracle']=0
+                   if games[id]['bots'][mob]['hp']<=0:
+                     games[id]['bots'][mob]['hp']=1
             else:
                 games[id]['bots'][mob]['hp']-=a
        else:
