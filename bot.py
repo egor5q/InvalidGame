@@ -61,9 +61,13 @@ def gift(m):
    z=int(m.text.split('/gift ')[1])
    if x!=None and y!=None:
       if z>=0:
-         users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
-         users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
-         bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'!')
+         if x['cooki']>z:
+           try:
+             users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
+             users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
+             bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'!')
+           except:
+              pass
       else:
          bot.send_message(m.chat.id, 'Не жульничай!')
     
