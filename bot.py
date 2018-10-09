@@ -271,6 +271,7 @@ def randomgen(id):
     i=0
     text=''
     while i<4:
+        print('cycle')
         text+=random.choice(symbollist)
         i+=1
     no=0
@@ -2298,6 +2299,7 @@ def pigchance(energy, target, x, id, bot1):
           games[id]['res']+='🐷'+bot1['name']+' ничего не делает. Нанесено '+str(damage)+' Урона.\n'
           if summon==1:
                 games[id]['bots'].update(createzombie(bot1['id']))
+                print('createdzombie')
                 games[id]['res']+='🧟‍♂О нет! На запах свинины пришёл зомби, который считает, что остальные участники дерутся за неё. '+\
                 'Теперь он сражается за '+bot1['name']+'!'
                 
