@@ -1614,12 +1614,12 @@ def dmgs(id):
             tdg=0
             tdg+=games[id]['bots'][ids]['boundwith']['takendmg']
             games[id]['bots'][ids]['takendmg']+=tdg
-            if games[id]['bots'][ids]['boundwith']!=games[id]['bots'][ids]:
-             tdg=0
+            if games[id]['bots'][ids]['boundwith']!=games[id]['bots'][ids]:             
              if games[id]['bots'][ids]['boundacted']==0:
                games[id]['bots'][ids]['boundwith']['takendmg']+=games[id]['bots'][ids]['takendmg']-tdg
                games[id]['bots'][ids]['boundwith']['boundacted']=1
                games[id]['bots'][ids]['boundacted']=1
+               tdg=0
             else:
                pass
             text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(games[id]['bots'][ids]['boundwith']['takendmg']-tdg)+\
