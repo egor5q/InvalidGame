@@ -142,7 +142,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.boundacted':0}})
+            users.update_many({}, {'$set':{'bot.allrounddmg':0}})
             print('yes')
             
             
@@ -256,7 +256,8 @@ def createpauk(id):
               'boundtime':0,
               'boundacted':0,
               'weapons':['hand'],
-              'animal':None
+              'animal':None,
+              'allrounddmg':0
                      }
           }
 
@@ -1625,25 +1626,27 @@ def dmgs(id):
     c=0
     text=''
     for ids in games[id]['bots']:
-        
         if games[id]['bots'][ids]['boundwith']!=None:
-          tdg1=games[id]['bots'][ids]['boundwith']['takendmg']
-          tdg2=games[id]['bots'][ids]['takendmg']
           if games[id]['bots'][ids]['boundacted']==0:
+            games[id]['bots'][ids]['boundwith']['boundacted']=1
+            games[id]['bots'][ids]['boundacted']=1
             tdg1=games[id]['bots'][ids]['boundwith']['takendmg']
             tdg2=games[id]['bots'][ids]['takendmg']
-            games[id]['bots'][ids]['takendmg']+=tdg1
             if games[id]['bots'][ids]['boundwith']!=games[id]['bots'][ids]:             
-             
                games[id]['bots'][ids]['boundwith']['takendmg']+=tdg2
-               games[id]['bots'][ids]['boundwith']['boundacted']=1
-               games[id]['bots'][ids]['boundacted']=1
-               tdg=0
-          text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(tdg1)+\
-            ' дополнительного урона!\n'
+               games[id]['bots'][ids]['takendmg']+=tdg1
+               text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(tdg1)+\
+                ' дополнительного урона!\n' 
+               text+='☯'+games[id]['bots'][ids]['boundwith']['name']+' получает '+str(tdg2)+\
+                ' дополнительного урона!\n'
+            else:
+                games[id]['bots'][ids]['takendmg']+=tdg1
+                text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(tdg1)+\
+                ' дополнительного урона!\n' 
         games[id]['bots'][ids]['takendmg']-=games[id]['bots'][ids]['currentarmor']
         if games[id]['bots'][ids]['currentarmor']>0:
             text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
+        games[id]['bots'][ids]['allrounddmg']+=games[id]['bots'][ids]['takendmg']
         if games[id]['bots'][ids]['takendmg']>c:
             c=games[id]['bots'][ids]['takendmg']
     for mob in games[id]['bots']:
@@ -2929,7 +2932,8 @@ def createbot(id):
               'boundwith':None,
               'boundtime':0,
               'boundacted':0,
-              'animal':None
+              'animal':None,
+              'allrounddmg':0
 }
 
 def dailybox():
