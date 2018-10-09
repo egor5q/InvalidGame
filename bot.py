@@ -1630,7 +1630,7 @@ def dmgs(id):
             tdg2=games[id]['bots'][ids]['takendmg']
             games[id]['bots'][ids]['takendmg']+=tdg1
             if games[id]['bots'][ids]['boundwith']!=games[id]['bots'][ids]:             
-             if games[id]['bots'][ids]['boundacted']==0:
+             
                games[id]['bots'][ids]['boundwith']['takendmg']+=tdg2
                games[id]['bots'][ids]['boundwith']['boundacted']=1
                games[id]['bots'][ids]['boundacted']=1
