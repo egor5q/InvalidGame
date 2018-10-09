@@ -1613,7 +1613,7 @@ def dmgs(id):
             games[id]['bots'][ids]['takendmg']+=games[id]['bots'][ids]['boundwith']['takendmg']
             if games[id]['bots'][ids]['boundwith']!=games[id]['bots'][ids]:
              if games[id]['bots'][ids]['boundacted']==0:
-               games[id]['bots'][ids]['boundwith']['takendmg']+=games[id]['bots'][ids]['takendmg']
+               games[id]['bots'][ids]['boundwith']['takendmg']+=games[id]['bots'][ids]['takendmg']-games[id]['bots'][ids]['boundwith']['takendmg']
                games[id]['bots'][ids]['boundwith']['boundacted']=1
                games[id]['bots'][ids]['boundacted']=1
             text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(games[id]['bots'][ids]['boundwith']['takendmg'])+\
