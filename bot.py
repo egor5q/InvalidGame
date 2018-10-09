@@ -144,7 +144,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.allrounddmg':0}})
+            users.update_many({}, {'$set':{'bot.identeficator':None}})
             print('yes')
             
             
@@ -3067,7 +3067,8 @@ def createbot(id):
               'boundtime':0,
               'boundacted':0,
               'animal':None,
-              'allrounddmg':0
+              'allrounddmg':0,
+              'identeficator':None
 }
 
 def dailybox():
