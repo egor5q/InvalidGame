@@ -274,13 +274,13 @@ def randomgen(id):
         text+=random.choice(symbollist)
         i+=1
     no=0
-    for ids in games[id]['bots']:
-        if games[id]['bots']['identeficator']==text:
-            no=1
-    if no==0:
-        return text
-    else:
-        return randomgen(id)
+    #for ids in games[id]['bots']:
+    #    if games[id]['bots']['identeficator']==text:
+    #        no=1
+    #if no==0:
+    return text
+    #else:
+    #    return randomgen(id)
 
 def createzombie(id):
     x=randomgen(id)
