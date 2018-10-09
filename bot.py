@@ -1621,7 +1621,7 @@ def dmgs(id):
                games[id]['bots'][ids]['boundacted']=1
             else:
                tdg=0
-            text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(games[id]['bots'][ids]['boundwith']['takendmg']-tdg)+\
+            text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(games[id]['bots'][ids]['boundwith']['takendmg'])+\
             ' дополнительного урона!\n'
         games[id]['bots'][ids]['takendmg']-=games[id]['bots'][ids]['currentarmor']
         if games[id]['bots'][ids]['currentarmor']>0:
