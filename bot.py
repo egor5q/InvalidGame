@@ -2145,6 +2145,8 @@ def demonchance(energy, target, x, id, bot1):
                 target1['boundwith']=target2
                 target2['boundwith']=target1
                 boundtime=random.randint(3,4)
+                target1['boundtime']=boundtime
+                target2['boundtime']=boundtime
                 if target1!=target2:
                     games[id]['res']+='☯'+bot1['name']+' связывает души '+target1['name']+\
                     ' и '+target2['name']+'! Каждый из них будет дополнительно получать урон другого '+str(boundtime-1)+\
