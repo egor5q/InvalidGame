@@ -54,7 +54,18 @@ def nextgame(m):
          bot.send_message(m.chat.id, 'Оповещения о начале игр включены!')
     
    
-  
+@bot.message_handler(commands=['gift'])
+def gift(m):
+   x=users.find_one({'id':m.from_user.id})
+   y=users.find_one({'id':m.reply_to_message.from_user.id})
+   z=int(m.text.split('/gift ')[1])
+   if x!=None and y!=None:
+      if z>=0:
+         users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
+         users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
+         bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'!')
+      else:
+         bot.send_message(m.chat.id, 'Не жульничай!')
     
 @bot.message_handler(commands=['tourreg'])   
 def tourreg(m):
