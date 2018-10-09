@@ -1487,6 +1487,7 @@ def results(id):
   bot.send_message(id, games[id]['secondres'])
   die=0    
   games[id]['xod']+=1
+  games[id]['summonlist']=[]
   for mobs in games[id]['bots']:
     player=games[id]['bots'][mobs]
     if games[id]['bots'][mobs]['hp']>games[id]['bots'][mobs]['maxhp']:
