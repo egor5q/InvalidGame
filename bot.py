@@ -127,7 +127,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.animal':None}})
+            users.update_many({}, {'$set':{'bot.boundacted':0}})
             print('yes')
             
             
@@ -239,6 +239,7 @@ def createpauk(id):
               'armorturns':0,
               'boundwith':None,
               'boundtime':0,
+              'boundacted':0,
               'weapons':['hand'],
               'animal':None
                      }
@@ -1610,6 +1611,11 @@ def dmgs(id):
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['boundwith']!=None:
             games[id]['bots'][ids]['takendmg']+=games[id]['bots'][ids]['boundwith']['takendmg']
+            if games[id]['bots'][ids]['boundwith']!=games[id]['bots'][ids]:
+             if games[id]['bots'][ids]['boundacted']==0:
+               games[id]['bots'][ids]['boundwith']['takendmg']+=games[id]['bots'][ids]['takendmg']
+               games[id]['bots'][ids]['boundwith']['boundacted']=1
+               games[id]['bots'][ids]['boundacted']=1
             text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(games[id]['bots'][ids]['boundwith']['takendmg'])+\
             ' дополнительного урона!\n'
         games[id]['bots'][ids]['takendmg']-=games[id]['bots'][ids]['currentarmor']
@@ -2899,6 +2905,7 @@ def createbot(id):
               'armorturns':0,
               'boundwith':None,
               'boundtime':0,
+              'boundacted':0,
               'animal':None
 }
 
