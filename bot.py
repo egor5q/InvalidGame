@@ -1863,6 +1863,9 @@ def dmgs(id):
        games[id]['bots'].update(createpauk(itemss))
        print('pauk')
        print(games[id]['bots'])
+    for ids in games[id]['summonlist']:
+      if ids[0]=='pig':
+         games[id]['bots'].update(createzombie(ids[1]))
     games[id]['secondres']='Эффекты:\n'+text
    
     
@@ -2298,7 +2301,7 @@ def pigchance(energy, target, x, id, bot1):
                 summon=1
           games[id]['res']+='🐷'+bot1['name']+' ничего не делает. Нанесено '+str(damage)+' Урона.\n'
           if summon==1:
-                games[id]['bots'].update(createzombie(bot1['id']))
+                games[id]['summonlist'].append(['pig',bot1['id']])
                 print('createdzombie')
                 games[id]['res']+='🧟‍♂О нет! На запах свинины пришёл зомби, который считает, что остальные участники дерутся за неё. '+\
                 'Теперь он сражается за '+bot1['name']+'!'
@@ -3022,7 +3025,8 @@ def creategame(id):
         'started':0,
         'xod':1,
         'started2':0,
-        'timer':None
+        'timer':None,
+        'summonlist':[]
         
              }
            }
