@@ -2924,7 +2924,7 @@ def begingame(id):
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     tt2=''
-    animals=['rhino','demon', 'pig']
+    animals=['pig']#,'rhino','demon', 'pig']
     for ids in games[id]['bots']:
          if games[id]['bots'][ids]['weapon']=='magic':
             animal=random.choice(animals)
