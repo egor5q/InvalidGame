@@ -1604,7 +1604,8 @@ def results(id):
     t.start()
   else:
     del games[id]
-                   
+                 
+         
 def dmgs(id):
     c=0
     text=''
