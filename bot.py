@@ -2127,8 +2127,9 @@ def rhinochance(energy, target, x, id, bot1):
           if eat==1:
                 loss=0
                 stunn=random.randint(rhinominstun,rhinomaxstun)
-                games[id]['res']+='👿'+bot1['name']+' в бешенстве! Он уничтожает свою цель. '+\
-                '🌀'+bot1['name']+' получает оглушение на '+str(stunn-1)+' хода!\n'
+                critdmg=bot1['allrounddmg']
+                games[id]['res']+='👿'+bot1['name']+' в бешенстве! Он наносит критический удар по цели. Нанесено '+\
+                str(critdmg)+' урона!\n'+'🌀'+bot1['name']+' получает оглушение на '+str(stunn-1)+' хода!\n'
                 bot1['stun']=stunn
                 target['hp']-=target['hp']
           target['takendmg']+=damage
