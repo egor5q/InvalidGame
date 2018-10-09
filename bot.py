@@ -1362,9 +1362,12 @@ def battle(id):
      games[id]['bots'][bots][act(bots, id)]=1
   results(id)
  except:
+    try:
       bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
       del games[id]
-
+    except:
+        pass
+    
 def results(id):           
   for bots in games[id]['bots']:
      if games[id]['bots'][bots]['yvorot']==1:
@@ -2749,8 +2752,10 @@ def begingame(id):
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     tt2=''
+    animals=['rhino','demon']
     for ids in games[id]['bots']:
          if games[id]['bots'][ids]['weapon']=='magic':
+            animal=random.choice(animals)
             tt2+='Волшебная палочка бойца '+games[id]['bots'][ids]['name']+' превращает его в случайное животное: Носорог!\n'
     if tt2!='':
       bot.send_message(id, tt2)
