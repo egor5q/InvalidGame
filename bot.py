@@ -1611,6 +1611,7 @@ def dmgs(id):
     text=''
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['boundwith']!=None:
+          if games[id]['bots'][ids]['boundacted']==0:
             tdg1=games[id]['bots'][ids]['boundwith']['takendmg']
             tdg2=games[id]['bots'][ids]['takendmg']
             games[id]['bots'][ids]['takendmg']+=tdg1
