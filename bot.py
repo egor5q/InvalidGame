@@ -2329,7 +2329,8 @@ def zombiechance(energy, target, x, id, bot1):
               damage+=2
           x=random.randint(1,100)
           eat=0
-          games[id]['res']+='🧟‍♂'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          name=users.find_one({'id':bot1['id']})['bot']['name']
+          games[id]['res']+='🧟‍♂'+bot1['name']+'['+name+'] кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=2
         
