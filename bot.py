@@ -127,10 +127,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.currentarmor':0}})
-            users.update_many({}, {'$set':{'bot.armorturns':0}})
-            users.update_many({}, {'$set':{'bot.boundwith':None}})
-            users.update_many({}, {'$set':{'bot.boundtime':0}})
+            users.update_many({}, {'$set':{'bot.animal':None}})
             print('yes')
             
             
@@ -242,7 +239,8 @@ def createpauk(id):
               'armorturns':0,
               'boundwith':None,
               'boundtime':0,
-              'weapons':['hand']
+              'weapons':['hand'],
+              'animal':None
                      }
           }
 
@@ -2209,6 +2207,11 @@ def attack(bot, id):
   elif bot['weapon']=='hand':
       handchance(bot['energy'], target, x, id, bot)          
 
+  elif bot['weapon']=='magic':
+      if bot['animal']=='demon':
+          demonchance(bot['energy'], target, x, id, bot)  
+      if bot['animal']=='rhino':
+          rhinochance(bot['energy'], target, x, id, bot)  
   
   elif bot['weapon']=='ak':
       akchance(bot['energy'], target, x, id, bot)  
@@ -2756,7 +2759,9 @@ def begingame(id):
     for ids in games[id]['bots']:
          if games[id]['bots'][ids]['weapon']=='magic':
             animal=random.choice(animals)
-            tt2+='Волшебная палочка бойца '+games[id]['bots'][ids]['name']+' превращает его в случайное животное: Носорог!\n'
+            games[id]['bots'][ids]['animal']=animal
+            animalname=animaltoname(animal)
+            tt2+='Волшебная палочка бойца '+games[id]['bots'][ids]['name']+' превращает его в случайное существо: '+animalname+'!\n\n'
     if tt2!='':
       bot.send_message(id, tt2)
     giveitems(games[id])
@@ -2764,6 +2769,13 @@ def begingame(id):
     battle(id)
  else:
    pass
+
+def animaltoname(animal):
+    if animal=='rhino':
+        return 'Носорог'
+    elif animal=='demon':
+        return 'Демон'
+
 
 def skilltoname(x):
     if x=='shieldgen':
@@ -2884,7 +2896,8 @@ def createbot(id):
               'currentarmor':0,
               'armorturns':0,
               'boundwith':None,
-              'boundtime':0
+              'boundtime':0,
+              'animal':None
 }
 
 def dailybox():
