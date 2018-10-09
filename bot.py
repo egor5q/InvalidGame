@@ -1440,18 +1440,18 @@ def giveitems(game):
 
                    
 def battle(id):  
- try:
+ #try:
   for bots in games[id]['bots']:
    if games[id]['bots'][bots]['die']!=1:
     if games[id]['bots'][bots]['stun']<=0:
      games[id]['bots'][bots][act(bots, id)]=1
   results(id)
- except:
-    try:
-      bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
-      del games[id]
-    except:
-        pass
+ #except:
+  #  try:
+  #    bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
+  #    del games[id]
+  #  except:
+  #      pass
     
 def results(id):           
   for bots in games[id]['bots']:
@@ -2290,11 +2290,11 @@ def pigchance(energy, target, x, id, bot1):
           damage=random.randint(0,0)
           x=random.randint(1,100)
           summon=0
-          if x<=15:
+          if x<=100:
                 summon=1
           games[id]['res']+='🐷'+bot1['name']+' ничего не делает. Нанесено '+str(damage)+' Урона.\n'
           if summon==1:
-                games[id]['bots'].update(createzombie(id))
+                games[id]['bots'].update(createzombie(bot1['id']))
                 games[id]['res']+='🧟‍♂О нет! На запах свинины пришёл зомби, который считает, что остальные участники дерутся за неё. '+\
                 'Теперь он сражается за '+bot1['name']+'!'
                 
