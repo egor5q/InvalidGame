@@ -1540,6 +1540,7 @@ def results(id):
       if name!=None:
         points=6
         for ids in games[id]['bots']:
+          if games[id]['bots']['identeficator']==None:
             points+=4
         for ids in games[id]['bots']:
             for itemss in games[id]['bots'][ids]['skills']:
