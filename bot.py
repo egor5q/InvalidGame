@@ -2139,7 +2139,7 @@ def demonchance(energy, target, x, id, bot1):
           if eat==1:
                 enemys=[]
                 for ids in games[id]['bots']:
-                    if games[id]['bots'][ids]['id']!=bot1['id']:
+                    if games[id]['bots'][ids]['id']!=bot1['id'] and games[id]['bots'][ids]['die']!=1:
                         enemys.append(games[id]['bots'][ids])
                 target1=random.choice(enemys)
                 enemys.remove(target1)
