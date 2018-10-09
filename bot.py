@@ -329,6 +329,7 @@ def createzombie(id):
               'animal':None,
               'allrounddmg':0,
               'identeficator':x
+               
                      }
           }
 
@@ -1543,7 +1544,7 @@ def results(id):
         points=6
         for ids in games[id]['bots']:
           try:
-            if games[id]['bots']['identeficator']==None:
+            if games[id]['bots'][ids]['identeficator']==None:
                points+=4
           except:
             points+=4
