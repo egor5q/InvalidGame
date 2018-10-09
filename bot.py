@@ -36,6 +36,8 @@ client3=MongoClient(client2)
 db2=client3.trug
 userstrug=db2.users
 
+symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+
 
 @bot.message_handler(commands=['referal'])
 def ref(m):
@@ -222,6 +224,7 @@ def createpauk(id):
               'skills':[],
               'team':None,
               'hp':2,
+              'identeficator':None,
               'maxenergy':5,
               'energy':5,
               'items':[],           
@@ -260,6 +263,69 @@ def createpauk(id):
               'allrounddmg':0
                      }
           }
+
+def randomgen(id):
+    i=0
+    text=''
+    while i<4:
+        text+=random.choice(symbollist)
+        i+=1
+    no=0
+    for ids in games[id]['bots']:
+        if games[id]['bots']['identeficator']==text:
+            no=1
+    if no==0:
+        return text
+    else:
+        return randomgen(id)
+
+def createzombie(id):
+    x=randomgen(id)
+    return{x:{'name': 'Зомби',
+              'weapon':'zombiebite',
+              'skills':[],
+              'team':None,
+              'hp':1,
+              'maxenergy':7,
+              'energy':7,
+              'items':[],           
+              'attack':0,
+              'yvorot':0,
+              'reload':0,
+              'skill':0,
+              'item':0,
+              'miss':0,
+              'shield':0,
+              'stun':0,
+              'takendmg':0,
+              'die':0,
+              'yvorotkd':0,
+              'id':id,
+              'blood':0,
+              'bought':[],
+              'accuracy':0,
+              'damagelimit':6,
+              'zombie':6,
+              'heal':0,
+              'shieldgen':0,
+              'skin':[],
+              'oracle':1,
+              'target':None,
+              'exp':0,
+              'gipnoz':0,
+              'maxhp':2,
+              'currentarmor':0,
+              'armorturns':0,
+              'boundwith':None,
+              'boundtime':0,
+              'boundacted':0,
+              'weapons':['hand'],
+              'animal':None,
+              'allrounddmg':0,
+              'identeficator':x
+                     }
+          }
+
 
 #@bot.message_handler(commands=['addboss'])
 #def addboss(m):
@@ -2204,10 +2270,66 @@ def demonchance(energy, target, x, id, bot1):
         bot1['energy']-=2
     
               
+def pigchance(energy, target, x, id, bot1):
+  if energy>=5:
+    chance=0
+  elif energy==4:
+    chance=0
+  elif energy==3:
+    chance=0
+  elif energy==2:
+    chance=0
+  elif energy==1:
+    chance=0
+  elif energy<=0:
+    chance=0
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      games[id]['res']+='Свинья молится Алисе, и та убивает '+target['name']+'!\n'
+      target['hp']-=1
+  else:
+          damage=random.randint(0,0)
+          x=random.randint(1,100)
+          summon=0
+          if x<=15:
+                summon=1
+          games[id]['res']+='🐷'+bot1['name']+' ничего не делает. Нанесено '+str(damage)+' Урона.\n'
+          if summon==1:
+                games[id]['bots'].update(createzombie(id))
+                games[id]['res']+='🧟‍♂О нет! На запах свинины пришёл зомби, который считает, что остальные участники дерутся за неё. '+\
+                'Теперь он сражается за '+bot1['name']+'!'
+                
+      
+def zombiechance(energy, target, x, id, bot1):
+    if energy>=5:
+    chance=90
+  elif energy==4:
+    chance=70
+  elif energy==3:
+    chance=61
+  elif energy==2:
+    chance=52
+  elif energy==1:
+    chance=36
+  elif energy<=0:
+    chance=9
+
+  if (x+target['miss']-bot1['accuracy'])<=chance:
+          damage=random.randint(3,4)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
+          x=random.randint(1,100)
+          eat=0
+          games[id]['res']+='🧟‍♂'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          target['takendmg']+=damage
+          bot1['energy']-=2
+        
+    else:
+        games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
+        bot1['energy']-=2
 
 
-      
-      
+
 def attack(bot, id):
   a=[]
   if 0 not in games[id]['bots']:
@@ -2253,7 +2375,9 @@ def attack(bot, id):
       if bot['animal']=='demon':
           demonchance(bot['energy'], target, x, id, bot)  
       if bot['animal']=='rhino':
-          rhinochance(bot['energy'], target, x, id, bot)  
+          rhinochance(bot['energy'], target, x, id, bot) 
+      if bot['animal']=='pig':
+          pigchance(bot['energy'], target, x, id, bot) 
   
   elif bot['weapon']=='ak':
       akchance(bot['energy'], target, x, id, bot)  
@@ -2272,9 +2396,9 @@ def attack(bot, id):
     
   elif bot['weapon']=='bow':
     bowchance(bot['energy'], target, x, id, bot)
-      
-  elif bot['weapon']=='magic':
-    rhinochance(bot['energy'], target, x, id, bot)
+    
+  elif bot['weapon']=='zombiebite':
+    zombiechance(bot['energy'], target, x, id, bot)
                                      
 
 def yvorot(bot, id):
@@ -2797,7 +2921,7 @@ def begingame(id):
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     tt2=''
-    animals=['rhino','demon']
+    animals=['rhino','demon', 'pig']
     for ids in games[id]['bots']:
          if games[id]['bots'][ids]['weapon']=='magic':
             animal=random.choice(animals)
@@ -2817,6 +2941,8 @@ def animaltoname(animal):
         return 'Носорог'
     elif animal=='demon':
         return 'Демон'
+    elif animal=='pig':
+        return 'Свинья'
 
 
 def skilltoname(x):
