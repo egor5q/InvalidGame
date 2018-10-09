@@ -2323,7 +2323,7 @@ def zombiechance(energy, target, x, id, bot1):
           target['takendmg']+=damage
           bot1['energy']-=2
         
-    else:
+  else:
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=2
