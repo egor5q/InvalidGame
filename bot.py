@@ -285,7 +285,9 @@ def randomgen(id):
 
 def createzombie(id):
     x=randomgen(id)
-    return{x:{'name': 'Зомби',
+    t=users.find_one({'id':id})
+    text='['+t['name']+']'
+    return{x:{'name': 'Зомби'+text,
               'weapon':'zombiebite',
               'skills':[],
               'team':None,
@@ -2322,15 +2324,14 @@ def zombiechance(energy, target, x, id, bot1):
     chance=36
   elif energy<=0:
     chance=9
-
+  name=users.find_one({'id':bot1['id']})['bot']['name']
   if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(3,4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           x=random.randint(1,100)
           eat=0
-          name=users.find_one({'id':bot1['id']})['bot']['name']
-          games[id]['res']+='🧟‍♂'+bot1['name']+'['+name+'] кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          games[id]['res']+='🧟‍♂'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=2
         
