@@ -2520,6 +2520,7 @@ def start(m):
   
 @bot.message_handler(commands=['go'])
 def goo(m):
+  try:
     if m.chat.id in games:
         if len(games[m.chat.id]['bots'])>=2:
          if games[m.chat.id]['started']==0:
@@ -2527,6 +2528,8 @@ def goo(m):
            games[m.chat.id]['started']=1
         else:
             bot.send_message(m.chat.id, 'Недостаточно игроков!')
+  except:
+    pass
     
 def starttimer(id):
    if id in games:
