@@ -1434,6 +1434,7 @@ def results(id):
     if games[id]['bots'][mobs]['armorturns']==0:
         games[id]['bots'][mobs]['currentarmor']=0
     games[id]['bots'][mobs]['boundtime']-=1
+    games[id]['bots'][mobs]['boundacted']=0
     if games[id]['bots'][mobs]['boundtime']==0:
         games[id]['bots'][mobs]['boundwith']=None
     games[id]['bots'][mobs]['takendmg']=0
