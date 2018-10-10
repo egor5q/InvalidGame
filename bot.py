@@ -2843,7 +2843,7 @@ def starttimer(id):
 def withoutauto(m):
    # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:# and m.from_user.id==441399484:
-        games.update(creategame(m.chat.id))
+        games.update(creategame(m.chat.id, 0))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         games[m.chat.id]['timer']=t
