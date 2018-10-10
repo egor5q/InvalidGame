@@ -1564,16 +1564,17 @@ def results(id):
               if games[id]['bots'][ids]['id']!=winner['id']:
                 points+=2
         if winner['id']!=0:
-            prize1=150
-            prize2=200
-            prize3=300
-            prize4=450
-            prize5=600
-            prize6=800
-            prize7=10000
-            winner2=users.find_one({'id':winner['id']})
-            y=userstrug.find_one({'id':winner['id']})
-            if id==-1001208357368:
+           prize1=150
+           prize2=200
+           prize3=300
+           prize4=450
+           prize5=600
+           prize6=800
+           prize7=10000
+           winner2=users.find_one({'id':winner['id']})
+           y=userstrug.find_one({'id':winner['id']})
+           if id==-1001208357368:
+            if games[id]['mode']==None:
              x=users.find({})
              try:
               cookie=round(points*0.04, 0)
@@ -1686,6 +1687,8 @@ def results(id):
                   users.update_one({'id':user['id']}, {'$set':{'prize7':1}})
                   users.update_one({'id':user['id']}, {'$inc':{'cookie':prize7}})
             else:
+                bot.send_message(id, '🏆'+name+' победил! Но в режиме апокалипсиса призы не выдаются, играйте ради веселья! :)')
+           else:
                   bot.send_message(id, '🏆'+name+' победил! Но награду за победу можно получить только в официальном чате - @cookiewarsru!')
         else:
             bot.send_message(id, '🏆'+name+' победил!')
@@ -1714,6 +1717,22 @@ def results(id):
 def dmgs(id):
     c=0
     text=''
+    if games[id]['mode']=='meteors':
+        targets=[]
+        for ids in games[id]['bots']:
+            if games[id]['bots'][ids]['die']==0:
+                targets.append(games[id]['bots'][ids])
+        meteornumber=0
+        for ids in targets:
+            if random.randint(1,100)<=50:
+                meteornumber+=1
+        while meteornumber>0:
+            meteornumber-=1
+            meteordmg=random.randint(1,8)
+            trgt=random.choice(targets)
+            trgt['takendmg']+=meteordmg
+            text+='🆘'+trgt['name']+' получает метеор в ебало на '+str(meteordmg)+' урона!\n'
+            
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['boundwith']!=None:
           if games[id]['bots'][ids]['boundacted']==0:
@@ -2839,6 +2858,27 @@ def withoutauto(m):
                   bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
                except:
                   pass
+                
+                
+@bot.message_handler(commands=['apocalypse'])
+def apocalypse(m):
+   # if m.chat.id==-1001208357368:#-229396706:
+     if m.chat.id not in games:# and m.from_user.id==441399484:
+        games.update(creategame(m.chat.id, 1))
+        t=threading.Timer(300, starttimer, args=[m.chat.id])
+        t.start()
+        games[m.chat.id]['timer']=t
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Умереть', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        bot.send_message(m.chat.id, 'Игра в режиме *АПОКАЛИПСИС* началась! Автостарт через 5 минут.\n\n', reply_markup=kb, parse_mode='markdown')
+        x=users.find({})
+        for idss in x:
+          if idss['id']!=0:
+            if idss['ping']==1:
+               try:
+                  bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
+               except:
+                  pass
    
    
 @bot.message_handler(commands=['begin'])
@@ -2847,7 +2887,7 @@ def begin(m):
    if y['enablegames']==1:                      
  # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:
-        games.update(creategame(m.chat.id))
+        games.update(creategame(m.chat.id,0))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         games[m.chat.id]['timer']=t
@@ -2895,6 +2935,9 @@ def begingame(id):
       print('timer cancelled')
     except:
       pass
+    modes=['meteors']
+    if games[id]['apocalypse']==1:
+        games[id]['mode']=random.choice(modes)
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['weapon']==None:
@@ -3028,7 +3071,7 @@ def createuser(id, username, name):
           }
     
         
-def creategame(id):
+def creategame(id, special):
     return {id:{
         'chatid':id,
         'ids':[],
@@ -3040,7 +3083,9 @@ def creategame(id):
         'xod':1,
         'started2':0,
         'timer':None,
-        'summonlist':[]
+        'summonlist':[],
+        'apocalypse':special,
+        'mode':None
         
              }
            }
@@ -3131,7 +3176,7 @@ def beginmassbattle(id):
    y=variables.find_one({'vars':'main'})
    if y['enablegames']==1:                      
      if id not in games:
-        games.update(creategame(id))
+        games.update(creategame(id,0))
         t=threading.Timer(5, starttimer, args=[id])
         t.start()
         games[id]['timer']=t
