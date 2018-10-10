@@ -3119,7 +3119,7 @@ def connect(m):
             i=2
             text=''
             while i<len(x):
-               text+=x[i]
+               text+=x[i]+' '
                i+=1
             for ids in games[-1001208357368]['bots']:
                 if games[-1001208357368]['bots'][ids]['id']==id and games[-1001208357368]['bots'][ids]['identeficator']==None:
