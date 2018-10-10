@@ -3104,33 +3104,22 @@ def dailybox():
       for idss in ids:
          if idss==':':
             tru=ids
-   try:
-      x=tru
+   x=tru
       
-      x=x.split(":")
+   x=x.split(":")
       
-      y=int(x[1])
-      x=int(x[0])+3
-     
-      if x==24 and y<=15:
-         users.update_many({}, {'$set':{'dailybox':1}})
-   except:
-      x=tru
-      
-      x=x.split(":")
-      
-      y=int(x[1])
-      x=int(x[0])+3
-      y=time.ctime()
-      print(y)
-      if x==24 and y==0:
-         users.update_many({}, {'$set':{'dailybox':1}})
-      if x==14 and y==0:
-         users.update_many({}, {'$inc':{'joinbots':1}})
-         beginmassbattle(-1001208357368)
-      if x==19 and y==0:
-         users.update_many({}, {'$inc':{'joinbots':1}})
-         beginmassbattle(-1001208357368)
+   y=int(x[1])
+   x=int(x[0])+3
+   y=time.ctime()
+   print(y)
+   if x==24 and y<=15:
+      users.update_many({}, {'$set':{'dailybox':1}})
+   if x==14 and y==0:
+      users.update_many({}, {'$inc':{'joinbots':1}})
+      beginmassbattle(-1001208357368)
+   if x==19 and y==0:
+      users.update_many({}, {'$inc':{'joinbots':1}})
+      beginmassbattle(-1001208357368)
   
 
  
@@ -3182,7 +3171,6 @@ if True:
 
   
 if True:
- 
    print('7777')
    bot.send_message(-1001208357368, 'Бот был перезагружен!')
    bot.polling(none_stop=True,timeout=600)
