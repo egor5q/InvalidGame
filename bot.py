@@ -286,7 +286,7 @@ def randomgen(id):
 def createzombie(id):
     x=randomgen(id)
     t=users.find_one({'id':id})
-    text='['+t['name']+']'
+    text='['+t['bot']['name']+']'
     return{x:{'name': 'Зомби'+text,
               'weapon':'zombiebite',
               'skills':[],
@@ -1527,8 +1527,13 @@ def results(id):
   for ids in games[id]['bots']:
       if games[id]['bots'][ids]['die']==1:
             die+=1
+  allid=[]
   if 0 not in games[id]['bots']:
-   if die+1>=len(games[id]['bots']):
+   for ids in games[id]['bots']:
+     if games[id]['bots'][ids]['die']==0:
+      if games[id]['bots'][ids]['id'] not in allid:
+         allid.append(games[id]['bots'][ids]['id'])
+   if die+1>=len(games[id]['bots']) or len(allid)<=1:
       z=1
       name=None
       for ids in games[id]['bots']:
@@ -2331,11 +2336,21 @@ def zombiechance(energy, target, x, id, bot1):
     chance=9
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=random.randint(3,4)
+          damage=random.randint(3,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           x=random.randint(1,100)
-          eat=0
+          
+          eat=random.randint(1,100)
+          if eat<=5:
+               eat=1
+          else:
+               eat=0
+          if eat==1:
+             games[id]['res']+='🍗'+bot1['name']+' проголодался и решил закусить своей свинкой! Та теряет 1 хп.\n'
+             for ids in games[id]['bots']:
+               if games[id]['bots'][ids]['identeficator']==None and games[id]['bots'][ids]['id']==bot1['id']:
+                  games[id]['bots'][ids]['hp']-=1
           games[id]['res']+='🧟‍♂'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           bot1['energy']-=2
