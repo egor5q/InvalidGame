@@ -1701,7 +1701,6 @@ def results(id):
             bot.send_message(id, '🏆'+name+' победил!')
       else:
         bot.send_message(id, 'Все проиграли!')
-      for ids 
       for ids in games[id]['bots']:
        try:
          users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'games':1}})
