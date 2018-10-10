@@ -1731,7 +1731,7 @@ def dmgs(id):
             meteordmg=random.randint(1,8)
             trgt=random.choice(targets)
             trgt['takendmg']+=meteordmg
-            text+='🆘'+trgt['name']+' получает метеор в ебало на '+str(meteordmg)+' урона!\n'
+            text+='🆘Метеор бъёт '+trgt['name']+' на '+str(meteordmg)+' урона!\n'
             
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['boundwith']!=None:
