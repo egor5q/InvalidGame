@@ -2869,7 +2869,6 @@ def begin(m):
          for idss in x:
           if idss['id']!=0:
             if idss['ping']==1:
-              
                try:
                   bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
                except:
@@ -3096,7 +3095,7 @@ def createbot(id):
 }
 
 def dailybox():
-   t=threading.Timer(900, dailybox)
+   t=threading.Timer(60, dailybox)
    t.start()
    x=time.ctime()
    x=x.split(" ")
@@ -3122,12 +3121,55 @@ def dailybox():
       
       y=int(x[1])
       x=int(x[0])+3
-      
-      if x==24 and y<=15:
+      y=time.ctime()
+      print(y)
+      if x==24 and y==0:
          users.update_many({}, {'$set':{'dailybox':1}})
+      if x==14 and y==0:
+         users.update_many({}, {'$inc':{'joinbots':1}})
+         beginmassbattle(-1001208357368)
+      if x==19 and y==0:
+         users.update_many({}, {'$inc':{'joinbots':1}})
+         beginmassbattle(-1001208357368)
   
 
-   
+ 
+def beginmassbattle(id):
+   y=variables.find_one({'vars':'main'})
+   if y['enablegames']==1:                      
+     if id not in games:
+        games.update(creategame(id))
+        t=threading.Timer(5, starttimer, args=[id])
+        t.start()
+        games[id]['timer']=t
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(id)))
+        bot.send_message(id, 'Игра началась! Автостарт через 5 секунд.\n\n', reply_markup=kb)
+        x=users.find({})
+        if id==-1001208357368:
+         text=''
+         for ids in x:
+          if ids['id']!=0:
+            if ids['enablejoin']==1 and ids['joinbots']>0:
+               games[id]['bots'].update(createbott(ids['id'], ids['bot']))
+               games[id]['ids'].append(ids['id'])
+               users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
+               text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
+         bot.send_message(id, text)
+         x=users.find({})
+         for idss in x:
+          if idss['id']!=0:
+            if idss['ping']==1:
+               try:
+                  bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
+               except:
+                  pass
+               
+        if m.chat.id!=-1001208357368:
+           bot.send_message(441399484, 'Где-то началась игра!')
+   else:
+        bot.send_message(id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.')
+    
 @bot.message_handler(commands=['boxreload'])   
 def boxreload(m):
   if m.from_user.id==441399484:
