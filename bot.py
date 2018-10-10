@@ -2466,7 +2466,7 @@ def skill(bot,id):
        elif 'gipnoz' in bot['mainskill']:
         zz=[]
         for ii in games[id]['bots']:
-              if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']==0:
+              if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']==0 and games[id]['bots'][ii]['id']!=bot['id']:
                   zz.append(games[id]['bots'][ii])
         if len(zz)>0:
           x=random.choice(zz)
@@ -3110,14 +3110,18 @@ def dailybox():
       
    y=int(x[1])
    x=int(x[0])+3
-   y=time.ctime()
+   z=time.ctime()
    print(y)
+   z=z.split(' ')
+   party=0
+   if z[0]=='Sat' or z[0]=='Sun':
+      party=1
    if x==24 and y<=15:
       users.update_many({}, {'$set':{'dailybox':1}})
-   if x==14 and y==0:
+   if x==14 and y==0 and party==1:
       users.update_many({}, {'$inc':{'joinbots':1}})
       beginmassbattle(-1001208357368)
-   if x==19 and y==0:
+   if x==19 and y==0 and party==1:
       users.update_many({}, {'$inc':{'joinbots':1}})
       beginmassbattle(-1001208357368)
   
