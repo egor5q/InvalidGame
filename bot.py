@@ -2468,7 +2468,7 @@ def skill(bot,id):
         for ii in games[id]['bots']:
               if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']==0:
                   zz.append(games[id]['bots'][ii])
-        if len(zz)>0
+        if len(zz)>0:
           x=random.choice(zz)
           
          else:
