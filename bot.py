@@ -3111,7 +3111,7 @@ def dailybox():
    y=int(x[1])
    x=int(x[0])+3
    z=time.ctime()
-   print(y)
+   print(z)
    z=z.split(' ')
    party=0
    if z[0]=='Sat' or z[0]=='Sun':
