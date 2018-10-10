@@ -1831,7 +1831,7 @@ def dmgs(id):
          elif games[id]['bots'][mob]['id']==256659642:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+pop*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
          else:
-            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'❤️'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'            
+            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'            
        else:
            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        if games[id]['bots'][mob]['hp']==1 and 'berserk' in games[id]['bots'][mob]['skills']:
@@ -3116,11 +3116,16 @@ def connect(m):
         x=m.text.split(' ')
         try:
             id=int(x[1])
-            text=x[2]
+            i=2
+            text=''
+            while i<len(x):
+               text+=x[i]
+               i+=1
             for ids in games[-1001208357368]['bots']:
                 if games[-1001208357368]['bots'][ids]['id']==id and games[-1001208357368]['bots'][ids]['identeficator']==None:
                     target=games[-1001208357368]['bots'][ids]
-            bot.send_message(-1001208357368, target['name']+' получает молнию в ебало.\n'+text)
+            bot.send_message(-1001208357368, target['name']+' получает молнию в ебало, теряя ♥1 хп.\n'+text)
+            target['hp']-=1
         except:
             pass
     
