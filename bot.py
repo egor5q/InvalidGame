@@ -2455,36 +2455,26 @@ def skill(bot,id):
   a=[]
   if 0 not in games[id]['bots']:
       for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id']:
+        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id'] and games[id]['bots'][bots]['die']!=1:
             a.append(games[id]['bots'][bots])
-      x=random.randint(1,len(a))
-      if bot['mainskill']==[]:
-        while a[x-1]['die']==1:
+      if len(a)>0:
+       x=random.choice(a)
+       if bot['mainskill']==[]:
+        while x['die']==1:
             print('while1')
-            x=random.randint(1,len(a))
-      elif 'gipnoz' in bot['mainskill']:
-       for ii in games[id]['bots']:
-              if games[id]['bots'][ii]['energy']>=3:
-                  yes=1
-       x=random.randint(1,len(a))
-       if yes==1:
+            x=random.choice(a)
+       elif 'gipnoz' in bot['mainskill']:
         zz=[]
-        live=0
-        for ids in a:
-            if ids['die']!=1:
-               zz.append(ids)
-               live=1
-        if live==1:
-          dd=0
-          x=random.randint(1, len(zz))
-          while zz[x-1]['energy']<=2 and dd<100:
-                print('while2')
-                x=random.randint(1,len(zz))
-                dd+=1
-       else:
+        for ii in games[id]['bots']:
+              if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']==0:
+                  zz.append(games[id]['bots'][ii])
+         if len(zz)>0
+          x=random.choice(zz)
+          
+        else:
          bot.send_message(id, '@Loshadkin, баг с гипнозом, приди!')
 
-      target=games[id]['bots'][a[x-1]['id']]
+       target=x
    
   else:    
     target=games[id]['bots'][0]
