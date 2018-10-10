@@ -2471,8 +2471,8 @@ def skill(bot,id):
          if len(zz)>0
           x=random.choice(zz)
           
-        else:
-         bot.send_message(id, '@Loshadkin, баг с гипнозом, приди!')
+         else:
+           bot.send_message(id, '@Loshadkin, баг с гипнозом, приди!')
 
        target=x
    
