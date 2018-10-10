@@ -1689,12 +1689,19 @@ def results(id):
                   users.update_one({'id':user['id']}, {'$inc':{'cookie':prize7}})
             else:
                 bot.send_message(id, '🏆'+name+' победил! Но в режиме апокалипсиса призы не выдаются, играйте ради веселья! :)')
+                if games[id]['mode']=='meteors':
+                  for ids in games[id]['bots']:
+                   if games[id]['bots'][ids]['identeficator']==None:
+                    users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':games[id]['bots'][ids]['meteorraingames']}})
+                    users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteordmg':games[id]['bots'][ids]['takenmeteordmg']}})
+                    users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteors':games[id]['bots'][ids]['takenmeteors']}})
            else:
                   bot.send_message(id, '🏆'+name+' победил! Но награду за победу можно получить только в официальном чате - @cookiewarsru!')
         else:
             bot.send_message(id, '🏆'+name+' победил!')
       else:
         bot.send_message(id, 'Все проиграли!')
+      for ids 
       for ids in games[id]['bots']:
        try:
          users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'games':1}})
@@ -1714,7 +1721,7 @@ def results(id):
   else:
     del games[id]
                  
-         
+
 def dmgs(id):
     c=0
     text=''
@@ -1733,6 +1740,8 @@ def dmgs(id):
             trgt=random.choice(targets)
             trgt['takendmg']+=meteordmg
             text+='🆘'+trgt['name']+' получает метеор в ебало на '+str(meteordmg)+' урона!\n'
+            trgt['takenmeteordmg']+=meteordmg
+            trgt['takenmeteors']+=1
             
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['boundwith']!=None:
@@ -2938,11 +2947,15 @@ def modetoname(x):
 def chaosstats(m):
    x=users.find_one({'id':m.from_user.id})
    if x!=None:
-        sredn=round((x['bot']['takenmeteordmg']/x['bot']['takenmeteors']),2)
+        try:
+            sredn=round((x['bot']['takenmeteordmg']/x['bot']['takenmeteors']),2)
+        except:
+            sredn=0
         bot.send_message(m.chat.id, 'Игр в "Метеоритный дождь" сыграно: '+str(x['bot']['meteorraingames'])+'\n'+\
                          'Получено метеоритов в ебало: '+str(x['bot']['takenmeteors'])+'\n'+\
                          'Средний получаемый урон с метеорита: '+str(sredn))
 
+                                                                           
 def begingame(id):
  if games[id]['started2']!=1:
     try:
@@ -2958,6 +2971,10 @@ def begingame(id):
         bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
         time.sleep(3)
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
+    for ids in games[id]['bots']:
+        games[id]['bots'][ids]['takenmeteors']=0
+        games[id]['bots'][ids]['takenmeteordmg']=0
+        games[id]['bots'][ids]['meteorraingames']=0                                                                 
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['weapon']==None:
             games[id]['bots'][ids]['weapon']='hand'
