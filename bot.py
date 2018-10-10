@@ -147,9 +147,10 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.identeficator':None}})
+            users.update_many({}, {'$set':{'bot.takenmeteors':0}})
+            users.update_many({}, {'$set':{'bot.takenmeteordmg':0}})
+            users.update_many({}, {'$set':{'bot.meteorraingames':0}})
             print('yes')
-            
             
 @bot.message_handler(commands=['massbattle'])
 def upd(m):
@@ -2935,7 +2936,12 @@ def modetoname(x):
   
 @bot.message_handler(commands=['chaosstats'])
 def chaosstats(m):
-   pass
+   x=users.find_one({'id':m.from_user.id})
+   if x!=None:
+        sredn=round((x['bot']['takenmeteordmg']/x['bot']['takenmeteors']),2)
+        bot.send_message(m.chat.id, 'Игр в "Метеоритный дождь" сыграно: '+str(x['bot']['meteorraingames'])+'\n'+\
+                         'Получено метеоритов в ебало: '+str(x['bot']['takenmeteors'])+'\n'+\
+                         'Средний получаемый урон с метеорита: '+str(sredn))
 
 def begingame(id):
  if games[id]['started2']!=1:
@@ -3098,11 +3104,27 @@ def creategame(id, special):
         'timer':None,
         'summonlist':[],
         'apocalypse':special,
-        'mode':None
+        'mode':None,
+        'adminconnected':0
         
              }
            }
-            
+  
+@bot.message_handler(commands=['light'])
+def connect(m):
+    if m.from_user.id==441399484:
+        x=m.text.split(' ')
+        try:
+            id=int(x[1])
+            text=x[2]
+            for ids in games[-1001208357368]['bots']:
+                if games[-1001208357368]['bots'][ids]['id']==id and games[-1001208357368]['bots'][ids]['identeficator']==None:
+                    target=games[-1001208357368]['bots'][ids]
+            bot.send_message(-1001208357368, target['name']+' получает молнию в ебало.\n'+text)
+        except:
+            pass
+    
+    
 def createbot(id):
   return {'name': None,
               'weapon':'hand',
@@ -3149,7 +3171,10 @@ def createbot(id):
               'boundacted':0,
               'animal':None,
               'allrounddmg':0,
-              'identeficator':None
+              'identeficator':None,
+              'takenmeteors':0,
+              'takenmeteordmg':0,
+              'meteorraingames':0
 }
 
 def dailybox():
