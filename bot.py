@@ -2927,6 +2927,17 @@ def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdow
                                  parse_mode=parse_mode)        
         
 
+modetoname(x):
+   if x=='meteors':
+      return 'Метеоритный дождь'
+   if x=='randomhp':
+      return 'Случайные хп на старте'
+      
+  
+@bot.message_handler(commands=['chaosstats'])
+def chaosstats(m):
+   pass
+
 def begingame(id):
  if games[id]['started2']!=1:
     try:
@@ -2935,9 +2946,12 @@ def begingame(id):
       print('timer cancelled')
     except:
       pass
-    modes=['meteors']
+    modes=['meteors']#,'randomhp']
     if games[id]['apocalypse']==1:
         games[id]['mode']=random.choice(modes)
+        n=modetoname(games[id]['mode'])
+        bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
+        time.sleep(3)
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['weapon']==None:
