@@ -1692,7 +1692,7 @@ def results(id):
                 if games[id]['mode']=='meteors':
                   for ids in games[id]['bots']:
                    if games[id]['bots'][ids]['identeficator']==None:
-                    users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':games[id]['bots'][ids]['meteorraingames']}})
+                    users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':1}})
                     users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteordmg':games[id]['bots'][ids]['takenmeteordmg']}})
                     users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteors':games[id]['bots'][ids]['takenmeteors']}})
            else:
@@ -2950,8 +2950,8 @@ def chaosstats(m):
             sredn=round((x['bot']['takenmeteordmg']/x['bot']['takenmeteors']),2)
         except:
             sredn=0
-        bot.send_message(m.chat.id, 'Игр в "Метеоритный дождь" сыграно: '+str(x['bot']['meteorraingames'])+'\n'+\
-                         'Получено метеоритов в ебало: '+str(x['bot']['takenmeteors'])+'\n'+\
+        bot.send_message(m.chat.id, 'Игр в "Метеоритный дождь" сыграно: '+str(x['bot']['meteorraingames'])+'\n\n'+\
+                         'Получено метеоритов в ебало: '+str(x['bot']['takenmeteors'])+'\n\n'+\
                          'Средний получаемый урон с метеорита: '+str(sredn))
 
                                                                            
