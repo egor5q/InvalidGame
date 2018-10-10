@@ -2881,7 +2881,8 @@ def apocalypse(m):
         kb.add(types.InlineKeyboardButton(text='Умереть', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра в режиме *АПОКАЛИПСИС* началась! Автостарт через 5 минут.\n\n', reply_markup=kb, parse_mode='markdown')
         x=users.find({})
-        for idss in x:
+        if m.chat.id==-1001208357368:
+         for idss in x:
           if idss['id']!=0:
             if idss['ping']==1:
                try:
