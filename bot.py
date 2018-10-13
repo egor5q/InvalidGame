@@ -348,36 +348,37 @@ def weapon(m):
   #if userstrug.find_one({'id':m.from_user.id}) is not None:
    #try:
   if m.chat.id==m.from_user.id:
-     y=userstrug.find_one({'id':m.from_user.id})
+     #y=userstrug.find_one({'id':m.from_user.id})
      x=users.find_one({'id':m.from_user.id})
      kb=types.InlineKeyboardMarkup()
-     if '🔫' in y['inventory'] or i['enableallweapons']==1:
+     #if '🔫' in y['inventory'] or i['enableallweapons']==1:
          pistol='✅'
-     if '☄' in y['inventory'] or i['enableallweapons']==1:
+     #if '☄' in y['inventory'] or i['enableallweapons']==1:
          rock='✅'
-     if '⚙' in y['inventory'] or i['enableallweapons']==1:
+     #if '⚙' in y['inventory'] or i['enableallweapons']==1:
          saw='✅'
-     if '🗡' in y['inventory'] or i['enableallweapons']==1:
+     #if '🗡' in y['inventory'] or i['enableallweapons']==1:
          kinzhal='✅'
-     if '🗡' in y['inventory'] or i['enableallweapons']==1:
+     #if '🗡' in y['inventory'] or i['enableallweapons']==1:
          bow='✅'
      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
-     if '🔫' in y['inventory'] or i['enableallweapons']==1:
+     if i['enableallweapons']==1:           # if '🔫' in y['inventory']
          kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-     if '☄' in y['inventory'] or i['enableallweapons']==1:
+    if i['enableallweapons']==1:    #if '☄' in y['inventory'] 
          kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
-     if '⚙' in y['inventory'] or i['enableallweapons']==1:
+     if i['enableallweapons']==1:  # if '⚙' in y['inventory'] 
          kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
-     if '🗡' in y['inventory'] or i['enableallweapons']==1:
+     if i['enableallweapons']==1: #  if '🗡' in y['inventory']
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
-     if '🏹' in y['inventory'] or i['enableallweapons']==1:
+     if i['enableallweapons']==1: #if '🏹' in y['inventory'] 
          kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
      i=variables.find_one({'vars':'main'})
-     if i['enableallweapons']==1:
-         kb.add(types.InlineKeyboardButton(text='Волшебная палочка', callback_data='equipmagic'))
+     #if i['enableallweapons']==1:
+     #    kb.add(types.InlineKeyboardButton(text='Волшебная палочка', callback_data='equipmagic'))
      kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
+
    #except:
     # kb=types.InlineKeyboardMarkup()
     # kb.add(types.InlineKeyboardButton(text='Волшебная палочка', callback_data='equipmagic'))
