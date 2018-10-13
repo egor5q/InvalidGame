@@ -364,7 +364,7 @@ def weapon(m):
      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
      if i['enableallweapons']==1:           # if '🔫' in y['inventory']
          kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-    if i['enableallweapons']==1:    #if '☄' in y['inventory'] 
+     if i['enableallweapons']==1:    #if '☄' in y['inventory'] 
          kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
      if i['enableallweapons']==1:  # if '⚙' in y['inventory'] 
          kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
