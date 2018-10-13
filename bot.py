@@ -403,13 +403,18 @@ def skins(m):
         oracle='✅'
     if 'robot' in x['bot']['skin'] or i['enableallweapons']==1:
         robot='✅'
-    for ids in x['bot']['bought']:
+    if i['enableallweapons']==0:
+      for ids in x['bot']['bought']:
         if ids=='oracle' or i['enableallweapons']==1:
             kb.add(types.InlineKeyboardButton(text=oracle+'Оракул', callback_data='equiporacle'))
         if ids=='robot' or i['enableallweapons']==1:
             kb.add(types.InlineKeyboardButton(text=robot+'Робот', callback_data='equiprobot'))
-    kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
-    bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
+      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
+      bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
+    else:
+        kb.add(types.InlineKeyboardButton(text=oracle+'Оракул', callback_data='equiporacle'))
+        kb.add(types.InlineKeyboardButton(text=robot+'Робот', callback_data='equiprobot'))
+        bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
   else:
        bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
 
