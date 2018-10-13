@@ -464,7 +464,7 @@ def invent(m):
     if 'bloodmage' in x['bot']['skills']:
         bloodmage='✅'
     i=variables.find_one({'vars':'main'})
-    i['enableallweapons']==0:
+    if i['enableallweapons']==0:
      for item in x['bot']['bought']:
         if item=='shieldgen':
             kb.add(types.InlineKeyboardButton(text=shield+'🛡Генератор щитов', callback_data='equipshield'))
