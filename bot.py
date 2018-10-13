@@ -352,15 +352,15 @@ def weapon(m):
      x=users.find_one({'id':m.from_user.id})
      kb=types.InlineKeyboardMarkup()
      #if '🔫' in y['inventory'] or i['enableallweapons']==1:
-         pistol='✅'
+     pistol='✅'
      #if '☄' in y['inventory'] or i['enableallweapons']==1:
-         rock='✅'
+     rock='✅'
      #if '⚙' in y['inventory'] or i['enableallweapons']==1:
-         saw='✅'
+     saw='✅'
      #if '🗡' in y['inventory'] or i['enableallweapons']==1:
-         kinzhal='✅'
+     kinzhal='✅'
      #if '🗡' in y['inventory'] or i['enableallweapons']==1:
-         bow='✅'
+     bow='✅'
      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
      if i['enableallweapons']==1:           # if '🔫' in y['inventory']
          kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
