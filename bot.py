@@ -347,7 +347,7 @@ def weapon(m):
   i=variables.find_one({'vars':'main'})
   #if userstrug.find_one({'id':m.from_user.id}) is not None:
    #try:
-    if m.chat.id==m.from_user.id:
+  if m.chat.id==m.from_user.id:
      y=userstrug.find_one({'id':m.from_user.id})
      x=users.find_one({'id':m.from_user.id})
      kb=types.InlineKeyboardMarkup()
