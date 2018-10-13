@@ -2909,11 +2909,14 @@ def begin(m):
          text=''
          for ids in x:
           if ids['id']!=0:
-            if ids['enablejoin']==1 and ids['joinbots']>0:
+            if ids['enablejoin']==1 and ids['joinbots']>0 and ids['bot']['name']!=None:
                games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[m.chat.id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
-               text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
+               try:
+                   text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
+               except:
+                   pass
          bot.send_message(m.chat.id, text)
          x=users.find({})
          for idss in x:
