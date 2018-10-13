@@ -147,9 +147,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.takenmeteors':0}})
-            users.update_many({}, {'$set':{'bot.takenmeteordmg':0}})
-            users.update_many({}, {'$set':{'bot.meteorraingames':0}})
+            users.update_many({}, {'$set':{'bot.dieturn':0}})
             print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -346,32 +344,33 @@ def createzombie(id):
 
 @bot.message_handler(commands=['weapons'])
 def weapon(m):
+  i=variables.find_one({'vars':'main'})
   if userstrug.find_one({'id':m.from_user.id}) is not None:
    try:
     if m.chat.id==m.from_user.id:
      y=userstrug.find_one({'id':m.from_user.id})
      x=users.find_one({'id':m.from_user.id})
      kb=types.InlineKeyboardMarkup()
-     if '🔫' in y['inventory']:
+     if '🔫' in y['inventory'] or i['enableallweapons']==1:
          pistol='✅'
-     if '☄' in y['inventory']:
+     if '☄' in y['inventory'] or i['enableallweapons']==1:
          rock='✅'
-     if '⚙' in y['inventory']:
+     if '⚙' in y['inventory'] or i['enableallweapons']==1:
          saw='✅'
-     if '🗡' in y['inventory']:
+     if '🗡' in y['inventory'] or i['enableallweapons']==1:
          kinzhal='✅'
-     if '🗡' in y['inventory']:
+     if '🗡' in y['inventory'] or i['enableallweapons']==1:
          bow='✅'
      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
-     if '🔫' in y['inventory']:
+     if '🔫' in y['inventory'] or i['enableallweapons']==1:
          kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-     if '☄' in y['inventory']:
+     if '☄' in y['inventory'] or i['enableallweapons']==1:
          kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
-     if '⚙' in y['inventory']:
+     if '⚙' in y['inventory'] or i['enableallweapons']==1:
          kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
-     if '🗡' in y['inventory']:
+     if '🗡' in y['inventory'] or i['enableallweapons']==1:
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
-     if '🏹' in y['inventory']:
+     if '🏹' in y['inventory'] or i['enableallweapons']==1:
          kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
      i=variables.find_one({'vars':'main'})
      if i['enableallweapons']==1:
@@ -394,18 +393,19 @@ def weapon(m):
 @bot.message_handler(commands=['skins'])
 def skins(m):
   if m.chat.id==m.from_user.id:
+    i=variables.find_one({'vars':'main'})
     x=users.find_one({'id':m.from_user.id})
     kb=types.InlineKeyboardMarkup()
     oracle='☑️'
     robot='☑️'
-    if 'oracle' in x['bot']['skin']:
+    if 'oracle' in x['bot']['skin'] or i['enableallweapons']==1:
         oracle='✅'
-    if 'robot' in x['bot']['skin']:
+    if 'robot' in x['bot']['skin'] or i['enableallweapons']==1:
         robot='✅'
     for ids in x['bot']['bought']:
-        if ids=='oracle':
+        if ids=='oracle' or i['enableallweapons']==1:
             kb.add(types.InlineKeyboardButton(text=oracle+'Оракул', callback_data='equiporacle'))
-        if ids=='robot':
+        if ids=='robot' or i['enableallweapons']==1:
             kb.add(types.InlineKeyboardButton(text=robot+'Робот', callback_data='equiprobot'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
@@ -463,8 +463,9 @@ def invent(m):
         nindza='✅'
     if 'bloodmage' in x['bot']['skills']:
         bloodmage='✅'
-    
-    for item in x['bot']['bought']:
+    i=variables.find_one({'vars':'main'})
+    i['enableallweapons']==0:
+     for item in x['bot']['bought']:
         if item=='shieldgen':
             kb.add(types.InlineKeyboardButton(text=shield+'🛡Генератор щитов', callback_data='equipshield'))
         elif item=='medic':
@@ -495,8 +496,39 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=nindza+'💨Ниндзя', callback_data='equipnindza'))
         if item=='bloodmage':
             kb.add(types.InlineKeyboardButton(text=bloodmage+'🔥Маг крови', callback_data='equipbloodmage'))
-    kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
-    bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
+     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
+     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
+    else:
+            kb.add(types.InlineKeyboardButton(text=shield+'🛡Генератор щитов', callback_data='equipshield'))
+
+            kb.add(types.InlineKeyboardButton(text=medic+'⛑Медик', callback_data='equipmedic'))
+
+            kb.add(types.InlineKeyboardButton(text=liveful+'💙Живучий', callback_data='equipliveful'))
+
+            kb.add(types.InlineKeyboardButton(text=dvuzhil+'💪Стойкий', callback_data='equipdvuzhil'))
+
+            kb.add(types.InlineKeyboardButton(text=pricel+'🎯Прицел', callback_data='equippricel'))
+
+            kb.add(types.InlineKeyboardButton(text=cazn+'💥Ассасин', callback_data='equipcazn'))
+
+            kb.add(types.InlineKeyboardButton(text=berserk+'😡Берсерк', callback_data='equipberserk'))
+
+            kb.add(types.InlineKeyboardButton(text=zombie+'👹Зомби', callback_data='equipzombie'))
+
+            kb.add(types.InlineKeyboardButton(text=gipnoz+'👁Гипноз', callback_data='equipgipnoz'))
+
+            kb.add(types.InlineKeyboardButton(text=paukovod+'🕷Пауковод', callback_data='equippaukovod'))
+
+
+            kb.add(types.InlineKeyboardButton(text=vampire+'😈Вампир', callback_data='equipvampire'))
+
+            kb.add(types.InlineKeyboardButton(text=zeus+'🌩Зевс', callback_data='equipzeus'))
+
+            kb.add(types.InlineKeyboardButton(text=nindza+'💨Ниндзя', callback_data='equipnindza'))
+
+            kb.add(types.InlineKeyboardButton(text=bloodmage+'🔥Маг крови', callback_data='equipbloodmage'))
+            kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
+            bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
   else:
       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
             
@@ -3199,7 +3231,8 @@ def createbot(id):
               'identeficator':None,
               'takenmeteors':0,
               'takenmeteordmg':0,
-              'meteorraingames':0
+              'meteorraingames':0,
+              'dieturn':0
 }
 
 def dailybox():
