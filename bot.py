@@ -337,15 +337,15 @@ def weapon(m):
      if '🗡' in y['inventory'] or i['enableallweapons']==1:
         bow='✅'
      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
-     if '🔫' in y['inventory']
+     if '🔫' in y['inventory']:
          kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-     if '☄' in y['inventory'] 
+     if '☄' in y['inventory']: 
          kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
-     if '⚙' in y['inventory'] 
+     if '⚙' in y['inventory']: 
          kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
-     if '🗡' in y['inventory']
+     if '🗡' in y['inventory']:
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
-     if '🏹' in y['inventory'] 
+     if '🏹' in y['inventory']: 
          kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
      kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
