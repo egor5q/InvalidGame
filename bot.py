@@ -1609,6 +1609,7 @@ def dmgs(id):
                 games[id]['bots'][mob]['die']=1     
                 games[id]['bots'][mob]['energy']=0
                 text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                games[id]['bots'][mob]['dieturn']=games[id]['xod']
                 
     pauk=[]
     for mob in games[id]['bots']:
