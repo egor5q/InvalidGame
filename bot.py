@@ -374,8 +374,8 @@ def skins(m):
             kb.add(types.InlineKeyboardButton(text=oracle+'Оракул', callback_data='equiporacle'))
         if ids=='robot':
             kb.add(types.InlineKeyboardButton(text=robot+'Робот', callback_data='equiprobot'))
-      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
-      bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
+    kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
+    bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
   else:
        bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
 
