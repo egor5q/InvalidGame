@@ -114,7 +114,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.dieturn':0}})
+            users.update_many({}, {'$set':{'bot.deffromgun':0}})
             print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -1289,6 +1289,7 @@ def results(id):
   bot.send_message(id, games[id]['secondres'])
   die=0    
   games[id]['xod']+=1
+  games[id]['randomdmg']=0
   games[id]['summonlist']=[]
   for mobs in games[id]['bots']:
     player=games[id]['bots'][mobs]
@@ -1317,6 +1318,8 @@ def results(id):
     games[id]['bots'][mobs]['target']=None
     games[id]['bots'][mobs]['gipnoz']-=1
     games[id]['bots'][mobs]['mainskill']=[]
+    if games[id]['bots'][mobs]['deffromgun']>0:
+        games[id]['bots'][mobs]['deffromgun']-=1
     games[id]['bots'][mobs]['mainitem']=[]
     if games[id]['bots'][mobs]['heal']!=0:
         games[id]['bots'][mobs]['heal']-=1
@@ -2209,6 +2212,45 @@ def zombiechance(energy, target, x, id, bot1):
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=2
+        
+        
+        
+def chlenchance(energy, target, x, id, bot1):
+  if energy>=5:
+    chance=95
+  elif energy==4:
+    chance=84
+  elif energy==3:
+    chance=72
+  elif energy==2:
+    chance=60
+  elif energy==1:
+    chance=42
+  elif energy<=0:
+    chance=0
+  name=users.find_one({'id':bot1['id']})['bot']['name']
+  if (x+target['miss']-bot1['accuracy'])<=chance:
+          damage=random.randint(1,3)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
+              damage+=2
+          x=random.randint(1,100)
+          
+          gun=random.randint(1,100)
+          if gun<=12:
+               gun=1
+          else:
+               gun=0
+          if gun==1:
+              games[id]['randomdmg']=1
+              bot1['deffromgun']=1
+          games[id]['res']+=''+bot1['name']+' стреляет в '+target['name']+' из члена! Нанесено '+str(damage)+' Урона.\n'
+          target['takendmg']+=damage
+          bot1['energy']-=2
+        
+  else:
+        games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
+        bot1['energy']-=2
 
 
 
@@ -2948,7 +2990,8 @@ def creategame(id, special):
         'summonlist':[],
         'apocalypse':special,
         'mode':None,
-        'adminconnected':0
+        'adminconnected':0,
+        'randomdmg':0
         
              }
            }
@@ -3023,7 +3066,8 @@ def createbot(id):
               'takenmeteors':0,
               'takenmeteordmg':0,
               'meteorraingames':0,
-              'dieturn':0
+              'dieturn':0,
+              'deffromgun':0
 }
 
 def dailybox():
