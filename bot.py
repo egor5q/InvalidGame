@@ -1082,204 +1082,20 @@ def inline(call):
       medit('Меню закрыто.', call.message.chat.id, call.message.message_id)
 
         
-  elif 'equip' in call.data:
-    txt=call.data.split('equip')
-    x=users.find_one({'id':call.from_user.id})
-    if txt[1] in x['bot']['bought']:
-      if txt[1] not in x['bot']['skills']:
-        if len(x['bot']['skills'])<=1:
-          users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':txt[1]}})
-          bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "'+skilltoname(txt[1])+'"!')
-        else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-      else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':txt[1]}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Генератор щитов"!')
-    else:
-        bot.answer_callback_query(call.id, 'У вас нет этого скилла!')
-        
-  elif call.data=='equipshield':
-    x=users.find_one({'id':call.from_user.id})
-    if 'shieldgen' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'shieldgen'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Генератор щитов"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'shieldgen'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Генератор щитов"!')
-             
-  elif call.data=='equipmedic':
-    x=users.find_one({'id':call.from_user.id})
-    if 'medic' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'medic'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Медик"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'medic'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Медик"!')
-        
-  elif call.data=='equipliveful':
-    x=users.find_one({'id':call.from_user.id})
-    if 'liveful' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'liveful'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Живучий"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'liveful'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Живучий"!')
-        
-  elif call.data=='equipdvuzhil':
-    x=users.find_one({'id':call.from_user.id})
-    if 'dvuzhil' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'dvuzhil'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Стойкий"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'dvuzhil'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Стойкий"!')
-      
-  elif call.data=='equipnindza':
-    x=users.find_one({'id':call.from_user.id})
-    if 'nindza' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'nindza'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Ниндзя"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'nindza'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Ниндзя"!')
-        
-  elif call.data=='equippricel':
-    x=users.find_one({'id':call.from_user.id})
-    if 'pricel' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'pricel'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Прицел"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'pricel'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Прицел"!')
-        
-  elif call.data=='equipcazn':
-    x=users.find_one({'id':call.from_user.id})
-    if 'cazn' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'cazn'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Ассасин"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'cazn'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Ассасин"!')
-      
-  elif call.data=='equipzeus':
-    x=users.find_one({'id':call.from_user.id})
-    if 'zeus' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'zeus'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Зевс"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'zeus'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Зевс"!')
-        
-  elif call.data=='equipberserk':
-    x=users.find_one({'id':call.from_user.id})
-    if 'berserk' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'berserk'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Берсерк"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'berserk'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Берсерк"!')
-          
-      
-  elif call.data=='equipvampire':
-    x=users.find_one({'id':call.from_user.id})
-    if 'vampire' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'vampire'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Вампир"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'vampire'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Вампир"!')  
-      
-  elif call.data=='equipbloodmage':
-    x=users.find_one({'id':call.from_user.id})
-    if 'bloodmage' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'bloodmage'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Маг крови"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'bloodmage'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Маг крови"!')  
-    
-  elif call.data=='equipzombie':
-    x=users.find_one({'id':call.from_user.id})
-    if 'zombie' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'zombie'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Зомби"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'zombie'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Зомби"!')
-        
-  elif call.data=='equipgipnoz':
-    x=users.find_one({'id':call.from_user.id})
-    if 'gipnoz' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'gipnoz'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Гипноз"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'gipnoz'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Гипноз"!')
-        
-  elif call.data=='equippaukovod':
-    x=users.find_one({'id':call.from_user.id})
-    if 'paukovod' not in x['bot']['skills']:
-      if len(x['bot']['skills'])<=1:
-        users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':'paukovod'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "Пауковод"!')
-      else:
-          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
-    else:
-        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':'paukovod'}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Пауковод"!')
        
   elif call.data=='equiprock':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    #if '☄' in x['inventory']:
-    if y['bot']['weapon']==None:
+    if '☄' in x['inventory']:
+      if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'rock'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Камень"!')
-    elif y['bot']['weapon']=='rock':
+      elif y['bot']['weapon']=='rock':
           users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Камень"!')
-    else:
+      else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
-    #else:
+    else:
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
         
   elif call.data=='equiphand':
@@ -1297,7 +1113,7 @@ def inline(call):
   elif call.data=='equippistol':
       x=userstrug.find_one({'id':call.from_user.id})
       y=users.find_one({'id':call.from_user.id})
-    #if '🔫' in x['inventory']:
+    if '🔫' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'ak'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пистолет"!')
@@ -1306,13 +1122,13 @@ def inline(call):
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Пистолет"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
-    #else:
+    else:
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
         
   elif call.data=='equipsaw':
       x=userstrug.find_one({'id':call.from_user.id})
       y=users.find_one({'id':call.from_user.id})
-    #if '⚙' in x['inventory']:
+    if '⚙' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'saw'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пилострел"!')
@@ -1321,13 +1137,13 @@ def inline(call):
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Пилострел"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
-    #else:
+    else:
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
         
   elif call.data=='equipkinzhal':
       x=userstrug.find_one({'id':call.from_user.id})
       y=users.find_one({'id':call.from_user.id})
-    #if '🗡' in x['inventory']:
+    if '🗡' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'kinzhal'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Кинжал"!')
@@ -1336,14 +1152,14 @@ def inline(call):
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Кинжал"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
-    #else:
-    #    bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
+    else:
+        bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
          
          
   elif call.data=='equipbow':
       x=userstrug.find_one({'id':call.from_user.id})
       y=users.find_one({'id':call.from_user.id})
-    #if '🏹' in x['inventory']:
+    if '🏹' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'bow'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Лук"!')
@@ -1352,7 +1168,7 @@ def inline(call):
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Лук"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
-    #else:
+    else:
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
          
   elif call.data=='equipmagic':
@@ -1374,6 +1190,22 @@ def inline(call):
         bot.answer_callback_query(call.id, 'Вы успешно сняли оружие!')
       else:
         pass
+      
+  elif 'equip' in call.data:
+    txt=call.data.split('equip')
+    x=users.find_one({'id':call.from_user.id})
+    if txt[1] in x['bot']['bought']:
+      if txt[1] not in x['bot']['skills']:
+        if len(x['bot']['skills'])<=1:
+          users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':txt[1]}})
+          bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "'+skilltoname(txt[1])+'"!')
+        else:
+          bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
+      else:
+        users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':txt[1]}})
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Генератор щитов"!')
+    else:
+        bot.answer_callback_query(call.id, 'У вас нет этого скилла!')
            
   elif call.data=='buyjoin':
       y=users.find_one({'id':call.from_user.id})
