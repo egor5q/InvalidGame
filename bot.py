@@ -41,11 +41,14 @@ symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
 
 a=users.find({})
 for ids in a:
+  try:
     if ids['bot']['weapon']=='magic':
         ids['bot']['weapon']=None
         bot.send_message(ids['id'],'С вашего персонажа (и со всех остальных) была снята волшебная палочка!')
         print('snyal')
     print('yes')
+  except:
+    pass
 
 @bot.message_handler(commands=['referal'])
 def ref(m):
