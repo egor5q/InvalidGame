@@ -2296,7 +2296,10 @@ def yvorot(bot, id):
 
 def reload(bot2, id):
    bot2['energy']=bot2['maxenergy']
-   games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
+   if bot2['weapon']=='rock' or bot2['weapon']=='hand' or bot2['weapon']=='magic':
+        games[id]['res']+='😴'+bot2['name']+' Отдыхает. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
+   else:
+        games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
     
 def skill(bot,id):
   i=0
@@ -2481,7 +2484,7 @@ def actnumber(bot, id):
        else:
               enemy.append(games[id]['bots'][0])
   for mob in enemy:
-   if mob['energy']<=2 or mob['stun']>0 or mob['die']==1:
+   if mob['energy']<=2 or mob['stun']>0 or mob['die']==1 or (mob['weapon']=='bow' and mob['bowcharge']==0):  
     low+=1
   if low>=len(enemy):
    yvorot=0
