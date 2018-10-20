@@ -319,7 +319,6 @@ def createzombie(id):
 
 @bot.message_handler(commands=['weapons'])
 def weapon(m):
-  i=variables.find_one({'vars':'main'})
   if userstrug.find_one({'id':m.from_user.id}) is not None:
    try:
     if m.chat.id==m.from_user.id:
@@ -350,6 +349,8 @@ def weapon(m):
      kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
+   except:
+        pass
   else:
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton('👤❇️| Авторизоваться', url='t.me/TrugRuBot?start=switch_to_pm'))
