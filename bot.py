@@ -460,8 +460,8 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=nindza+'💨Ниндзя', callback_data='equipnindza'))
         if item=='bloodmage':
             kb.add(types.InlineKeyboardButton(text=bloodmage+'🔥Маг крови', callback_data='equipbloodmage'))
-     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
-     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
+    kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
+    bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
   else:
       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
             
