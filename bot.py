@@ -1111,8 +1111,8 @@ def inline(call):
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
         
   elif call.data=='equippistol':
-      x=userstrug.find_one({'id':call.from_user.id})
-      y=users.find_one({'id':call.from_user.id})
+    x=userstrug.find_one({'id':call.from_user.id})
+    y=users.find_one({'id':call.from_user.id})
     if '🔫' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'ak'}})
@@ -1126,8 +1126,8 @@ def inline(call):
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
         
   elif call.data=='equipsaw':
-      x=userstrug.find_one({'id':call.from_user.id})
-      y=users.find_one({'id':call.from_user.id})
+    x=userstrug.find_one({'id':call.from_user.id})
+    y=users.find_one({'id':call.from_user.id})
     if '⚙' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'saw'}})
@@ -1141,8 +1141,8 @@ def inline(call):
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
         
   elif call.data=='equipkinzhal':
-      x=userstrug.find_one({'id':call.from_user.id})
-      y=users.find_one({'id':call.from_user.id})
+    x=userstrug.find_one({'id':call.from_user.id})
+    y=users.find_one({'id':call.from_user.id})
     if '🗡' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'kinzhal'}})
@@ -1157,8 +1157,8 @@ def inline(call):
          
          
   elif call.data=='equipbow':
-      x=userstrug.find_one({'id':call.from_user.id})
-      y=users.find_one({'id':call.from_user.id})
+    x=userstrug.find_one({'id':call.from_user.id})
+    y=users.find_one({'id':call.from_user.id})
     if '🏹' in x['inventory']:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'bow'}})
