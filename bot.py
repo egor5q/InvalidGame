@@ -39,17 +39,6 @@ userstrug=db2.users
 symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
 
-a=users.find({})
-for ids in a:
-  try:
-    if ids['bot']['weapon']=='magic':
-        users.update_one({'id':ids['id']},{'$set':{'bot.weapon':None}})
-        bot.send_message(ids['id'],'С вашего персонажа (и со всех остальных) была снята волшебная палочка! Теперь точно!')
-        print('snyal')
-    print('yes')
-  except:
-    pass
-
 @bot.message_handler(commands=['referal'])
 def ref(m):
    bot.send_message(m.chat.id, 'Присоединяйся к игре CookieWars! Прокачай своего бойца, отправь в бой и наслаждайся тем, как он сам уничтожает соперника!\n'+
