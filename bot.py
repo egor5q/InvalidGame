@@ -43,8 +43,8 @@ a=users.find({})
 for ids in a:
   try:
     if ids['bot']['weapon']=='magic':
-        ids['bot']['weapon']=None
-        bot.send_message(ids['id'],'С вашего персонажа (и со всех остальных) была снята волшебная палочка!')
+        users.update_one({'id':ids['id']},{'$set':{'bot.weapon':None}})
+        bot.send_message(ids['id'],'С вашего персонажа (и со всех остальных) была снята волшебная палочка! Теперь точно!')
         print('snyal')
     print('yes')
   except:
@@ -1085,7 +1085,7 @@ def inline(call):
   elif 'equip' in call.data:
     txt=call.data.split('equip')
     x=users.find_one({'id':call.from_user.id})
-    if txt[1] in x['inventory']:
+    if txt[1] in x['bot']['bought']:
       if txt[1] not in x['bot']['skills']:
         if len(x['bot']['skills'])<=1:
           users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':txt[1]}})
