@@ -328,15 +328,15 @@ def weapon(m):
      y=userstrug.find_one({'id':m.from_user.id})
      x=users.find_one({'id':m.from_user.id})
      kb=types.InlineKeyboardMarkup()
-     if '🔫' in y['inventory'] or i['enableallweapons']==1:
+     if '🔫' in y['inventory']:
         pistol='✅'
-     if '☄' in y['inventory'] or i['enableallweapons']==1:
+     if '☄' in y['inventory']:
         rock='✅'
-     if '⚙' in y['inventory'] or i['enableallweapons']==1:
+     if '⚙' in y['inventory']:
         saw='✅'
-     if '🗡' in y['inventory'] or i['enableallweapons']==1:
+     if '🗡' in y['inventory']:
         kinzhal='✅'
-     if '🗡' in y['inventory'] or i['enableallweapons']==1:
+     if '🗡' in y['inventory']:
         bow='✅'
      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
      if '🔫' in y['inventory']:
@@ -368,9 +368,9 @@ def skins(m):
     kb=types.InlineKeyboardMarkup()
     oracle='☑️'
     robot='☑️'
-    if 'oracle' in x['bot']['skin'] or i['enableallweapons']==1:
+    if 'oracle' in x['bot']['skin']:
         oracle='✅'
-    if 'robot' in x['bot']['skin'] or i['enableallweapons']==1:
+    if 'robot' in x['bot']['skin']:
         robot='✅'
     for ids in x['bot']['bought']:
         if ids=='oracle':
