@@ -1391,6 +1391,7 @@ def results(id):
             p2=int(p2*0.60)
             txt+=ids['name']+': '+str(p2)+'❇️/⚛️\n'
             users.update_one({'id':ids['id']},{'$inc':{'cookie':p2}})
+            users.update_one({'id':ids['id']},{'$inc':{'bot.exp':p2}})
         if winner['id']!=0:
            prize1=150
            prize2=200
