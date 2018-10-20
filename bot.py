@@ -1372,6 +1372,23 @@ def results(id):
             for itemss in games[id]['bots'][ids]['skin']:
               if games[id]['bots'][ids]['id']!=winner['id']:
                 points+=2
+        dieturn=-1
+        place=[]
+        a=None
+        i=0
+        while i<6:
+          for ids in games[id]['bots']:
+              if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place:
+                  a=games[id]['bots'][ids]
+                  dieturn=games[id]['bots'][ids]['dieturn']
+          place.append(games[id]['bots'][ids])
+          i+=1
+        p2=points
+        txt='Награды для 2-7 мест (если такие имеются):\n'
+        for ids in place:
+            p2=int(p2*0.75)
+            txt+=ids['name']+': '+str(p2)+'❇️/⚛️\n'
+            users.update_one({'id':ids['id']},{'$inc':{'cookie':p2}})
         if winner['id']!=0:
            prize1=150
            prize2=200
@@ -1388,7 +1405,7 @@ def results(id):
              try:
               cookie=round(points*0.04, 0)
               cookie=int(cookie)
-              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
               try:
                bot.send_message(winner2['id'], '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
               except:
