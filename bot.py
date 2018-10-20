@@ -1381,12 +1381,12 @@ def results(id):
               if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place:
                   a=games[id]['bots'][ids]
                   dieturn=games[id]['bots'][ids]['dieturn']
-          place.append(games[id]['bots'][ids])
+          place.append(a)
           i+=1
         p2=points
         txt='Награды для 2-7 мест (если такие имеются):\n'
         for ids in place:
-            p2=int(p2*0.75)
+            p2=int(p2*0.60)
             txt+=ids['name']+': '+str(p2)+'❇️/⚛️\n'
             users.update_one({'id':ids['id']},{'$inc':{'cookie':p2}})
         if winner['id']!=0:
@@ -2792,7 +2792,6 @@ def begingame(id):
  if games[id]['started2']!=1:
     try:
       games[id]['timer'].cancel()
-      del games[id]['timer']
       print('timer cancelled')
     except:
       pass
