@@ -1361,11 +1361,11 @@ def results(id):
             for itemss in games[id]['bots'][ids]['skin']:
               if games[id]['bots'][ids]['id']!=winner['id']:
                 points+=2
-        dieturn=-1
         place=[]
         a=None
         i=0
         while i<6:
+          dieturn=-1
           a=None
           for ids in games[id]['bots']:
               if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place:
