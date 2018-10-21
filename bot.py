@@ -2267,7 +2267,7 @@ def chlenchance(energy, target, x, id, bot1):
   elif energy==4:
     chance=83
   elif energy==3:
-    chance=72
+    chance=71
   elif energy==2:
     chance=60
   elif energy==1:
@@ -2288,7 +2288,7 @@ def chlenchance(energy, target, x, id, bot1):
         bot1['target']=None
         bot1['energy']-=2
   gun=random.randint(1,100)
-  if gun<=15:
+  if gun<=20:
       gun=1
   else:
       gun=0
