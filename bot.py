@@ -338,6 +338,8 @@ def weapon(m):
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
      if '🏹' in y['inventory']: 
          kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
+     if x['id']==60727377:
+         kb.add(types.InlineKeyboardButton(text='Флюгегенхаймен', callback_data='equipchlen'))
      kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
@@ -1159,6 +1161,19 @@ def inline(call):
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
     else:
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
+        
+  elif call.data=='equipchlen':
+    x=userstrug.find_one({'id':call.from_user.id})
+    y=users.find_one({'id':call.from_user.id})
+    if call.from_user.id==60727377:
+      if y['bot']['weapon']==None:
+        users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'chlen'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Флюгегенхаймен"!')
+      elif y['bot']['weapon']=='ak':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
+          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Флюгегенхаймен"!')
+      else:
+        bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
          
   elif call.data=='equipmagic':
         bot.answer_callback_query(call.id, 'Багоюзы запрещены!)')
@@ -1561,7 +1576,7 @@ def dmgs(id):
             text+='🆘'+trgt['name']+' получает метеор в ебало на '+str(meteordmg)+' урона!\n'
             trgt['takenmeteordmg']+=meteordmg
             trgt['takenmeteors']+=1
-            
+    
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['boundwith']!=None:
           if games[id]['bots'][ids]['boundacted']==0:
@@ -1584,8 +1599,25 @@ def dmgs(id):
         if games[id]['bots'][ids]['currentarmor']>0:
             text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
         games[id]['bots'][ids]['allrounddmg']+=games[id]['bots'][ids]['takendmg']
-        if games[id]['bots'][ids]['takendmg']>c:
+        if games[id]['randomdmg']!=1:
+          if games[id]['bots'][ids]['takendmg']>c:
             c=games[id]['bots'][ids]['takendmg']
+    if games[id]['randomdmg']==1:
+        alldmg=0
+        for ids in games[id]['bots']:
+            alldmg+=games[id]['bots'][ids]['takendmg']
+            games[id]['bots'][ids]['takendmg']=0
+        allenemy=[]
+        for ids in games[id]['bots']:
+            if games[id]['bots'][ids]['id']!=60727377:
+                allenemy.append(games[id]['bots'][ids])
+        while alldmg>0:
+            x=random.choice(allenemy)
+            x['takendmg']+=1
+            alldmg-=1
+        for ids in allenemy:
+            text+='☢'+ids['name']+' получает '+str(ids['takendmg'])+' урона!\n'
+            
     for mob in games[id]['bots']:
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
@@ -2217,9 +2249,9 @@ def zombiechance(energy, target, x, id, bot1):
         
 def chlenchance(energy, target, x, id, bot1):
   if energy>=5:
-    chance=95
+    chance=94
   elif energy==4:
-    chance=84
+    chance=83
   elif energy==3:
     chance=72
   elif energy==2:
@@ -2230,20 +2262,20 @@ def chlenchance(energy, target, x, id, bot1):
     chance=0
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=random.randint(1,3)
+          damage=random.randint(1,4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
-          x=random.randint(1,100)
-          
           gun=random.randint(1,100)
-          if gun<=12:
+          if gun<=13:
                gun=1
           else:
                gun=0
+          games[id]['res']+='🔯'+bot1['name']+' стреляет в '+target['name']+' из флюгегенхаймена! Нанесено '+str(damage)+' Урона.\n'
           if gun==1:
               games[id]['randomdmg']=1
               bot1['deffromgun']=1
-          games[id]['res']+=''+bot1['name']+' стреляет в '+target['name']+' из члена! Нанесено '+str(damage)+' Урона.\n'
+              games[id]['res']+='☢'+bot1['name']+' открыл слишком много порталов! Весь нанесённый в раунде урон будет случайно распределён между '+\
+            'его соперниками!\n'
           target['takendmg']+=damage
           bot1['energy']-=2
         
@@ -2311,6 +2343,9 @@ def attack(bot, id):
       
   elif bot['weapon']=='kinzhal':
     kinzhalchance(bot['energy'], target, x, id, bot)
+    
+  elif bot['weapon']=='chlen':
+    chlenchance(bot['energy'], target, x, id, bot)
 
   elif bot['weapon']=='light':
     lightchance(bot['energy'], target, x, id, bot)
