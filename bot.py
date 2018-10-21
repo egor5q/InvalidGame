@@ -2265,11 +2265,6 @@ def chlenchance(energy, target, x, id, bot1):
           damage=random.randint(1,4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
-          gun=random.randint(1,100)
-          if gun<=13:
-               gun=1
-          else:
-               gun=0
           games[id]['res']+='🔯'+bot1['name']+' стреляет в '+target['name']+' из флюгегенхаймена! Нанесено '+str(damage)+' Урона.\n'
           if gun==1:
               games[id]['randomdmg']=1
@@ -2283,6 +2278,16 @@ def chlenchance(energy, target, x, id, bot1):
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=2
+  gun=random.randint(1,100)
+  if gun<=100:
+      gun=1
+  else:
+      gun=0
+  if gun==1:
+          games[id]['randomdmg']=1
+          bot1['deffromgun']=1
+          games[id]['res']+='☢'+bot1['name']+' открыл слишком много порталов! Весь нанесённый в раунде урон будет случайно распределён между '+\
+        'его соперниками!\n'
 
 
 
