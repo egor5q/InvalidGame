@@ -1617,8 +1617,9 @@ def dmgs(id):
             if games[id]['bots'][ids]['deffromgun']!=1 and games[id]['bots'][ids]['die']!=1:
                 allenemy.append(games[id]['bots'][ids])
         if len(allenemy)>0:
+          x=random.choice(allenemy)
           while alldmg>0:
-            x=random.choice(allenemy)
+            
             x['takendmg']+=1
             alldmg-=1
           for ids in allenemy:
@@ -2294,8 +2295,8 @@ def chlenchance(energy, target, x, id, bot1):
   if gun==1:
           games[id]['randomdmg']=1
           bot1['deffromgun']=1
-          games[id]['res']+='☢'+bot1['name']+' открыл слишком много порталов! Весь нанесённый в раунде урон будет случайно распределён между '+\
-        'его соперниками!\n'
+          games[id]['res']+='☢'+bot1['name']+' открыл слишком много порталов! Весь нанесённый в раунде урон будет перенаправлен в его случайного '+\
+        'соперника!\n'
 
 
 
