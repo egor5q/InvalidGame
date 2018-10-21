@@ -1261,18 +1261,18 @@ def giveitems(game):
 
                    
 def battle(id):  
- try:
+ #try:
   for bots in games[id]['bots']:
    if games[id]['bots'][bots]['die']!=1:
     if games[id]['bots'][bots]['stun']<=0:
      games[id]['bots'][bots][act(bots, id)]=1
   results(id)
- except:
-    try:
-      bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
-      del games[id]
-    except:
-        pass
+ #except:
+ #   try:
+ #     bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
+ #     del games[id]
+ #   except:
+ #       pass
     
 def results(id):           
   for bots in games[id]['bots']:
