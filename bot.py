@@ -1618,6 +1618,10 @@ def dmgs(id):
         for ids in allenemy:
             text+='☢'+ids['name']+' получает '+str(ids['takendmg'])+' урона!\n'
             
+    for ids in games[id]['bots']:
+        if games[id]['bots'][ids]['takendmg']>c:
+            c=games[id]['bots'][ids]['takendmg']
+            
     for mob in games[id]['bots']:
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
