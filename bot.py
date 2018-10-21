@@ -1609,14 +1609,17 @@ def dmgs(id):
             games[id]['bots'][ids]['takendmg']=0
         allenemy=[]
         for ids in games[id]['bots']:
-            if games[id]['bots'][ids]['id']!=60727377:
+            if games[id]['bots'][ids]['deffromgun']!=1:
                 allenemy.append(games[id]['bots'][ids])
-        while alldmg>0:
+        if len(allenemy)>0:
+          while alldmg>0:
             x=random.choice(allenemy)
             x['takendmg']+=1
             alldmg-=1
-        for ids in allenemy:
+          for ids in allenemy:
             text+='☢'+ids['name']+' получает '+str(ids['takendmg'])+' урона!\n'
+        else:
+           text+='Так как Алиса и Сергей применили пушку одновременно, никто из них не получает урона, пиздец.\n'
             
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['takendmg']>c:
