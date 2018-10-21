@@ -230,7 +230,8 @@ def createpauk(id):
               'weapons':['hand'],
               'animal':None,
               'allrounddmg':0,
-              'deffromgun':0
+              'deffromgun':0,
+              'dieturn':0
                      }
           }
 
@@ -297,7 +298,8 @@ def createzombie(id):
               'animal':None,
               'allrounddmg':0,
               'identeficator':x,
-              'deffromgun':0
+              'deffromgun':0,
+              'dieturn':0
                
                      }
           }
