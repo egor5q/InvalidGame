@@ -1386,7 +1386,7 @@ def results(id):
           dieturn=-1
           a=None
           for ids in games[id]['bots']:
-              if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place:
+              if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place and games['id']['bots'][ids]['id']!=winner['id']:
                   a=games[id]['bots'][ids]
                   dieturn=games[id]['bots'][ids]['dieturn']
           if a!=None:
