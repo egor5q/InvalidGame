@@ -1261,18 +1261,18 @@ def giveitems(game):
 
                    
 def battle(id):  
- #try:
+ try:
   for bots in games[id]['bots']:
    if games[id]['bots'][bots]['die']!=1:
     if games[id]['bots'][bots]['stun']<=0:
      games[id]['bots'][bots][act(bots, id)]=1
   results(id)
- #except:
- #   try:
- #     bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
- #     del games[id]
- #   except:
- #       pass
+ except:
+    try:
+      bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
+      del games[id]
+    except:
+        pass
     
 def results(id):           
   for bots in games[id]['bots']:
@@ -2281,7 +2281,7 @@ def chlenchance(energy, target, x, id, bot1):
         bot1['target']=None
         bot1['energy']-=2
   gun=random.randint(1,100)
-  if gun<=100:
+  if gun<=15:
       gun=1
   else:
       gun=0
