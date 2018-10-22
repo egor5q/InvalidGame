@@ -2907,6 +2907,8 @@ def begingame(id):
             b=int(games[id]['bots'][ids]['hp']/2)
             games[id]['bots'][ids]['hp']-=b
             createlist.append(games[id]['bots'][ids]['id'])
+        if 'mage' in games[id]['bots'][ids]['skills']:
+            games[id]['bots'][ids]['weapon']='magic'
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
@@ -3007,6 +3009,10 @@ def skilltoname(x):
        return 'Ниндзя'
     elif x=='bloodmage':
        return 'Маг крови'
+    elif x=='double':
+       return 'Раздвоение'
+    elif x=='mage':
+       return 'Колдун'
 
  
 def createbott(id, y):
