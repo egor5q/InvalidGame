@@ -2409,7 +2409,7 @@ def skill(bot,id):
        elif 'gipnoz' in bot['mainskill']:
         zz=[]
         for ii in games[id]['bots']:
-              if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']==0 and games[id]['bots'][ii]['id']!=bot['id']:
+              if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']==0 and games[id]['bots'][ii]['id']!=bot['id'] and ((games[id]['bots'][ii]['weapon']=='bow' and games[id]['bots'][ii]['bowcharge']==1) or games[id]['bots'][ii]['weapon']!='bow'):
                   zz.append(games[id]['bots'][ii])
         if len(zz)>0:
           x=random.choice(zz)
