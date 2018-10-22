@@ -243,13 +243,13 @@ def randomgen(id):
         text+=random.choice(symbollist)
         i+=1
     no=0
-    #for ids in games[id]['bots']:
-    #    if games[id]['bots']['identeficator']==text:
-    #        no=1
-    #if no==0:
-    return text
-    #else:
-    #    return randomgen(id)
+    for ids in games[id]['bots']:
+        if games[id]['bots']['identeficator']==text:
+            no=1
+    if no==0:
+        return text
+    else:
+        return randomgen(id)
 
 def createzombie(id):
     x=randomgen(id)
@@ -2891,7 +2891,8 @@ def begingame(id):
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['takenmeteors']=0
         games[id]['bots'][ids]['takenmeteordmg']=0
-        games[id]['bots'][ids]['meteorraingames']=0                                                                 
+        games[id]['bots'][ids]['meteorraingames']=0  
+    createlist=[]
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['weapon']==None:
             games[id]['bots'][ids]['weapon']='hand'
@@ -2902,6 +2903,10 @@ def begingame(id):
                 yes=1  
         if yes==1:
               games[id]['bots'][ids]['skills'].append('active')
+        if 'double' in games[id]['bots'][ids]['skills']:
+            b=int(games[id]['bots'][ids]['hp']/2)
+            games[id]['bots'][ids]['hp']-=b
+            createlist.append(games[id]['bots'][ids]['id'])
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
@@ -2920,7 +2925,13 @@ def begingame(id):
         if 'robot' in games[id]['bots'][ids]['skin']:
             games[id]['bots'][ids]['maxenergy']+=1
     text=''
-    
+    text2=''
+    for ids in createlist:
+        rnd=randomgen(id)
+        games[id]['bots'].update(createbott(rnd, games[id]['bots'][ids]))
+        games[id]['bots'][rnd]['name']+='[Двойник]'
+        games[id]['bots'][rnd]['identeficator']=rnd
+        text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
     for ids in games[id]['bots']: 
         randomm=0
         text+=games[id]['bots'][ids]['name']+':\n'
@@ -2948,6 +2959,8 @@ def begingame(id):
             tt2+='Волшебная палочка бойца '+games[id]['bots'][ids]['name']+' превращает его в случайное существо: '+animalname+'!\n\n'
     if tt2!='':
       bot.send_message(id, tt2)
+    if text2!='':
+        bot.send_message(id, text2)
     giveitems(games[id])
     games[id]['started2']=1
     battle(id)
@@ -3116,7 +3129,7 @@ def createbot(id):
               'takenmeteordmg':0,
               'meteorraingames':0,
               'dieturn':0,
-              'deffromgun':0
+              'deffromgun':0,
 }
 
 def dailybox():
