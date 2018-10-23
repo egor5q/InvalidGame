@@ -114,11 +114,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.magicshield':0}})
-            users.update_many({}, {'$set':{'bot.magicshieldkd':0}})
-            users.update_many({}, {'$set':{'bot.firearmor':0}})
-            users.update_many({}, {'$set':{'bot.firearmorkd':0}})
-            users.update_many({}, {'$set':{'bot.fire':0}})
+            users.update_many({}, {'$set':{'bot.summonmonster':[]}})
             print('yes')
             
 @bot.message_handler(commands=['massbattle'])
