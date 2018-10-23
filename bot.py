@@ -811,7 +811,7 @@ def inline(call):
         kb.add(types.InlineKeyboardButton(text=mage+'🔥Повелитель огня', callback_data='firemage'))
         kb.add(types.InlineKeyboardButton(text=necromant+'🖤Некромант', callback_data='necromant'))
         kb.add(types.InlineKeyboardButton(text=magictitan+'🔵Магический титан', callback_data='magictitan'))
-        medit('Ветка: вампиризм', call.message.chat.id, call.message.message_id, reply_markup=kb)
+        medit('Ветка: магия', call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
        kb=types.InlineKeyboardMarkup()
