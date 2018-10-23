@@ -3216,7 +3216,9 @@ def begingame(id):
             games[id]['bots'][ids]['maxenergy']+=1
     text=''
     text2=''
+    print(createlist)
     for ids in createlist:
+        print('cycle2')
         rnd=randomgen(id)
         games[id]['bots'].update(createbott(rnd, games[id]['bots'][ids]))
         games[id]['bots'][rnd]['name']+='[Двойник]'
