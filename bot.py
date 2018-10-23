@@ -301,8 +301,11 @@ def randomgen(id):
         i+=1
     no=0
     for ids in games[id]['bots']:
+      try:
         if games[id]['bots']['identeficator']==text:
             no=1
+      except:
+         pass
     if no==0:
         return text
     else:
