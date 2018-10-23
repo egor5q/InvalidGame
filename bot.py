@@ -2043,7 +2043,7 @@ def dmgs(id):
          games[id]['bots'].update(createzombie(ids[1]))
     for ids in monsters:
          player=games[id]['bots'][ids]
-         games[id]['bots'].update(createmonster(player['weapon'],player['summonmonster'][1]))
+         games[id]['bots'].update(createmonster(player['id'],player['weapon'],player['summonmonster'][1]))
          text+='👁Некромант '+player['name']+' призывает монстра! Его жизни: '+'🖤'*player['summonmonster'][1]+str(player['summonmonster'][1])+'!\n'
     games[id]['secondres']='Эффекты:\n'+text
    
