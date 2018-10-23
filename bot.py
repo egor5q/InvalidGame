@@ -1556,6 +1556,7 @@ def results(id):
     games[id]['bots'][mobs]['yvorot']=0 
     games[id]['bots'][mobs]['reload']=0 
     games[id]['bots'][mobs]['item']=0
+    games[id]['bots'][mobs]['firearmor']=0
     games[id]['bots'][mobs]['miss']=0  
     if 'nindza' in games[id]['bots'][mobs]['skills']:
       games[id]['bots'][mobs]['miss']=20
@@ -1830,7 +1831,7 @@ def dmgs(id):
             games[id]['bots'][ids]['fire']-=1
             games[id]['bots'][ids]['takendmg']+=1
             games[id]['bots'][ids]['energy']-=1
-            text+='🔥'+games[id]['bots'][ids]['name']+' горит! Получает 1 урона и теряет 1 энергии.'
+            text+='🔥'+games[id]['bots'][ids]['name']+' горит! Получает 1 урона и теряет 1 энергии.\n'
         if games[id]['bots'][ids]['boundwith']!=None:
           if games[id]['bots'][ids]['boundacted']==0:
             games[id]['bots'][ids]['boundwith']['boundacted']=1
@@ -2283,6 +2284,7 @@ def bowchance(energy, target, x, id, bot1):
         bot1['energy']-=6
     else:
       bot1['bowcharge']=1
+      bot1['target']=None
       games[id]['res']+='🏹'+bot1['name']+' Натягивает тетиву лука!\n'
                 
              
