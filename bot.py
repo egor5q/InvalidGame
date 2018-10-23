@@ -1887,8 +1887,8 @@ def dmgs(id):
           if games[id]['bots'][mob]['magicshieldkd']>0:
             games[id]['bots'][mob]['magicshieldkd']-=1
             if games[id]['bots'][mob]['magicshieldkd']==0:
-                games[id]['bots'][mob]['magicshield']=8
-                text+='🔵Магический титан '+games[id]['bots'][mob]['name']+'восстановил ману. Он приходит в себя.\n'
+                games[id]['bots'][mob]['magicshield']=6
+                text+='🔵Магический титан '+games[id]['bots'][mob]['name']+' восстановил ману. Он приходит в себя.\n'
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
             text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.\n'
@@ -3194,7 +3194,7 @@ def begingame(id):
         if 'mage' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['weapon']='magic'
         if 'magictitan' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['magicshield']=8
+            games[id]['bots'][ids]['magicshield']=6
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
