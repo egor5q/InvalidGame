@@ -1395,6 +1395,8 @@ def results(id):
     if games[id]['bots'][mobs]['boundtime']==0:
         games[id]['bots'][mobs]['boundwith']=None
     games[id]['bots'][mobs]['takendmg']=0
+    if 'firemage' in games[id]['bots'][mobs]['skills']:
+        games[id]['bots'][mobs]['firearmorkd']-=1
     games[id]['bots'][mobs]['yvorotkd']-=1
     games[id]['bots'][mobs]['shield']-=1
     games[id]['bots'][mobs]['shieldgen']-=1
@@ -2519,7 +2521,7 @@ def skill(bot,id):
         else:
            bot.send_message(id, '@Loshadkin, баг с гипнозом, приди!')
        elif 'firemage' in bot['mainskill']:
-           bot['firearmorkd']=9
+           bot['firearmorkd']=8
            bot['firearmor']=1
            games[id]['res']+='Повелитель огня '+bot['name']+' использует огненный щит, блокируя 50% входящего урона! Все атаковавшие его соперники загораются!\n'
        target=x
