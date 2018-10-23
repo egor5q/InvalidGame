@@ -1494,11 +1494,11 @@ def battle(id):
  #try:
   print('2')
   print(games[id]['bots'])
-  for botss in games[id]['bots']:
-   print('botid '+games[id]['bots'][botss]['id'])
-   if games[id]['bots'][botss]['die']!=1:
-    if games[id]['bots'][botss]['stun']<=0 and games[id]['bots'][botss]['magicshieldkd']<=0:
-     games[id]['bots'][botss][act(botss, id)]=1
+  for wtf in games[id]['bots']:
+   print('botid '+games[id]['bots'][wtff]['id'])
+   if games[id]['bots'][wtf]['die']!=1:
+    if games[id]['bots'][wtf]['stun']<=0 and games[id]['bots'][wtf]['magicshieldkd']<=0:
+     games[id]['bots'][wtf][act(wtf, id)]=1
   results(id)
 # except:
 #    try:
