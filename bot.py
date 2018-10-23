@@ -2213,7 +2213,7 @@ def kinzhalchance(energy, target, x, id, bot1):
     chance=40
   elif energy==1:
     chance=25
-  elif energy==0:
+  elif energy<=0:
     chance=0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
