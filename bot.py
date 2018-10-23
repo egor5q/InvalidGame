@@ -1493,6 +1493,7 @@ def giveitems(game):
 def battle(id):  
  #try:
   print('2')
+  print(games[id]['bots'])
   for bots in games[id]['bots']:
    print('botid '+games[id]['bots'][bots]['id'])
    if games[id]['bots'][bots]['die']!=1:
