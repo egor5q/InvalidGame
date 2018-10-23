@@ -1318,7 +1318,7 @@ def results(id):
     games[id]['bots'][mobs]['yvorot']=0 
     games[id]['bots'][mobs]['reload']=0 
     games[id]['bots'][mobs]['item']=0
-    games[id]['bots'][mobs]['miss']=0
+    games[id]['bots'][mobs]['miss']=0  
     if 'nindza' in games[id]['bots'][mobs]['skills']:
       games[id]['bots'][mobs]['miss']=20
     games[id]['bots'][mobs]['skill']=0
@@ -1603,6 +1603,17 @@ def dmgs(id):
         games[id]['bots'][ids]['takendmg']-=games[id]['bots'][ids]['currentarmor']
         if games[id]['bots'][ids]['currentarmor']>0:
             text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
+        if 'magictitan' in games[id]['bots'][ids]['skills']:
+          if games[id]['bots'][ids]['magicshield']>0:
+            a=games[id]['bots'][ids]['takendmg']
+            if a>games[id]['bots'][ids]['magicshield']:
+                a=games[id]['bots'][ids]['magicshield']
+            games[id]['bots'][ids]['magicshield']-=a
+            games[id]['bots'][ids]['takendmg']-=a
+            text+='🔵Магический титан '+games[id]['bots'][ids]['name']+' блокирует '+str(a)+' урона!\n'
+            if games[id]['bots'][ids]['magicshield']<=0:
+                games[id]['bots'][ids]['magicshieldkd']=5
+                text+='🔴Его мана закончилась. Он получает оглушение и становится уязвим на '+str(games[id]['bots'][ids]['magicshieldkd']-1)+' хода!\n'
         games[id]['bots'][ids]['allrounddmg']+=games[id]['bots'][ids]['takendmg']
         if games[id]['randomdmg']!=1:
           if games[id]['bots'][ids]['takendmg']>c:
@@ -1633,6 +1644,12 @@ def dmgs(id):
             c=games[id]['bots'][ids]['takendmg']
             
     for mob in games[id]['bots']:
+        if 'magictitan' in games[id]['bots'][mob]['skills']:
+          if games[id]['bots'][mob]['magicshieldkd']>0:
+            games[id]['bots'][mob]['magicshieldkd']-=1
+            if games[id]['bots'][mob]['magicshieldkd']==0:
+                games[id]['bots'][mob]['magicshield']=8
+                text+='🔵Магический титан '+games[id]['bots'][mob]['name']+'восстановил ману. Он приходит в себя.\n'
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
             text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.\n'
@@ -2909,6 +2926,8 @@ def begingame(id):
             createlist.append(games[id]['bots'][ids]['id'])
         if 'mage' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['weapon']='magic'
+        if 'magictitan' in games[id]['bots'][ids]['skills']:
+            games[id]['bots'][ids]['magicshield']=8
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
@@ -3013,6 +3032,8 @@ def skilltoname(x):
        return 'Раздвоение'
     elif x=='mage':
        return 'Колдун'
+    elif x=='magictitan':
+       return 'Магический титан
 
  
 def createbott(id, y):
@@ -3136,6 +3157,8 @@ def createbot(id):
               'meteorraingames':0,
               'dieturn':0,
               'deffromgun':0,
+              'magicshield':0,
+              'magicshieldkd':0
 }
 
 def dailybox():
