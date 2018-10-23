@@ -1493,6 +1493,7 @@ def giveitems(game):
 def battle(id):  
  #try:
   for bots in games[id]['bots']:
+   print('botid '+games[id]['bots'][bots]['id'])
    if games[id]['bots'][bots]['die']!=1:
     if games[id]['bots'][bots]['stun']<=0:
      games[id]['bots'][bots][act(bots, id)]=1
@@ -3250,6 +3251,7 @@ def begingame(id):
         bot.send_message(id, text2)
     giveitems(games[id])
     games[id]['started2']=1
+    print('1')
     battle(id)
  else:
    pass
