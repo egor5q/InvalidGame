@@ -3298,7 +3298,7 @@ def skilltoname(x):
     elif x=='mage':
        return 'Колдун'
     elif x=='magictitan':
-       return 'Магический титан
+       return 'Магический титан'
     elif x=='firemage':
        return 'Повелитель огня'
     elif x=='necromant':
