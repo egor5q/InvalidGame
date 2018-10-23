@@ -1848,7 +1848,8 @@ def dmgs(id):
                 a=games[id]['bots'][ids]['magicshield']
             games[id]['bots'][ids]['magicshield']-=a
             games[id]['bots'][ids]['takendmg']-=a
-            text+='🔵Магический титан '+games[id]['bots'][ids]['name']+' блокирует '+str(a)+' урона!\n'
+            if a>0:
+               text+='🔵Магический титан '+games[id]['bots'][ids]['name']+' блокирует '+str(a)+' урона!\n'
             if games[id]['bots'][ids]['magicshield']<=0:
                 games[id]['bots'][ids]['magicshieldkd']=5
                 text+='🔴Его мана закончилась. Он получает оглушение и становится уязвим на '+str(games[id]['bots'][ids]['magicshieldkd']-1)+' хода!\n'
