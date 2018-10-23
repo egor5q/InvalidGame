@@ -118,6 +118,7 @@ def upd(m):
             users.update_many({}, {'$set':{'bot.magicshieldkd':0}})
             users.update_many({}, {'$set':{'bot.firearmor':0}})
             users.update_many({}, {'$set':{'bot.firearmorkd':0}})
+            users.update_many({}, {'$set':{'bot.fire':0}})
             print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -237,6 +238,63 @@ def createpauk(id):
               'dieturn':0
                      }
           }
+   
+   
+def createmonster(id,weapon,hp):
+    for ids in games:
+         if id in games[ids]['bots']:
+            id2=games[ids]['chatid']
+    x=randomgen(id2)
+    t=users.find_one({'id':id})
+    text='['+t['bot']['name']+']'
+    return{x:{'name': 'Кошмарное слияние'+text,
+              'weapon':weapon,
+              'skills':[],
+              'team':None,
+              'hp':hp,
+              'identeficator':None,
+              'maxenergy':5,
+              'energy':5,
+              'items':[],           
+              'attack':0,
+              'yvorot':0,
+              'reload':0,
+              'skill':0,
+              'item':0,
+              'miss':0,
+              'shield':0,
+              'stun':0,
+              'takendmg':0,
+              'die':0,
+              'yvorotkd':0,
+              'id':id,
+              'blood':0,
+              'bought':[],
+              'accuracy':0,
+              'damagelimit':6,
+              'zombie':0,
+              'heal':0,
+              'shieldgen':0,
+              'skin':[],
+              'oracle':1,
+              'target':None,
+              'exp':0,
+              'gipnoz':0,
+              'maxhp':hp,
+              'currentarmor':0,
+              'armorturns':0,
+              'boundwith':None,
+              'boundtime':0,
+              'boundacted':0,
+              'weapons':['hand'],
+              'animal':None,
+              'allrounddmg':0,
+              'deffromgun':0,
+              'dieturn':0
+                     }
+          }
+   
+   
 
 def randomgen(id):
     i=0
@@ -255,7 +313,10 @@ def randomgen(id):
         return randomgen(id)
 
 def createzombie(id):
-    x=randomgen(id)
+    for ids in games:
+         if id in games[ids]['bots']:
+            id2=games[ids]['chatid']
+    x=randomgen(id2)
     t=users.find_one({'id':id})
     text='['+t['bot']['name']+']'
     return{x:{'name': 'Зомби'+text,
@@ -1586,6 +1647,14 @@ def dmgs(id):
             trgt['takenmeteors']+=1
     
     for ids in games[id]['bots']:
+        if games[id]['bots'][ids]['target']!=None:
+            if games[id]['bots'][ids]['target']['firearmor']==1:
+                games[id]['bots'][ids]['fire']=2
+        if games[id]['bots'][ids]['fire']>0:
+            games[id]['bots'][ids]['fire']-=1
+            games[id]['bots'][ids]['takendmg']+=1
+            games[id]['bots'][ids]['energy']-=1
+            text+='🔥'+games[id]['bots'][ids]['name']+' горит! Получает 1 урона и теряет 1 энергии.'
         if games[id]['bots'][ids]['boundwith']!=None:
           if games[id]['bots'][ids]['boundacted']==0:
             games[id]['bots'][ids]['boundwith']['boundacted']=1
@@ -1604,6 +1673,8 @@ def dmgs(id):
                 text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(tdg1)+\
                 ' дополнительного урона!\n' 
         games[id]['bots'][ids]['takendmg']-=games[id]['bots'][ids]['currentarmor']
+        if games[id]['bots'][ids]['firearmor']==1:
+            games[id]['bots'][ids]['takendmg']=int(games[id]['bots'][ids]['takendmg']/2)
         if games[id]['bots'][ids]['currentarmor']>0:
             text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
         if 'magictitan' in games[id]['bots'][ids]['skills']:
@@ -1690,6 +1761,7 @@ def dmgs(id):
                 games[id]['bots'][mob]['dieturn']=games[id]['xod']
                 
     pauk=[]
+    monsters=[]
     for mob in games[id]['bots']:
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
@@ -1726,7 +1798,11 @@ def dmgs(id):
          elif games[id]['bots'][mob]['id']==256659642:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+pop*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
          else:
-            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'            
+            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
+         for idss in games[id]['bots']:
+            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills']:
+               games[id]['bots'][idss]['summonmonster'][1]+=a
+               text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
        else:
            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        if games[id]['bots'][mob]['hp']==1 and 'berserk' in games[id]['bots'][mob]['skills']:
@@ -1736,6 +1812,8 @@ def dmgs(id):
              if games[id]['bots'][mob]['die']!=1:
               if 'bloodmage' not in games[id]['bots'][mob]['skills']:
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                  if 'necromant' in games[id]['bots'][mob]['skills']:
+                     monsters.append(games[id]['bots'][mob]['id'])
                   games[id]['bots'][mob]['dieturn']=games[id]['xod']
               else:
                  randd=random.randint(1,100)
@@ -1798,6 +1876,10 @@ def dmgs(id):
     for ids in games[id]['summonlist']:
       if ids[0]=='pig':
          games[id]['bots'].update(createzombie(ids[1]))
+    for ids in monsters:
+         player=games[id]['bots'][ids]
+         games[id]['bots'].update(createmonster(player['weapon'],player['summonmonster'][1]))
+         text+='👁Некромант '+player['name']+' призывает монстра! Его жизни: '+'🖤'*player['summonmonster'][1]+str(player['summonmonster'][1])+'!\n'
     games[id]['secondres']='Эффекты:\n'+text
    
     
@@ -2436,8 +2518,12 @@ def skill(bot,id):
           
         else:
            bot.send_message(id, '@Loshadkin, баг с гипнозом, приди!')
-
+       elif 'firemage' in bot['mainskill']:
+           bot['firearmorkd']=9
+           bot['firearmor']=1
+           games[id]['res']+='Повелитель огня '+bot['name']+' использует огненный щит, блокируя 50% входящего урона! Все атаковавшие его соперники загораются!\n'
        target=x
+       
    
   else:    
     target=games[id]['bots'][0]
@@ -2466,6 +2552,9 @@ def skill(bot,id):
              bot['energy']-=1
              bot['gipnoz']=6
              i=1
+                
+  elif choice=='firemage':
+        pass
               
             
                        
@@ -2616,6 +2705,15 @@ def actnumber(bot, id):
         
   x=random.randint(1,100)
   if len(npc['skills'])>0 and 'active' in npc['skills']:
+    if 'firemage' in npc['skills'] and npc['firearmorkd']<=0:
+        if low==len(enemy):
+           fire=0
+        else:
+            fire=1
+            npc['mainskill'].append('firemage')
+            skill=1
+    else:
+        fire=0
     if 'gipnoz' in npc['skills'] and npc['gipnoz']<=0:
         if low==len(enemy):
            gipn=0
@@ -2625,13 +2723,14 @@ def actnumber(bot, id):
             skill=1
     else:
         gipn=0
-    if gipn==0:
+    if gipn==0 and fire==0:
         skill=0
     else:
-        skill=1       
+        skill=1   
+    
   else:
     skill=0
-  if 'medic' in npc['skills'] and npc['heal']<=0:
+  if 'medic' in npc['skills'] and npc['heal']<=0 and npc['maxhp']!=npc['hp']:
       skill=1
       npc['mainskill'].append('medic')
         
@@ -2916,7 +3015,7 @@ def begingame(id):
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['weapon']==None:
             games[id]['bots'][ids]['weapon']='hand'
-        active=['shieldgen', 'medic', 'gipnoz']
+        active=['shieldgen', 'medic', 'gipnoz', 'firemage']
         yes=0
         for i in active:
             if i in games[id]['bots'][ids]['skills']:
@@ -3038,7 +3137,9 @@ def skilltoname(x):
     elif x=='magictitan':
        return 'Магический титан
     elif x=='firemage':
-       return 'Маг огня'
+       return 'Повелитель огня'
+    elif x=='necromant':
+       return 'Некромант'
 
  
 def createbott(id, y):
@@ -3165,7 +3266,9 @@ def createbot(id):
               'magicshield':0,
               'magicshieldkd':0,
               'firearmor':0,
-              'firearmorkd':0
+              'firearmorkd':0,
+              'fire':0,
+              'summonmonster':['hand',0]   #####  Оружие; ХП
 }
 
 def dailybox():
