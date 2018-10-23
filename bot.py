@@ -1501,9 +1501,7 @@ def giveitems(game):
 def battle(id):  
  #try:
   print('2')
-  print(games[id]['bots'])
   for wtf in games[id]['bots']:
-    print('botid '+str(games[id]['bots'][wtf]['id']))
     if games[id]['bots'][wtf]['die']!=1:
       if games[id]['bots'][wtf]['stun']<=0 and games[id]['bots'][wtf]['magicshieldkd']<=0:
          games[id]['bots'][wtf][act(wtf, id)]=1
@@ -3234,6 +3232,7 @@ def begingame(id):
         rnd=randomgen(id)
         aa=games[id]['bots'][ids].copy()
         games[id]['bots'].update(createbott(rnd, aa))
+        print(games[id]['bots'][rnd])
         games[id]['bots'][rnd]['name']+='[Двойник]'
         games[id]['bots'][rnd]['identeficator']=rnd
         text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
