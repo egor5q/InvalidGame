@@ -232,7 +232,8 @@ def createpauk(id):
               'allrounddmg':0,
               'deffromgun':0,
               'dieturn':0,
-              'magicshieldkd':0
+              'magicshieldkd':0,
+              'fire':0
                      }
           }
    
@@ -288,7 +289,8 @@ def createmonster(id,weapon,hp):
               'allrounddmg':0,
               'deffromgun':0,
               'dieturn':0,
-              'magicshieldkd':0
+              'magicshieldkd':0,
+              'fire':0
                      }
           }
    
@@ -365,7 +367,8 @@ def createzombie(id):
               'identeficator':x,
               'deffromgun':0,
               'dieturn':0,
-              'magicshieldkd':0
+              'magicshieldkd':0,
+              'fire':0
                
                      }
           }
