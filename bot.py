@@ -1498,7 +1498,7 @@ def battle(id):
     print('botid '+str(games[id]['bots'][wtf]['id']))
     if games[id]['bots'][wtf]['die']!=1:
       if games[id]['bots'][wtf]['stun']<=0 and games[id]['bots'][wtf]['magicshieldkd']<=0:
-      games[id]['bots'][wtf][act(wtf, id)]=1
+         games[id]['bots'][wtf][act(wtf, id)]=1
   print('endres')
   results(id)
 # except:
