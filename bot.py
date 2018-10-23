@@ -538,15 +538,15 @@ def invent(m):
         if item=='bloodmage':
             kb.add(types.InlineKeyboardButton(text=bloodmage+'🔥Маг крови', callback_data='equipbloodmage'))
         if item=='double':
-            kb.add(types.InlineKeyboardButton(text=double+'Двойник', callback_data='equipdouble'))
+            kb.add(types.InlineKeyboardButton(text=double+'🎭Двойник', callback_data='equipdouble'))
         if item=='mage':
-            kb.add(types.InlineKeyboardButton(text=mage+'Колдун', callback_data='equipmage'))
+            kb.add(types.InlineKeyboardButton(text=mage+'✨Колдун', callback_data='equipmage'))
         if item=='firemage':
-            kb.add(types.InlineKeyboardButton(text=firemage+'Повелитель огня', callback_data='equipfiremage'))
+            kb.add(types.InlineKeyboardButton(text=firemage+'🔥Повелитель огня', callback_data='equipfiremage'))
         if item=='necromant':
-            kb.add(types.InlineKeyboardButton(text=necromant+'Некромант', callback_data='equipnecromant'))
+            kb.add(types.InlineKeyboardButton(text=necromant+'🖤Некромант', callback_data='equipnecromant'))
         if item=='magictitan':
-            kb.add(types.InlineKeyboardButton(text=magictitan+'Магический титан', callback_data='equipmagictitan'))
+            kb.add(types.InlineKeyboardButton(text=magictitan+'🔵Магический титан', callback_data='equipmagictitan'))
     kb.add(types.InlineKeyboardButton(text='Снять все скиллы', callback_data='unequip'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
