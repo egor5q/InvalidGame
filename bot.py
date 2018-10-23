@@ -233,7 +233,8 @@ def createpauk(id):
               'deffromgun':0,
               'dieturn':0,
               'magicshieldkd':0,
-              'fire':0
+              'fire':0,
+              'firearmor':0
                      }
           }
    
@@ -290,7 +291,8 @@ def createmonster(id,weapon,hp):
               'deffromgun':0,
               'dieturn':0,
               'magicshieldkd':0,
-              'fire':0
+              'fire':0,
+              'firearmor':0
                      }
           }
    
@@ -368,7 +370,8 @@ def createzombie(id):
               'deffromgun':0,
               'dieturn':0,
               'magicshieldkd':0,
-              'fire':0
+              'fire':0,
+              'firearmor':0
                
                      }
           }
@@ -3227,7 +3230,8 @@ def begingame(id):
     for ids in createlist:
         print('cycle2')
         rnd=randomgen(id)
-        games[id]['bots'].update(createbott(rnd, games[id]['bots'][ids]))
+        aa=games[id]['bots'][ids].copy()
+        games[id]['bots'].update(createbott(rnd, aa))
         games[id]['bots'][rnd]['name']+='[Двойник]'
         games[id]['bots'][rnd]['identeficator']=rnd
         text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
