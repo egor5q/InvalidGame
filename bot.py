@@ -1625,16 +1625,19 @@ def results(id):
         place=[]
         a=None
         i=0
+        idlist=[]
         while i<6:
           dieturn=-1
           a=None
           for ids in games[id]['bots']:
             if winner!=None:
-              if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place and games[id]['bots'][ids]['id']!=winner['id']:
+              if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place and games[id]['bots'][ids]['id']!=winner['id'] and \
+            games[id]['bots'][ids]['id'] not in idlist:
                   a=games[id]['bots'][ids]
                   dieturn=games[id]['bots'][ids]['dieturn']
-          if a!=None:
+          if a!=None and a['id'] not in idlist:
               place.append(a)
+              idlist.append(a['id'])
           i+=1
         p2=points
         txt='Награды для 2-7 мест (если такие имеются):\n'
@@ -2574,6 +2577,9 @@ def chlenchance(energy, target, x, id, bot1):
   if gun==1:
           games[id]['randomdmg']=1
           bot1['deffromgun']=1
+          for ids in games[id]['bots']:
+               if games[id]['bots'][ids]['id']==bot1['id']:
+                  games[id]['bots'][ids]['deffromgun']=1
           games[id]['res']+='☢'+bot1['name']+' открыл слишком много порталов! Весь нанесённый в раунде урон будет перенаправлен в его случайного '+\
         'соперника!\n'
 
@@ -3232,6 +3238,7 @@ def begingame(id):
         rnd=randomgen(id)
         aa=games[id]['bots'][ids].copy()
         games[id]['bots'].update(createbott(rnd, aa))
+        games[id]['bots'][rnd]['identeficator']==rnd
         print(games[id]['bots'][rnd])
         games[id]['bots'][rnd]['name']+='[Двойник]'
         games[id]['bots'][rnd]['identeficator']=rnd
