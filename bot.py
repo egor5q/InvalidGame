@@ -2593,7 +2593,7 @@ def attack(bot, id):
             a.append(games[id]['bots'][bots])
     x=random.randint(1,len(a))
     dd=0
-    while a[x-1]['die']==1 and dd<100:
+    while (a[x-1]['die']==1 or a[x-1]['zombie']>0) and dd<200:
        x=random.randint(1,len(a))
        dd+=1
     target=a[x-1]
