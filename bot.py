@@ -114,6 +114,11 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
+          y=users.find({})
+          for ids in y:
+              if 'double' in ids['bot']['skills']:
+                  users.update_one({'id':ids['id']},{'$pull':{'bot.skills':'double'}})
+                  bot.send_message(ids['id'],'Двойник был снят!')
           print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -849,7 +854,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='6000⚛️', callback_data='buynecromant'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Когда цель, которую вы атакуете, теряет хп, вы прибавляете это хп к монстру, которого призовёте после смерти. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Когда цель, которую вы атакуете, теряет хп, вы имеете 50% шанс прибавить это хп к монстру, которого призовёте после смерти. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
     
   elif call.data=='magictitan':
        kb=types.InlineKeyboardMarkup()
@@ -1979,7 +1984,7 @@ def dmgs(id):
          else:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
          for idss in games[id]['bots']:
-            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills']:
+            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=50:
                games[id]['bots'][idss]['summonmonster'][1]+=a
                text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
        else:
