@@ -192,7 +192,13 @@ def createboss(id):
 
 
 def createpauk(id):
-    return{id-(id*2):{'name': 'Паук',
+    for ids in games:
+         if id in games[ids]['bots']:
+            id2=games[ids]['chatid']
+    x=randomgen(id2)
+    t=users.find_one({'id':id})
+    text='['+t['bot']['name']+']'
+    return{x:{'name': 'Паук'+text,
               'weapon':'bite',
               'skills':[],
               'team':None,
@@ -212,7 +218,7 @@ def createpauk(id):
               'takendmg':0,
               'die':0,
               'yvorotkd':0,
-              'id':-id,
+              'id':id,
               'blood':0,
               'bought':[],
               'accuracy':0,
@@ -238,7 +244,8 @@ def createpauk(id):
               'dieturn':0,
               'magicshieldkd':0,
               'fire':0,
-              'firearmor':0
+              'firearmor':0,
+              'identeficator':x
                      }
           }
    
