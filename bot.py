@@ -254,7 +254,7 @@ def createmonster(id,weapon,hp, animal):
               'weapon':weapon,
               'skills':[],
               'team':None,
-              'hp':hp,
+              'hp':hp+1,
               'identeficator':None,
               'maxenergy':5,
               'energy':5,
