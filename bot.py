@@ -114,8 +114,14 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-            users.update_many({}, {'$set':{'bot.summonmonster':['hand',0]}})
-            print('yes')
+          y=users.find({})
+          for ids in y:
+            x=users.find_one({'id':ids['id']})
+            if 'double' in x['bot']['bought']:
+               users.update_one({'id':x['id']},{'$inc':{'cookie':4000}})
+               users.update_one({'id':x['id']},{'$pull':{'bot.bought':'double'}})
+               bot.send_message(x['id'],'Цена на скилл "Двойник" выросла, поэтому вам были возвращены потраченные на покупку средства (4000) и продан этот скилл.')
+          print('yes')
             
 @bot.message_handler(commands=['massbattle'])
 def upd(m):
@@ -814,11 +820,11 @@ def inline(call):
         if 'magictitan' in x['bot']['bought']:
             magictitan='✅'
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text=double+'🎭Двойник', callback_data='double'))
         kb.add(types.InlineKeyboardButton(text=mage+'✨Колдун', callback_data='mage'))
         kb.add(types.InlineKeyboardButton(text=mage+'🔥Повелитель огня', callback_data='firemage'))
         kb.add(types.InlineKeyboardButton(text=necromant+'🖤Некромант', callback_data='necromant'))
         kb.add(types.InlineKeyboardButton(text=magictitan+'🔵Магический титан', callback_data='magictitan'))
+        kb.add(types.InlineKeyboardButton(text=double+'🎭Двойник', callback_data='double'))
         medit('Ветка: магия', call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
@@ -829,7 +835,7 @@ def inline(call):
     
   elif call.data=='double':
        kb=types.InlineKeyboardMarkup()
-       kb.add(types.InlineKeyboardButton(text='4000⚛️', callback_data='buydouble'))
+       kb.add(types.InlineKeyboardButton(text='10000⚛️', callback_data='buydouble'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Ваш боец теряет половину хп, и создаёт копию себя с отнятыми жизнями. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
     
@@ -844,7 +850,7 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='5500⚛️', callback_data='buyfiremage'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Раз в 7 ходов боец может применить на себя огненный щит: весь полученный на этом ходу урон уменьшается в 2 раза, а '+\
-             'атаковавшие вас соперники загораются на 2 хода, включая текущий. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+             'атаковавшие вас соперники загораются на 3 хода, включая текущий. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
     
   elif call.data=='necromant':
        kb=types.InlineKeyboardMarkup()
@@ -856,7 +862,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='7000⚛️', callback_data='buymagictitan'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Теперь вы - магический титан! Имеете 8 маны. Пока у вас есть мана, вы неуязвимы. 1 мана тратится на блокировку 1 урона. '+\
+       medit('Теперь вы - магический титан! Имеете 6 маны. Пока у вас есть мана, вы неуязвимы. 1 мана тратится на блокировку 1 урона. '+\
              'Когда мана заканчивается, вы получаете оглушение на 4 хода и становитесь уязвимы. После окончания оглушения мана восстанавливается до 8. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='medic':
@@ -1043,9 +1049,9 @@ def inline(call):
   elif call.data=='buydouble':
        x=users.find_one({'id':call.from_user.id})
        if 'double' not in x['bot']['bought']:
-           if x['cookie']>=4000:
+           if x['cookie']>=10000:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'double'}})
-                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-4000}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-10000}})
                 medit('Вы успешно приобрели скилл "Двойник"!',call.message.chat.id,call.message.message_id)
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
@@ -1827,7 +1833,7 @@ def dmgs(id):
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['target']!=None:
             if games[id]['bots'][ids]['target']['firearmor']==1:
-                games[id]['bots'][ids]['fire']=2
+                games[id]['bots'][ids]['fire']=3
         if games[id]['bots'][ids]['fire']>0:
             games[id]['bots'][ids]['fire']-=1
             games[id]['bots'][ids]['takendmg']+=1
@@ -2795,7 +2801,10 @@ def item(bot, id):
   if z=='flash':
           games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
           target['energy']=0
-          bot['items'].remove('flash')
+          try:
+            bot['items'].remove('flash')
+          except:
+            pass
           bot['target']=None
 
   elif z=='knife':
