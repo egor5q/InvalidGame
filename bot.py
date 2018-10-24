@@ -2565,20 +2565,20 @@ def zombiechance(energy, target, x, id, bot1):
         
 def chlenchance(energy, target, x, id, bot1):
   if energy>=5:
-    chance=94
+    chance=91
   elif energy==4:
-    chance=83
+    chance=79
   elif energy==3:
-    chance=71
+    chance=70
   elif energy==2:
-    chance=60
+    chance=58
   elif energy==1:
     chance=42
   elif energy<=0:
     chance=0
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if (x+target['miss']-bot1['accuracy'])<=chance:
-          damage=random.randint(1,4)
+          damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
           games[id]['res']+='🔯'+bot1['name']+' стреляет в '+target['name']+' из флюгегенхаймена! Нанесено '+str(damage)+' Урона.\n'
