@@ -1046,28 +1046,29 @@ def inline(call):
        else:
            bot.answer_callback_query(call.id, 'У вас уже есть это!')
             
+         
   elif call.data=='buydouble':
        x=users.find_one({'id':call.from_user.id})
        if 'double' not in x['bot']['bought']:
            if x['cookie']>=10000:
+              if 'magictitan' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'double'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-10000}})
                 medit('Вы успешно приобрели скилл "Двойник"!',call.message.chat.id,call.message.message_id)
+              else:
+                  bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
-           bot.answer_callback_query(call.id, 'У вас уже есть это!')
-            
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')       
+        
   elif call.data=='buymage':
        x=users.find_one({'id':call.from_user.id})
        if 'mage' not in x['bot']['bought']:
            if x['cookie']>=5000:
-              if 'double' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'mage'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-5000}})
                 medit('Вы успешно приобрели скилл "Колдун"!',call.message.chat.id,call.message.message_id)
-              else:
-                  bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
@@ -1632,7 +1633,7 @@ def results(id):
         a=None
         i=0
         idlist=[]
-        while i<6:
+        while i<3:
           dieturn=-1
           a=None
           for ids in games[id]['bots']:
@@ -1646,9 +1647,9 @@ def results(id):
               idlist.append(a['id'])
           i+=1
         p2=points
-        txt='Награды для 2-7 мест (если такие имеются):\n'
+        txt='Награды для 2-4 мест (если такие имеются):\n'
         for ids in place:
-            p2=int(p2*0.60)
+            p2=int(p2*0.50)
             txt+=ids['name']+': '+str(p2)+'❇️/⚛️\n'
             users.update_one({'id':ids['id']},{'$inc':{'cookie':p2}})
             users.update_one({'id':ids['id']},{'$inc':{'bot.exp':p2}})
