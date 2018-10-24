@@ -243,7 +243,7 @@ def createpauk(id):
           }
    
    
-def createmonster(id,weapon,hp):
+def createmonster(id,weapon,hp, animal):
     for ids in games:
          if id in games[ids]['bots']:
             id2=games[ids]['chatid']
@@ -290,7 +290,7 @@ def createmonster(id,weapon,hp):
               'boundtime':0,
               'boundacted':0,
               'weapons':['hand'],
-              'animal':None,
+              'animal':animal,
               'allrounddmg':0,
               'deffromgun':0,
               'dieturn':0,
@@ -1622,11 +1622,19 @@ def results(id):
             for itemss in games[id]['bots'][ids]['skills']:
               if games[id]['bots'][ids]['id']!=winner['id']:
                if itemss!='cube' and itemss!='active':
-                points+=2
+                try:
+                  if games[id]['bots'][ids]['identeficator']==None:
+                     points+=2
+                except:
+                     points+=2
         for ids in games[id]['bots']:
             for itemss in games[id]['bots'][ids]['skin']:
               if games[id]['bots'][ids]['id']!=winner['id']:
-                points+=2
+                try:
+                  if games[id]['bots'][ids]['identeficator']==None:
+                     points+=2
+                except:
+                     points+=2         
         place=[]
         a=None
         i=0
@@ -1942,6 +1950,8 @@ def dmgs(id):
                 games[id]['bots'][mob]['die']=1     
                 games[id]['bots'][mob]['energy']=0
                 text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                if 'necromant' in games[id]['bots'][mob]['skills']:
+                     monsters.append(games[id]['bots'][mob]['id'])
                 games[id]['bots'][mob]['dieturn']=games[id]['xod']
                 
     pauk=[]
@@ -2039,9 +2049,13 @@ def dmgs(id):
                   else:
                      games[id]['bots'][mob]['dieturn']=games[id]['xod']
                      text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                     if 'necromant' in games[id]['bots'][mob]['skills']:
+                        monsters.append(games[id]['bots'][mob]['id'])
                  else:
                   games[id]['bots'][mob]['dieturn']=games[id]['xod']
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                  if 'necromant' in games[id]['bots'][mob]['skills']:
+                     monsters.append(games[id]['bots'][mob]['id'])
            else:
               games[id]['bots'][mob]['zombie']=2
               games[id]['bots'][mob]['hp']=1
@@ -2062,7 +2076,7 @@ def dmgs(id):
          games[id]['bots'].update(createzombie(ids[1]))
     for ids in monsters:
          player=games[id]['bots'][ids]
-         games[id]['bots'].update(createmonster(player['id'],player['weapon'],player['summonmonster'][1]))
+         games[id]['bots'].update(createmonster(player['id'],player['weapon'],player['summonmonster'][1],player['animal']))
          text+='👁Некромант '+player['name']+' призывает монстра! Его жизни: '+'🖤'*player['summonmonster'][1]+str(player['summonmonster'][1])+'!\n'
     games[id]['secondres']='Эффекты:\n'+text
    
@@ -2505,6 +2519,7 @@ def pigchance(energy, target, x, id, bot1):
                 print('createdzombie')
                 games[id]['res']+='🧟‍♂О нет! На запах свинины пришёл зомби! '+\
                 'Теперь он сражается за '+bot1['name']+'!\n'
+  bot1['target']=None
                 
       
 def zombiechance(energy, target, x, id, bot1):
