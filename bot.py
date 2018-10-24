@@ -114,13 +114,6 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          y=users.find({})
-          for ids in y:
-            x=users.find_one({'id':ids['id']})
-            if 'double' in x['bot']['bought']:
-               users.update_one({'id':x['id']},{'$inc':{'cookie':4000}})
-               users.update_one({'id':x['id']},{'$pull':{'bot.bought':'double'}})
-               bot.send_message(x['id'],'Цена на скилл "Двойник" выросла, поэтому вам были возвращены потраченные на покупку средства (4000) и продан этот скилл.')
           print('yes')
             
 @bot.message_handler(commands=['massbattle'])
