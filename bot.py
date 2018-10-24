@@ -2590,7 +2590,7 @@ def attack(bot, id):
     while a[x-1]['die']==1 and dd<100:
        x=random.randint(1,len(a))
        dd+=1
-    target=games[id]['bots'][a[x-1]['id']]
+    target=games[id]['bots'][a[x-1]]
     if bot['target']!=None:
         target=bot['target']
     bot['target']=target
