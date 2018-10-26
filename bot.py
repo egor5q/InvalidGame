@@ -3237,20 +3237,20 @@ def begingame(id):
                 print('2222')
                 leader2=random.choice(games[id]['bots'])
             i=random.randint(0,1)
-            for ids in games[id]['bots']:
+            for idsr in games[id]['bots']:
                 if i==0:
-                    games[id]['bots'][ids]['id']=leader1['id']
+                    games[id]['bots'][idsr]['id']=leader1['id']
                     i=1
                 else:
-                    games[id]['bots'][ids]['id']=leader2['id']
+                    games[id]['bots'][idsr]['id']=leader2['id']
                     i=0
             team1=''
             team2=''
-            for ids in games[id]['bots']:
-                if games[id]['bots'][ids]['id']==leader1['id']:
-                    team1+=games[id]['bots'][ids]['name']+'\n'
+            for idsz in games[id]['bots']:
+                if games[id]['bots'][idsz]['id']==leader1['id']:
+                    team1+=games[id]['bots'][idsz]['name']+'\n'
                 else:
-                    team2+=games[id]['bots'][ids]['name']+'\n'
+                    team2+=games[id]['bots'][idsz]['name']+'\n'
             bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
     
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
