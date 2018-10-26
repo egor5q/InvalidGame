@@ -3236,6 +3236,7 @@ def begingame(id):
             while leader2==leader1:
                 print('2222')
                 leader2=random.choice(games[id]['bots'])
+            print('333')
             i=random.randint(0,1)
             for idsr in games[id]['bots']:
                 if i==0:
@@ -3244,6 +3245,7 @@ def begingame(id):
                 else:
                     games[id]['bots'][idsr]['id']=leader2['id']
                     i=0
+            print('4444')
             team1=''
             team2=''
             for idsz in games[id]['bots']:
@@ -3252,7 +3254,7 @@ def begingame(id):
                 else:
                     team2+=games[id]['bots'][idsz]['name']+'\n'
             bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
-    
+    print('55555')
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['takenmeteors']=0
