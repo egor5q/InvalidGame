@@ -3229,7 +3229,6 @@ def begingame(id):
         games[id]['mode']=random.choice(modes)
         n=modetoname(games[id]['mode'])
         bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
-        time.sleep(3)
         if games[id]['mode']=='teamfight':
             leader1=random.choice(games[id]['bots'])
             leader2=random.choice(games[id]['bots'])
