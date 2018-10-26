@@ -1514,7 +1514,7 @@ def giveitems(game):
 
                    
 def battle(id):  
- #try:
+ try:
   print('2')
   for wtf in games[id]['bots']:
     if games[id]['bots'][wtf]['die']!=1:
@@ -1522,12 +1522,12 @@ def battle(id):
          games[id]['bots'][wtf][act(wtf, id)]=1
   print('endres')
   results(id)
-# except:
-#    try:
- #     bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
-#      del games[id]
- #   except:
-#        pass
+ except:
+    try:
+      bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
+      del games[id]
+    except:
+        pass
     
 def results(id):           
   for bots in games[id]['bots']:
@@ -3234,6 +3234,7 @@ def begingame(id):
         leader1=random.choice(games[id]['bots'])
         leader2=random.choice(games[id]['bots'])
         while leader2==leader1:
+            print('2222')
             leader2=random.choice(games[id]['bots'])
         i=random.randint(0,1)
         for ids in games[id]['bots']:
