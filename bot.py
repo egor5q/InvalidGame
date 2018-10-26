@@ -3230,28 +3230,28 @@ def begingame(id):
         n=modetoname(games[id]['mode'])
         bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
         time.sleep(3)
-    if games[id]['mode']=='teamfight':
-        leader1=random.choice(games[id]['bots'])
-        leader2=random.choice(games[id]['bots'])
-        while leader2==leader1:
-            print('2222')
+        if games[id]['mode']=='teamfight':
+            leader1=random.choice(games[id]['bots'])
             leader2=random.choice(games[id]['bots'])
-        i=random.randint(0,1)
-        for ids in games[id]['bots']:
-            if i==0:
-                games[id]['bots'][ids]['id']=leader1['id']
-                i=1
-            else:
-                games[id]['bots'][ids]['id']=leader2['id']
-                i=0
-        team1=''
-        team2=''
-        for ids in games[id]['bots']:
-            if games[id]['bots'][ids]['id']==leader1['id']:
-                team1+=games[id]['bots'][ids]['name']+'\n'
-            else:
-                team2+=games[id]['bots'][ids]['name']+'\n'
-        bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
+            while leader2==leader1:
+                print('2222')
+                leader2=random.choice(games[id]['bots'])
+            i=random.randint(0,1)
+            for ids in games[id]['bots']:
+                if i==0:
+                    games[id]['bots'][ids]['id']=leader1['id']
+                    i=1
+                else:
+                    games[id]['bots'][ids]['id']=leader2['id']
+                    i=0
+            team1=''
+            team2=''
+            for ids in games[id]['bots']:
+                if games[id]['bots'][ids]['id']==leader1['id']:
+                    team1+=games[id]['bots'][ids]['name']+'\n'
+                else:
+                    team2+=games[id]['bots'][ids]['name']+'\n'
+            bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
     
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
