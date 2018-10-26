@@ -1679,15 +1679,21 @@ def results(id):
            prize7=10000
            winner2=users.find_one({'id':winner['id']})
            y=userstrug.find_one({'id':winner['id']})
+           if games[id]['mode']=='teamfight':
+                yy='Команда '
+                zz='а'
+           else:
+                yy=''
+                zz=''
            if id==-1001208357368:
             if games[id]['mode']==None:
              x=users.find({})
              try:
               cookie=round(points*0.04, 0)
               cookie=int(cookie)
-              bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+              bot.send_message(id, '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
               try:
-               bot.send_message(winner2['id'], '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+               bot.send_message(winner2['id'], '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
               except:
                pass
               userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
@@ -3194,6 +3200,8 @@ def modetoname(x):
       return 'Метеоритный дождь'
    if x=='randomhp':
       return 'Случайные хп на старте'
+   if x=='teamfight':
+      return 'Тимфайт'
       
   
 @bot.message_handler(commands=['chaosstats'])
@@ -3216,12 +3224,34 @@ def begingame(id):
       print('timer cancelled')
     except:
       pass
-    modes=['meteors']#,'randomhp']
+    modes=['meteors','teamfight']#,'randomhp']
     if games[id]['apocalypse']==1:
         games[id]['mode']=random.choice(modes)
         n=modetoname(games[id]['mode'])
         bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
         time.sleep(3)
+    if games[id]['mode']=='teamfight':
+        leader1=random.choice(games[id]['bots'])
+        leader2=random.choice(games[id]['bots'])
+        while leader2==leader1:
+            leader2=random.choice(games[id]['bots'])
+        i=random.randint(0,1)
+        for ids in games[id]['bots']:
+            if i==0:
+                games[id]['bots'][ids]['id']=leader1['id']
+                i=1
+            else:
+                games[id]['bots'][ids]['id']=leader2['id']
+                i=0
+        team1=''
+        team2=''
+        for ids in games[id]['bots']:
+            if games[id]['bots'][ids]['id']==leader1['id']:
+                team1+=games[id]['bots'][ids]['name']+'\n'
+            else:
+                team2+=games[id]['bots'][ids]['name']+'\n'
+        bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
+    
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
         games[id]['bots'][ids]['takenmeteors']=0
