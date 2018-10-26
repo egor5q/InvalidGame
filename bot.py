@@ -3233,7 +3233,8 @@ def begingame(id):
             print('2111')
             leader1=random.choice(games[id]['bots'])
             leader2=random.choice(games[id]['bots'])
-            while leader2==leader1:
+            print('2112')
+            while leader2['id']==leader1['id']:
                 print('2222')
                 leader2=random.choice(games[id]['bots'])
             print('333')
