@@ -3224,7 +3224,7 @@ def begingame(id):
       print('timer cancelled')
     except:
       pass
-    modes=['teamfight']#,'meteors']#,'randomhp']
+    modes=['meteors']#,'randomhp']
     if games[id]['apocalypse']==1:
         games[id]['mode']=random.choice(modes)
         n=modetoname(games[id]['mode'])
