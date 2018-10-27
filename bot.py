@@ -864,14 +864,14 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='6000⚛️', callback_data='buynecromant'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Когда цель, которую вы атакуете, теряет хп, вы имеете 50% шанс прибавить это хп к монстру, которого призовёте после смерти. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Когда цель, которую вы атакуете, теряет хп, вы имеете 40% шанс прибавить это хп к монстру, которого призовёте после смерти. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
     
   elif call.data=='magictitan':
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='7000⚛️', callback_data='buymagictitan'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Теперь вы - магический титан! Имеете 6 маны. Пока у вас есть мана, вы неуязвимы. 1 мана тратится на блокировку 1 урона. '+\
-             'Когда мана заканчивается, вы получаете оглушение на 4 хода и становитесь уязвимы. После окончания оглушения мана восстанавливается до 8. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+             'Когда мана заканчивается, вы получаете оглушение на 4 хода и становитесь уязвимы. После окончания оглушения мана восстанавливается до 6. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='medic':
        kb=types.InlineKeyboardMarkup()
@@ -1931,7 +1931,8 @@ def dmgs(id):
             games[id]['bots'][mob]['magicshieldkd']-=1
             if games[id]['bots'][mob]['magicshieldkd']==0:
                 games[id]['bots'][mob]['magicshield']=6
-                text+='🔵Магический титан '+games[id]['bots'][mob]['name']+' восстановил ману. Он приходит в себя.\n'
+                if games[id]['bots'][mob]['die']!=1:
+                    text+='🔵Магический титан '+games[id]['bots'][mob]['name']+' восстановил ману. Он приходит в себя.\n'
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
             text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.\n'
@@ -2010,7 +2011,7 @@ def dmgs(id):
          else:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
          for idss in games[id]['bots']:
-            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=50:
+            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=40:
                games[id]['bots'][idss]['summonmonster'][1]+=a
                text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
        else:
