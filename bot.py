@@ -56,26 +56,26 @@ def nextgame(m):
          bot.send_message(m.chat.id, 'Оповещения о начале игр включены!')
     
    
-@bot.message_handler(commands=['gift'])
-def gift(m):
- try:
-   x=users.find_one({'id':m.from_user.id})
-   y=users.find_one({'id':m.reply_to_message.from_user.id})
- 
-     z=int(m.text.split('/gift ')[1])
-     if x!=None and y!=None:
-       if z>=0:
-         if x['cookie']>z:
-           try:
-             users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
-             users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
-             bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'!')
-           except:
-              pass
-       else:
-         bot.send_message(m.chat.id, 'Не жульничай!')
- except:
-      pass
+#@bot.message_handler(commands=['gift'])
+#def gift(m):
+# try:
+#   x=users.find_one({'id':m.from_user.id})
+#   y=users.find_one({'id':m.reply_to_message.from_user.id})
+# 
+#     z=int(m.text.split('/gift ')[1])
+#     if x!=None and y!=None:
+#       if z>=0:
+#         if x['cookie']>z:
+#           try:
+#             users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
+#             users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
+#             bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'!')
+#           except:
+#              pass
+#       else:
+#         bot.send_message(m.chat.id, 'Не жульничай!')
+# except:
+#      pass
      
 
 @bot.message_handler(commands=['offgames'])
