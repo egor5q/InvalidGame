@@ -38,6 +38,23 @@ userstrug=db2.users
 
 symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
+hidetext=0
+
+@bot.message_handler(commands=['silenton'])
+def silenttt(m):
+   if m.from_user.id==441399484:
+      global hidetext
+      hidetext=1
+      bot.send_message(m.chat.id, 'Silent mode is ON.')
+      
+      
+@bot.message_handler(commands=['silentoff'])
+def silenttt(m):
+   if m.from_user.id==441399484:
+      global hidetext
+      hidetext=0
+      bot.send_message(m.chat.id, 'Silent mode is OFF.')
+
 
 @bot.message_handler(commands=['referal'])
 def ref(m):
@@ -1556,8 +1573,17 @@ def results(id):
         games[id]['bots'][ids]['takendmg']=0
   dmgs(id)
   z=0
-  bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
-  bot.send_message(id, games[id]['secondres'])
+  global hidetext
+  if id==-1001208357368:
+    if hidetext==0:
+      bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
+      bot.send_message(id, games[id]['secondres'])
+    else:
+      if random.randint(1,3)==1:
+         bot.send_message(id, 'Silent mode is on')
+  else:
+      bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
+      bot.send_message(id, games[id]['secondres'])
   die=0    
   games[id]['xod']+=1
   games[id]['randomdmg']=0
