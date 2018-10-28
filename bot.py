@@ -1957,9 +1957,9 @@ def dmgs(id):
           if games[id]['bots'][mob]['magicshieldkd']>0:
             games[id]['bots'][mob]['magicshieldkd']-=1
             if games[id]['bots'][mob]['magicshieldkd']==0:
-                games[id]['bots'][mob]['magicshield']=6
+                games[id]['bots'][mob]['magicshield']=5
                 if games[id]['bots'][mob]['die']!=1:
-                    text+='🔵Магический титан '+games[id]['bots'][mob]['name']+' восстановил ману. Он приходит в себя.\n'
+                    text+='🔵Магический титан '+games[id]['bots'][mob]['name']+' восстановил ману до 5. Он приходит в себя.\n'
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
             text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.\n'
