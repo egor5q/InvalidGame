@@ -3579,7 +3579,7 @@ def dailybox():
    party=0
    if z[0]=='Sat' or z[0]=='Sun':
       party=1
-   if x==24 and y<=15:
+   if x==24 and y==0:
       users.update_many({}, {'$set':{'dailybox':1}})
    if x==14 and y==0 and party==1:
       users.update_many({}, {'$inc':{'joinbots':1}})
