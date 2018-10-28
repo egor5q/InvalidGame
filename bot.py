@@ -202,7 +202,7 @@ def createpauk(id):
               'weapon':'bite',
               'skills':[],
               'team':None,
-              'hp':2,
+              'hp':3,
               'identeficator':None,
               'maxenergy':5,
               'energy':5,
@@ -231,7 +231,7 @@ def createpauk(id):
               'target':None,
               'exp':0,
               'gipnoz':0,
-              'maxhp':2,
+              'maxhp':3,
               'currentarmor':0,
               'armorturns':0,
               'boundwith':None,
@@ -283,7 +283,7 @@ def createmonster(id,weapon,hp, animal):
               'blood':0,
               'bought':[],
               'accuracy':0,
-              'damagelimit':6,
+              'damagelimit':5,
               'zombie':0,
               'heal':0,
               'shieldgen':0,
@@ -2004,7 +2004,9 @@ def dmgs(id):
            pass
        pop=emojize(':poop:', use_aliases=True)
        if games[id]['bots'][mob]['hp']<100:
-         if games[id]['bots'][mob]['id']==581167827:
+         if 'Кошмарное слияние' in games[id]['bots'][mob]['name']:
+             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'🖤'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+         elif games[id]['bots'][mob]['id']==581167827:
            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'💙'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
          elif games[id]['bots'][mob]['id']==256659642:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+pop*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
@@ -3274,8 +3276,8 @@ def begingame(id):
         if yes==1:
               games[id]['bots'][ids]['skills'].append('active')
         if 'double' in games[id]['bots'][ids]['skills']:
-            b=int(games[id]['bots'][ids]['hp']/2)
-            games[id]['bots'][ids]['hp']-=b
+            b=int(round(games[id]['bots'][ids]['hp']/2,0))
+            games[id]['bots'][ids]['hp']=b
             createlist.append(games[id]['bots'][ids]['id'])
         if 'mage' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['weapon']='magic'
