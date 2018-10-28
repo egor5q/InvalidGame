@@ -2141,7 +2141,7 @@ def rockchance(energy, target, x, id, bot1):
     chance=50
   elif energy==1:
     chance=20
-  elif energy==0:
+  elif energy<=0:
     chance=1
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
@@ -2177,7 +2177,7 @@ def akchance(energy, target, x, id, bot1):
     chance=30
   elif energy==1:
     chance=5
-  elif energy==0:
+  elif energy<=0:
     chance=0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
@@ -2209,7 +2209,7 @@ def handchance(energy, target, x, id, bot1):
     chance=70
   elif energy==1:
     chance=60
-  elif energy==0:
+  elif energy<=0:
     chance=1
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
@@ -2241,7 +2241,7 @@ def sawchance(energy, target, x, id, bot1):
     chance=65
   elif energy==1:
     chance=30
-  elif energy==0:
+  elif energy<=0:
     chance=1
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
@@ -2327,7 +2327,7 @@ def bowchance(energy, target, x, id, bot1):
     chance=60
   elif energy==1:
     chance=60
-  elif energy==0:
+  elif energy<=0:
     chance=60
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
@@ -2365,7 +2365,7 @@ def lightchance(energy, target, x, id, bot1):
     chance=1
   elif energy==1:
     chance=1
-  elif energy==0:
+  elif energy<=0:
     chance=1
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
@@ -2396,7 +2396,7 @@ def bitechance(energy, target, x, id, bot1):
     chance=40
   elif energy==1:
     chance=20
-  elif energy==0:
+  elif energy<=0:
     chance=0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💀Голодный Паук доедает ослабевшего '+target['name']+'!\n'
