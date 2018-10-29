@@ -301,7 +301,7 @@ def createmonster(id,weapon,hp, animal):
               'blood':0,
               'bought':[],
               'accuracy':0,
-              'damagelimit':5,
+              'damagelimit':1,
               'zombie':0,
               'heal':0,
               'shieldgen':0,
@@ -882,7 +882,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='6000⚛️', callback_data='buynecromant'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Когда цель, которую вы атакуете, теряет хп, вы имеете 30% шанс прибавить это хп к монстру, которого призовёте после смерти. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Когда цель, которую вы атакуете, теряет хп, вы имеете 65% шанс прибавить это хп к монстру, которого призовёте после смерти. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
     
   elif call.data=='magictitan':
        kb=types.InlineKeyboardMarkup()
@@ -1921,8 +1921,8 @@ def dmgs(id):
             if a>0:
                text+='🔵Магический титан '+games[id]['bots'][ids]['name']+' блокирует '+str(a)+' урона!\n'
             if games[id]['bots'][ids]['magicshield']<=0:
-                games[id]['bots'][ids]['magicshieldkd']=5
-                text+='🔴Его мана закончилась. Он получает оглушение и становится уязвим на '+str(games[id]['bots'][ids]['magicshieldkd']-1)+' хода!\n'
+                games[id]['bots'][ids]['magicshieldkd']=6
+                text+='🔴Его мана закончилась. Он получает оглушение и становится уязвим на '+str(games[id]['bots'][ids]['magicshieldkd']-1)+' ходов!\n'
         games[id]['bots'][ids]['allrounddmg']+=games[id]['bots'][ids]['takendmg']
         if games[id]['randomdmg']!=1:
           if games[id]['bots'][ids]['takendmg']>c:
@@ -2040,7 +2040,7 @@ def dmgs(id):
          else:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
          for idss in games[id]['bots']:
-            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=30:
+            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=65:
                games[id]['bots'][idss]['summonmonster'][1]+=a
                text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
        else:
