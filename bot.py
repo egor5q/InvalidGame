@@ -3664,8 +3664,7 @@ def allmesdonate(m):
      comment=api.bill(comment=str(x['id']), price=price)
      donates.update_one({},{'$push':{'donaters':str(x['id'])}})
      print(comment)
-     t=threading.Timer(1,payy,args=[comment])
-     t.start()
+
    
 def payy(comment):
    x=0
@@ -3691,10 +3690,10 @@ def payy(comment):
             api.start()
             bot.send_message(441399484,'New payment!')
             break
-         print(bar)
          x+=1
       time.sleep(6)
-   
+   print(bar)
+   print('Ожидание платежа')
    
 def cancelpay(id):
    try:
@@ -3706,26 +3705,26 @@ def cancelpay(id):
      pass
    
 api=QApi(token=bearer,phone=mylogin)   
-#@api.bind_echo()
-#def foo(bar):
-#      id=None
-#      z=None
-#      a=donates.find_one({})
-#      for ids in a['donaters']:
-#        try:
-#           z=bar[ids]
-#           id=ids
-#        except:
-#           pass
-#      if z!=None and id!=None:
-#         c=int(bar[ids]['price']*20)
-#         users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
-#         bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')
-#         donates.update_one({},{'$pull':{'donaters':id}})      
-#         api.stop()
-#         api.start()
-#         bot.send_message(441399484,'New payment!')
-#      print(bar)
+@api.bind_echo()
+def foo(bar):
+      id=None
+      z=None
+      a=donates.find_one({})
+      for ids in a['donaters']:
+        try:
+           z=bar[ids]
+           id=ids
+        except:
+           pass
+      if z!=None and id!=None:
+         c=int(bar[ids]['price']*20)
+         users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
+         bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')
+         donates.update_one({},{'$pull':{'donaters':id}})      
+         api.stop()
+         api.start()
+         bot.send_message(441399484,'New payment!')
+      print(bar)
       
 api.start()
 
