@@ -71,28 +71,41 @@ def nextgame(m):
       else:
          users.update_one({'id':m.from_user.id}, {'$set':{'ping':1}})
          bot.send_message(m.chat.id, 'Оповещения о начале игр включены!')
-    
+ 
+
+
+@bot.message_handler(commands=['giftadmin'])
+def ggiftadm(m):
+   if m.from_user.id==441399484:
+     try:
+        y=users.find_one({'id':m.reply_to_message.from_user.id})
+        users.update_one({'id':y['id']},{'$push':{'bot.bought':'gift'}})
+        bot.send_message(m.chat.id, 'Теперь '+y['name']+' гифт-админ!')
+     except:
+        pass
    
-#@bot.message_handler(commands=['gift'])
-#def gift(m):
-# try:
-#   x=users.find_one({'id':m.from_user.id})
-#   y=users.find_one({'id':m.reply_to_message.from_user.id})
-# 
-#     z=int(m.text.split('/gift ')[1])
-#     if x!=None and y!=None:
-#       if z>=0:
-#         if x['cookie']>z:
-#           try:
-#             users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
-#             users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
-#             bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'!')
-#           except:
-#              pass
-#       else:
-#         bot.send_message(m.chat.id, 'Не жульничай!')
-# except:
-#      pass
+@bot.message_handler(commands=['gift'])
+def gift(m):
+ try:
+   x=users.find_one({'id':m.from_user.id})
+   y=users.find_one({'id':m.reply_to_message.from_user.id})
+   if 'gift' in x['bought']:
+     z=int(m.text.split('/gift ')[1])
+     if x!=None and y!=None:
+       if z>=0:
+         if x['cookie']>z:
+           try:
+             users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
+             users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
+             bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'!')
+           except:
+              pass
+       else:
+         bot.send_message(m.chat.id, 'Не жульничай!')
+   else:
+      bot.send_message(m.chat.id, 'Вы не имеете статуса "Гифт-админ". Чтобы его получить, обратитесь к Пасюку.')
+ except:
+      pass
      
 
 @bot.message_handler(commands=['offgames'])
@@ -1921,8 +1934,9 @@ def dmgs(id):
             if a>0:
                text+='🔵Магический титан '+games[id]['bots'][ids]['name']+' блокирует '+str(a)+' урона!\n'
             if games[id]['bots'][ids]['magicshield']<=0:
-                games[id]['bots'][ids]['magicshieldkd']=6
-                text+='🔴Его мана закончилась. Он получает оглушение и становится уязвим на '+str(games[id]['bots'][ids]['magicshieldkd']-1)+' ходов!\n'
+                games[id]['bots'][ids]['magicshieldkd']=2
+                games[id]['bots'][ids]['hp']-=1
+                text+='🔴Его мана закончилась. Он теряет ♥1 хп и получает оглушение на 1 ход!\n'
         games[id]['bots'][ids]['allrounddmg']+=games[id]['bots'][ids]['takendmg']
         if games[id]['randomdmg']!=1:
           if games[id]['bots'][ids]['takendmg']>c:
@@ -1957,9 +1971,9 @@ def dmgs(id):
           if games[id]['bots'][mob]['magicshieldkd']>0:
             games[id]['bots'][mob]['magicshieldkd']-=1
             if games[id]['bots'][mob]['magicshieldkd']==0:
-                games[id]['bots'][mob]['magicshield']=4
+                games[id]['bots'][mob]['magicshield']=5
                 if games[id]['bots'][mob]['die']!=1:
-                    text+='🔵Магический титан '+games[id]['bots'][mob]['name']+' восстановил ману до 4. Он приходит в себя.\n'
+                    text+='🔵Магический титан '+games[id]['bots'][mob]['name']+' восстановил ману до 5. Он приходит в себя.\n'
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
             text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.\n'
@@ -1976,7 +1990,7 @@ def dmgs(id):
                   a=random.randint(1,100)
                   if a<=5:
                     games[id]['bots'][mob]['hp']+=1
-                    text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ❤️хп!\n'
+                    text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ♥хп!\n'
     
                      
         if 'zeus' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
@@ -1985,7 +1999,7 @@ def dmgs(id):
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
-                text+='⚠️Зевс '+games[id]['bots'][mob]['name']+' вызывает молнию! Все его враги теряют ❤️хп.\n'
+                text+='⚠️Зевс '+games[id]['bots'][mob]['name']+' вызывает молнию! Все его враги теряют ♥хп.\n'
         
                         
         if games[id]['bots'][mob]['zombie']!=0:
@@ -3302,6 +3316,8 @@ def begingame(id):
                 yes=1  
         if yes==1:
               games[id]['bots'][ids]['skills'].append('active')
+        if 'paukovod' in games[id]['bots'][ids]['skills']:
+            games[id]['bots'][ids]['hp']-=2
         if 'double' in games[id]['bots'][ids]['skills']:
             b=int(round(games[id]['bots'][ids]['hp']/2,0))
             games[id]['bots'][ids]['hp']=b
@@ -3309,7 +3325,7 @@ def begingame(id):
         if 'mage' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['weapon']='magic'
         if 'magictitan' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['magicshield']=4
+            games[id]['bots'][ids]['magicshield']=5
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
@@ -3320,8 +3336,6 @@ def begingame(id):
             games[id]['bots'][ids]['heal']=9
         if 'pricel' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['accuracy']+=15
-        if 'paukovod' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['hp']-=2
         if 'nindza' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['miss']+=20
         games[id]['bots'][ids]['maxhp']=games[id]['bots'][ids]['hp']
