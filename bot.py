@@ -10,7 +10,7 @@ from emoji import emojize
 from telebot import types
 from pymongo import MongoClient
 from emoji import emojize
-
+from SimpleQIWI import *
 
 
 from requests.exceptions import ReadTimeout
