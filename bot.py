@@ -89,7 +89,7 @@ def gift(m):
  try:
    x=users.find_one({'id':m.from_user.id})
    y=users.find_one({'id':m.reply_to_message.from_user.id})
-   if 'gift' in x['bought']:
+   if 'gift' in x['bot']['bought']:
      z=int(m.text.split('/gift ')[1])
      if x!=None and y!=None:
        if z>=0:
