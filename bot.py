@@ -159,12 +159,19 @@ def upd(m):
             bot.send_message(m.chat.id, 'Каждому игроку был выдан 1 джойн бот!')
 
 
+@bot.message_handler(commands=['myid'])
+def myid(m):
+   bot.send_message(m.chat.id, 'Ваш id:\n`'+str(m.from_user.id)+'`',parse_mode='markdown')
+            
 @bot.message_handler(commands=['donate'])
 def donate(m):
-   bot.send_message(m.chat.id, 'Донат - покупка игровых ресурсов за реальные деньги.\n'+
-                    'Курс: 1000⚛ за 100 рублей. Для совершения платежа, переведите желаемую сумму (не меньше 50р) на карту:\n'+
-                    '`5336 6900 5562 4037`, указав свой ник (через @).\nКак только я зайду в сеть, то начислю поинты в соответствии с курсом.\n'+
-                    'При покупке от 500р начисляется бонус - дополнительные 1000⚛. При сумме покупок больше, чем на 800р - уникальные смайлики для хп в подарок!\nТак же их можно купить за 300 рублей.', parse_mode='markdown')
+  if m.from_user.id==m.chat.id:
+   bot.send_message(m.chat.id, 'Донат - покупка игровых ресурсов за реальные деньги.\n'+ 
+                    'Курс: 20⚛ за 1р. Покупки совершаются через qiwi - кошелёк. Чтобы совершить покупку, '+
+                    'нажмите /pay.', parse_mode='markdown')
+  else:
+   bot.send_message(m.chat.id, 'Можно использовать только в личке!')
+   
             
             
 @bot.message_handler(commands=['autojoin'])
@@ -3638,6 +3645,56 @@ def boxreload(m):
   if m.from_user.id==441399484:
     users.update_many({}, {'$set':{'dailybox':1}})   
     bot.send_message(m.chat.id, 'Дейлибоксы обновлены!')
+   
+@bot.message_handler(commands=['pay'])
+def allmesdonate(m):
+ if m.from_user.id==m.chat.id:
+   z=donates.find_one({})
+   if str(m.from_user.id) not in z['donaters']:
+     bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте желаемую сумму (не меньше 20 рублей, иначе донат не пройдёт) на киви-номер:\n'+
+                      '`+79268508530`\nВ комментарии укажите ваш id (взять его можно, нажав команду /myid). На этот аккаунт придут поинты, в размере '+
+                      '(Сумма платежа)*20. Через 5 минут операция будет отменена.',parse_mode='markdown')
+     t=threading.Timer(300,cancelpay,args=[m.from_user.id])
+     t.start()
+     api=QApi(token=bearer,phone=mylogin)
+     price=1
+     comment=api.bill(comment=str(x['id']), price=price)
+     donates.update_one({},{'$push':{'donaters':str(x['id'])}})
+     print(comment)
+   
+   
+def cancelpay(id):
+   try:
+     donates.update_one({},{'$pull':{'donaters':id}})
+     bot.send_message(id,'Время ожидания вашего платежа истекло. Повторите попытку командой /pay.')
+   except:
+     pass
+   
+   
+@api.bind_echo()
+   def foo(bar):
+      id=None
+      z=None
+      a=donates.find_one({})
+      for ids in a['donaters']:
+        try:
+           z=bar[ids]
+           id=ids
+        except:
+           pass
+      if z!=None and id!=None:
+         users.update_one({'id':int(id)},{'$inc':{'cookie':bar[ids]['price']*20}})
+         bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(bar[ids]['price']*20)+'⚛')
+         donates.update_one({},{'$pull':{'donaters':id}})
+         
+               
+      bot.send_message(441399484,'New payment!')
+      print(bar)
+      try:
+         api.stop()
+      except:
+         pass
+   
 
 if True:
    dailybox()
