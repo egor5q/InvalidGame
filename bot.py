@@ -3658,7 +3658,7 @@ def allmesdonate(m):
      bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте желаемую сумму (не меньше 20 рублей, иначе донат не пройдёт) на киви-номер:\n'+
                       '`+79268508530`\nВ комментарии укажите ваш id (взять его можно, нажав команду /myid). На этот аккаунт придут поинты, в размере '+
                       '(Сумма платежа)x20. Через 5 минут операция будет отменена.',parse_mode='markdown')
-     t=threading.Timer(300,cancelpay,args=[m.from_user.id])
+     t=threading.Timer(3,cancelpay,args=[m.from_user.id])
      t.start()
      price=1
      comment=api.bill(comment=str(x['id']), price=price)
@@ -3668,7 +3668,7 @@ def allmesdonate(m):
    
 def cancelpay(id):
    try:
-     donates.update_one({},{'$pull':{'donaters':id}})
+     donates.update_one({},{'$pull':{'donaters':str(id)}})
      bot.send_message(id,'Время ожидания вашего платежа истекло. Повторите попытку командой /pay.')
    except:
      pass
