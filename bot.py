@@ -3663,6 +3663,7 @@ def allmesdonate(m):
      price=1
      comment=api.bill(comment=str(x['id']), price=price)
      donates.update_one({},{'$push':{'donaters':str(x['id'])}})
+     api.start()
      print(comment)
    
    
@@ -3695,7 +3696,6 @@ def foo(bar):
          api.stop()
       except:
          pass
-api.start()
 
 if True:
    dailybox()
