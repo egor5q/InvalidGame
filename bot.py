@@ -3689,7 +3689,7 @@ def foo(bar):
            pass
       if z!=None and id!=None:
          c=int(bar[ids]['price']*20)
-         users.update_one({'id':int(id)},{'$inc':{'cookie':c)}})
+         users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
          bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')
          donates.update_one({},{'$pull':{'donaters':id}})      
       bot.send_message(441399484,'New payment!')
