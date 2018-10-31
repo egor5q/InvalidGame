@@ -3659,7 +3659,6 @@ def allmesdonate(m):
                       '(Сумма платежа)*20. Через 5 минут операция будет отменена.',parse_mode='markdown')
      t=threading.Timer(300,cancelpay,args=[m.from_user.id])
      t.start()
-     api=QApi(token=bearer,phone=mylogin)
      price=1
      comment=api.bill(comment=str(x['id']), price=price)
      donates.update_one({},{'$push':{'donaters':str(x['id'])}})
@@ -3673,7 +3672,7 @@ def cancelpay(id):
    except:
      pass
    
-   
+api=QApi(token=bearer,phone=mylogin)   
 @api.bind_echo()
 def foo(bar):
       id=None
@@ -3689,6 +3688,7 @@ def foo(bar):
          users.update_one({'id':int(id)},{'$inc':{'cookie':bar[ids]['price']*20}})
          bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(bar[ids]['price']*20)+'⚛')
          donates.update_one({},{'$pull':{'donaters':id}})
+api.start()
          
                
       bot.send_message(441399484,'New payment!')
