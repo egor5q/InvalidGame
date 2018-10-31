@@ -3660,7 +3660,7 @@ def allmesdonate(m):
                       '(Сумма платежа)x20. Через 5 минут операция будет отменена.',parse_mode='markdown')
      t=threading.Timer(300,cancelpay,args=[m.from_user.id])
      t.start()
-     price=1
+     price=20
      comment=api.bill(comment=str(x['id']), price=price)
      donates.update_one({},{'$push':{'donaters':str(x['id'])}})
      print(comment)
