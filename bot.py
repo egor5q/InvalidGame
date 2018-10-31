@@ -3657,8 +3657,8 @@ def allmesdonate(m):
    if str(m.from_user.id) not in z['donaters'] and x!=None:
      bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте желаемую сумму (не меньше 20 рублей, иначе донат не пройдёт) на киви-номер:\n'+
                       '`+79268508530`\nВ комментарии укажите ваш id (взять его можно, нажав команду /myid). На этот аккаунт придут поинты, в размере '+
-                      '(Сумма платежа)x20. Через 5 минут операция будет отменена.',parse_mode='markdown')
-     t=threading.Timer(300,cancelpay,args=[m.from_user.id])
+                      '(Сумма платежа)x20. Через 10 минут операция будет отменена.',parse_mode='markdown')
+     t=threading.Timer(600,cancelpay,args=[m.from_user.id])
      t.start()
      price=20
      comment=api.bill(comment=str(x['id']), price=price)
