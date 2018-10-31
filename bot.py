@@ -3649,21 +3649,21 @@ def boxreload(m):
     users.update_many({}, {'$set':{'dailybox':1}})   
     bot.send_message(m.chat.id, 'Дейлибоксы обновлены!')
    
-@bot.message_handler(commands=['pay'])
-def allmesdonate(m):
- if m.from_user.id==m.chat.id:
-   z=donates.find_one({})
-   x=users.find_one({'id':m.from_user.id})
-   if str(m.from_user.id) not in z['donaters'] and x!=None:
-     bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте желаемую сумму (не меньше 20 рублей, иначе донат не пройдёт) на киви-номер:\n'+
-                      '`+79268508530`\nВ комментарии укажите ваш id (взять его можно, нажав команду /myid). На этот аккаунт придут поинты, в размере '+
-                      '(Сумма платежа)x20. Через 10 минут операция будет отменена.',parse_mode='markdown')
-     t=threading.Timer(600,cancelpay,args=[m.from_user.id])
-     t.start()
-     price=20
-     comment=api.bill(comment=str(x['id']), price=price)
-     donates.update_one({},{'$push':{'donaters':str(x['id'])}})
-     print(comment)
+#@bot.message_handler(commands=['pay'])
+#def allmesdonate(m):
+# if m.from_user.id==m.chat.id:
+#   z=donates.find_one({})
+#   x=users.find_one({'id':m.from_user.id})
+#   if str(m.from_user.id) not in z['donaters'] and x!=None:
+#     bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте желаемую сумму (не меньше 20 рублей, иначе донат не пройдёт) на киви-номер:\n'+
+#                      '`+79268508530`\nВ комментарии укажите следующую строку:\n'+' . На этот аккаунт придут поинты, в размере '+
+#                      '(Сумма платежа)x20. Через 10 минут операция будет отменена.',parse_mode='markdown')
+#     t=threading.Timer(600,cancelpay,args=[m.from_user.id])
+#     t.start()
+#     price=20
+#     comment=api.bill(comment=str(x['id'])+' '+uuid4, price=price)
+#     donates.update_one({},{'$push':{'donaters':str(x['id'])}})
+#     print(comment)
 
    
 def payy(comment):
@@ -3704,29 +3704,29 @@ def cancelpay(id):
    except:
      pass
    
-api=QApi(token=bearer,phone=mylogin)   
-@api.bind_echo()
-def foo(bar):
-      id=None
-      z=None
-      a=donates.find_one({})
-      for ids in a['donaters']:
-        try:
-           z=bar[ids]
-           id=ids
-        except:
-           pass
-      if z!=None and id!=None:
-         c=int(bar[ids]['price']*20)
-         users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
-         bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')
-         donates.update_one({},{'$pull':{'donaters':id}})      
-         api.stop()
-         api.start()
-         bot.send_message(441399484,'New payment!')
-      print(bar)
-      
-api.start()
+#api=QApi(token=bearer,phone=mylogin)   
+#@api.bind_echo()
+#def foo(bar):
+#      id=None
+#      z=None
+#      a=donates.find_one({})
+#      for ids in a['donaters']:
+#        try:
+#           z=bar[ids]
+#           id=ids
+#        except:
+#           pass
+#      if z!=None and id!=None:
+#         c=int(bar[ids]['price']*20)
+#         users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
+#         bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')
+#         donates.update_one({},{'$pull':{'donaters':id}})      
+#         api.stop()
+#         api.start()
+#         bot.send_message(441399484,'New payment!')
+#      print(bar)
+#      
+#api.start()
 
 if True:
    dailybox()
