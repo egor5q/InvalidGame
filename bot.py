@@ -30,6 +30,9 @@ users=db.users
 tournier=db.tournier
 reserv=db.reserv
 variables=db.variables
+donates=db.donates
+bearer=os.environ['bearer']
+mylogin=79268508530
 
 client2=os.environ['database2']
 client3=MongoClient(client2)
@@ -3672,7 +3675,7 @@ def cancelpay(id):
    
    
 @api.bind_echo()
-   def foo(bar):
+def foo(bar):
       id=None
       z=None
       a=donates.find_one({})
