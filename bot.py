@@ -3663,7 +3663,6 @@ def allmesdonate(m):
      price=1
      comment=api.bill(comment=str(x['id']), price=price)
      donates.update_one({},{'$push':{'donaters':str(x['id'])}})
-     api.start()
      print(comment)
    
    
@@ -3692,10 +3691,8 @@ def foo(bar):
          donates.update_one({},{'$pull':{'donaters':id}})      
       bot.send_message(441399484,'New payment!')
       print(bar)
-      try:
-         api.stop()
-      except:
-         pass
+      
+api.start()
 
 if True:
    dailybox()
@@ -3703,6 +3700,7 @@ if True:
 
   
 if True:
+   donates.update_one({},{'$set':{'donaters':[]}})
    print('7777')
    bot.send_message(-1001208357368, 'Бот был перезагружен!')
    bot.polling(none_stop=True,timeout=600)
