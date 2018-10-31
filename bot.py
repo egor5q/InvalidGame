@@ -3664,11 +3664,12 @@ def allmesdonate(m):
      comment=api.bill(comment=str(x['id']), price=price)
      donates.update_one({},{'$push':{'donaters':str(x['id'])}})
      print(comment)
-     t=threading.Timer(1,payy)
+     t=threading.Timer(1,payy,args=[comment])
      t.start()
    
-def payy():
+def payy(comment):
    x=0
+   bar=api
    while True and x<100:
       if api.check(comment):
          print('success')
@@ -3689,8 +3690,8 @@ def payy():
             api.stop()
             api.start()
             bot.send_message(441399484,'New payment!')
-         print(bar)
             break
+         print(bar)
          x+=1
       time.sleep(6)
    
