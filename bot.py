@@ -172,7 +172,7 @@ def donate(m):
   if m.from_user.id==m.chat.id:
    bot.send_message(m.chat.id, 'Донат - покупка игровых ресурсов за реальные деньги.\n'+ 
                     'Курс: 20⚛ за 1р. Покупки совершаются через qiwi - кошелёк. Чтобы совершить покупку, '+
-                    'нажмите /pay.', parse_mode='markdown')
+                    'напишите /pay *сумма*', parse_mode='markdown')
   else:
    bot.send_message(m.chat.id, 'Можно использовать только в личке!')
    
@@ -3669,6 +3669,10 @@ def allmesdonate(m):
                         '(Сумма платежа)x20.',parse_mode='markdown')
        comment=api.bill(comment=str(pn), price=price)
        print(comment)
+     except:
+      pass
+    else:
+         bot.send_message(m.chat.id, 'Для доната используйте формат:\n/`pay сумма`',parse_mode='markdown'
 
 def createdonater(id,pn):
    return{'id':id,
