@@ -3660,15 +3660,19 @@ def allmesdonate(m):
      try:
        price=int(word[1])
        price+=0
-       pay.update_one({},{'$inc':{'x':1}})
-       pn=pay.find_one({})
-       pn=pn['x']
-       pay.update_one({},{'$push':{'donaters':createdonater(m.from_user.id,pn)}})
-       bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте '+str(word[1])+' рубль(ей) на киви-номер:\n'+
-                        '`+79268508530`\nС комментарием:\n`'+str(pn)+'`\nНа ваш аккаунт придут поинты, в размере '+
+       if price>=20:
+         pay.update_one({},{'$inc':{'x':1}})
+         pn=pay.find_one({})
+         pn=pn['x']
+         pay.update_one({},{'$push':{'donaters':createdonater(m.from_user.id,pn)}})
+         bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте '+str(word[1])+' рубль(ей) на киви-номер:\n'+
+                        '`+79268508530`\nС комментарием:\n`'+str(pn)+'`\n*Важно:* если сумма будет меньше указанной, или '+
+                          'комментарий не будет соответствовать указанному выше, платёж не пройдёт!\nНа ваш аккаунт придут поинты, в размере '+
                         '(Сумма платежа)x20.',parse_mode='markdown')
-       comment=api.bill(comment=str(pn), price=price)
-       print(comment)
+         comment=api.bill(comment=str(pn), price=price)
+         print(comment)
+       else:
+         bot.send_message(m.chat.id, 'Минимальная сумма платежа - 20 рублей!')
      except:
       pass
     else:
