@@ -3725,11 +3725,15 @@ def foo(bar):
       a=pay.find_one({})
       for ids in a['donaters']:
         print(ids)
-        try:
-           z=bar[ids['comment']]
-           id=ids['id']
-        except:
-           pass
+           print(z)
+           print(id)
+           try:
+             z=bar[ids['comment']]
+             id=ids['id']
+           except:
+             pass
+           print(z)
+           print(id)
       if z!=None and id!=None:
          c=int(bar[ids]['price']*20)
          users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
