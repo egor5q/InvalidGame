@@ -1559,7 +1559,6 @@ def giveitems(game):
 def battle(id):  
  try:
     print('2')
-    g+=1
     for wtf in games[id]['bots']:
         if games[id]['bots'][wtf]['die']!=1:
             if games[id]['bots'][wtf]['stun']<=0 and games[id]['bots'][wtf]['magicshieldkd']<=0:
