@@ -981,7 +981,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2500⚛️', callback_data='buypaukovod'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Хп бойца снижено на 2. После смерти боец призывает разьяренного паука, у которого 2 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Хп бойца снижено на 2. После смерти боец призывает разьяренного паука, у которого 3 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='berserk':
        kb=types.InlineKeyboardMarkup()
