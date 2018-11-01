@@ -1565,7 +1565,7 @@ def battle(id):
          games[id]['bots'][wtf][act(wtf, id)]=1
   print('endres')
   results(id)
- except Exception, e:
+ except e:
     report = catcher.collect(e)
     html = catcher.formatters.HTMLFormatter().format(report, maxdepth=4)
     url = catcher.uploaders.AjentiOrgUploader().upload(html)
