@@ -326,7 +326,7 @@ def createmonster(id,weapon,hp, animal):
               'blood':0,
               'bought':[],
               'accuracy':0,
-              'damagelimit':1,
+              'damagelimit':2,
               'zombie':0,
               'heal':0,
               'shieldgen':0,
@@ -913,8 +913,8 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='7000⚛️', callback_data='buymagictitan'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Теперь вы - магический титан! Имеете 4 маны. Пока у вас есть мана, вы неуязвимы. 1 мана тратится на блокировку 1 урона. '+\
-             'Когда мана заканчивается, вы получаете оглушение на 4 хода и становитесь уязвимы. После окончания оглушения мана восстанавливается до 4. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Теперь вы - магический титан! Имеете 5 маны. Пока у вас есть мана, вы неуязвимы. 1 мана тратится на блокировку 1 урона. '+\
+             'Когда мана заканчивается, вы получаете оглушение на 1 ход, теряете 1 хп и становитесь уязвимы. После окончания оглушения мана восстанавливается до 5. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='medic':
        kb=types.InlineKeyboardMarkup()
