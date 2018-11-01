@@ -3650,22 +3650,30 @@ def boxreload(m):
     users.update_many({}, {'$set':{'dailybox':1}})   
     bot.send_message(m.chat.id, 'Дейлибоксы обновлены!')
    
-#@bot.message_handler(commands=['pay'])
-#def allmesdonate(m):
-# if m.from_user.id==m.chat.id:
-#   z=donates.find_one({})
-#   x=users.find_one({'id':m.from_user.id})
-#   if str(m.from_user.id) not in z['donaters'] and x!=None:
-#     pay.update_one({},{'$inc':{'x':1}})
-#     pn=pay.find_one({})
-#     pn=pn['x']
-#     bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте желаемую сумму (не меньше 20 рублей, иначе донат не пройдёт) на киви-номер:\n'+
-#                      '`+79268508530`\nС комментарием:\n`'+str(pn)+'`\nНа ваш аккаунт придут поинты, в размере '+
-#                      '(Сумма платежа)x20.',parse_mode='markdown')
-#     price=20
-#     comment=api.bill(comment=str(pn), price=price)
-#     print(comment)
+@bot.message_handler(commands=['pay'])
+def allmesdonate(m):
+ if m.from_user.id==m.chat.id:
+   x=users.find_one({'id':m.from_user.id})
+   if x!=None:
+    word=m.text.split(' ')
+    if len(word)==2:
+     try:
+       price=int(word[1])
+       price+=0
+       pay.update_one({},{'$inc':{'x':1}})
+       pn=pay.find_one({})
+       pn=pn['x']
+       pay.update_one({},{'$push':{'donaters':createdonater(m.from_user.id,pn)}})
+       bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте '+str(word[1])+' на киви-номер:\n'+
+                        '`+79268508530`\nС комментарием:\n`'+str(pn)+'`\nНа ваш аккаунт придут поинты, в размере '+
+                        '(Сумма платежа)x20.',parse_mode='markdown')
+       comment=api.bill(comment=str(pn), price=price)
+       print(comment)
 
+def createdonater(id,pn):
+   return{'id':id,
+         'comment':pn}
+   
    
 def payy(comment):
    x=0
@@ -3710,18 +3718,17 @@ api=QApi(token=bearer,phone=mylogin)
 def foo(bar):
       id=None
       z=None
-      a=donates.find_one({})
+      a=pay.find_one({})
       for ids in a['donaters']:
         try:
-           z=bar[ids]
-           id=ids
+           z=bar[ids['comment']]
+           id=ids['id']
         except:
            pass
       if z!=None and id!=None:
          c=int(bar[ids]['price']*20)
          users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
-         bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')
-         donates.update_one({},{'$pull':{'donaters':id}})      
+         bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')     
          bot.send_message(441399484,'New payment!')
       print(bar)
       
