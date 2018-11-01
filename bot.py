@@ -2031,7 +2031,7 @@ def dmgs(id):
        if games[id]['bots'][mob]['takendmg']<games[id]['bots'][mob]['damagelimit']:
         a=1
        else:
-        a=1+int(games[id]['bots'][mob]['takendmg']/games[id]['bots'][mob]['damagelimit'])
+        a=1+games[id]['bots'][mob]['takendmg']//games[id]['bots'][mob]['damagelimit']
        if games[id]['bots'][mob]['zombie']==0:
          if games[id]['bots'][mob]['die']!=1:
            if 'oracle' not in games[id]['bots'][mob]['skin']:
