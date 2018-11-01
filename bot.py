@@ -3724,7 +3724,7 @@ def foo(bar):
       z=None
       a=pay.find_one({})
       for ids in a['donaters']:
-        print(ids)
+           print(ids)
            print(z)
            print(id)
            try:
