@@ -3672,7 +3672,7 @@ def allmesdonate(m):
      except:
       pass
     else:
-         bot.send_message(m.chat.id, 'Для доната используйте формат:\n/`pay сумма`',parse_mode='markdown'
+         bot.send_message(m.chat.id, 'Для доната используйте формат:\n/`pay сумма`',parse_mode='markdown')
 
 def createdonater(id,pn):
    return{'id':id,
