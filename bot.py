@@ -3728,7 +3728,7 @@ def foo(bar):
            print(z)
            print(id)
            try:
-             z=bar[ids['comment']]
+             z=bar[str(ids['comment'])]
              id=ids['id']
            except:
              pass
