@@ -3723,6 +3723,7 @@ def foo(bar):
       id=None
       z=None
       a=pay.find_one({})
+      i=0
       for ids in a['donaters']:
            print(ids)
            print(z)
@@ -3730,13 +3731,17 @@ def foo(bar):
            try:
              z=bar[str(ids['comment'])]
              id=ids['id']
+             index=i
+             removal=ids
            except:
              pass
            print(z)
            print(id)
+           i+=1
       if z!=None and id!=None:
          c=int(z['price']*20)
          users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
+         pay.update_one({},{'$pull':{'donaters':removal}})
          bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')     
          bot.send_message(441399484,'New payment!')
       print(bar)
