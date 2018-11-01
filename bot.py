@@ -11,7 +11,7 @@ from telebot import types
 from pymongo import MongoClient
 from emoji import emojize
 from SimpleQIWI import *
-
+import catcher
 
 from requests.exceptions import ReadTimeout
 from requests.exceptions import ConnectionError
@@ -1558,14 +1558,19 @@ def giveitems(game):
 def battle(id):  
  try:
   print('2')
+  aa+=1
   for wtf in games[id]['bots']:
     if games[id]['bots'][wtf]['die']!=1:
       if games[id]['bots'][wtf]['stun']<=0 and games[id]['bots'][wtf]['magicshieldkd']<=0:
          games[id]['bots'][wtf][act(wtf, id)]=1
   print('endres')
   results(id)
- except:
+ except Exception, e:
+    report = catcher.collect(e)
+    html = catcher.formatters.HTMLFormatter().format(report, maxdepth=4)
+    url = catcher.uploaders.AjentiOrgUploader().upload(html)
     try:
+      bot.send_message(441399484, 'Ошибка!\n'+url)
       bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
       del games[id]
     except:
