@@ -3724,10 +3724,10 @@ def foo(bar):
       z=None
       a=pay.find_one({})
       for ids in a['donaters']:
-        print(a[ids])
+        print(ids)
         try:
-           z=bar[a[ids]['comment']]
-           id=a[ids]['id']
+           z=bar[ids['comment']]
+           id=ids['id']
         except:
            pass
       if z!=None and id!=None:
