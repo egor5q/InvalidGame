@@ -811,7 +811,7 @@ def inline(call):
         if 'dvuzhil' in x['bot']['bought']:
             dvuzhil='✅'
         if 'nindza' in x['bot']['bought']:
-            dvuzhil='✅'
+            nindza='✅'
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=shield+'🛡Генератор щитов', callback_data='shieldgen'))
         kb.add(types.InlineKeyboardButton(text=medic+'⛑Медик', callback_data='medic'))
@@ -872,7 +872,7 @@ def inline(call):
             magictitan='✅'
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=mage+'✨Колдун', callback_data='mage'))
-        kb.add(types.InlineKeyboardButton(text=mage+'🔥Повелитель огня', callback_data='firemage'))
+        kb.add(types.InlineKeyboardButton(text=firemage+'🔥Повелитель огня', callback_data='firemage'))
         kb.add(types.InlineKeyboardButton(text=necromant+'🖤Некромант', callback_data='necromant'))
         kb.add(types.InlineKeyboardButton(text=magictitan+'🔵Магический титан', callback_data='magictitan'))
         kb.add(types.InlineKeyboardButton(text=double+'🎭Двойник', callback_data='double'))
@@ -1006,7 +1006,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='4500⚛️', callback_data='buybloodmage'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Когда боец умирает, он имеет 50% шанс отнять по 1хп случайному врагу. Если при этом враг умрет, маг воскреснет с 1хп, а убитый станет зомби. За бой может быть использовано многократно. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Когда боец умирает, он имеет 50% шанс отнять 1хп случайному врагу. Если при этом враг умрет, маг воскреснет с 2хп, а убитый станет зомби. За бой может быть использовано многократно. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
       
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
@@ -2093,8 +2093,8 @@ def dmgs(id):
                      x2['hp']-=1
                    if x2!=None:
                      if x2['hp']<=0 or x1['hp']<=0:
-                        text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', и воскресает с 1❤️!\n'
-                        games[id]['bots'][mob]['hp']=1
+                        text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', и воскресает с 2❤️!\n'
+                        games[id]['bots'][mob]['hp']=2
                         if x1['hp']<=0:
                            text+='👹'+x1['name']+' теперь зомби!\n'
                            x1['zombie']=1
@@ -2105,8 +2105,8 @@ def dmgs(id):
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', но никого не убивает, и погибает окончательно.\n'
                    else:
                      if x1['hp']<=0:
-                        text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', и воскресает с 1❤️!\n'
-                        games[id]['bots'][mob]['hp']=1
+                        text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', и воскресает с 2❤️!\n'
+                        games[id]['bots'][mob]['hp']=2
                         text+='👹'+x1['name']+' теперь зомби!\n'
                         x1['zombie']=1
                         x1['hp']=1
