@@ -3664,7 +3664,7 @@ def allmesdonate(m):
        pn=pay.find_one({})
        pn=pn['x']
        pay.update_one({},{'$push':{'donaters':createdonater(m.from_user.id,pn)}})
-       bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте '+str(word[1])+' на киви-номер:\n'+
+       bot.send_message(m.chat.id,'Для совершения покупки поинтов, отправьте '+str(word[1])+' рубль(ей) на киви-номер:\n'+
                         '`+79268508530`\nС комментарием:\n`'+str(pn)+'`\nНа ваш аккаунт придут поинты, в размере '+
                         '(Сумма платежа)x20.',parse_mode='markdown')
        comment=api.bill(comment=str(pn), price=price)
