@@ -1567,8 +1567,8 @@ def battle(id):
   print('endres')
   results(id)
  except:
+    bot.send_message(441399484, 'Ошибка!\n'+sys.traceback)
     try:
-      bot.send_message(441399484, 'Ошибка!\n'+sys.traceback)
       bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
       del games[id]
     except:
