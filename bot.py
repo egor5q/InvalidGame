@@ -3724,6 +3724,7 @@ def foo(bar):
       z=None
       a=pay.find_one({})
       for ids in a['donaters']:
+        print(a[ids])
         try:
            z=bar[a[ids]['comment']]
            id=a[ids]['id']
