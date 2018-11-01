@@ -1558,19 +1558,19 @@ def giveitems(game):
                    
 def battle(id):  
  try:
-  print('2')
-  aa+=1
-  for wtf in games[id]['bots']:
-    if games[id]['bots'][wtf]['die']!=1:
-      if games[id]['bots'][wtf]['stun']<=0 and games[id]['bots'][wtf]['magicshieldkd']<=0:
-         games[id]['bots'][wtf][act(wtf, id)]=1
-  print('endres')
-  results(id)
+    print('2')
+    g+=1
+    for wtf in games[id]['bots']:
+        if games[id]['bots'][wtf]['die']!=1:
+            if games[id]['bots'][wtf]['stun']<=0 and games[id]['bots'][wtf]['magicshieldkd']<=0:
+                games[id]['bots'][wtf][act(wtf, id)]=1
+    print('endres')
+    results(id)
  except:
     bot.send_message(441399484, 'Ошибка!\n'+sys.traceback)
     try:
-      bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
-      del games[id]
+        bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
+        del games[id]
     except:
         pass
     
