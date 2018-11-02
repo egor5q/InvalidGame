@@ -1557,7 +1557,7 @@ def giveitems(game):
 
                    
 def battle(id):  
- try:
+ 
     print('2')
     for wtf in games[id]['bots']:
         if games[id]['bots'][wtf]['die']!=1:
@@ -1565,13 +1565,13 @@ def battle(id):
                 games[id]['bots'][wtf][act(wtf, id)]=1
     print('endres')
     results(id)
- except:
-    bot.send_message(441399484, 'Ошибка!\n'+sys.traceback)
-    try:
-        bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
-        del games[id]
-    except:
-        pass
+ 
+   # bot.send_message(441399484, 'Ошибка!\n'+sys.traceback)
+  #  try:
+   #     bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
+   #     del games[id]
+ #   except:
+   #     pass
     
 def results(id):           
   for bots in games[id]['bots']:
