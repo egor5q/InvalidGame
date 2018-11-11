@@ -2872,7 +2872,7 @@ def item(bot, id):
               while a[x-1]['die']==1:
                   print('while6')
                   x=random.randint(1,len(a))
-    target=games[id]['bots'][a[x-1]['id']]
+    target=a[x-1]
     if bot['target']!=None:
         target=bot['target']
     bot['target']=target                                            
