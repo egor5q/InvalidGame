@@ -1908,6 +1908,10 @@ def dmgs(id):
             trgt['takenmeteors']+=1
     
     for ids in games[id]['bots']:
+        if 'firemage' in games[id]['bots'][ids]['skills']:
+           if random.randint(1,100)<=18:
+              games[id]['bots'][ids]['firearmor']=1
+              games[id]['res']+='🔥Повелитель огня '+bot['name']+' использует огненный щит, блокируя 50% входящего урона! Все атаковавшие его соперники загораются!\n'
         if games[id]['bots'][ids]['target']!=None:
             if games[id]['bots'][ids]['target']['firearmor']==1:
                 games[id]['bots'][ids]['fire']=3
@@ -2657,7 +2661,10 @@ def chlenchance(energy, target, x, id, bot1):
         bot1['target']=None
         bot1['energy']-=2
   gun=random.randint(1,100)
-  if gun<=20:
+  chanc=20
+  if 'double' in bot1['skills']:
+      chanc=10
+  if gun<=chanc:
       gun=1
   else:
       gun=0
