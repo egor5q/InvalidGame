@@ -1567,9 +1567,10 @@ def battle(id):
     print('endres')
     results(id)
  except:
-
+    for ids in games[id]['joinbotsreturn']:
+         users.update_one({'id':ids},{'$inc':{'joinbots':1}})
     try:
-        bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
+        bot.send_message(id, 'Произошла ошибка! Джойн-боты возвращены. Сбрасываю игру.')
         del games[id]
     except:
         pass
@@ -3227,6 +3228,7 @@ def begin(m):
                games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[m.chat.id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
+               games[m.chat.id]['joinbotsreturn'].append(ids['id'])
                try:
                    text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
                except:
@@ -3500,7 +3502,8 @@ def creategame(id, special):
         'apocalypse':special,
         'mode':None,
         'adminconnected':0,
-        'randomdmg':0
+        'randomdmg':0,
+        'joinbotsreturn':[]
         
              }
            }
@@ -3634,7 +3637,7 @@ def beginmassbattle(id):
          text=''
          for ids in x:
           if ids['id']!=0:
-            if ids['enablejoin']==1 and ids['joinbots']>0:
+            if ids['joinbots']>0:
                games[id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
