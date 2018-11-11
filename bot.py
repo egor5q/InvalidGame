@@ -103,6 +103,7 @@ def gift(m):
              users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
              users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
              bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'!')
+             bot.send_message(441399484, m.from_user.first_name+' успешно подарил '+str(z)+' поинтов игроку '+y['name']+'!')
            except:
               pass
        else:
