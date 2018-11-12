@@ -235,7 +235,7 @@ def createboss(id):
               'weapons':['hand']}
 
 
-def createpauk(id):
+def createpauk(id,hp):
     for ids in games:
          if id in games[ids]['bots']:
             id2=games[ids]['chatid']
@@ -246,7 +246,7 @@ def createpauk(id):
               'weapon':'bite',
               'skills':[],
               'team':None,
-              'hp':3,
+              'hp':hp,
               'identeficator':None,
               'maxenergy':5,
               'energy':5,
@@ -275,7 +275,7 @@ def createpauk(id):
               'target':None,
               'exp':0,
               'gipnoz':0,
-              'maxhp':3,
+              'maxhp':hp,
               'currentarmor':0,
               'armorturns':0,
               'boundwith':None,
@@ -1953,9 +1953,9 @@ def dmgs(id):
             if a>0:
                text+='🔵Магический титан '+games[id]['bots'][ids]['name']+' блокирует '+str(a)+' урона!\n'
             if games[id]['bots'][ids]['magicshield']<=0:
-                games[id]['bots'][ids]['magicshieldkd']=2
+                games[id]['bots'][ids]['magicshieldkd']=1
                 games[id]['bots'][ids]['hp']-=1
-                text+='🔴Его мана закончилась. Он теряет ♥1 хп и получает оглушение на 1 ход!\n'
+                text+='🔴Его мана закончилась. Он теряет ♥1 хп!\n'
         games[id]['bots'][ids]['allrounddmg']+=games[id]['bots'][ids]['takendmg']
         if games[id]['randomdmg']!=1:
           if games[id]['bots'][ids]['takendmg']>c:
@@ -1990,9 +1990,7 @@ def dmgs(id):
           if games[id]['bots'][mob]['magicshieldkd']>0:
             games[id]['bots'][mob]['magicshieldkd']-=1
             if games[id]['bots'][mob]['magicshieldkd']==0:
-                games[id]['bots'][mob]['magicshield']=5
-                if games[id]['bots'][mob]['die']!=1:
-                    text+='🔵Магический титан '+games[id]['bots'][mob]['name']+' восстановил ману до 5. Он приходит в себя.\n'
+                games[id]['bots'][mob]['magicshield']=6
         games[id]['bots'][mob]['stun']-=1
         if games[id]['bots'][mob]['stun']==0 and games[id]['bots'][mob]['die']!=1:
             text+='🌀'+games[id]['bots'][mob]['name']+' приходит в себя.\n'
@@ -2134,13 +2132,17 @@ def dmgs(id):
               text+='👹'+games[id]['bots'][mob]['name']+' теперь зомби!\n'
            if 'paukovod' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
                   text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
-                  pauk.append(games[id]['bots'][mob]['id'])
+                  pauk.append(games[id]['bots'][mob])
      if games[id]['xod']%5==0:
        if games[id]['bots'][mob]['id']==87651712:
           if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['hp']>0:
               text+=games[id]['bots'][mob]['name']+' сосёт!\n'
     for itemss in pauk:
-       games[id]['bots'].update(createpauk(itemss))
+       if 'double' in itemss['skills']:
+            g=1
+       else:
+            g=3
+       games[id]['bots'].update(createpauk(itemss['id'], g))
        print('pauk')
        print(games[id]['bots'])
     for ids in games[id]['summonlist']:
@@ -3341,7 +3343,7 @@ def begingame(id):
         if 'mage' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['weapon']='magic'
         if 'magictitan' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['magicshield']=5
+            games[id]['bots'][ids]['magicshield']=6
         if 'liveful' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']+=2
             games[id]['bots'][ids]['accuracy']-=15
