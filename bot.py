@@ -89,10 +89,10 @@ def topp(m):
           dieturn=-1
           a=None
           for ids in lst:
-              if ids['exp']>dieturn and ids['id'] not in place and games[id]['bots'][ids]['id']!=winner['id'] and \
+              if ids['bot']['exp']>dieturn and ids['id'] not in place and games[id]['bots'][ids]['id']!=winner['id'] and \
             ids['id'] not in idlist:
-                  a=games[id]['bots'][ids]
-                  dieturn=games[id]['bots'][ids]['dieturn']
+                  a=ids
+                  dieturn=ids['bot']['exp']
           if a!=None and a['id'] not in idlist:
               place.append(a['id'])
               idlist.append(a['id'])
