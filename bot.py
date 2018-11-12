@@ -101,7 +101,7 @@ def topp(m):
         text='Топ-10 игроков в кукиварс по опыту:\n\n'
         for ids in place:
             u=users.find_one({'id':ids})
-            text+=str(plc)+' место: '+u['name']+' - '+str(u['exp'])+'❇\n'
+            text+=str(plc)+' место: '+u['name']+' - '+str(u['bot']['exp'])+'❇\n'
             plc+=1
         bot.send_message(m.chat.id, text)
             
