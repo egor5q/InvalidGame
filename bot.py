@@ -78,6 +78,35 @@ def nextgame(m):
          bot.send_message(m.chat.id, 'Оповещения о начале игр включены!')
  
 
+@bot.message_handler(commands=['top'])
+def topp(m):
+    pass
+        place=[]
+        a=None
+        i=0
+        lst=users.find_many({})
+        idlist=[]
+        while i<9:
+          dieturn=-1
+          a=None
+          for ids in lst:
+              if ids['exp']>dieturn and ids['id'] not in place and games[id]['bots'][ids]['id']!=winner['id'] and \
+            ids['id'] not in idlist:
+                  a=games[id]['bots'][ids]
+                  dieturn=games[id]['bots'][ids]['dieturn']
+          if a!=None and a['id'] not in idlist:
+              place.append(a['id'])
+              idlist.append(a['id'])
+          i+=1
+        plc=1
+        text='Топ-10 игроков в кукиварс по опыту:\n\n'
+        for ids in place:
+            u=users.find_one({'id':ids})
+            text+=str(plc)+' место: '+u['name']+' - '+str(u['exp'])+'❇\n'
+            plc+=1
+        bot.send_message(m.chat.id, text)
+            
+
 
 @bot.message_handler(commands=['giftadmin'])
 def ggiftadm(m):
@@ -1907,12 +1936,25 @@ def dmgs(id):
             text+='🆘'+trgt['name']+' получает метеор в ебало на '+str(meteordmg)+' урона!\n'
             trgt['takenmeteordmg']+=meteordmg
             trgt['takenmeteors']+=1
+    for ids in games[id]['turrets']:
+        a=[]
+        for idss in games[id]['bots']:
+           if games[id]['bots'][idss]['die']!=1 and games[id]['bots'][idss]['hp']>0 and games[id]['bots'][idss]['zombie']<=0:
+              a.append(games[id]['bots'][idss])
+        if len(a)>0:
+            trgt=random.choice(a)
+            dmg=1
+            if random.randint(1,100)<=50:
+                games[id]['res']+='🔺Турель бойца '+games[id]['bots'][ids]['name']+' стреляет в '+trgt['name']+'! Нанесено '+str(dmg)+' урона.\n'
+                if random.randint(1,100)<=25:
+                    games[id]['res']+='🔥Цель загорается!\n'
+                    trgt['fire']+=2
     
     for ids in games[id]['bots']:
         if 'firemage' in games[id]['bots'][ids]['skills']:
            if random.randint(1,100)<=18:
               games[id]['bots'][ids]['firearmor']=1
-              games[id]['res']+='🔥Повелитель огня '+games[id]['bots'][ids]['name']+' использует огненный щит, блокируя 50% входящего урона! Все атаковавшие его соперники загораются!\n'
+              games[id]['res']+='🔥Повелитель огня '+games[id]['bots'][ids]['name']+' использует огненный щит!\n'
         if games[id]['bots'][ids]['target']!=None:
             if games[id]['bots'][ids]['target']['firearmor']==1:
                 games[id]['bots'][ids]['fire']=3
@@ -2107,6 +2149,7 @@ def dmgs(id):
                            x2['zombie']=3
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', но никого не убивает, и погибает окончательно.\n'
+                        games[id]['bots'][mob]['dieturn']=games[id]['xod']
                    else:
                      if x1['hp']<=0:
                         text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', и воскресает с 2❤️!\n'
@@ -2116,6 +2159,7 @@ def dmgs(id):
                         x1['hp']=1
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', но не убивает цель, и погибает окончательно.\n'
+                        games[id]['bots'][mob]['dieturn']=games[id]['xod']
                   else:
                      games[id]['bots'][mob]['dieturn']=games[id]['xod']
                      text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
@@ -2801,7 +2845,7 @@ def skill(bot,id):
        elif 'firemage' in bot['mainskill']:
            bot['firearmorkd']=8
            bot['firearmor']=1
-           games[id]['res']+='🔥Повелитель огня '+bot['name']+' использует огненный щит, блокируя 50% входящего урона! Все атаковавшие его соперники загораются!\n'
+           games[id]['res']+='🔥Повелитель огня '+bot['name']+' использует огненный щит!\n'
        target=x
        
    
@@ -3505,7 +3549,8 @@ def creategame(id, special):
         'mode':None,
         'adminconnected':0,
         'randomdmg':0,
-        'joinbotsreturn':[]
+        'joinbotsreturn':[],
+        'turrets':[]
         
              }
            }
