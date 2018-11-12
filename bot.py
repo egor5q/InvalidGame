@@ -80,7 +80,6 @@ def nextgame(m):
 
 @bot.message_handler(commands=['top'])
 def topp(m):
-    pass
         place=[]
         a=None
         i=0
