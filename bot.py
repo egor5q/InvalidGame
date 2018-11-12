@@ -89,11 +89,15 @@ def topp(m):
           dieturn=-1
           a=None
           for ids in lst:
-              if ids['bot']['exp']>dieturn and ids['id'] not in place and \
-            ids['id'] not in idlist:
-                  print(ids['name'])
-                  a=ids
-                  dieturn=ids['bot']['exp']
+              if ids['bot']['exp']>dieturn:
+                print('1')
+                  if ids['id'] not in place:
+                   print('2')
+                     if ids['id'] not in idlist:
+                        print('3')
+                        print(ids['name'])
+                        a=ids
+                        dieturn=ids['bot']['exp']
           if a!=None and a['id'] not in idlist:
               place.append(a['id'])
               idlist.append(a['id'])
