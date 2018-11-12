@@ -2395,17 +2395,17 @@ def kinzhalchance(energy, target, x, id, bot1):
          
 def bowchance(energy, target, x, id, bot1):
   if energy>=5:
-    chance=60
+    chance=65
   elif energy==4:
-    chance=60
+    chance=65
   elif energy==3:
-    chance=60
+    chance=65
   elif energy==2:
-    chance=60
+    chance=65
   elif energy==1:
-    chance=60
+    chance=65
   elif energy<=0:
-    chance=60
+    chance=65
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
@@ -3194,12 +3194,15 @@ def start(m):
 def goo(m):
   try:
     if m.chat.id in games:
+      if games[m.chat.id]['enablestart']==1:
         if len(games[m.chat.id]['bots'])>=2:
          if games[m.chat.id]['started']==0:
            begingame(m.chat.id)
            games[m.chat.id]['started']=1
         else:
             bot.send_message(m.chat.id, 'Недостаточно игроков!')
+      else:
+         bot.send_message(m.chat.id, 'Должна пройти хотя бы минута после запуска игры!')
   except:
     pass
     
@@ -3257,6 +3260,12 @@ def apocalypse(m):
                   pass
    
    
+def enablestart(id):
+   try:
+     games[id]['enablestart']=1
+   except:
+     pass
+   
 @bot.message_handler(commands=['begin'])
 def begin(m):
    y=variables.find_one({'vars':'main'})
@@ -3267,6 +3276,8 @@ def begin(m):
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         games[m.chat.id]['timer']=t
+        t=threading.Timer(60,enablestart,args=[m.chat.id])
+        t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
@@ -3555,7 +3566,8 @@ def creategame(id, special):
         'adminconnected':0,
         'randomdmg':0,
         'joinbotsreturn':[],
-        'turrets':[]
+        'turrets':[],
+        'enablestart':0
         
              }
            }
