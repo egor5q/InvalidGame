@@ -98,6 +98,7 @@ def topp(m):
               place.append(a['id'])
               idlist.append(a['id'])
           i+=1
+          print('i+=1')
         plc=1
         text='Топ-10 игроков в кукиварс по опыту:\n\n'
         for ids in place:
