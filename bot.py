@@ -90,9 +90,9 @@ def topp(m):
           a=None
           for ids in lst:
               if ids['bot']['exp']>dieturn:
-                print('1')
+                  print('1')
                   if ids['id'] not in place:
-                   print('2')
+                     print('2')
                      if ids['id'] not in idlist:
                         print('3')
                         print(ids['name'])
