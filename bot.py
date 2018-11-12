@@ -83,7 +83,7 @@ def topp(m):
         place=[]
         a=None
         i=0
-        lst=users.find_many({})
+        lst=users.find({})
         idlist=[]
         while i<9:
           dieturn=-1
