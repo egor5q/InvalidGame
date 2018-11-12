@@ -89,7 +89,7 @@ def topp(m):
           dieturn=-1
           a=None
           for ids in lst:
-              if ids['bot']['exp']>dieturn and ids['id'] not in place and games[id]['bots'][ids]['id']!=winner['id'] and \
+              if ids['bot']['exp']>dieturn and ids['id'] not in place and \
             ids['id'] not in idlist:
                   a=ids
                   dieturn=ids['bot']['exp']
