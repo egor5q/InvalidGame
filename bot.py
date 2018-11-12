@@ -83,9 +83,9 @@ def topp(m):
         place=[]
         a=None
         i=0
-        lst=users.find({})
         idlist=[]
         while i<9:
+          lst=users.find({})
           dieturn=-1
           a=None
           for ids in lst:
