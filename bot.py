@@ -2968,7 +2968,7 @@ def item(bot, id):
               target['takendmg']+=3
               try:
                 bot['items'].remove('knife')
-              ecxept:
+              except:
                pass
           else:
             games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
