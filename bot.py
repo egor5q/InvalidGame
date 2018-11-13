@@ -785,10 +785,13 @@ def delete(m):
 def name(m):
     text=m.text.split(' ')
     if len(text)==2:
-     if len(text[1])<=12:
-      x=users.find_one({'id':m.from_user.id})
-      users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[1]}})
-      bot.send_message(m.chat.id, 'Вы успешно изменили имя бойца на '+text[1]+'!')
+     if len(text[1])<=14:
+      if '@' not in text[1]:
+         x=users.find_one({'id':m.from_user.id})
+         users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[1]}})
+         bot.send_message(m.chat.id, 'Вы успешно изменили имя бойца на '+text[1]+'!')
+      else:
+         bot.send_message(m.chat.id, 'Нельзя использовать символ "@" в имени!')
      else:
             bot.send_message(m.chat.id, 'Длина ника не должна превышать 12 символов!')
     else:
@@ -810,7 +813,12 @@ def itemselect():
     return x
     
 
-            
+@bot.message_handler(commands=['crashgame'])
+def crashgame(m):
+   if m.from_user.id==441399484:
+      if m.chat.id in games:
+         games[m.chat.id]['xod']=None
+         bot.send_message(m.chat.id, 'О нет! Вы сломали игру!!!!')
         
         
 @bot.callback_query_handler(func=lambda call:True)
