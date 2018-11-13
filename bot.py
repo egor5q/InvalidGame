@@ -1998,7 +1998,7 @@ def dmgs(id):
             games[id]['bots'][ids]['takendmg']=int(games[id]['bots'][ids]['takendmg']/2)
         if games[id]['bots'][ids]['currentarmor']>0:
             text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
-        if 'magictitan' in games[id]['bots'][ids]['skills']:
+        if 'magictitan' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=70:
           if games[id]['bots'][ids]['magicshield']>0:
             a=games[id]['bots'][ids]['takendmg']
             if a>games[id]['bots'][ids]['magicshield']:
@@ -2136,7 +2136,7 @@ def dmgs(id):
                   games[id]['bots'][mob]['dieturn']=games[id]['xod']
               else:
                  randd=random.randint(1,100)
-                 if randd<=50:
+                 if randd<=60:
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
