@@ -3433,7 +3433,7 @@ def begingame(id):
             games[id]['bots'][ids]['miss']+=20
         games[id]['bots'][ids]['maxhp']=games[id]['bots'][ids]['hp']
         if 'robot' in games[id]['bots'][ids]['skin']:
-            games[id]['bots'][ids]['maxenergy']+=1
+            games[id]['bots'][ids]['maxenergy']+=2
     text=''
     text2=''
     print(createlist)
