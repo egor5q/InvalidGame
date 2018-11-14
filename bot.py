@@ -3520,6 +3520,9 @@ def begingame(id):
         if i==0:
             text+='Отсутствует.\n'
         text+='\n'
+    u=0
+    u+=1
+    print(u)
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     tt2=''
     animals=['rhino','demon','pig']
