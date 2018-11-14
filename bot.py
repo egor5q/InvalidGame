@@ -3470,7 +3470,7 @@ def begingame(id):
         games[id]['bots'][rnd]['identeficator']=rnd
         text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
     for ids in games[id]['bots']: 
-        randomm=0
+        rg='''randomm=0
         text+=games[id]['bots'][ids]['name']+':\n'
         for skill in games[id]['bots'][ids]['skills']:
             if randomm==0:
@@ -3490,6 +3490,7 @@ def begingame(id):
         except:
             text+='отсутствует.\n'
         text+='\n'
+        '''
     u=0
     u+=1
     print(u)
