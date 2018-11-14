@@ -957,7 +957,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='7000⚛️', callback_data='buymagictitan'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Теперь вы - магический титан! Имеете 6 маны. Пока у вас есть мана, вы неуязвимы. 1 мана тратится на блокировку 1 урона. '+\
+       medit('Теперь вы - магический титан! Имеете 6 маны. Пока у вас есть мана, вы неуязвимы. Имеете 50% шанс заблокировать входящий урон. 1 мана тратится на блокировку 1 урона. '+\
              'Когда мана заканчивается, вы теряете 1 хп и восстанавливаете ману. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='medic':
@@ -1050,7 +1050,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='4500⚛️', callback_data='buybloodmage'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Когда боец умирает, он имеет 50% шанс отнять 1хп случайному врагу. Если при этом враг умрет, маг воскреснет с 2хп, а убитый станет зомби. За бой может быть использовано многократно. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Когда боец умирает, он имеет 60% шанс отнять 1хп случайному врагу. Если при этом враг умрет, маг воскреснет с 2хп, а убитый станет зомби. За бой может быть использовано многократно. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
       
   elif call.data=='skins':
        x=users.find_one({'id':call.from_user.id})
@@ -1964,6 +1964,27 @@ def dmgs(id):
                     games[id]['res']+='🔥Цель загорается!\n'
                     trgt['fire']+=2
     
+    if games[id]['randomdmg']==1:
+        alldmg=0
+        for ids in games[id]['bots']:
+            alldmg+=games[id]['bots'][ids]['takendmg']
+            games[id]['bots'][ids]['takendmg']=0
+        allenemy=[]
+        for ids in games[id]['bots']:
+            if games[id]['bots'][ids]['deffromgun']!=1 and games[id]['bots'][ids]['die']!=1:
+                allenemy.append(games[id]['bots'][ids])
+        if len(allenemy)>0:
+          x=random.choice(allenemy)
+          while alldmg>0:
+            
+            x['takendmg']+=1
+            alldmg-=1
+          for ids in allenemy:
+            if ids['takendmg']>0:
+              text+='☢'+ids['name']+' получает '+str(ids['takendmg'])+' урона!\n'
+        else:
+           text+='Так как Алиса и Сергей применили пушку одновременно, никто из них не получает урона, пиздец.\n' 
+      
     for ids in games[id]['bots']:
         if 'firemage' in games[id]['bots'][ids]['skills']:
            if random.randint(1,100)<=18:
@@ -1999,7 +2020,7 @@ def dmgs(id):
             games[id]['bots'][ids]['takendmg']=int(games[id]['bots'][ids]['takendmg']/2)
         if games[id]['bots'][ids]['currentarmor']>0:
             text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
-        if 'magictitan' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=70:
+        if 'magictitan' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=50:
           if games[id]['bots'][ids]['magicshield']>0:
             a=games[id]['bots'][ids]['takendmg']
             if a>games[id]['bots'][ids]['magicshield']:
@@ -2016,26 +2037,6 @@ def dmgs(id):
         if games[id]['randomdmg']!=1:
           if games[id]['bots'][ids]['takendmg']>c:
             c=games[id]['bots'][ids]['takendmg']
-    if games[id]['randomdmg']==1:
-        alldmg=0
-        for ids in games[id]['bots']:
-            alldmg+=games[id]['bots'][ids]['takendmg']
-            games[id]['bots'][ids]['takendmg']=0
-        allenemy=[]
-        for ids in games[id]['bots']:
-            if games[id]['bots'][ids]['deffromgun']!=1 and games[id]['bots'][ids]['die']!=1:
-                allenemy.append(games[id]['bots'][ids])
-        if len(allenemy)>0:
-          x=random.choice(allenemy)
-          while alldmg>0:
-            
-            x['takendmg']+=1
-            alldmg-=1
-          for ids in allenemy:
-            if ids['takendmg']>0:
-              text+='☢'+ids['name']+' получает '+str(ids['takendmg'])+' урона!\n'
-        else:
-           text+='Так как Алиса и Сергей применили пушку одновременно, никто из них не получает урона, пиздец.\n'
             
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['takendmg']>c:
