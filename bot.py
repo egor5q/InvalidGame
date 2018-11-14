@@ -2027,7 +2027,7 @@ def dmgs(id):
       
     for ids in games[id]['bots']:
         if 'firemage' in games[id]['bots'][ids]['skills']:
-           if random.randint(1,100)<=18+(18*games[id]['bots'][ids]['chance']):
+           if random.randint(1,100)<=18+(18*games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['die']!=1:
               games[id]['bots'][ids]['firearmor']=1
               games[id]['res']+='🔥Повелитель огня '+games[id]['bots'][ids]['name']+' использует огненный щит!\n'
         if games[id]['bots'][ids]['target']!=None:
@@ -3284,7 +3284,7 @@ def withoutauto(m):
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         games[m.chat.id]['timer']=t
-        t=threading.Timer(60,enablestart,args=[m.chat.id])
+        t=threading.Timer(1,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
