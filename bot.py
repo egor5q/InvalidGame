@@ -3514,10 +3514,10 @@ def begingame(id):
               if skill!=randomm and skill!='active':
                     text+=skilltoname(skill)+'\n'
         text+='Скин: '
-        if games[id]['bots'][ids]['skin']!=[]:
-                text+=skintoname(games[id]['bots'][ids]['skin'][0])+'\n'
-        else:
-                text+='Отсутствует.\n'
+        try:
+            text+=skintoname(games[id]['bots'][ids]['skin'][0])+'\n'
+        except:
+            text+='отсутствует.\n'
         text+='\n'
     u=0
     u+=1
