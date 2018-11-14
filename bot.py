@@ -3512,6 +3512,13 @@ def begingame(id):
           else:
               if skill!=randomm and skill!='active':
                     text+=skilltoname(skill)+'\n'
+        i=0
+        text+='Скин: '
+        for skin in games[id]['bots'][ids]['skin']:
+            text+=skintoname(skin)+'\n'
+            i+=1
+        if i==0:
+            text+='Отсутствует.\n'
         text+='\n'
     bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     tt2=''
@@ -3542,47 +3549,55 @@ def animaltoname(animal):
         return 'Свинья'
 
 
+def skintoname(x):
+   if x=='oracle':
+      return '🔮Оракул'
+   elif x=='robot':
+      return '🅿Робот'
+   elif x=='oldman':
+      return '👳‍♀️Мудрец'
+   
 def skilltoname(x):
     if x=='shieldgen':
-        return 'Генератор щитов'
+        return '🛡Генератор щитов'
     elif x=='medic':
-        return 'Медик'
+        return '⛑Медик'
     elif x=='liveful':
-        return 'Живучий'
+        return '💙Живучий'
     elif x=='dvuzhil':
-        return 'Стойкий'
-    elif x=='pricel':
+        return '💪Стойкий'
+    elif x=='🎯pricel':
         return 'Прицел'
     elif x=='cazn':
-        return 'Ассасин'
+        return '💥Ассасин'
     elif x=='berserk':
-        return 'Берсерк'
+        return '😡Берсерк'
     elif x=='zombie':
-        return 'Зомби'
+        return '👹Зомби'
     elif x=='gipnoz':
-        return 'Гипнотизёр'
+        return '👁Гипнотизёр'
     elif x=='cube':
        return 'Куб рандома'
     elif x=='paukovod':
-       return 'Пауковод'
+       return '🕷Пауковод'
     elif x=='vampire':
-       return 'Вампир'
+       return '😈Вампир'
     elif x=='zeus':
-       return 'Зевс'
+       return '🌩Зевс'
     elif x=='nindza':
-       return 'Ниндзя'
+       return '💨Ниндзя'
     elif x=='bloodmage':
-       return 'Маг крови'
+       return '🔥Маг крови'
     elif x=='double':
-       return 'Двойник'
+       return '🎭Двойник'
     elif x=='mage':
-       return 'Колдун'
+       return '✨Колдун'
     elif x=='magictitan':
-       return 'Магический титан'
+       return '🔵Магический титан'
     elif x=='firemage':
-       return 'Повелитель огня'
+       return '🔥Повелитель огня'
     elif x=='necromant':
-       return 'Некромант'
+       return '🖤Некромант'
 
  
 def createbott(id, y):
