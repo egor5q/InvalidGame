@@ -3515,7 +3515,7 @@ def begingame(id):
                     text+=skilltoname(skill)+'\n'
         i=0
         text+='Скин: '
-            if games[id]['bots'][ids]['skin']!=[]:
+        if games[id]['bots'][ids]['skin']!=[]:
                 text+=skintoname(games[id]['bots'][ids]['skin'][0])+'\n'
                 i+=1
         if i==0:
