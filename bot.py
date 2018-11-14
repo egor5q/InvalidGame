@@ -2114,7 +2114,7 @@ def dmgs(id):
                msv.append(i)
                i+=0.1
             x=random.choice(msv)
-            if x<=3+(3*games[id]['bots'][mob]'chance']):
+            if x<=3+(3*games[id]['bots'][mob]['chance']):
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
