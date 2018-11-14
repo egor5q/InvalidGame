@@ -322,7 +322,8 @@ def createpauk(id,hp):
               'magicshieldkd':0,
               'fire':0,
               'firearmor':0,
-              'identeficator':x
+              'identeficator':x,
+              'chance':0
                      }
           }
    
@@ -381,7 +382,8 @@ def createmonster(id,weapon,hp, animal):
               'dieturn':0,
               'magicshieldkd':0,
               'fire':0,
-              'firearmor':0
+              'firearmor':0,
+              'chance':0
                      }
           }
    
@@ -461,7 +463,8 @@ def createzombie(id):
               'dieturn':0,
               'magicshieldkd':0,
               'fire':0,
-              'firearmor':0
+              'firearmor':0,
+              'chance':0
                
                      }
           }
@@ -525,15 +528,20 @@ def skins(m):
     kb=types.InlineKeyboardMarkup()
     oracle='☑️'
     robot='☑️'
+    oldman='☑️'
     if 'oracle' in x['bot']['skin']:
         oracle='✅'
     if 'robot' in x['bot']['skin']:
         robot='✅'
+    if 'oldman' in x['bot']['skin']:
+        oldman='✅'
     for ids in x['bot']['bought']:
         if ids=='oracle':
             kb.add(types.InlineKeyboardButton(text=oracle+'Оракул', callback_data='equiporacle'))
         if ids=='robot':
             kb.add(types.InlineKeyboardButton(text=robot+'Робот', callback_data='equiprobot'))
+        if ids=='oldman':
+            kb.add(types.InlineKeyboardButton(text=robot+'Мудрец', callback_data='equipoldman'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
   else:
@@ -1054,13 +1062,17 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        oracle='☑️'
        robot='☑️'
+       oldman='☑️'
        if 'oracle' in x['bot']['bought']:
             oracle='✅'
        if 'robot' in x['bot']['bought']:
             robot='✅'
+       if 'oldman' in x['bot']['bought']:
+            oldman='✅'
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text=oracle+'🔮Оракул', callback_data='oracle'))
        kb.add(types.InlineKeyboardButton(text=robot+'🅿️Робот', callback_data='robot'))
+       kb.add(types.InlineKeyboardButton(text=robot+'👳‍♀️Мудрец', callback_data='oldman'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Ветка: скины',call.message.chat.id,call.message.message_id, reply_markup=kb)
         
@@ -1069,6 +1081,12 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='4000⚛️', callback_data='buyoracle'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Скин позволяет воину с 30% шансом избежать фатального урона один раз за игру. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+         
+  elif call.data=='oldman':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='9000⚛️', callback_data='buyoldman'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Увеличивает шансы применения всех пассивных скиллов на 20% (для примера: шанс применить титана был 50%, а станет 60%). Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
          
   elif call.data=='robot':
        kb=types.InlineKeyboardMarkup()
@@ -1099,6 +1117,18 @@ def inline(call):
                 bot.answer_callback_query(call.id, 'Вы успешно экипировали скин "Робот"!')
            else:
                 bot.answer_callback_query(call.id, 'Экипировано максимальное количество скинов!')
+               
+  elif call.data=='equipoldman':
+       x=users.find_one({'id':call.from_user.id})
+       if 'oldman' in x['bot']['skin']:
+           users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skin':'oldman'}})
+           bot.answer_callback_query(call.id, 'Вы успешно сняли скин "Мудрец"!')
+       else:
+           if len(x['bot']['skin'])==0:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.skin':'oldman'}})
+                bot.answer_callback_query(call.id, 'Вы успешно экипировали скин "Мудрец"!')
+           else:
+                bot.answer_callback_query(call.id, 'Экипировано максимальное количество скинов!')
                                  
   elif call.data=='buyoracle':
     x=users.find_one({'id':call.from_user.id})
@@ -1124,6 +1154,18 @@ def inline(call):
            bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
       else:
            bot.answer_callback_query(call.id, 'Для начала купите предыдущее улучшение!')
+    else:
+        bot.answer_callback_query(call.id, 'У вас уже есть это!')
+         
+  elif call.data=='buyoldman':
+    x=users.find_one({'id':call.from_user.id})
+    if 'oldman' not in x['bot']['bought']:
+       if x['cookie']>=9000:
+            users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'oldman'}})
+            users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-9000}})
+            medit('Вы успешно приобрели скин "Мудрец"!',call.message.chat.id,call.message.message_id)
+       else:
+           bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
     else:
         bot.answer_callback_query(call.id, 'У вас уже есть это!')
              
@@ -1250,7 +1292,7 @@ def inline(call):
              if 'liveful' in x['bot']['bought']:
                 users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'dvuzhil'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-2500}})
-                medit('Вы успешно приобрели скилл "Двужильность"!',call.message.chat.id,call.message.message_id)
+                medit('Вы успешно приобрели скилл "Стойкий"!',call.message.chat.id,call.message.message_id)
              else:
                 bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
            else:
@@ -1535,7 +1577,7 @@ def inline(call):
           bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
       else:
         users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':txt[1]}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "Генератор щитов"!')
+        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "'+skilltoname(txt[1])+'"!')
     else:
         bot.answer_callback_query(call.id, 'У вас нет этого скилла!')
         
@@ -1668,7 +1710,7 @@ def results(id):
     games[id]['bots'][mobs]['firearmor']=0
     games[id]['bots'][mobs]['miss']=0  
     if 'nindza' in games[id]['bots'][mobs]['skills']:
-      games[id]['bots'][mobs]['miss']=20
+      games[id]['bots'][mobs]['miss']=20+(20*games[id]['bots'][mobs]['chance'])
     games[id]['bots'][mobs]['skill']=0
     games[id]['bots'][mobs]['shield']=0
     games[id]['bots'][mobs]['armorturns']-=1
@@ -1985,7 +2027,7 @@ def dmgs(id):
       
     for ids in games[id]['bots']:
         if 'firemage' in games[id]['bots'][ids]['skills']:
-           if random.randint(1,100)<=18:
+           if random.randint(1,100)<=18+(18*games[id]['bots'][ids]['chance']):
               games[id]['bots'][ids]['firearmor']=1
               games[id]['res']+='🔥Повелитель огня '+games[id]['bots'][ids]['name']+' использует огненный щит!\n'
         if games[id]['bots'][ids]['target']!=None:
@@ -2018,7 +2060,7 @@ def dmgs(id):
             games[id]['bots'][ids]['takendmg']=int(games[id]['bots'][ids]['takendmg']/2)
         if games[id]['bots'][ids]['currentarmor']>0:
             text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
-        if 'magictitan' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=50:
+        if 'magictitan' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=50+(50*games[id]['bots'][ids]['chance']):
           if games[id]['bots'][ids]['magicshield']>0:
             a=games[id]['bots'][ids]['takendmg']
             if a>games[id]['bots'][ids]['magicshield']:
@@ -2060,14 +2102,19 @@ def dmgs(id):
                 print(games[id]['bots'][mob]['target']['takendmg'])
                 if games[id]['bots'][mob]['target']['takendmg']==c and c>0:
                   a=random.randint(1,100)
-                  if a<=9:
+                  if a<=9+(9*games[id]['bots'][mob]['chance']):
                     games[id]['bots'][mob]['hp']+=1
                     text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ♥хп!\n'
     
                      
         if 'zeus' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
-            x=random.randint(1,100)
-            if x<=3:
+            msv=[]
+            i=0.1
+            while i<=100:
+               msv.append(i)
+               i+=0.1
+            x=random.choice(msv)
+            if x<=3+(3*games[id]['bots'][mob]'chance']):
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
@@ -2118,7 +2165,7 @@ def dmgs(id):
          else:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
          for idss in games[id]['bots']:
-            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=65:
+            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=65+(65*games[id]['bots'][idss]['chance']):
                games[id]['bots'][idss]['summonmonster'][1]+=a
                text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
        else:
@@ -2135,7 +2182,7 @@ def dmgs(id):
                   games[id]['bots'][mob]['dieturn']=games[id]['xod']
               else:
                  randd=random.randint(1,100)
-                 if randd<=60:
+                 if randd<=60*(60*games[id]['bots'][mob]['chance']):
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
@@ -2872,7 +2919,7 @@ def skill(bot,id):
   if choice=='medic':
        if bot['heal']<=0:
          a=random.randint(1,100)
-         if a<60:
+         if a<60+(60*bot['chance']):
            bot['heal']=10
            bot['hp']+=1
            bot['energy']=0
@@ -3412,6 +3459,8 @@ def begingame(id):
               games[id]['bots'][ids]['skills'].append('active')
         if 'paukovod' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['hp']-=2
+        if 'oldman' in games[id]['bots'][ids]['skin']:
+            games[id]['bots'][ids]['chance']+=0.2
         if 'double' in games[id]['bots'][ids]['skills']:
             b=int(round(games[id]['bots'][ids]['hp']/2,0))
             games[id]['bots'][ids]['hp']=b
@@ -3429,9 +3478,9 @@ def begingame(id):
         if 'medic' in games[id]['bots'][ids]['skills']:
             games[id]['bots'][ids]['heal']=9
         if 'pricel' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['accuracy']+=15
+            games[id]['bots'][ids]['accuracy']+=15+(15*games[id]['bots'][ids]['chance'])
         if 'nindza' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['miss']+=20
+            games[id]['bots'][ids]['miss']+=20+(20*games[id]['bots'][ids]['chance'])
         games[id]['bots'][ids]['maxhp']=games[id]['bots'][ids]['hp']
         if 'robot' in games[id]['bots'][ids]['skin']:
             games[id]['bots'][ids]['maxenergy']+=2
@@ -3525,7 +3574,7 @@ def skilltoname(x):
     elif x=='bloodmage':
        return 'Маг крови'
     elif x=='double':
-       return 'Раздвоение'
+       return 'Двойник'
     elif x=='mage':
        return 'Колдун'
     elif x=='magictitan':
