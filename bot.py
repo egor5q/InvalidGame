@@ -187,9 +187,7 @@ def upd(m):
         if m.from_user.id==441399484:
           y=users.find({})
           for ids in y:
-              if 'double' in ids['bot']['skills']:
-                  users.update_one({'id':ids['id']},{'$pull':{'bot.skills':'double'}})
-                  bot.send_message(ids['id'],'Двойник был снят!')
+                  users.update_one({'id':ids['id']},{'$set':{'bot.chance':0}})
           print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -3028,22 +3026,24 @@ def actnumber(bot, id):
        else:
               enemy.append(games[id]['bots'][0])
   for mob in enemy:
-   if mob['energy']<=2 or mob['stun']>0 or mob['die']==1 or (mob['weapon']=='bow' and mob['bowcharge']==0) or mob['magicshieldkd']>0:  
+   if mob['energy']<=2 or mob['stun']>0 or (mob['weapon']=='magic' and mob['animal']=='pig') or mob['die']==1 or (mob['weapon']=='bow' and mob['bowcharge']==0) or mob['magicshieldkd']>0:  
     low+=1
   if low>=len(enemy):
    yvorot=0
   else:
-   if npc['energy']<=2:
+   if npc['energy']<=2 and npc['zombie']<=0:
     if x<=50 and npc['yvorotkd']<=0:
       yvorot=1
     else:
       yvorot=0
-   elif npc['energy']>=3:
+   elif npc['energy']>=3 and npc['zombie']<=0:
       x=random.randint(1,100)
       if x<=25 and npc['yvorotkd']<=0:
         yvorot=1
       else:
         yvorot=0
+   else:
+      yvorot=0
    if 'shieldgen' in npc['skills'] and npc['shieldgen']<=0 and low<len(enemy):
       yvorot=1
         
@@ -3665,7 +3665,8 @@ def createbot(id):
               'firearmor':0,
               'firearmorkd':0,
               'fire':0,
-              'summonmonster':['hand',0]   #####  Оружие; ХП
+              'summonmonster':['hand',0],   #####  Оружие; ХП
+              'chance':0            #### УВЕЛИЧЕНИЕ ШАНСА НА ПРИМЕНЕНИЕ АБИЛОК (В ПРОЦЕНТАХ)
 }
 
 def dailybox():
