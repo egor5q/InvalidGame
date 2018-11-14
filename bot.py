@@ -3469,28 +3469,17 @@ def begingame(id):
         games[id]['bots'][rnd]['name']+='[Двойник]'
         games[id]['bots'][rnd]['identeficator']=rnd
         text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
-    for ids in games[id]['bots']: 
-        rg='''randomm=0
-        text+=games[id]['bots'][ids]['name']+':\n'
-        for skill in games[id]['bots'][ids]['skills']:
-            if randomm==0:
-                bots=games[id]['bots'][ids]
-                if skill!='cube' and skill!='active':
-                    text+=skilltoname(skill)+'\n'
-                else:
-                    if skill!='active':
-                        randomm=bots['skills'][len(bots['skills'])-1]
-                        text+=skilltoname(skill)+'('+skilltoname(bots['skills'][len(bots['skills'])-1])+')\n'
-            else:
-                 if skill!=randomm and skill!='active':
-                     text+=skilltoname(skill)+'\n'
+    for ids3 in games[id]['bots']: 
+        text+=games[id]['bots'][ids3]['name']+':\n'
+        for skill in games[id]['bots'][ids3]['skills']:
+             text+=skilltoname(skill)+'\n'
         text+='Скин: '
         try:
-            text+=skintoname(games[id]['bots'][ids]['skin'][0])+'\n'
+            text+=skintoname(games[id]['bots'][ids3]['skin'][0])+'\n'
         except:
             text+='отсутствует.\n'
         text+='\n'
-        '''
+        
     u=0
     u+=1
     print(u)
