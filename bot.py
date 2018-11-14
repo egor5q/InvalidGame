@@ -541,7 +541,7 @@ def skins(m):
         if ids=='robot':
             kb.add(types.InlineKeyboardButton(text=robot+'Робот', callback_data='equiprobot'))
         if ids=='oldman':
-            kb.add(types.InlineKeyboardButton(text=robot+'Мудрец', callback_data='equipoldman'))
+            kb.add(types.InlineKeyboardButton(text=oldman+'Мудрец', callback_data='equipoldman'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Для того, чтобы надеть скин, нажмите на его название', reply_markup=kb)
   else:
@@ -1072,7 +1072,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text=oracle+'🔮Оракул', callback_data='oracle'))
        kb.add(types.InlineKeyboardButton(text=robot+'🅿️Робот', callback_data='robot'))
-       kb.add(types.InlineKeyboardButton(text=robot+'👳‍♀️Мудрец', callback_data='oldman'))
+       kb.add(types.InlineKeyboardButton(text=oldman+'👳‍♀️Мудрец', callback_data='oldman'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Ветка: скины',call.message.chat.id,call.message.message_id, reply_markup=kb)
         
