@@ -3524,7 +3524,7 @@ def skintoname(x):
    elif x=='robot':
       return '🅿Робот'
    elif x=='oldman':
-      return '👳‍♀️Мудрец'
+      return '📚Мудрец'
    
 def skilltoname(x):
     if x=='shieldgen':
