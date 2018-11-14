@@ -3474,7 +3474,7 @@ def begingame(id):
             text+='отсутствует.\n'
         text+='\n'
      except:
-      pass
+      text+='\n'
     for ids in createlist:
         print('cycle2')
         rnd=randomgen(id)
@@ -3524,7 +3524,7 @@ def skintoname(x):
    elif x=='robot':
       return '🅿Робот'
    elif x=='oldman':
-      return '📚Мудрец'
+      return '👳‍♀️Мудрец'
    
 def skilltoname(x):
     if x=='shieldgen':
