@@ -1634,7 +1634,7 @@ def giveitems(game):
   
                    
 def battle(id):  
-# try:
+ try:
     print('2')
     for wtf in games[id]['bots']:
         if games[id]['bots'][wtf]['die']!=1:
@@ -1642,15 +1642,15 @@ def battle(id):
                 games[id]['bots'][wtf][act(wtf, id)]=1
     print('endres')
     results(id)
-# except:
-Ff='''    for ids in games[id]['joinbotsreturn']:
+ except:
+    for ids in games[id]['joinbotsreturn']:
          users.update_one({'id':ids},{'$inc':{'joinbots':1}})
     try:
         bot.send_message(id, 'Произошла ошибка! Джойн-боты возвращены. Сбрасываю игру.')
         del games[id]
     except:
         pass
-'''
+
 def results(id):           
   for bots in games[id]['bots']:
      if games[id]['bots'][bots]['yvorot']==1:
