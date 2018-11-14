@@ -3460,7 +3460,8 @@ def begingame(id):
     text2=''
     print(createlist)
     kon4=games[id]['bots']
-    for ids3 in kon4: 
+    for ids3 in kon4:
+     try:
         print('kon')
         text+=kon4[ids3]['name']+':\n'
         if len(kon4[ids3]['skills'])>0:
@@ -3472,6 +3473,8 @@ def begingame(id):
         except:
             text+='отсутствует.\n'
         text+='\n'
+     except:
+      pass
     for ids in createlist:
         print('cycle2')
         rnd=randomgen(id)
