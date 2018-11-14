@@ -14,8 +14,6 @@ from SimpleQIWI import *
 import traceback
 import sys
 
-from requests.exceptions import ReadTimeout
-from requests.exceptions import ConnectionError
 
 
 token = os.environ['TELEGRAM_TOKEN']
@@ -3475,17 +3473,17 @@ def begingame(id):
         randomm=0
         text+=games[id]['bots'][ids]['name']+':\n'
         for skill in games[id]['bots'][ids]['skills']:
-          if randomm==0:
-            bots=games[id]['bots'][ids]
-            if skill!='cube' and skill!='active':
-                text+=skilltoname(skill)+'\n'
-            else:
-                if skill!='active':
-                    randomm=bots['skills'][len(bots['skills'])-1]
-                    text+=skilltoname(skill)+'('+skilltoname(bots['skills'][len(bots['skills'])-1])+')\n'
-          else:
-              if skill!=randomm and skill!='active':
+            if randomm==0:
+                bots=games[id]['bots'][ids]
+                if skill!='cube' and skill!='active':
                     text+=skilltoname(skill)+'\n'
+                else:
+                    if skill!='active':
+                        randomm=bots['skills'][len(bots['skills'])-1]
+                        text+=skilltoname(skill)+'('+skilltoname(bots['skills'][len(bots['skills'])-1])+')\n'
+            else:
+                 if skill!=randomm and skill!='active':
+                     text+=skilltoname(skill)+'\n'
         text+='Скин: '
         try:
             text+=skintoname(games[id]['bots'][ids]['skin'][0])+'\n'
