@@ -1627,10 +1627,6 @@ def inline(call):
       y=users.find_one({'id':call.from_user.id})
       medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'⚛️', call.message.chat.id, call.message.message_id, reply_markup=kb)
       
-          
-              
-  
-      
 
 def giveitems(game):
     for ids in game['bots']:
@@ -1638,7 +1634,6 @@ def giveitems(game):
         game['bots'][ids]['items'].append(random.choice(items))
         game['bots'][ids]['items'].append(random.choice(items))
   
-
                    
 def battle(id):  
 # try:
@@ -2939,11 +2934,7 @@ def skill(bot,id):
   elif choice=='firemage':
         pass
               
-            
-                       
-            
-    
-    
+             
 
 def item(bot, id):
   if 0 not in games[id]['bots']:
@@ -3020,15 +3011,7 @@ def item(bot, id):
             games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
             bot['items'].remove('knife')
 
-        
-        
-              
-                
-                
-                
-    
 
-    
 
 def actnumber(bot, id):  
   a=[]
@@ -3159,9 +3142,6 @@ def actnumber(bot, id):
   return{'attack':{'name':'attack', 'x':attack}, 'yvorot':{'name':'yvorot', 'x':yvorot}, 'item':{'name':'item', 'x':item}, 'reload':{'name':'reload', 'x':reload},'skill':{'name':'skill', 'x':skill}}
          
       
-      
- 
-
 def act(bot, id):
   actions=actnumber(bot, id)
   curact=[]
@@ -3200,8 +3180,7 @@ def helpp(m):
 ''', parse_mode='markdown')
   else:
       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
-       
-       
+              
 @bot.message_handler(commands=['start'])
 def start(m):
   x=m.text.split('/start')
@@ -3247,8 +3226,7 @@ def start(m):
              bot.send_message(int(z[1]), 'По вашей ссылке зашёл пользователь '+m.from_user.first_name+'! По мере достижения им званий вы будете получать за него бонус - половину от его награды за звание.')
            except:
              pass
-    
-  
+      
 @bot.message_handler(commands=['go'])
 def goo(m):
   try:
@@ -3320,8 +3298,7 @@ def apocalypse(m):
                try:
                   bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
                except:
-                  pass
-   
+                  pass  
    
 def enablestart(id):
    try:
@@ -3371,10 +3348,7 @@ def begin(m):
         if m.chat.id!=-1001208357368:
            bot.send_message(441399484, 'Где-то началась игра!')
    else:
-        bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.')
- 
-
-   
+        bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.')   
    
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
     return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
@@ -3400,7 +3374,6 @@ def chaosstats(m):
         bot.send_message(m.chat.id, 'Игр в "Метеоритный дождь" сыграно: '+str(x['bot']['meteorraingames'])+'\n\n'+\
                          'Получено метеоритов в ебало: '+str(x['bot']['takenmeteors'])+'\n\n'+\
                          'Средний получаемый урон с метеорита: '+str(sredn))
-
                                                                            
 def begingame(id):
  if games[id]['started2']!=1:
@@ -3513,11 +3486,11 @@ def begingame(id):
           else:
               if skill!=randomm and skill!='active':
                     text+=skilltoname(skill)+'\n'
-        #text+='Скин: '
-        #try:
-        #    text+=skintoname(games[id]['bots'][ids]['skin'][0])+'\n'
-        #except:
-        #    text+='отсутствует.\n'
+        text+='Скин: '
+        try:
+            text+=skintoname(games[id]['bots'][ids]['skin'][0])+'\n'
+        except:
+            text+='отсутствует.\n'
         text+='\n'
     u=0
     u+=1
@@ -3672,8 +3645,7 @@ def connect(m):
             target['hp']-=1
         except:
             pass
-    
-    
+       
 def createbot(id):
   return {'name': None,
               'weapon':'hand',
@@ -3841,8 +3813,7 @@ def allmesdonate(m):
 def createdonater(id,pn):
    return{'id':id,
          'comment':pn}
-   
-   
+      
 def payy(comment):
    x=0
    bar=api
@@ -3915,8 +3886,6 @@ api.start()
 if True:
    dailybox()
 
-
-  
 if True:
    donates.update_one({},{'$set':{'donaters':[]}})
    print('7777')
