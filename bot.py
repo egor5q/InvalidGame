@@ -3515,9 +3515,9 @@ def begingame(id):
                     text+=skilltoname(skill)+'\n'
         i=0
         text+='Скин: '
-        for skin in games[id]['bots'][ids]['skin']:
-            text+=skintoname(skin)+'\n'
-            i+=1
+            if games[id]['bots'][ids]['skin']!=[]:
+                text+=skintoname(games[id]['bots'][ids]['skin'][0])+'\n'
+                i+=1
         if i==0:
             text+='Отсутствует.\n'
         text+='\n'
