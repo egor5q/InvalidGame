@@ -3461,6 +3461,7 @@ def begingame(id):
     print(createlist)
     kon4=games[id]['bots']
     for ids3 in kon4: 
+        print('kon')
         text+=kon4[ids3]['name']+':\n'
         for skillf in kon4[ids3]['skills']:
              text+=skilltoname(skillf)+'\n'
