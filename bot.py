@@ -944,7 +944,8 @@ def inline(call):
        kb.add(types.InlineKeyboardButton(text='5500⚛️', callback_data='buyfiremage'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
        medit('Раз в 7 ходов боец может применить на себя огненный щит: весь полученный на этом ходу урон уменьшается в 2 раза, а '+\
-             'атаковавшие вас соперники загораются на 3 хода, включая текущий. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+             'атаковавшие вас соперники загораются на 3 хода, включая текущий. Имеет 18% шанс активироваться автоматически, не запуская '+
+             'КД. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
     
   elif call.data=='necromant':
        kb=types.InlineKeyboardMarkup()
@@ -956,8 +957,8 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='7000⚛️', callback_data='buymagictitan'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Теперь вы - магический титан! Имеете 5 маны. Пока у вас есть мана, вы неуязвимы. 1 мана тратится на блокировку 1 урона. '+\
-             'Когда мана заканчивается, вы получаете оглушение на 1 ход, теряете 1 хп и становитесь уязвимы. После окончания оглушения мана восстанавливается до 5. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Теперь вы - магический титан! Имеете 6 маны. Пока у вас есть мана, вы неуязвимы. 1 мана тратится на блокировку 1 урона. '+\
+             'Когда мана заканчивается, вы теряете 1 хп и восстанавливаете ману. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='medic':
        kb=types.InlineKeyboardMarkup()
@@ -1043,7 +1044,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyvampire'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Если боец атаковал и отнял хп у врага, с шансом 5% он восстановит себе 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Если боец атаковал и отнял хп у врага, с шансом 9% он восстановит себе 1 хп. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
          
   elif call.data=='bloodmage':
        kb=types.InlineKeyboardMarkup()
@@ -1075,7 +1076,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='5000⚛️', callback_data='buyrobot'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Скин увеличивает максимальный уровень энергии бойца на 1. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Скин увеличивает максимальный уровень энергии бойца на 2. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
                    
   elif call.data=='equiporacle':
        x=users.find_one({'id':call.from_user.id})
@@ -2039,7 +2040,7 @@ def dmgs(id):
     for ids in games[id]['bots']:
         if games[id]['bots'][ids]['takendmg']>c:
             c=games[id]['bots'][ids]['takendmg']
-            
+    monsters=[]        
     for mob in games[id]['bots']:
         if 'magictitan' in games[id]['bots'][mob]['skills']:
           if games[id]['bots'][mob]['magicshieldkd']>0:
@@ -2060,14 +2061,14 @@ def dmgs(id):
                 print(games[id]['bots'][mob]['target']['takendmg'])
                 if games[id]['bots'][mob]['target']['takendmg']==c and c>0:
                   a=random.randint(1,100)
-                  if a<=5:
+                  if a<=9:
                     games[id]['bots'][mob]['hp']+=1
                     text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ♥хп!\n'
     
                      
         if 'zeus' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
             x=random.randint(1,100)
-            if x<=2:
+            if x<=3:
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
@@ -2085,7 +2086,6 @@ def dmgs(id):
                 games[id]['bots'][mob]['dieturn']=games[id]['xod']
                 
     pauk=[]
-    monsters=[]
     for mob in games[id]['bots']:
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
@@ -2196,7 +2196,7 @@ def dmgs(id):
               text+=games[id]['bots'][mob]['name']+' сосёт!\n'
     for itemss in pauk:
        if 'double' in itemss['skills']:
-            g=1
+            g=random.randint(1,2)
        else:
             g=3
        games[id]['bots'].update(createpauk(itemss['id'], g))
