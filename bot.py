@@ -3459,16 +3459,6 @@ def begingame(id):
     text=''
     text2=''
     print(createlist)
-    for ids in createlist:
-        print('cycle2')
-        rnd=randomgen(id)
-        aa=games[id]['bots'][ids].copy()
-        games[id]['bots'].update(createbott(rnd, aa))
-        games[id]['bots'][rnd]['identeficator']==rnd
-        print(games[id]['bots'][rnd])
-        games[id]['bots'][rnd]['name']+='[Двойник]'
-        games[id]['bots'][rnd]['identeficator']=rnd
-        text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
     kon4=games[id]['bots']
     for ids3 in kon4: 
         text+=kon4[ids3]['name']+':\n'
@@ -3480,6 +3470,16 @@ def begingame(id):
         except:
             text+='отсутствует.\n'
         text+='\n'
+    for ids in createlist:
+        print('cycle2')
+        rnd=randomgen(id)
+        aa=games[id]['bots'][ids].copy()
+        games[id]['bots'].update(createbott(rnd, aa))
+        games[id]['bots'][rnd]['identeficator']==rnd
+        print(games[id]['bots'][rnd])
+        games[id]['bots'][rnd]['name']+='[Двойник]'
+        games[id]['bots'][rnd]['identeficator']=rnd
+        text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
         
     u=0
     u+=1
