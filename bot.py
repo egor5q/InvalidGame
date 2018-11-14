@@ -3463,8 +3463,9 @@ def begingame(id):
     for ids3 in kon4: 
         print('kon')
         text+=kon4[ids3]['name']+':\n'
-        for skillf in kon4[ids3]['skills']:
-             text+=skilltoname(skillf)+'\n'
+        if len(kon4[ids3]['skills'])>0:
+            for skillf in kon4[ids3]['skills']:
+                text+=skilltoname(skillf)+'\n'
         text+='Скин: '
         try:
             text+=skintoname(kon4[ids3]['skin'][0])+'\n'
