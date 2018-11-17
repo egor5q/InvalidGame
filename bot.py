@@ -3507,6 +3507,7 @@ def begingame(id):
         while i<imax-1:
           allskin.append(ids3['skills'][i])
           i+=1
+        print('konmid1')
         for sk in allskin:
           if sk!='active':
             text+=skilltoname(sk)+'\n'
