@@ -3283,7 +3283,7 @@ def apocalypse(m):
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         games[m.chat.id]['timer']=t
-        t=threading.Timer(60,enablestart,args=[m.chat.id])
+        t=threading.Timer(1,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Умереть', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
@@ -3387,8 +3387,13 @@ def begingame(id):
         bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
         if games[id]['mode']=='teamfight':
             print('2111')
-            leader1=random.choice(games[id]['bots'])
-            leader2=random.choice(games[id]['bots'])
+            try:
+              leader1=random.choice(games[id]['bots'])
+              leader2=random.choice(games[id]['bots'])
+            except:
+              bot.send_message(id, 'bug')
+              leader1=random.choice(games[id]['bots'])
+              leader2=random.choice(games[id]['bots'])
             print('2112')
             while leader2['id']==leader1['id']:
                 print('2222')
