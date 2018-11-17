@@ -3028,6 +3028,7 @@ def item(bot, id):
 def actnumber(bot, id):  
   a=[]
   npc=games[id]['bots'][bot]
+  print('actnumber1')
   if npc['energy']>0 and npc['energy']<=2:
     x=random.randint(1,100)
     if npc['weapon']!='hand':
@@ -3060,10 +3061,14 @@ def actnumber(bot, id):
     
   x=random.randint(1,100)  
   low=0
+  enemy1=[]
   enemy=[]
   for mob in games[id]['bots']:
-      if games[id]['bots'][mob]['id']!=npc['id']:
-         enemy.append(games[id]['bots'][mob])
+     enemy1.append(games[id]['bots'][mob]
+  for mob in enemy1:
+      if mob['id']!=npc['id']:
+         enemy.append(mob)
+  print('actnumber2')
   for mob in enemy:
    if mob['energy']<=2 or mob['stun']>0 or (mob['weapon']=='magic' and mob['animal']=='pig') or mob['die']==1 or (mob['weapon']=='bow' and mob['bowcharge']==0) or mob['magicshieldkd']>0:  
     low+=1
@@ -3085,7 +3090,7 @@ def actnumber(bot, id):
       yvorot=0
    if 'shieldgen' in npc['skills'] and npc['shieldgen']<=0 and low<len(enemy):
       yvorot=1
-        
+  print('actnumber3')      
   x=random.randint(1,100)
   if len(npc['skills'])>0 and 'active' in npc['skills']:
     if 'firemage' in npc['skills'] and npc['firearmorkd']<=0:
@@ -3147,7 +3152,7 @@ def actnumber(bot, id):
       reload=1
   else:
     reload=0
-    
+  print('actnumber4')  
   return{'attack':{'name':'attack', 'x':attack}, 'yvorot':{'name':'yvorot', 'x':yvorot}, 'item':{'name':'item', 'x':item}, 'reload':{'name':'reload', 'x':reload},'skill':{'name':'skill', 'x':skill}}
          
       
