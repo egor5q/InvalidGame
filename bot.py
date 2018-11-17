@@ -3380,8 +3380,8 @@ def begingame(id):
       print('timer cancelled')
     except:
       pass
-    modes=['meteors']#,'randomhp']
-    ee='''if games[id]['apocalypse']==1:
+    modes=['teamfight']#'meteors']#,'randomhp']
+    if games[id]['apocalypse']==1:
         games[id]['mode']=random.choice(modes)
         n=modetoname(games[id]['mode'])
         bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
@@ -3411,7 +3411,7 @@ def begingame(id):
                 else:
                     team2+=games[id]['bots'][idsz]['name']+'\n'
             bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
-    '''
+    
     print('55555')
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in games[id]['bots']:
