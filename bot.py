@@ -3510,9 +3510,8 @@ def begingame(id):
         print('konmid1')
         for sk in allskin:
           print('fghdhs')
-          if sk!='active':
-            text+=skilltoname(sk)+'\n'
-            print('kon1end')
+          text+=skilltoname(sk)+'\n'
+          print('kon1end')
         try:
             text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
             print('kon2')
