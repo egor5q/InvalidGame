@@ -3396,9 +3396,12 @@ def begingame(id):
               #leader2=random.choice(games[id]['bots'])
               print(games[id]['bots'])
             print('2112')
-            while leader2['id']==leader1['id']:
+            try:
+              while leader2['id']==leader1['id']:
                 print('2222')
                 leader2=random.choice(games[id]['bots'])
+            except:
+               pass
             print('333')
             i=random.randint(0,1)
             for idsr in games[id]['bots']:
