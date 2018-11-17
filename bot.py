@@ -1641,9 +1641,11 @@ def battle(id):
       print('ff')
       lst.append(games[id]['bots'][ids])
     for wtf in lst:
+        print('wtf')
         if wtf['die']!=1:
             if wtf['stun']<=0 and wtf['magicshieldkd']<=0:
                 wtf[act(wtf, id)]=1
+                print('wtfend')
     print('endres')
     results(id)
  #except:
