@@ -1636,10 +1636,13 @@ def giveitems(game):
 def battle(id):  
  #try:
     print('2')
-    for wtf in games[id]['bots']:
-        if games[id]['bots'][wtf]['die']!=1:
-            if games[id]['bots'][wtf]['stun']<=0 and games[id]['bots'][wtf]['magicshieldkd']<=0:
-                games[id]['bots'][wtf][act(wtf, id)]=1
+    lst=[]
+    for ids in games[id]['bots']:
+      lst.append(games[id]['bots'][ids])
+    for wtf in lst:
+        if wtf['die']!=1:
+            if wtf['stun']<=0 and wtf['magicshieldkd']<=0:
+                wtf[act(wtf, id)]=1
     print('endres')
     results(id)
  #except:
