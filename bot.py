@@ -723,12 +723,16 @@ def me(m):
       else:
          rang='Пасюк'
   if m.reply_to_message==None:
-    try:
+    #try:
+      try:
+        a=skintoname(x['bot']['skin'][0])
+      except:
+        a='ничего'
       x=users.find_one({'id':m.from_user.id})
       bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
-                      'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+skintoname(x['bot']['skin']))
-    except:
-      pass
+                      'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+a)
+    #except:
+    #  pass
   else:
       try:
         x=users.find_one({'id':m.reply_to_message.from_user.id})
@@ -1607,12 +1611,18 @@ def inline(call):
       if txt[1] not in x['bot']['skills']:
         if len(x['bot']['skills'])<=1:
           users.update_one({'id':call.from_user.id}, {'$push':{'bot.skills':txt[1]}})
-          bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "'+skilltoname(txt[1])+'"!')
+          try:
+            bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "'+skilltoname(txt[1])+'"!')
+          except:
+            bot.answer_callback_query(call.id, 'Вы успешно экипировали скилл "'+'Неизвестно'+'"!')
         else:
           bot.answer_callback_query(call.id, 'У вас уже экипировано максимум скиллов(2). Чтобы снять скилл, нажмите на его название.')
       else:
         users.update_one({'id':call.from_user.id}, {'$pull':{'bot.skills':txt[1]}})
-        bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "'+skilltoname(txt[1])+'"!')
+        try:
+          bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "'+skilltoname(txt[1])+'"!')
+        except:
+          bot.answer_callback_query(call.id, 'Вы успешно сняли скилл "'+'Неизвестно'+'"!')
     else:
         bot.answer_callback_query(call.id, 'У вас нет этого скилла!')
         
