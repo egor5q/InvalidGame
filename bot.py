@@ -1638,6 +1638,7 @@ def battle(id):
     print('2')
     lst=[]
     for ids in games[id]['bots']:
+      print('ff')
       lst.append(games[id]['bots'][ids])
     for wtf in lst:
         if wtf['die']!=1:
