@@ -3496,7 +3496,7 @@ def begingame(id):
     for ids in choicelist:
       kon4.append(ids)
     for ids3 in kon4:
-     try:
+     #try:
         print('kon')
         text+=ids3['name']+':\n'
         if len(ids3['skills'])>0:
@@ -3508,8 +3508,8 @@ def begingame(id):
         except:
             text+='отсутствует.\n'
         text+='\n'
-     except:
-      text+='\n'
+     #except:
+     # text+='\n'
     for ids in createlist:
         print('cycle2')
         rnd=randomgen(id)
