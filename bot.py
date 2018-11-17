@@ -3392,8 +3392,9 @@ def begingame(id):
               leader2=random.choice(games[id]['bots'])
             except:
               bot.send_message(id, 'bug')
-              leader1=random.choice(games[id]['bots'])
-              leader2=random.choice(games[id]['bots'])
+              #leader1=random.choice(games[id]['bots'])
+              #leader2=random.choice(games[id]['bots'])
+              print(games[id]['bots'])
             print('2112')
             while leader2['id']==leader1['id']:
                 print('2222')
