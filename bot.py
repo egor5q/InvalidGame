@@ -1654,17 +1654,23 @@ r='''    for ids in games[id]['joinbotsreturn']:
     except:
         pass
 '''
-def results(id):           
+def results(id): 
+  lst=[]
+  for ids in games[id]['bots']:
+      lst.append(games[id]['bots'][ids])
   for bots in games[id]['bots']:
-     if games[id]['bots'][bots]['yvorot']==1:
+     if bots['yvorot']==1:
+        print('yyyyyy')
         yvorot(games[id]['bots'][bots], id)
         
   for bots in games[id]['bots']:
-     if games[id]['bots'][bots]['skill']==1:
+     if bots['skill']==1:
+        games[id]['bots']
         skill(games[id]['bots'][bots], id)   
               
   for bots in games[id]['bots']:
-      if games[id]['bots'][bots]['item']==1:
+      if bots['item']==1:
+           print('yyyyyy')
           item(games[id]['bots'][bots], id) 
               
   for bots in games[id]['bots']:
@@ -1672,7 +1678,8 @@ def results(id):
         reload(games[id]['bots'][bots], id)          
               
   for bots in games[id]['bots']:
-      if games[id]['bots'][bots]['attack']==1:
+      if bots['attack']==1:
+        print('yyyyyy')
         attack(games[id]['bots'][bots],id)
                      
   for ids in games[id]['bots']:
@@ -3467,17 +3474,19 @@ def begingame(id):
     text=''
     text2=''
     print(createlist)
-    kon4=games[id]['bots']
+    kon4=[]
+    for ids in games[id]['bots']:
+      kon4.append(games[id]['bots'][ids])
     for ids3 in kon4:
      try:
         print('kon')
-        text+=kon4[ids3]['name']+':\n'
-        if len(kon4[ids3]['skills'])>0:
-            for skillf in kon4[ids3]['skills']:
+        text+=ids3['name']+':\n'
+        if len(ids3['skills'])>0:
+            for skillf in ids3['skills']:
                 text+=skilltoname(skillf)+'\n'
         text+='Скин: '
         try:
-            text+=skintoname(kon4[ids3]['skin'][0])+'\n'
+            text+=skintoname(ids3['skin'][0])+'\n'
         except:
             text+='отсутствует.\n'
         text+='\n'
