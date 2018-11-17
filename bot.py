@@ -1658,33 +1658,33 @@ def results(id):
   lst=[]
   for ids in games[id]['bots']:
       lst.append(games[id]['bots'][ids])
-  for bots in games[id]['bots']:
+  for bots in lst:
      if bots['yvorot']==1:
         print('yyyyyy')
-        yvorot(games[id]['bots'][bots], id)
+        yvorot(bots, id)
         
-  for bots in games[id]['bots']:
+  for bots in lst:
      if bots['skill']==1:
         games[id]['bots']
-        skill(games[id]['bots'][bots], id)   
+        skill(bots, id)   
               
-  for bots in games[id]['bots']:
+  for bots in lst:
       if bots['item']==1:
           print('yyyyyy')
-          item(games[id]['bots'][bots], id) 
+          item(bots, id) 
               
-  for bots in games[id]['bots']:
-     if games[id]['bots'][bots]['reload']==1:
-        reload(games[id]['bots'][bots], id)          
+  for bots in lst:
+     if bots['reload']==1:
+        reload(bots, id)          
               
-  for bots in games[id]['bots']:
+  for bots in lst:
       if bots['attack']==1:
         print('yyyyyy')
-        attack(games[id]['bots'][bots],id)
+        attack(bots,id)
                      
-  for ids in games[id]['bots']:
-    if games[id]['bots'][ids]['shield']>=1:
-        games[id]['bots'][ids]['takendmg']=0
+  for ids in lst:
+    if ids['shield']>=1:
+        ids['takendmg']=0
   dmgs(id)
   z=0
   global hidetext
