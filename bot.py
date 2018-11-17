@@ -3389,44 +3389,32 @@ def begingame(id):
             print('2111')
             for i in games[id]['bots']:
                print(games[id]['bots'][i])
-            try:
-              choicelist=[]
-              for i in games[id]['bots']:
-                  choicelist.append(games[id]['bots'][i])
-              leader1=random.choice(choicelist)
-              leader2=random.choice(choicelist)
-            except:
-              bot.send_message(id, 'bug')
-              #leader1=random.choice(games[id]['bots'])
-              #leader2=random.choice(games[id]['bots'])
-              print(games[id]['bots'])
+            choicelist=[]
+            for i in games[id]['bots']:
+                choicelist.append(games[id]['bots'][i])
+            leader1=random.choice(choicelist)
+            leader2=random.choice(choicelist)
             print('2112')
-            try:
-              while leader2['id']==leader1['id']:
-                print('2222')
-                leader2=random.choice(games[id]['bots'])
-            except:
-               pass
+            while leader2['id']==leader1['id']:
+              print('2222')
+              leader2=random.choice(choicelist)
             print('333')
             i=random.randint(0,1)
-            try:
-             for idsr in games[id]['bots']:
+            for idsr in choicelist:
                 if i==0:
-                    games[id]['bots'][idsr]['id']=leader1['id']
+                    idsr['id']=leader1['id']
                     i=1
                 else:
-                    games[id]['bots'][idsr]['id']=leader2['id']
+                    idsr['id']=leader2['id']
                     i=0
-            except:
-               pass
             print('4444')
             team1=''
             team2=''
-            for idsz in games[id]['bots']:
-                if games[id]['bots'][idsz]['id']==leader1['id']:
-                    team1+=games[id]['bots'][idsz]['name']+'\n'
+            for idsz in choicelist:
+                if idsz['id']==leader1['id']:
+                    team1+=idsz['name']+'\n'
                 else:
-                    team2+=games[id]['bots'][idsz]['name']+'\n'
+                    team2+=idsz['name']+'\n'
             bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
     
     print('55555')
