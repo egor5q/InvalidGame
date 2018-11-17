@@ -3390,8 +3390,11 @@ def begingame(id):
             for i in games[id]['bots']:
                print(games[id]['bots'][i])
             try:
-              leader1=random.choice(games[id]['bots'])
-              leader2=random.choice(games[id]['bots'])
+              choicelist=[]
+              for i in games[id]['bots']:
+                  choicelist.append(games[id]['bots'][i])
+              leader1=random.choice(choicelist)
+              leader2=random.choice(choicelist)
             except:
               bot.send_message(id, 'bug')
               #leader1=random.choice(games[id]['bots'])
