@@ -725,7 +725,8 @@ def me(m):
   if m.reply_to_message==None:
     try:
       x=users.find_one({'id':m.from_user.id})
-      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang)
+      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
+                      'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+skintoname(x['bot']['skin']))
     except:
       pass
   else:
@@ -734,7 +735,40 @@ def me(m):
         bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games']))#+'\n🎖Ранг: '+rang)
       except:
         pass
+   
+def skintoname(x):
+   try:
+      if x[0]=='oracle':
+         return 'Оракул'
+      if x[0]=='robot':
+         return 'Робот'
+      if x[0]=='oldman':
+         return 'Мудрец'
+   except:
+      return 'ничего'
+   
+def weapontoname(x):
+   if x=='saw':
+      return 'Пилострел'
+   elif x=='ak':
+      return 'Пистолет'
+   elif x=='bow':
+      return 'Лук'
+   elif x==None:
+      return 'Кулаки'
+   elif x=='rock':
+      return 'Камень'
+   elif x=='chlen':
+      return 'Флюгегенхаймен'
+   elif x=='hand':
+      return 'Кулаки'
 
+
+@bot.message_handler(commands=['unequip'])
+def unequip(m):
+   if m.from_user.id==441399484:
+      pass
+   
 @bot.message_handler(commands=['p'])
 def k(m):
   if m.from_user.id==441399484 or m.from_user.id==55888804:
@@ -1548,8 +1582,6 @@ def inline(call):
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
          
-  elif call.data=='equipmagic':
-        bot.answer_callback_query(call.id, 'Багоюзы запрещены!)')
          
   elif call.data=='gunoff':
       y=users.find_one({'id':call.from_user.id})
