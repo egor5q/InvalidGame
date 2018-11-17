@@ -767,7 +767,12 @@ def weapontoname(x):
 @bot.message_handler(commands=['unequip'])
 def unequip(m):
    if m.from_user.id==441399484:
-      pass
+      try:
+         users.update_one({'id':m.reply_to_message.from_user.id},{'$set':{'bot.skills':[],'bot.skin':[]}})
+         bot.send_message(m.chat.id, 'Скин и скиллы юзера сняты!')
+      except:
+         pass
+         
    
 @bot.message_handler(commands=['p'])
 def k(m):
@@ -3439,7 +3444,7 @@ def begingame(id):
       print('timer cancelled')
     except:
       pass
-    modes=['teamfight','meteors']
+    modes=['teamfight']#,'meteors']
     if games[id]['apocalypse']==1:
         games[id]['mode']=random.choice(modes)
         n=modetoname(games[id]['mode'])
