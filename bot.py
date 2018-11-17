@@ -1644,6 +1644,7 @@ def battle(id):
         print('wtf')
         if wtf['die']!=1:
             if wtf['stun']<=0 and wtf['magicshieldkd']<=0:
+                print('wtfstart')
                 wtf[act(wtf, id)]=1
                 print('wtfend')
     print('endres')
@@ -3151,7 +3152,9 @@ def actnumber(bot, id):
          
       
 def act(bot, id):
+  print('actstart')
   actions=actnumber(bot, id)
+  print('actend')
   curact=[]
   for item in actions:
     if actions[item]['x']==1:
