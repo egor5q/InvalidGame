@@ -3404,13 +3404,16 @@ def begingame(id):
                pass
             print('333')
             i=random.randint(0,1)
-            for idsr in games[id]['bots']:
+            try:
+             for idsr in games[id]['bots']:
                 if i==0:
                     games[id]['bots'][idsr]['id']=leader1['id']
                     i=1
                 else:
                     games[id]['bots'][idsr]['id']=leader2['id']
                     i=0
+            except:
+               pass
             print('4444')
             team1=''
             team2=''
