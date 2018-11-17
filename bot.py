@@ -3501,9 +3501,12 @@ def begingame(id):
         text+=ids3['name']+':\n'
         print('kon0')
         print('kon1')
+        allskin=[]
         for skillf in ids3['skills']:
-          if skillf!='active':
-            text+=skilltoname(skillf)+'\n'
+          allskin.append(skillf)
+        for sk in allskin:
+          if sk!='active':
+            text+=skilltoname(sk)+'\n'
             print('kon1end')
         try:
             text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
