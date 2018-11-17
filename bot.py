@@ -3499,14 +3499,19 @@ def begingame(id):
      #try:
         print('kon')
         text+=ids3['name']+':\n'
+        print('kon0')
         if len(ids3['skills'])>0:
+            print('kon1')
             for skillf in ids3['skills']:
                 text+=skilltoname(skillf)+'\n'
         try:
             text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
+            print('kon2')
         except:
             text+='Скин: отсутствует.\n'
+            print('kon3')
         text+='\n'
+        print('kon4')
      #except:
      # text+='\n'
     for ids in createlist:
