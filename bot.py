@@ -3502,11 +3502,10 @@ def begingame(id):
         if len(ids3['skills'])>0:
             for skillf in ids3['skills']:
                 text+=skilltoname(skillf)+'\n'
-        text+='Скин: '
         try:
-            text+=skintoname(ids3['skin'][0])+'\n'
+            text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
         except:
-            text+='отсутствует.\n'
+            text+='Скин: отсутствует.\n'
         text+='\n'
      #except:
      # text+='\n'
