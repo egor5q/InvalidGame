@@ -3027,7 +3027,7 @@ def item(bot, id):
 
 def actnumber(bot, id):  
   a=[]
-  npc=games[id]['bots'][bot]
+  npc=bot
   print('actnumber1')
   if npc['energy']>0 and npc['energy']<=2:
     x=random.randint(1,100)
