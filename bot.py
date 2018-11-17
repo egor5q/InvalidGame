@@ -3059,11 +3059,8 @@ def actnumber(bot, id):
   low=0
   enemy=[]
   for mob in games[id]['bots']:
-       if 0 not in games[id]['bots'] or games[id]['bots'][mob]['id']==0:
-              if games[id]['bots'][mob]['id']!=npc['id']:
-                     enemy.append(games[id]['bots'][mob])
-       else:
-              enemy.append(games[id]['bots'][0])
+      if games[id]['bots'][mob]['id']!=npc['id']:
+         enemy.append(games[id]['bots'][mob])
   for mob in enemy:
    if mob['energy']<=2 or mob['stun']>0 or (mob['weapon']=='magic' and mob['animal']=='pig') or mob['die']==1 or (mob['weapon']=='bow' and mob['bowcharge']==0) or mob['magicshieldkd']>0:  
     low+=1
