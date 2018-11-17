@@ -3064,7 +3064,7 @@ def actnumber(bot, id):
   enemy1=[]
   enemy=[]
   for mob in games[id]['bots']:
-     enemy1.append(games[id]['bots'][mob]
+     enemy1.append(games[id]['bots'][mob])
   for mob in enemy1:
       if mob['id']!=npc['id']:
          enemy.append(mob)
