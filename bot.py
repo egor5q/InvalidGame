@@ -2001,9 +2001,12 @@ def results(id):
               if games[id]['mode']=='meteors':
                   for ids in games[id]['bots']:
                    if games[id]['bots'][ids]['identeficator']==None:
-                    users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':1}})
-                    users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteordmg':games[id]['bots'][ids]['takenmeteordmg']}})
-                    users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteors':games[id]['bots'][ids]['takenmeteors']}})
+                    try:
+                      users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':1}})
+                      users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteordmg':games[id]['bots'][ids]['takenmeteordmg']}})
+                      users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteors':games[id]['bots'][ids]['takenmeteors']}})
+                    except:
+                      pass
            else:
                   bot.send_message(id, '🏆'+name+' победил! Но награду за победу можно получить только в официальном чате - @cookiewarsru!')
         else:
@@ -3455,7 +3458,7 @@ def begingame(id):
       print('timer cancelled')
     except:
       pass
-    modes=['teamfight']#,'meteors']
+    modes=['teamfight','meteors']
     if games[id]['apocalypse']==1:
         games[id]['mode']=random.choice(modes)
         n=modetoname(games[id]['mode'])
