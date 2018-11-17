@@ -3496,7 +3496,7 @@ def begingame(id):
     for ids in choicelist:
       kon4.append(ids)
     for ids3 in kon4:
-     #try:
+     try:
         print('kon')
         text+=ids3['name']+':\n'
         print('kon0')
@@ -3520,8 +3520,8 @@ def begingame(id):
             print('kon3')
         text+='\n'
         print('kon4')
-     #except:
-     # text+='\n'
+     except:
+      text+='\n'
     for ids in createlist:
         print('cycle2')
         rnd=randomgen(id)
