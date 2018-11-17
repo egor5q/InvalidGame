@@ -3412,6 +3412,7 @@ def begingame(id):
             print('333')
             i=random.randint(0,1)
             for idsr in choicelist:
+              if idsr['id']!=leader1['id'] and idsr['id']!=leader2['id']:
                 if i==0:
                     idsr['id']=leader1['id']
                     i=1
