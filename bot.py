@@ -3509,6 +3509,7 @@ def begingame(id):
           i+=1
         print('konmid1')
         for sk in allskin:
+          print('fghdhs')
           if sk!='active':
             text+=skilltoname(sk)+'\n'
             print('kon1end')
