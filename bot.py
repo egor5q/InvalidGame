@@ -1944,8 +1944,14 @@ def results(id):
                   users.update_one({'id':user['id']}, {'$set':{'prize7':1}})
                   users.update_one({'id':user['id']}, {'$inc':{'cookie':prize7}})
             else:
-                bot.send_message(id, '🏆'+name+' победил! Но в режиме апокалипсиса призы не выдаются, играйте ради веселья! :)')
-                if games[id]['mode']=='meteors':
+              if games[id]['mode']=='teamfight':
+                g='Команда '
+                a='а'
+              else:
+                g=''
+                a=''
+              bot.send_message(id, '🏆'+g+name+' победил'+a+'! Но в режиме апокалипсиса призы не выдаются, играйте ради веселья! :)')
+              if games[id]['mode']=='meteors':
                   for ids in games[id]['bots']:
                    if games[id]['bots'][ids]['identeficator']==None:
                     users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':1}})
