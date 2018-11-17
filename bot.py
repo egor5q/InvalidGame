@@ -3504,7 +3504,7 @@ def begingame(id):
         allskin=[]
         i=0
         imax=len(ids3['skills'])
-        while i<imax-1:
+        while i<imax:
           allskin.append(ids3['skills'][i])
           i+=1
         print('konmid1')
