@@ -3521,10 +3521,6 @@ def begingame(id):
         text+='\n'
         print('kon4')
      except:
-      for abc in allskin:
-          print('fghdhs')
-          text+=skilltoname(abc)+'\n'
-          print('kon1end')
       text+='\n'
     for ids in createlist:
         print('cycle2')
