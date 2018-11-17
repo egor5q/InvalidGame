@@ -3385,6 +3385,9 @@ def chaosstats(m):
                                                                            
 def begingame(id):
  if games[id]['started2']!=1:
+    choicelist=[]
+    for i in games[id]['bots']:
+      choicelist.append(games[id]['bots'][i])
     try:
       games[id]['timer'].cancel()
       print('timer cancelled')
@@ -3429,54 +3432,54 @@ def begingame(id):
     
     print('55555')
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
-    for ids in games[id]['bots']:
-        games[id]['bots'][ids]['takenmeteors']=0
-        games[id]['bots'][ids]['takenmeteordmg']=0
-        games[id]['bots'][ids]['meteorraingames']=0  
+    for ids in choicelist:
+        ids['takenmeteors']=0
+        ids['takenmeteordmg']=0
+        ids['meteorraingames']=0  
     createlist=[]
-    for ids in games[id]['bots']:
-        if games[id]['bots'][ids]['weapon']==None:
-            games[id]['bots'][ids]['weapon']='hand'
+    for ids in choicelist:
+        if ids['weapon']==None:
+            ids['weapon']='hand'
         active=['shieldgen', 'medic', 'gipnoz', 'firemage']
         yes=0
         for i in active:
-            if i in games[id]['bots'][ids]['skills']:
+            if i in ids['skills']:
                 yes=1  
         if yes==1:
-              games[id]['bots'][ids]['skills'].append('active')
-        if 'paukovod' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['hp']-=2
-        if 'oldman' in games[id]['bots'][ids]['skin']:
-            games[id]['bots'][ids]['chance']+=0.2
-        if 'double' in games[id]['bots'][ids]['skills']:
-            b=int(round(games[id]['bots'][ids]['hp']/2,0))
-            games[id]['bots'][ids]['hp']=b
-            createlist.append(games[id]['bots'][ids]['id'])
-        if 'mage' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['weapon']='magic'
-        if 'magictitan' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['magicshield']=6
-        if 'liveful' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['hp']+=2
-            games[id]['bots'][ids]['accuracy']-=15
-        if 'dvuzhil' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['hp']+=0
-            games[id]['bots'][ids]['damagelimit']+=3
-        if 'medic' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['heal']=9
-        if 'pricel' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['accuracy']+=15+(15*games[id]['bots'][ids]['chance'])
-        if 'nindza' in games[id]['bots'][ids]['skills']:
-            games[id]['bots'][ids]['miss']+=20+(20*games[id]['bots'][ids]['chance'])
-        games[id]['bots'][ids]['maxhp']=games[id]['bots'][ids]['hp']
-        if 'robot' in games[id]['bots'][ids]['skin']:
-            games[id]['bots'][ids]['maxenergy']+=2
+              ids['skills'].append('active')
+        if 'paukovod' in ids['skills']:
+            ids['hp']-=2
+        if 'oldman' in ids['skin']:
+            ids['chance']+=0.2
+        if 'double' in ids['skills']:
+            b=int(round(ids['hp']/2,0))
+            ids['hp']=b
+            createlist.append(ids['id'])
+        if 'mage' in ids['skills']:
+            ids['weapon']='magic'
+        if 'magictitan' in ids['skills']:
+            ids['magicshield']=6
+        if 'liveful' in ids['skills']:
+            ids['hp']+=2
+            ids['accuracy']-=15
+        if 'dvuzhil' in ids['skills']:
+            ids['hp']+=0
+            ids['damagelimit']+=3
+        if 'medic' in ids['skills']:
+            ids['heal']=9
+        if 'pricel' in ids['skills']:
+            ids['accuracy']+=15+(15*ids['chance'])
+        if 'nindza' in ids['skills']:
+            ids['miss']+=20+(20*ids['chance'])
+        ids['maxhp']=ids['hp']
+        if 'robot' in ids['skin']:
+            ids['maxenergy']+=2
     text=''
     text2=''
     print(createlist)
     kon4=[]
-    for ids in games[id]['bots']:
-      kon4.append(games[id]['bots'][ids])
+    for ids in choicelist:
+      kon4.append(ids)
     for ids3 in kon4:
      try:
         print('kon')
