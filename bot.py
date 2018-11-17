@@ -1670,7 +1670,7 @@ def results(id):
               
   for bots in games[id]['bots']:
       if bots['item']==1:
-           print('yyyyyy')
+          print('yyyyyy')
           item(games[id]['bots'][bots], id) 
               
   for bots in games[id]['bots']:
