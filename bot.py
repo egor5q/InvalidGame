@@ -130,14 +130,21 @@ def gift(m):
      z=int(m.text.split('/gift ')[1])
      if x!=None and y!=None:
        if z>=0:
-         if x['cookie']>z:
+         cost=int(z*1.01)
+         com=cost-z
+         if cost==z:
+            cost+=1
+            com+=1
+         if x['cookie']>=cost:
            try:
-             users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
+             users.update_one({'id':x['id']},{'$inc':{'cookie':-cost}})
              users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
-             bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'!')
-             bot.send_message(441399484, m.from_user.first_name+' успешно подарил '+str(z)+' поинтов игроку '+y['name']+'!')
+             bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'! Комиссия: '+str(com)+' поинт(ов).')
+             bot.send_message(441399484, m.from_user.first_name+' успешно подарил '+str(z)+' поинтов игроку '+y['name']+'! Комиссия: '+str(com)+' поинт(ов).')
            except:
               pass
+         else:
+            bot.send_message(m.chat.id, 'Недостаточно поинтов! Возможно, вы не учли комиссию (1%).')
        else:
          bot.send_message(m.chat.id, 'Не жульничай!')
    else:
