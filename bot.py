@@ -730,7 +730,7 @@ def me(m):
       else:
          rang='Пасюк'
   if m.reply_to_message==None:
-    #try:
+    try:
       try:
         a=skintoname(x['bot']['skin'][0])
       except:
@@ -738,8 +738,8 @@ def me(m):
       x=users.find_one({'id':m.from_user.id})
       bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
                       'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+a)
-    #except:
-    #  pass
+    except:
+      pass
   else:
       try:
         x=users.find_one({'id':m.reply_to_message.from_user.id})
