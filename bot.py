@@ -120,12 +120,20 @@ def ggiftadm(m):
         bot.send_message(m.chat.id, 'Теперь '+y['name']+' гифт-админ!')
      except:
         pass
-   
+      
+users.update_one({'id':441399484},{'$set':{'fond':0}})
+
 @bot.message_handler(commands=['gift'])
 def gift(m):
  try:
    x=users.find_one({'id':m.from_user.id})
    y=users.find_one({'id':m.reply_to_message.from_user.id})
+   if m.reply_to_message.from_user.id==598197387:
+      z=int(m.text.split('/gift ')[1])
+      if x!=None:
+          users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
+          users.update_one({'id':441399484},{'$inc':{'fond':z}})
+          bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку CookieWars!')      
    if 'gift' in x['bot']['bought']:
      z=int(m.text.split('/gift ')[1])
      if x!=None and y!=None:
@@ -738,6 +746,8 @@ def me(m):
       x=users.find_one({'id':m.from_user.id})
       bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
                       'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+a)
+      if m.from_user.id==441399484:
+         bot.send_message(m.chat.id, 'Поинты бота CookieWars: '+str(x['fond'])+'⚛️')
     except:
       pass
   else:
