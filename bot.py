@@ -121,7 +121,6 @@ def ggiftadm(m):
      except:
         pass
       
-users.update_one({'id':441399484},{'$set':{'fond':0}})
 
 @bot.message_handler(commands=['gift'])
 def gift(m):
