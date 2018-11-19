@@ -2335,7 +2335,7 @@ def dmgs(id):
          games[id]['bots'].update(createzombie(ids[1]))
     for ids in monsters:
          player=games[id]['bots'][ids]
-         if player['summonmonster'][1]>15
+         if player['summonmonster'][1]>15:
             hp=15
          else:
             hp=player['summonmonster'][1]
