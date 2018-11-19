@@ -2335,8 +2335,12 @@ def dmgs(id):
          games[id]['bots'].update(createzombie(ids[1]))
     for ids in monsters:
          player=games[id]['bots'][ids]
-         games[id]['bots'].update(createmonster(player['id'],player['weapon'],player['summonmonster'][1],player['animal']))
-         text+='👁Некромант '+player['name']+' призывает монстра! Его жизни: '+'🖤'*player['summonmonster'][1]+str(player['summonmonster'][1])+'!\n'
+         if player['summonmonster'][1]>7:
+            hp=7
+         else:
+            hp=player['summonmonster'][1]
+         games[id]['bots'].update(createmonster(player['id'],player['weapon'],hp,player['animal']))
+         text+='👁Некромант '+player['name']+' призывает монстра! Его жизни: '+'🖤'*hp+str(hp)+'!\n'
     games[id]['secondres']='Эффекты:\n'+text
    
     
