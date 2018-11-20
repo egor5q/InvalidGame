@@ -1699,7 +1699,7 @@ def giveitems(game):
   
                    
 def battle(id):  
- try:
+ #try:
     print('2')
     lst=[]
     for ids in games[id]['bots']:
@@ -1714,7 +1714,7 @@ def battle(id):
                 print('wtfend')
     print('endres')
     results(id)
- except:
+z=''' except:
     for ids in games[id]['joinbotsreturn']:
          users.update_one({'id':ids},{'$inc':{'joinbots':1}})
     try:
@@ -1722,7 +1722,7 @@ def battle(id):
         del games[id]
     except:
       pass
-   
+   '''
 def results(id): 
   lst=[]
   for ids in games[id]['bots']:
@@ -1746,6 +1746,10 @@ def results(id):
      if bots['reload']==1:
         reload(bots, id)          
               
+  for bots in list:
+    if 'electrocharge' in bots['skills']:
+        pass
+
   for bots in lst:
       if bots['attack']==1:
         print('yyyyyy')
