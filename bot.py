@@ -1800,6 +1800,9 @@ def results(id):
     games[id]['bots'][mobs]['miss']=0  
     if 'nindza' in games[id]['bots'][mobs]['skills']:
       games[id]['bots'][mobs]['miss']=20+(20*games[id]['bots'][mobs]['chance'])
+    if 'metalarmor' in games[id]['bots'][mobs]['skills']:
+      games[id]['bots'][mobs]['miss']-=20
+      games[id]['bots'][mobs]['currentarmor']=1
     games[id]['bots'][mobs]['skill']=0
     games[id]['bots'][mobs]['shield']=0
     games[id]['bots'][mobs]['armorturns']-=1
@@ -3613,6 +3616,8 @@ def begingame(id):
         if 'paukovod' in ids['skills']:
             ids['hp']-=2
             ids['maxhp']-=2
+        if 'metalarmor' in ids['skills']:
+            ids['currentarmor']=1
         if 'liveful' in ids['skills']:
             ids['hp']+=2
             ids['maxhp']+=2
