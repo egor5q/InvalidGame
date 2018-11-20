@@ -3632,9 +3632,9 @@ def begingame(id):
             ids['hp']+=2
             ids['maxhp']+=2
             ids['accuracy']-=15
-        if 'necromant' in ids['skills']:
-            ids['hp']-=1
-            ids['maxhp']-=1
+        #if 'necromant' in ids['skills']:
+        #    ids['hp']-=1
+        #    ids['maxhp']-=1
         if 'oldman' in ids['skin']:
             ids['chance']+=0.2
         if 'double' in ids['skills']:
