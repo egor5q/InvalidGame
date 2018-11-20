@@ -1753,6 +1753,7 @@ def results(id):
         reload(bots, id)          
               
   for bots in lst:
+    print('dddaa')
     if 'electrocharge' in bots['skills'] and bots['attack']==1:
         x=attack(bots,id,1)
         if x==1:
