@@ -20,12 +20,6 @@ bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
 games={}
 skills=[]
-try:
-  x=0
-  while x<1:
-   x=random.randint(-1,0)
-except:
-   bot.send_message(441399484, 'ggg')
 
 
 client1=os.environ['database']
