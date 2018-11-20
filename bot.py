@@ -1746,9 +1746,9 @@ def results(id):
      if bots['reload']==1:
         reload(bots, id)          
               
-  #for bots in lst:
-  #  if 'electrocharge' in bots['skills']:
-  #      attack(bots,id,1)
+  for bots in lst:
+    if 'electrocharge' in bots['skills']:
+        attack(bots,id,1)
 
   for bots in lst:
       if bots['attack']==1:
