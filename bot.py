@@ -199,7 +199,7 @@ def upd(m):
         if m.from_user.id==441399484:
           y=users.find({})
           for ids in y:
-                  users.update_one({'id':ids['id']},{'$set':{'bot.hit':0}})
+                  users.update_one({'id':ids['id']},{'$set':{'bot.doptext':''}})
           print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -336,7 +336,8 @@ def createpauk(id,hp):
               'firearmor':0,
               'identeficator':x,
               'chance':0,
-              'hit':0
+              'hit':0,
+              'doptext':''
                      }
           }
    
@@ -397,7 +398,8 @@ def createmonster(id,weapon,hp, animal):
               'fire':0,
               'firearmor':0,
               'chance':0,
-              'hit':0
+              'hit':0,
+              'doptext':''
                      }
           }
    
@@ -479,7 +481,8 @@ def createzombie(id):
               'fire':0,
               'firearmor':0,
               'chance':0,
-              'hit':0
+              'hit':0,
+              'doptext':''
                
                      }
           }
@@ -1750,8 +1753,15 @@ def results(id):
         reload(bots, id)          
               
   for bots in lst:
-    if 'electrocharge' in bots['skills']:
-        attack(bots,id,1)
+    if 'electrocharge' in bots['skills'] and bots['attack']==1:
+        x=attack(bots,id,1)
+        if x==1:
+            if random.randint(1,100)<=20*(bots['chance']+1):
+                dmg=bots['energy']-bots['target']['energy']
+                if dmgs<0:
+                    dmgs=0
+                bots['doptext']+='🔋'+bots['name']+' заряжает свою атаку! Соперник получает '+str(dmgs)+' дополнительного урона!\n'
+                
 
   for bots in lst:
       if bots['attack']==1:
@@ -1808,6 +1818,7 @@ def results(id):
     games[id]['bots'][mobs]['shieldgen']-=1
     games[id]['bots'][mobs]['target']=None
     games[id]['bots'][mobs]['gipnoz']-=1
+    games[id]['bots'][mobs]['doptext']=''
     games[id]['bots'][mobs]['mainskill']=[]
     if games[id]['bots'][mobs]['deffromgun']>0:
         games[id]['bots'][mobs]['deffromgun']-=1
@@ -2394,6 +2405,7 @@ def rockchance(energy, target, x, id, bot1,hit):
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=2
+    games[id]['res']+=bot1['doptext']
           
           
 def akchance(energy, target, x, id, bot1,hit):
@@ -2430,6 +2442,7 @@ def akchance(energy, target, x, id, bot1,hit):
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=random.randint(2,3)
+  games[id]['res']+=bot1['doptext']
         
         
         
@@ -2468,6 +2481,7 @@ def handchance(energy, target, x, id, bot1,hit):
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=random.randint(1,2)
+  games[id]['res']+=bot1['doptext']
        
        
 def sawchance(energy, target, x, id, bot1,hit):
@@ -2515,6 +2529,7 @@ def sawchance(energy, target, x, id, bot1,hit):
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=2
+  games[id]['res']+=bot1['doptext']
        
        
 def kinzhalchance(energy, target, x, id, bot1,hit):
@@ -2563,6 +2578,7 @@ def kinzhalchance(energy, target, x, id, bot1,hit):
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=2
+  games[id]['res']+=bot1['doptext']
          
          
          
@@ -2607,6 +2623,7 @@ def bowchance(energy, target, x, id, bot1,hit):
       bot1['bowcharge']=1
       bot1['target']=None
       games[id]['res']+='🏹'+bot1['name']+' Натягивает тетиву лука!\n'
+  games[id]['res']+=bot1['doptext']
                 
              
 def lightchance(energy, target, x, id, bot1,hit):
@@ -2682,6 +2699,7 @@ def bitechance(energy, target, x, id, bot1,hit):
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=5
+  games[id]['res']+=bot1['doptext']
          
          
          
@@ -2739,6 +2757,7 @@ def rhinochance(energy, target, x, id, bot1,hit):
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=3
+  games[id]['res']+=bot1['doptext']
         
         
 def demonchance(energy, target, x, id, bot1,hit):
@@ -2805,6 +2824,7 @@ def demonchance(energy, target, x, id, bot1,hit):
         games[id]['res']+='💨'+bot1['name']+' не удалось наложить порчу на '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=2
+  games[id]['res']+=bot1['doptext']
     
               
 def pigchance(energy, target, x, id, bot1,hit):
@@ -2841,6 +2861,7 @@ def pigchance(energy, target, x, id, bot1,hit):
                 games[id]['res']+='🧟‍♂О нет! На запах свинины пришёл зомби! '+\
                 'Теперь он сражается за '+bot1['name']+'!\n'
   bot1['target']=None
+  games[id]['res']+=bot1['doptext']
                 
       
 def zombiechance(energy, target, x, id, bot1,hit):
@@ -2886,6 +2907,7 @@ def zombiechance(energy, target, x, id, bot1,hit):
         games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
         bot1['target']=None
         bot1['energy']-=2
+  games[id]['res']+=bot1['doptext']
         
         
         
@@ -2936,6 +2958,7 @@ def chlenchance(energy, target, x, id, bot1,hit):
                   games[id]['bots'][ids]['deffromgun']=1
           games[id]['res']+='☢'+bot1['name']+' открыл слишком много порталов! Весь нанесённый в раунде урон будет перенаправлен в его случайного '+\
         'соперника!\n'
+  games[id]['res']+=bot1['doptext']
 
 
 
@@ -3877,7 +3900,8 @@ def createbot(id):
               'fire':0,
               'summonmonster':['hand',0],   #####  Оружие; ХП
               'chance':0,            #### УВЕЛИЧЕНИЕ ШАНСА НА ПРИМЕНЕНИЕ АБИЛОК
-              'hit':0                  ###ЕСЛИ ==1, ТО ТЫ ПОПАДАЕШЬ ПО ЦЕЛИ
+              'hit':0,                  ###ЕСЛИ ==1, ТО ТЫ ПОПАДАЕШЬ ПО ЦЕЛИ
+              'doptext':''
 }
 
 def dailybox():
