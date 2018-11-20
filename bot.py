@@ -199,7 +199,7 @@ def upd(m):
         if m.from_user.id==441399484:
           y=users.find({})
           for ids in y:
-                  users.update_one({'id':ids['id']},{'$set':{'bot.chance':0}})
+                  users.update_one({'id':ids['id']},{'$set':{'bot.hit':0}})
           print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -1016,7 +1016,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='6000⚛️', callback_data='buynecromant'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Когда цель, которую вы атакуете, теряет хп, вы имеете 65% шанс прибавить это хп к монстру, которого призовёте после смерти. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Когда цель, которую вы атакуете, теряет хп, вы имеете 65% шанс прибавить это хп к монстру, которого призовёте после смерти. Ваши хп в начале матча уменьшены на 1. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
     
   elif call.data=='magictitan':
        kb=types.InlineKeyboardMarkup()
@@ -2335,8 +2335,8 @@ def dmgs(id):
          games[id]['bots'].update(createzombie(ids[1]))
     for ids in monsters:
          player=games[id]['bots'][ids]
-         if player['summonmonster'][1]>15:
-            hp=15
+         if player['summonmonster'][1]>12:
+            hp=12
          else:
             hp=player['summonmonster'][1]
          games[id]['bots'].update(createmonster(player['id'],player['weapon'],hp,player['animal']))
@@ -2365,7 +2365,7 @@ def rockchance(energy, target, x, id, bot1):
       target['hp']-=1
       bot1['energy']=0
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
           damage=random.randint(2, 3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -2401,7 +2401,7 @@ def akchance(energy, target, x, id, bot1):
       target['hp']-=1
       bot1['energy']=0
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
           damage=random.randint(3, 4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -2415,7 +2415,7 @@ def akchance(energy, target, x, id, bot1):
         
         
         
-def handchance(energy, target, x, id, bot1):
+def handchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=99
   elif energy==4:
@@ -2428,6 +2428,11 @@ def handchance(energy, target, x, id, bot1):
     chance=60
   elif energy<=0:
     chance=1
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
@@ -2447,7 +2452,7 @@ def handchance(energy, target, x, id, bot1):
         bot1['energy']-=random.randint(1,2)
        
        
-def sawchance(energy, target, x, id, bot1):
+def sawchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=97
   elif energy==4:
@@ -2460,6 +2465,11 @@ def sawchance(energy, target, x, id, bot1):
     chance=30
   elif energy<=0:
     chance=1
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
@@ -2489,7 +2499,7 @@ def sawchance(energy, target, x, id, bot1):
         bot1['energy']-=2
        
        
-def kinzhalchance(energy, target, x, id, bot1):
+def kinzhalchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=95
   elif energy==4:
@@ -2502,6 +2512,11 @@ def kinzhalchance(energy, target, x, id, bot1):
     chance=25
   elif energy<=0:
     chance=0
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
@@ -2533,7 +2548,7 @@ def kinzhalchance(energy, target, x, id, bot1):
          
          
          
-def bowchance(energy, target, x, id, bot1):
+def bowchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=65
   elif energy==4:
@@ -2546,6 +2561,11 @@ def bowchance(energy, target, x, id, bot1):
     chance=65
   elif energy<=0:
     chance=65
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
@@ -2571,7 +2591,7 @@ def bowchance(energy, target, x, id, bot1):
       games[id]['res']+='🏹'+bot1['name']+' Натягивает тетиву лука!\n'
                 
              
-def lightchance(energy, target, x, id, bot1):
+def lightchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=50
   elif energy==4:
@@ -2589,7 +2609,7 @@ def lightchance(energy, target, x, id, bot1):
       target['hp']-=1
       bot1['energy']=0
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
           damage=100
           if 'berserk' in bot1['skills'] and bot1['hp']<=1:
               damage+=2
@@ -2602,7 +2622,7 @@ def lightchance(energy, target, x, id, bot1):
         bot1['target']=None
         bot1['energy']-=5
         
-def bitechance(energy, target, x, id, bot1):
+def bitechance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=90
   elif energy==4:
@@ -2615,6 +2635,11 @@ def bitechance(energy, target, x, id, bot1):
     chance=20
   elif energy<=0:
     chance=0
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💀Голодный Паук доедает ослабевшего '+target['name']+'!\n'
       target['hp']-=1
@@ -2642,7 +2667,7 @@ def bitechance(energy, target, x, id, bot1):
          
          
          
-def rhinochance(energy, target, x, id, bot1):
+def rhinochance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=93
   elif energy==4:
@@ -2655,6 +2680,11 @@ def rhinochance(energy, target, x, id, bot1):
     chance=30
   elif energy<=0:
     chance=0
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   rhinomaxdmg=int(os.environ['rhinomaxdmg'])
   rhinomindmg=int(os.environ['rhinomindmg'])
   rhinominloss=int(os.environ['rhinominloss'])
@@ -2693,7 +2723,7 @@ def rhinochance(energy, target, x, id, bot1):
         bot1['energy']-=3
         
         
-def demonchance(energy, target, x, id, bot1):
+def demonchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=91
   elif energy==4:
@@ -2706,6 +2736,11 @@ def demonchance(energy, target, x, id, bot1):
     chance=22
   elif energy<=0:
     chance=0
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='Демон изгоняет '+target['name']+'!\n Цель погибает.'
       target['hp']-=1
@@ -2754,7 +2789,7 @@ def demonchance(energy, target, x, id, bot1):
         bot1['energy']-=2
     
               
-def pigchance(energy, target, x, id, bot1):
+def pigchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=0
   elif energy==4:
@@ -2767,6 +2802,11 @@ def pigchance(energy, target, x, id, bot1):
     chance=0
   elif energy<=0:
     chance=0
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='Свинья молится Алисе, и та убивает '+target['name']+'!\n'
       target['hp']-=1
@@ -2785,7 +2825,7 @@ def pigchance(energy, target, x, id, bot1):
   bot1['target']=None
                 
       
-def zombiechance(energy, target, x, id, bot1):
+def zombiechance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=90
   elif energy==4:
@@ -2798,6 +2838,11 @@ def zombiechance(energy, target, x, id, bot1):
     chance=36
   elif energy<=0:
     chance=9
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(3,3)
@@ -2826,7 +2871,7 @@ def zombiechance(energy, target, x, id, bot1):
         
         
         
-def chlenchance(energy, target, x, id, bot1):
+def chlenchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=91
   elif energy==4:
@@ -2839,6 +2884,11 @@ def chlenchance(energy, target, x, id, bot1):
     chance=42
   elif energy<=0:
     chance=0
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,3)
@@ -2873,76 +2923,57 @@ def chlenchance(energy, target, x, id, bot1):
 
 def attack(bot, id):
   a=[]
-  if 0 not in games[id]['bots']:
-    for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id']:
-            a.append(games[id]['bots'][bots])
-    x=random.randint(1,len(a))
-    dd=0
-    while (a[x-1]['die']==1 or a[x-1]['zombie']>0) and dd<200:
-       x=random.randint(1,len(a))
-       dd+=1
-    target=a[x-1]
-    if bot['target']!=None:
-        target=bot['target']
-    bot['target']=target
-    x=random.randint(1,100)
-  else:
-    for bots in games[id]['bots']:
-      if games[id]['bots'][bots]['id']==0 and games[id]['bots'][bots]['id']!=bot['id']:
-        if games[id]['bots'][bots]['id']!=bot['id']:
-            a.append(games[id]['bots'][bots])
-        x=random.randint(1,len(a))
-        dd=0
-        while a[x-1]['die']==1 and dd<100:
-            dd+=1
-            x=random.randint(1,len(a))
-        target=games[id]['bots'][a[x-1]['id']]
-        if bot['target']!=None:
-            target=bot['target'] 
-        target=games[id]['bots'][0]
-        x=random.randint(1,100)
-      else:
-        target=games[id]['bots'][0]
+  for bots in games[id]['bots']:
+      if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id']:
+          a.append(games[id]['bots'][bots])
+  x=random.randint(1,len(a))
+  dd=0
+  while (a[x-1]['die']==1 or a[x-1]['zombie']>0) and dd<200:
+     x=random.randint(1,len(a))
+     dd+=1
+  target=a[x-1]
+  if bot['target']!=None:
+      target=bot['target']
+  bot['target']=target
   x=random.randint(1,100)
-
+    
   if bot['weapon']=='rock':
-      rockchance(bot['energy'], target, x, id, bot)          
+      rockchance(bot['energy'], target, x, id, bot,0)          
       
   elif bot['weapon']=='hand':
-      handchance(bot['energy'], target, x, id, bot)          
+      handchance(bot['energy'], target, x, id, bot,0)          
 
   elif bot['weapon']=='magic':
       if bot['animal']=='demon':
-          demonchance(bot['energy'], target, x, id, bot)  
+          demonchance(bot['energy'], target, x, id, bot,0)  
       if bot['animal']=='rhino':
-          rhinochance(bot['energy'], target, x, id, bot) 
+          rhinochance(bot['energy'], target, x, id, bot,0) 
       if bot['animal']=='pig':
-          pigchance(bot['energy'], target, x, id, bot) 
+          pigchance(bot['energy'], target, x, id, bot,0) 
   
   elif bot['weapon']=='ak':
-      akchance(bot['energy'], target, x, id, bot)  
+      akchance(bot['energy'], target, x, id, bot,0)  
 
   elif bot['weapon']=='saw':
-      sawchance(bot['energy'], target, x, id, bot)
+      sawchance(bot['energy'], target, x, id, bot,0)
       
   elif bot['weapon']=='kinzhal':
-    kinzhalchance(bot['energy'], target, x, id, bot)
+    kinzhalchance(bot['energy'], target, x, id, bot,0)
     
   elif bot['weapon']=='chlen':
-    chlenchance(bot['energy'], target, x, id, bot)
+    chlenchance(bot['energy'], target, x, id, bot,0)
 
   elif bot['weapon']=='light':
-    lightchance(bot['energy'], target, x, id, bot)
+    lightchance(bot['energy'], target, x, id, bot,0)
    
   elif bot['weapon']=='bite':
-    bitechance(bot['energy'], target, x, id, bot)
+    bitechance(bot['energy'], target, x, id, bot,0)
     
   elif bot['weapon']=='bow':
-    bowchance(bot['energy'], target, x, id, bot)
+    bowchance(bot['energy'], target, x, id, bot,0)
     
   elif bot['weapon']=='zombiebite':
-    zombiechance(bot['energy'], target, x, id, bot)
+    zombiechance(bot['energy'], target, x, id, bot,0)
                                      
 
 def yvorot(bot, id):
@@ -3537,19 +3568,25 @@ def begingame(id):
               ids['skills'].append('active')
         if 'paukovod' in ids['skills']:
             ids['hp']-=2
+            ids['maxhp']-=2
+        if 'liveful' in ids['skills']:
+            ids['hp']+=2
+            ids['maxhp']+=2
+            ids['accuracy']-=15
+        if 'necromant' in ids['skills']:
+            ids['hp']-=1
+            ids['maxhp']-=1
         if 'oldman' in ids['skin']:
             ids['chance']+=0.2
         if 'double' in ids['skills']:
             b=int(round(ids['hp']/2,0))
             ids['hp']=b
+            ids['maxhp']=b
             createlist.append(ids['id'])
         if 'mage' in ids['skills']:
             ids['weapon']='magic'
         if 'magictitan' in ids['skills']:
             ids['magicshield']=6
-        if 'liveful' in ids['skills']:
-            ids['hp']+=2
-            ids['accuracy']-=15
         if 'dvuzhil' in ids['skills']:
             ids['hp']+=0
             ids['damagelimit']+=3
@@ -3655,8 +3692,8 @@ def skilltoname(x):
         return '💙Живучий'
     elif x=='dvuzhil':
         return '💪Стойкий'
-    elif x=='🎯pricel':
-        return 'Прицел'
+    elif x=='pricel':
+        return '🎯Прицел'
     elif x=='cazn':
         return '💥Ассасин'
     elif x=='berserk':
@@ -3818,7 +3855,8 @@ def createbot(id):
               'firearmorkd':0,
               'fire':0,
               'summonmonster':['hand',0],   #####  Оружие; ХП
-              'chance':0            #### УВЕЛИЧЕНИЕ ШАНСА НА ПРИМЕНЕНИЕ АБИЛОК (В ПРОЦЕНТАХ)
+              'chance':0,            #### УВЕЛИЧЕНИЕ ШАНСА НА ПРИМЕНЕНИЕ АБИЛОК
+              'hit':0                  ###ЕСЛИ ==1, ТО ТЫ ПОПАДАЕШЬ ПО ЦЕЛИ
 }
 
 def dailybox():
