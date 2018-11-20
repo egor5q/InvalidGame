@@ -1790,6 +1790,7 @@ def results(id):
   games[id]['randomdmg']=0
   games[id]['summonlist']=[]
   for mobs in games[id]['bots']:
+    print('mobcheck')
     player=games[id]['bots'][mobs]
     if games[id]['bots'][mobs]['hp']>games[id]['bots'][mobs]['maxhp']:
         games[id]['bots'][mobs]['hp']=games[id]['bots'][mobs]['maxhp']
@@ -1832,6 +1833,7 @@ def results(id):
     if games[id]['bots'][mobs]['die']!=1:
      if games[id]['bots'][mobs]['hp']<1:
       games[id]['bots'][mobs]['die']=1
+  print('mobcheckfinish')
   for ids in games[id]['bots']:
       if games[id]['bots'][ids]['die']==1:
             die+=1
