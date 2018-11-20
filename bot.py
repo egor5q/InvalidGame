@@ -1759,9 +1759,9 @@ def results(id):
         if x==1:
             if random.randint(1,100)<=20*(bots['chance']+1):
                 dmg=bots['energy']-bots['target']['energy']
-                if dmgs<0:
-                    dmgs=0
-                bots['doptext']+='🔋'+bots['name']+' заряжает свою атаку! Соперник получает '+str(dmgs)+' дополнительного урона!\n'
+                if dmg<0:
+                    dmg=0
+                bots['doptext']+='🔋'+bots['name']+' заряжает свою атаку! Соперник получает '+str(dmg)+' дополнительного урона!\n'
                 
 
   for bots in lst:
