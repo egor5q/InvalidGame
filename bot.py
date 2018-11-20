@@ -2927,9 +2927,12 @@ def chlenchance(energy, target, x, id, bot1,hit):
 
 def attack(bot, id):
   a=[]
+  enm=[]
   for bots in games[id]['bots']:
-      if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id']:
-          a.append(games[id]['bots'][bots])
+     enm.append(games[id]['bots'][bots])
+  for bots in enm:
+      if bots['id']!=bot['id'] and bots['id']!=-bot['id']:
+          a.append(bots)
   x=random.randint(1,len(a))
   dd=0
   while (a[x-1]['die']==1 or a[x-1]['zombie']>0) and dd<200:
