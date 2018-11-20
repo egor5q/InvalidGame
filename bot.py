@@ -2351,7 +2351,7 @@ def dmgs(id):
   
   
   
-def rockchance(energy, target, x, id, bot1):
+def rockchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=95
   elif energy==4:
@@ -2364,6 +2364,11 @@ def rockchance(energy, target, x, id, bot1):
     chance=20
   elif energy<=0:
     chance=1
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
@@ -2387,7 +2392,7 @@ def rockchance(energy, target, x, id, bot1):
         bot1['energy']-=2
           
           
-def akchance(energy, target, x, id, bot1):
+def akchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=80
   elif energy==4:
@@ -2400,6 +2405,11 @@ def akchance(energy, target, x, id, bot1):
     chance=5
   elif energy<=0:
     chance=0
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
       target['hp']-=1
