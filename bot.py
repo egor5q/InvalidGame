@@ -335,7 +335,8 @@ def createpauk(id,hp):
               'fire':0,
               'firearmor':0,
               'identeficator':x,
-              'chance':0
+              'chance':0,
+              'hit':0
                      }
           }
    
@@ -395,7 +396,8 @@ def createmonster(id,weapon,hp, animal):
               'magicshieldkd':0,
               'fire':0,
               'firearmor':0,
-              'chance':0
+              'chance':0,
+              'hit':0
                      }
           }
    
@@ -476,7 +478,8 @@ def createzombie(id):
               'magicshieldkd':0,
               'fire':0,
               'firearmor':0,
-              'chance':0
+              'chance':0,
+              'hit':0
                
                      }
           }
@@ -1801,6 +1804,7 @@ def results(id):
         games[id]['bots'][mobs]['firearmorkd']-=1
     games[id]['bots'][mobs]['yvorotkd']-=1
     games[id]['bots'][mobs]['shield']-=1
+    games[id]['bots'][mobs]['hit']=0
     games[id]['bots'][mobs]['shieldgen']-=1
     games[id]['bots'][mobs]['target']=None
     games[id]['bots'][mobs]['gipnoz']-=1
