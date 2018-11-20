@@ -1746,7 +1746,7 @@ def results(id):
      if bots['reload']==1:
         reload(bots, id)          
               
-  for bots in list:
+  for bots in lst:
     if 'electrocharge' in bots['skills']:
         pass
 
