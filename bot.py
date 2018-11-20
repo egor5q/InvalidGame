@@ -15,17 +15,17 @@ import traceback
 import sys
 
 
-try:
-  while x<1:
-   x=random.randint(-1,0)
-except:
-   bot.send_message(441399484, 'Ошибка')
-
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 vip=[441399484, 55888804]
 games={}
 skills=[]
+
+try:
+  while x<1:
+   x=random.randint(-1,0)
+except:
+   bot.send_message(441399484, 'Ошибка')
 
 client1=os.environ['database']
 client=MongoClient(client1)
