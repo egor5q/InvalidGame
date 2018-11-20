@@ -1772,7 +1772,9 @@ def results(id):
   for ids in lst:
     if ids['shield']>=1:
         ids['takendmg']=0
+  print('dmgsstart')
   dmgs(id)
+  print('dmgsend')
   z=0
   global hidetext
   if id==-1001208357368:
@@ -2079,6 +2081,7 @@ def results(id):
 def dmgs(id):
     c=0
     text=''
+    print('dmgs1')
     if games[id]['mode']=='meteors':
         targets=[]
         for ids in games[id]['bots']:
@@ -2132,6 +2135,7 @@ def dmgs(id):
            text+='Так как Алиса и Сергей применили пушку одновременно, никто из них не получает урона, пиздец.\n' 
       
     for ids in games[id]['bots']:
+        print('dmgs2')
         if 'firemage' in games[id]['bots'][ids]['skills']:
            if random.randint(1,100)<=18+(18*games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['die']!=1:
               games[id]['bots'][ids]['firearmor']=1
@@ -2185,10 +2189,12 @@ def dmgs(id):
             c=games[id]['bots'][ids]['takendmg']
             
     for ids in games[id]['bots']:
+        print('dmgs3')
         if games[id]['bots'][ids]['takendmg']>c:
             c=games[id]['bots'][ids]['takendmg']
     monsters=[]        
     for mob in games[id]['bots']:
+        print('dmgs4')
         if 'magictitan' in games[id]['bots'][mob]['skills']:
           if games[id]['bots'][mob]['magicshieldkd']>0:
             games[id]['bots'][mob]['magicshieldkd']-=1
@@ -2239,6 +2245,7 @@ def dmgs(id):
                 
     pauk=[]
     for mob in games[id]['bots']:
+     print('dmgs5')
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
        oldhp=games[id]['bots'][mob]['hp']
