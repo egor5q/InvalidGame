@@ -1045,7 +1045,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='4700⚛️', callback_data='buyelectrocharge'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Каждый раз, как вы атакуете соперника, у вас есть 20% шанс нанести критический урон, зависящий от разницы в энергии между вами и соперником (чем больше у вас и меньше у него, тем сильнее крит). Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Каждый раз, как вы атакуете соперника, у вас есть 20% шанс нанести критический урон, зависящий от вашей энергии перед выстрелом. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
                
   elif call.data=='metalarmor':
        kb=types.InlineKeyboardMarkup()
@@ -1884,7 +1884,7 @@ def results(id):
         print(x)
         if x==1:
             if random.randint(1,100)<=20*(bots['chance']+1):
-                dmg=bots['energy']-bots['target']['energy']
+                dmg=bots['energy'] 
                 if dmg<0:
                     dmg=0
                 bots['doptext']+='🔋'+bots['name']+' заряжает свою атаку! Соперник получает '+str(dmg)+' дополнительного урона!\n'
@@ -3844,6 +3844,7 @@ def begingame(id):
         print('kon4')
      except:
       text+='\n'
+    giveitems(games[id])
     for ids in createlist:
         print('cycle2')
         rnd=randomgen(id)
@@ -3852,6 +3853,7 @@ def begingame(id):
         games[id]['bots'][rnd]['identeficator']==rnd
         print(games[id]['bots'][rnd])
         games[id]['bots'][rnd]['name']+='[Двойник]'
+        games[id]['bots'][rnd]['items']=[]
         games[id]['bots'][rnd]['identeficator']=rnd
         text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
         
@@ -3871,7 +3873,6 @@ def begingame(id):
       bot.send_message(id, tt2)
     if text2!='':
         bot.send_message(id, text2)
-    giveitems(games[id])
     games[id]['started2']=1
     print('1')
     battle(id)
