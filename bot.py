@@ -3124,7 +3124,7 @@ def chlenchance(energy, target, x, id, bot1,hit):
 
 
 
-def attack(bot, id,x):
+def attack(bot, id,rr):
   a=[]
   enm=[]
   for bots in games[id]['bots']:
@@ -3144,42 +3144,42 @@ def attack(bot, id,x):
   x=random.randint(1,100)
     
   if bot['weapon']=='rock':
-      rockchance(bot['energy'], target, x, id, bot,x)          
+      rockchance(bot['energy'], target, x, id, bot,rr)          
       
   elif bot['weapon']=='hand':
-      handchance(bot['energy'], target, x, id, bot,x)          
+      handchance(bot['energy'], target, x, id, bot,rr)          
 
   elif bot['weapon']=='magic':
       if bot['animal']=='demon':
-          demonchance(bot['energy'], target, x, id, bot,x)  
+          demonchance(bot['energy'], target, x, id, bot,rr)  
       if bot['animal']=='rhino':
-          rhinochance(bot['energy'], target, x, id, bot,x) 
+          rhinochance(bot['energy'], target, x, id, bot,rr) 
       if bot['animal']=='pig':
-          pigchance(bot['energy'], target, x, id, bot,x) 
+          pigchance(bot['energy'], target, x, id, bot,rr) 
   
   elif bot['weapon']=='ak':
-      akchance(bot['energy'], target, x, id, bot,x)  
+      akchance(bot['energy'], target, x, id, bot,rr)  
 
   elif bot['weapon']=='saw':
-      sawchance(bot['energy'], target, x, id, bot,x)
+      sawchance(bot['energy'], target, x, id, bot,rr)
       
   elif bot['weapon']=='kinzhal':
-    kinzhalchance(bot['energy'], target, x, id, bot,x)
+    kinzhalchance(bot['energy'], target, x, id, bot,rr)
     
   elif bot['weapon']=='chlen':
-    chlenchance(bot['energy'], target, x, id, bot,x)
+    chlenchance(bot['energy'], target, x, id, bot,rr)
 
   elif bot['weapon']=='light':
-    lightchance(bot['energy'], target, x, id, bot,x)
+    lightchance(bot['energy'], target, x, id, bot,rr)
    
   elif bot['weapon']=='bite':
-    bitechance(bot['energy'], target, x, id, bot,x)
+    bitechance(bot['energy'], target, x, id, bot,rr)
     
   elif bot['weapon']=='bow':
-    bowchance(bot['energy'], target, x, id, bot,x)
+    bowchance(bot['energy'], target, x, id, bot,rr)
     
   elif bot['weapon']=='zombiebite':
-    zombiechance(bot['energy'], target, x, id, bot,x)
+    zombiechance(bot['energy'], target, x, id, bot,rr)
                                      
 
 def yvorot(bot, id):
