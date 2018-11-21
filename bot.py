@@ -1051,7 +1051,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='5300⚛️', callback_data='buymetalarmor'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('В конце хода вы блокируете одну единицу урона со 100% шансом, но шанс попасть по вам увеличивается на 15%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('В конце хода вы блокируете одну единицу урона со 100% шансом, но шанс попасть по вам увеличивается на 6%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
                
   elif call.data=='turret':
        kb=types.InlineKeyboardMarkup()
@@ -1931,7 +1931,7 @@ def results(id):
     if 'nindza' in games[id]['bots'][mobs]['skills']:
       games[id]['bots'][mobs]['miss']=20+(20*games[id]['bots'][mobs]['chance'])
     if 'metalarmor' in games[id]['bots'][mobs]['skills']:
-      games[id]['bots'][mobs]['miss']-=20
+      games[id]['bots'][mobs]['miss']-=6
       games[id]['bots'][mobs]['currentarmor']=1
     games[id]['bots'][mobs]['skill']=0
     games[id]['bots'][mobs]['dopdmg']=0
@@ -3783,6 +3783,7 @@ def begingame(id):
             games[id]['turrets'].append(ids['id'])
         if 'metalarmor' in ids['skills']:
             ids['currentarmor']=1
+            ids['miss']-=6
         if 'liveful' in ids['skills']:
             ids['hp']+=2
             ids['maxhp']+=2
