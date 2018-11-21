@@ -1889,6 +1889,7 @@ def results(id):
                 if dmg<0:
                     dmg=0
                 bots['doptext']+='🔋'+bots['name']+' заряжает свою атаку! Соперник получает '+str(dmg)+' дополнительного урона!\n'
+                bots['target']['takendmg']+=dmg
                 
 
   for bots in lst:
