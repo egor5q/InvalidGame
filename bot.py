@@ -4054,7 +4054,7 @@ def begingame(id):
      except:
       text+='\n'
     giveitems(games[id])
-    for ids in choicelist:
+    for ids in createlist:
         print('cycle2')
         rnd=randomgen(id)
         aa=games[id]['bots'][ids].copy()
@@ -4067,7 +4067,7 @@ def begingame(id):
         text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
     techw=['bazuka','sword','flame']
     text3=''
-    for ids in createlist:
+    for ids in choicelist:
         if ids['weapon'] in techw:
             text3+='⁉'+ids['name']+' получает оружие: '+techwtoname(ids['weapon'])+'!\n'
     u=0
