@@ -3931,8 +3931,16 @@ def skilltoname(x):
        return '🔥Повелитель огня'
     elif x=='necromant':
        return '🖤Некромант'
-
- 
+    elif x=='turret':
+       return '🔺Инженер'
+    elif x=='metalarmor':
+       return '🔲Металлическая броня'
+    elif x=='electrocharge':
+       return '🔋Электрический снаряд'
+    elif x=='suit':
+       return '📡Отражающий костюм'
+   
+   
 def createbott(id, y):
         return{id:y}
 
