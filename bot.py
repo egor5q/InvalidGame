@@ -2295,9 +2295,6 @@ def dmgs(id):
                 ' дополнительного урона!\n' 
         if games[id]['bots'][ids]['firearmor']==1:
             games[id]['bots'][ids]['takendmg']=int(games[id]['bots'][ids]['takendmg']/2)
-        if games[id]['bots'][ids]['currentarmor']>0 and games[id]['bots'][ids]['takendmg']>0:
-            text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
-            games[id]['bots'][ids]['takendmg']-=1
         if 'magictitan' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=50+(50*games[id]['bots'][ids]['chance']):
           if games[id]['bots'][ids]['magicshield']>0:
             a=games[id]['bots'][ids]['takendmg']
