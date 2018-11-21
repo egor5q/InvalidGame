@@ -692,7 +692,7 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=suit+'📡Отражающий костюм', callback_data='equipsuit'))
         if item=='metalarmor':
             kb.add(types.InlineKeyboardButton(text=metalarmor+'🔲Металлическая броня', callback_data='equipmetalarmor'))
-        if item=='electrocharge:
+        if item=='electrocharge':
             kb.add(types.InlineKeyboardButton(text=electrocharge+'🔋Электрический снаряд', callback_data='equipelectrocharge'))
     kb.add(types.InlineKeyboardButton(text='Снять все скиллы', callback_data='unequip'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
