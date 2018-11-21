@@ -1033,7 +1033,7 @@ def inline(call):
         kb.add(types.InlineKeyboardButton(text=electrocharge+'🔋Электрический заряд', callback_data='electrocharge'))
         kb.add(types.InlineKeyboardButton(text=metalarmor+'🔲Металлическая броня', callback_data='metalarmor'))
         kb.add(types.InlineKeyboardButton(text=turret+'🔺Инженер', callback_data='turret'))
-        medit('Ветка: вампиризм', call.message.chat.id, call.message.message_id, reply_markup=kb)
+        medit('Ветка: механизмы', call.message.chat.id, call.message.message_id, reply_markup=kb)
                
   elif call.data=='suit':
        kb=types.InlineKeyboardMarkup()
