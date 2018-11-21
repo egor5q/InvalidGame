@@ -1362,7 +1362,7 @@ def inline(call):
        x=users.find_one({'id':call.from_user.id})
        if 'suit' not in x['bot']['bought']:
            if x['cookie']>=4200:
-                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'double'}})
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'suit'}})
                 users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-4200}})
                 medit('Вы успешно приобрели скилл "Отражающий костюм"!',call.message.chat.id,call.message.message_id)
            else:
