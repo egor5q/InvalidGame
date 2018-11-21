@@ -2235,6 +2235,7 @@ def dmgs(id):
             dmg=1
             if random.randint(1,100)<=50*(1+games[id]['bots'][ids]['chance']):
                 games[id]['res']+='🔺Турель бойца '+games[id]['bots'][ids]['name']+' стреляет в '+trgt['name']+'! Нанесено '+str(dmg)+' урона.\n'
+                trgt['takendmg']+=dmg
                 if random.randint(1,100)<=25:
                     games[id]['res']+='🔥Цель загорается!\n'
                     trgt['fire']+=2
@@ -2292,7 +2293,6 @@ def dmgs(id):
                 games[id]['bots'][ids]['takendmg']+=tdg1
                 text+='☯'+games[id]['bots'][ids]['name']+' получает '+str(tdg1)+\
                 ' дополнительного урона!\n' 
-        games[id]['bots'][ids]['takendmg']-=games[id]['bots'][ids]['currentarmor']
         if games[id]['bots'][ids]['firearmor']==1:
             games[id]['bots'][ids]['takendmg']=int(games[id]['bots'][ids]['takendmg']/2)
         if games[id]['bots'][ids]['currentarmor']>0 and games[id]['bots'][ids]['takendmg']>0:
@@ -2312,6 +2312,11 @@ def dmgs(id):
                 games[id]['bots'][ids]['hp']-=1
                 text+='🔴Его мана закончилась. Он теряет ♥1 хп!\n'
         games[id]['bots'][ids]['allrounddmg']+=games[id]['bots'][ids]['takendmg']
+            
+    for ids in games[id]['bots']:
+      if games[id]['bots'][ids]['currentarmor']>0 and games[id]['bots'][ids]['takendmg']>0:
+            text+='🔰Броня '+games[id]['bots'][ids]['name']+' снимает '+str(games[id]['bots'][ids]['currentarmor'])+' урона!\n'
+            games[id]['bots'][ids]['takendmg']-=games[id]['bots'][ids]['currentarmor']
             
     for ids in games[id]['bots']:
         if 'suit' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=25*(1+games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['takendmg']>0 and games[id]['bots'][ids]['target']!=None:
