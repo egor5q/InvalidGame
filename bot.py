@@ -1881,8 +1881,9 @@ def results(id):
     print('dddaa')
     if 'electrocharge' in bots['skills'] and bots['attack']==1:
         x=attack(bots,id,1)
+        print(x)
         if x==1:
-            if random.randint(1,100)<=20*(bots['chance']+1):
+            if random.randint(1,100)<=120*(bots['chance']+1):
                 dmg=bots['energy']-bots['target']['energy']
                 if dmg<0:
                     dmg=0
