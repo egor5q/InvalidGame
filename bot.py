@@ -2319,7 +2319,7 @@ def dmgs(id):
     for ids in games[id]['bots']:
         if 'suit' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=25*(1+games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['takendmg']>0 and games[id]['bots'][ids]['target']!=None:
             games[id]['bots'][ids]['target']['takendmg']+=games[id]['bots'][ids]['takendmg']
-            text+='📡Отражающий костюм бойца '+games[id]['bots'][ids]['name']+' направляет полученный урон в свою цель! Нанесено '+str(games[id]['bots'][ids]['takendmg'])+' урона.\n'
+            text+='📡'+games[id]['bots'][ids]['name']+' направляет полученный урон в свою цель! Нанесено '+str(games[id]['bots'][ids]['takendmg'])+' урона.\n'
             
     for ids in games[id]['bots']:
        if games[id]['randomdmg']!=1:
