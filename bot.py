@@ -1883,7 +1883,7 @@ def results(id):
         x=attack(bots,id,1)
         print(x)
         if x==1:
-            if random.randint(1,100)<=120*(bots['chance']+1):
+            if random.randint(1,100)<=20*(bots['chance']+1):
                 dmg=bots['energy']-bots['target']['energy']
                 if dmg<0:
                     dmg=0
@@ -2661,7 +2661,7 @@ def sawchance(energy, target, x, id, bot1,hit):
       target['hp']-=1
       bot1['energy']=0
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
           damage=random.randint(1,2)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
