@@ -595,6 +595,9 @@ def invent(m):
     necromant='☑️'
     magictitan='☑️'
     turret='☑️'
+    suit='☑️'
+    electrocharge='☑️'
+    metalarmor='☑️'
     if 'shieldgen' in x['bot']['skills']:
         shield='✅'
     if 'medic' in x['bot']['skills']:
@@ -635,6 +638,12 @@ def invent(m):
         magictitan='✅'
     if 'turret' in x['bot']['skills']:
         turret='✅'
+    if 'suit' in x['bot']['skills']:
+        suit='✅'
+    if 'electrocharge' in x['bot']['skills']:
+        electrocharge='✅'
+    if 'metalarmor' in x['bot']['skills']:
+        metalarmor='✅'
     i=variables.find_one({'vars':'main'})
     for item in x['bot']['bought']:
         if item=='shieldgen':
@@ -679,14 +688,18 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=magictitan+'🔵Магический титан', callback_data='equipmagictitan'))
         if item=='turret':
             kb.add(types.InlineKeyboardButton(text=turret+'🔺Инженер', callback_data='equipturret'))
+        if item=='suit':
+            kb.add(types.InlineKeyboardButton(text=suit+'📡Отражающий костюм', callback_data='equipsuit'))
+        if item=='metalarmor':
+            kb.add(types.InlineKeyboardButton(text=metalarmor+'🔲Металлическая броня', callback_data='equipmetalarmor'))
+        if item=='electrocharge:
+            kb.add(types.InlineKeyboardButton(text=electrocharge+'🔋Электрический снаряд', callback_data='equipelectrocharge'))
     kb.add(types.InlineKeyboardButton(text='Снять все скиллы', callback_data='unequip'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
   else:
       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
-            
-        
-           
+                     
 
 
 @bot.message_handler(commands=['clear'])
