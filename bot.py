@@ -1045,7 +1045,7 @@ def inline(call):
         kb.add(types.InlineKeyboardButton(text=electrocharge+'🔋Электрический заряд', callback_data='electrocharge'))
         kb.add(types.InlineKeyboardButton(text=metalarmor+'🔲Металлическая броня', callback_data='metalarmor'))
         kb.add(types.InlineKeyboardButton(text=turret+'🔺Инженер', callback_data='turret'))
-        kb.add(types.InlineKeyboardButton(text=turret+'⁉Секретные технологии', callback_data='secrettech'))
+        kb.add(types.InlineKeyboardButton(text=secrettech+'⁉Секретные технологии', callback_data='secrettech'))
         medit('Ветка: механизмы', call.message.chat.id, call.message.message_id, reply_markup=kb)
                
   elif call.data=='suit':
@@ -4152,6 +4152,8 @@ def skilltoname(x):
        return '🔋Электрический снаряд'
     elif x=='suit':
        return '📡Отражающий костюм'
+    elif x=='secrettech':
+       return '⁉Секретные технологии'
    
    
 def createbott(id, y):
