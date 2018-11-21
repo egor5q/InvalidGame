@@ -130,6 +130,7 @@ def gift(m):
    if m.reply_to_message.from_user.id==598197387:
       z=int(m.text.split('/gift ')[1])
       if x!=None:
+        if z>0:
           users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
           users.update_one({'id':441399484},{'$inc':{'fond':z}})
           bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку CookieWars!')      
