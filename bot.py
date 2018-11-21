@@ -337,7 +337,8 @@ def createpauk(id,hp):
               'identeficator':x,
               'chance':0,
               'hit':0,
-              'doptext':''
+              'doptext':'',
+              'dopdmg':0
                      }
           }
    
@@ -399,7 +400,8 @@ def createmonster(id,weapon,hp, animal):
               'firearmor':0,
               'chance':0,
               'hit':0,
-              'doptext':''
+              'doptext':'',
+              'dopdmg':0
                      }
           }
    
@@ -482,7 +484,8 @@ def createzombie(id):
               'firearmor':0,
               'chance':0,
               'hit':0,
-              'doptext':''
+              'doptext':'',
+              'dopdmg':0
                
                      }
           }
@@ -2526,6 +2529,7 @@ def rockchance(energy, target, x, id, bot1,hit):
               damage+=2
           games[id]['res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=2
           stun=random.randint(1, 100)
           if stun<=20:
@@ -2568,6 +2572,7 @@ def akchance(energy, target, x, id, bot1,hit):
               damage+=2
           games[id]['res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'        
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=random.randint(2,3)
     else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
@@ -2606,6 +2611,7 @@ def handchance(energy, target, x, id, bot1,hit):
               damage+=2
           games[id]['res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=random.randint(1,2)
                 
     else:
@@ -2644,6 +2650,7 @@ def sawchance(energy, target, x, id, bot1,hit):
               damage+=2
           games[id]['res']+='⚙️'+bot1['name']+' Стреляет в '+target['name']+' из Пилострела! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=2
           blood=random.randint(1, 100)
           if blood<=35:
@@ -2693,6 +2700,7 @@ def kinzhalchance(energy, target, x, id, bot1,hit):
           if target['reload']!=1:
               games[id]['res']+='🗡'+bot1['name']+' Бъет '+target['name']+' Кинжалом! Нанесено '+str(damage)+' Урона.\n'
               target['takendmg']+=damage
+              target['takendmg']+=bot1['dopdmg']
               bot1['energy']-=2
           else:
               a=random.randint(1,100)
@@ -2744,6 +2752,7 @@ def bowchance(energy, target, x, id, bot1,hit):
               damage+=2
           games[id]['res']+='🏹'+bot1['name']+' Стреляет в '+target['name']+' из лука! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=6
                    
       else:
@@ -2824,6 +2833,7 @@ def bitechance(energy, target, x, id, bot1,hit):
                 games[id]['res']+='🤢Цель поражена ядом! Её энергия снижена на 2.\n'
                 target['energy']-=2
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=5
         
     else:
@@ -2882,6 +2892,7 @@ def rhinochance(energy, target, x, id, bot1,hit):
                 target['takendmg']+=critdmg
                 
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=3
         
     else:
@@ -2949,6 +2960,7 @@ def demonchance(energy, target, x, id, bot1,hit):
                     ' следующих хода, включая этот, он будет получать удвоенный урон!'
                     
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=2
         
     else:
@@ -3032,6 +3044,7 @@ def zombiechance(energy, target, x, id, bot1,hit):
                   games[id]['bots'][ids]['hp']-=1
           games[id]['res']+='🧟‍♂'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=2
         
   else:
@@ -3067,6 +3080,7 @@ def chlenchance(energy, target, x, id, bot1,hit):
               damage+=2
           games[id]['res']+='🔯'+bot1['name']+' стреляет в '+target['name']+' из флюгегенхаймена! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
+          target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=2
         
   else:
