@@ -923,6 +923,8 @@ def inline(call):
   turret='☑️'
   suit='☑️'
   electrocharge='☑️'
+  metalarmor='☑️'
+  turret='☑️'
   x=users.find_one({'id':call.from_user.id})
   if call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
