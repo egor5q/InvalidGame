@@ -1057,7 +1057,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='7500⚛️', callback_data='buyturret'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('В начале матча вы ставите турель. В конце каждого хода она имеет 50% шанс выстрелить по случайному сопернику, и 25% шанс поджечь его на 2 хода. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('В начале матча вы ставите турель. В конце каждого хода она имеет 40% шанс выстрелить по случайному сопернику нанеся 1 урона, и 25% шанс поджечь его на 2 хода. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
        kb=types.InlineKeyboardMarkup()
@@ -2233,7 +2233,7 @@ def dmgs(id):
         if len(a)>0:
             trgt=random.choice(a)
             dmg=1
-            if random.randint(1,100)<=50*(1+games[id]['bots'][ids]['chance']):
+            if random.randint(1,100)<=40*(1+games[id]['bots'][ids]['chance']):
                 games[id]['res']+='🔺Турель бойца '+games[id]['bots'][ids]['name']+' стреляет в '+trgt['name']+'! Нанесено '+str(dmg)+' урона.\n'
                 trgt['takendmg']+=dmg
                 if random.randint(1,100)<=25:
