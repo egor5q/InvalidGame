@@ -2321,7 +2321,8 @@ def dmgs(id):
             if games[id]['bots'][ids]['target']['firearmor']==1:
                 games[id]['bots'][ids]['fire']=3
         if games[id]['bots'][ids]['fire']>0:
-            games[id]['bots'][ids]['fire']-=1
+          games[id]['bots'][ids]['fire']-=1
+          if games[id]['bots'][ids]['die']!=1:
             games[id]['bots'][ids]['takendmg']+=1
             games[id]['bots'][ids]['energy']-=1
             text+='🔥'+games[id]['bots'][ids]['name']+' горит! Получает 1 урона и теряет 1 энергии.\n'
