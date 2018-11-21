@@ -175,6 +175,7 @@ def offgames(m):
    
 @bot.message_handler(commands=['dropname'])
 def dropname(m):
+ if m.from_user.id==441399484:
    try:
        x=users.find_one({'id':m.reply_to_message.from_user.id})
        if x!=None:
