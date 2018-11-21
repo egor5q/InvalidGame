@@ -199,7 +199,7 @@ def upd(m):
         if m.from_user.id==441399484:
           y=users.find({})
           for ids in y:
-                  users.update_one({'id':ids['id']},{'$set':{'bot.doptext':''}})
+                  users.update_one({'id':ids['id']},{'$set':{'bot.dopdmg':0}})
           print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -591,6 +591,7 @@ def invent(m):
     firemage='☑️'
     necromant='☑️'
     magictitan='☑️'
+    turret='☑️'
     if 'shieldgen' in x['bot']['skills']:
         shield='✅'
     if 'medic' in x['bot']['skills']:
@@ -629,6 +630,8 @@ def invent(m):
         necromant='✅'
     if 'magictitan' in x['bot']['skills']:
         magictitan='✅'
+    if 'turret' in x['bot']['skills']:
+        turret='✅'
     i=variables.find_one({'vars':'main'})
     for item in x['bot']['bought']:
         if item=='shieldgen':
@@ -671,6 +674,8 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=necromant+'🖤Некромант', callback_data='equipnecromant'))
         if item=='magictitan':
             kb.add(types.InlineKeyboardButton(text=magictitan+'🔵Магический титан', callback_data='equipmagictitan'))
+        if item=='turret':
+            kb.add(types.InlineKeyboardButton(text=turret+'🔺Инженер', callback_data='equipturret'))
     kb.add(types.InlineKeyboardButton(text='Снять все скиллы', callback_data='unequip'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
@@ -699,6 +704,7 @@ def upgr(m):
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='ХП', callback_data='hp'), types.InlineKeyboardButton(text='Урон', callback_data='dmg'),types.InlineKeyboardButton(text='Прочее', callback_data='different'))
         kb.add(types.InlineKeyboardButton(text='Вампиризм', callback_data='vampirizm'),types.InlineKeyboardButton(text='Магия', callback_data='magic'))
+        kb.add(types.InlineKeyboardButton(text='Механизмы', callback_data='mech')
         kb.add(types.InlineKeyboardButton(text='Скины', callback_data='skins'))
         kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
         bot.send_message(m.chat.id, 'Выберите ветку', reply_markup=kb)
@@ -914,6 +920,9 @@ def inline(call):
   firemage='☑️'
   necromant='☑️'
   magictitan='☑️'
+  turret='☑️'
+  suit='☑️'
+  electrocharge='☑️'
   x=users.find_one({'id':call.from_user.id})
   if call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
@@ -991,6 +1000,46 @@ def inline(call):
         kb.add(types.InlineKeyboardButton(text=magictitan+'🔵Магический титан', callback_data='magictitan'))
         kb.add(types.InlineKeyboardButton(text=double+'🎭Двойник', callback_data='double'))
         medit('Ветка: магия', call.message.chat.id, call.message.message_id, reply_markup=kb)
+               
+  elif call.data=='mech':
+        if 'turret' in x['bot']['bought']:
+            turret='✅'
+        if 'electrocharge' in x['bot']['bought']:
+            electrocharge='✅'
+        if 'metalarmor' in x['bot']['bought']:
+            metalarmor='✅'
+        if 'suit' in x['bot']['bought']:
+            suit='✅'
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text=suit+'📡Отражающий костюм', callback_data='suit'))
+        kb.add(types.InlineKeyboardButton(text=electrocharge+'🔋Электрический заряд', callback_data='electrocharge'))
+        kb.add(types.InlineKeyboardButton(text=metalarmor+'🔲Металлическая броня', callback_data='metalarmor'))
+        kb.add(types.InlineKeyboardButton(text=turret+'🔺Инженер', callback_data='turret'))
+        medit('Ветка: вампиризм', call.message.chat.id, call.message.message_id, reply_markup=kb)
+               
+  elif call.data=='suit':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='4200⚛️', callback_data='buysuit'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Каждый ход у вас есть 25% шанс прибавить полученный вами в этом раунде урон к силе атаки. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+               
+  elif call.data=='electrocharge':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='4700⚛️', callback_data='buyelectrocharge'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('Каждый раз, как вы атакуете соперника, у вас есть 20% шанс нанести критический урон, зависящий от разницы в энергии между вами и соперником (чем больше у вас и меньше у него, тем сильнее крит). Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+               
+  elif call.data=='metalarmor':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='5300⚛️', callback_data='buymetalarmor'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('В конце хода вы блокируете одну единицу урона со 100% шансом, но шанс попасть по вам увеличивается на 15%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+               
+  elif call.data=='turret':
+       kb=types.InlineKeyboardMarkup()
+       kb.add(types.InlineKeyboardButton(text='7500⚛️', callback_data='buyturret'))
+       kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
+       medit('В начале матча вы ставите турель. В конце каждого хода она имеет 50% шанс выстрелить по случайному сопернику, и 25% шанс поджечь его на 2 хода. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='shieldgen':
        kb=types.InlineKeyboardMarkup()
@@ -1260,7 +1309,64 @@ def inline(call):
            else:
                bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
        else:
-           bot.answer_callback_query(call.id, 'У вас уже есть это!')       
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+               
+  elif call.data=='buyelectrocharge':
+       x=users.find_one({'id':call.from_user.id})
+       if 'electrocharge' not in x['bot']['bought']:
+           if x['cookie']>=4700:
+              if 'suit' in x['bot']['bought']:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'electrocharge'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-4700}})
+                medit('Вы успешно приобрели скилл "Электрический снаряд"!',call.message.chat.id,call.message.message_id)
+              else:
+                  bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+               
+  elif call.data=='buymetalarmor':
+       x=users.find_one({'id':call.from_user.id})
+       if 'metalarmor' not in x['bot']['bought']:
+           if x['cookie']>=5300:
+              if 'electrocharge' in x['bot']['bought']:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'metalarmor'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-5300}})
+                medit('Вы успешно приобрели скилл "Металлическая броня"!',call.message.chat.id,call.message.message_id)
+              else:
+                  bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+               
+  elif call.data=='buyturret':
+       x=users.find_one({'id':call.from_user.id})
+       if 'turret' not in x['bot']['bought']:
+           if x['cookie']>=7500:
+              if 'metalarmor' in x['bot']['bought']:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'turret'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-7500}})
+                medit('Вы успешно приобрели скилл "Инженер"!',call.message.chat.id,call.message.message_id)
+              else:
+                  bot.answer_callback_query(call.id, 'Сначала приобретите предыдущее улучшение!')
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')
+               
+  elif call.data=='buysuit':
+       x=users.find_one({'id':call.from_user.id})
+       if 'suit' not in x['bot']['bought']:
+           if x['cookie']>=4200:
+                users.update_one({'id':call.from_user.id}, {'$push':{'bot.bought':'double'}})
+                users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-4200}})
+                medit('Вы успешно приобрели скилл "Отражающий костюм"!',call.message.chat.id,call.message.message_id)
+           else:
+               bot.answer_callback_query(call.id, 'Недостаточно поинтов!')
+       else:
+           bot.answer_callback_query(call.id, 'У вас уже есть это!')   
         
   elif call.data=='buymage':
        x=users.find_one({'id':call.from_user.id})
@@ -1808,6 +1914,7 @@ def results(id):
       games[id]['bots'][mobs]['miss']-=20
       games[id]['bots'][mobs]['currentarmor']=1
     games[id]['bots'][mobs]['skill']=0
+    games[id]['bots'][mobs]['dopdmg']=0
     games[id]['bots'][mobs]['shield']=0
     games[id]['bots'][mobs]['armorturns']-=1
     if games[id]['bots'][mobs]['armorturns']==0:
@@ -2102,12 +2209,12 @@ def dmgs(id):
     for ids in games[id]['turrets']:
         a=[]
         for idss in games[id]['bots']:
-           if games[id]['bots'][idss]['die']!=1 and games[id]['bots'][idss]['hp']>0 and games[id]['bots'][idss]['zombie']<=0:
+           if games[id]['bots'][idss]['die']!=1 and games[id]['bots'][idss]['hp']>0 and games[id]['bots'][idss]['id']!=ids and games[id]['bots'][idss]['zombie']<=0:
               a.append(games[id]['bots'][idss])
         if len(a)>0:
             trgt=random.choice(a)
             dmg=1
-            if random.randint(1,100)<=50:
+            if random.randint(1,100)<=50*(1+games[id]['bots'][ids]['chance']):
                 games[id]['res']+='🔺Турель бойца '+games[id]['bots'][ids]['name']+' стреляет в '+trgt['name']+'! Нанесено '+str(dmg)+' урона.\n'
                 if random.randint(1,100)<=25:
                     games[id]['res']+='🔥Цель загорается!\n'
@@ -2132,8 +2239,9 @@ def dmgs(id):
             if ids['takendmg']>0:
               text+='☢'+ids['name']+' получает '+str(ids['takendmg'])+' урона!\n'
         else:
-           text+='Так как Алиса и Сергей применили пушку одновременно, никто из них не получает урона, пиздец.\n' 
+           text+='Так как Пасюк и Сергей применили пушку одновременно, никто из них не получает урона, пиздец.\n' 
       
+                                  
     for ids in games[id]['bots']:
         print('dmgs2')
         if 'firemage' in games[id]['bots'][ids]['skills']:
@@ -2184,10 +2292,17 @@ def dmgs(id):
                 games[id]['bots'][ids]['hp']-=1
                 text+='🔴Его мана закончилась. Он теряет ♥1 хп!\n'
         games[id]['bots'][ids]['allrounddmg']+=games[id]['bots'][ids]['takendmg']
-        if games[id]['randomdmg']!=1:
+            
+    for ids in games[id]['bots']:
+        if 'suit' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=25*(1+games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['takendmg']>0 and games[id]['bots'][ids]['target']!=None:
+            games[id]['bots'][ids]['target']['takendmg']+=games[id]['bots'][ids]['takendmg']
+            text+='📡Отражающий костюм бойца '+games[id]['bots'][ids]['name']+' направляет полученный урон в свою цель! Нанесено '+str(games[id]['bots'][ids]['takendmg'])+' урона.\n'
+            
+    for ids in games[id]['bots']:
+       if games[id]['randomdmg']!=1:
           if games[id]['bots'][ids]['takendmg']>c:
             c=games[id]['bots'][ids]['takendmg']
-            
+               
     for ids in games[id]['bots']:
         print('dmgs3')
         if games[id]['bots'][ids]['takendmg']>c:
@@ -3630,15 +3745,14 @@ def begingame(id):
         if 'paukovod' in ids['skills']:
             ids['hp']-=2
             ids['maxhp']-=2
+        if 'turret' in ids['skills']:
+            games[id]['turrets'].append(ids['id'])
         if 'metalarmor' in ids['skills']:
             ids['currentarmor']=1
         if 'liveful' in ids['skills']:
             ids['hp']+=2
             ids['maxhp']+=2
             ids['accuracy']-=15
-        #if 'necromant' in ids['skills']:
-        #    ids['hp']-=1
-        #    ids['maxhp']-=1
         if 'oldman' in ids['skin']:
             ids['chance']+=0.2
         if 'double' in ids['skills']:
@@ -3920,7 +4034,8 @@ def createbot(id):
               'summonmonster':['hand',0],   #####  Оружие; ХП
               'chance':0,            #### УВЕЛИЧЕНИЕ ШАНСА НА ПРИМЕНЕНИЕ АБИЛОК
               'hit':0,                  ###ЕСЛИ ==1, ТО ТЫ ПОПАДАЕШЬ ПО ЦЕЛИ
-              'doptext':''
+              'doptext':'',
+              'dopdmg':0
 }
 
 def dailybox():
