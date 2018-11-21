@@ -3197,7 +3197,7 @@ def flamechance(energy, target, x, id, bot1,hit):
           if flame==1:
              enm=[]
              for ids in games[id]['bots']:
-                  if games[id]['bots'][ids]['id']!=bot1['id'] and games[id]['bots'][ids]['die']!=1:
+                  if games[id]['bots'][ids]['id']!=bot1['id'] and games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]!=target:
                      enm.append(games[id]['bots'][ids])
              if len(enm)>0:
                 dt=random.choice(enm)
@@ -3240,7 +3240,7 @@ def swordchance(energy, target, x, id, bot1,hit):
               damage+=2
           x=random.randint(1,100)
            
-          games[id]['res']+='💥'+bot1['name']+' рубит '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          games[id]['res']+='⚔'+bot1['name']+' рубит '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=2
@@ -3293,7 +3293,7 @@ def bazukachance(energy, target, x, id, bot1,hit):
           if bchance==1:
              enm=[]
              for ids in games[id]['bots']:
-                  if games[id]['bots'][ids]['id']!=bot1['id'] and games[id]['bots'][ids]['die']!=1:
+                  if games[id]['bots'][ids]['id']!=bot1['id'] and games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]!=target:
                      enm.append(games[id]['bots'][ids])
              if len(enm)>0:
                  d=[]
@@ -4063,7 +4063,11 @@ def begingame(id):
         games[id]['bots'][rnd]['items']=[]
         games[id]['bots'][rnd]['identeficator']=rnd
         text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
-        
+    techw=['bazuka','sword','flame']
+    text3=''
+    for ids in games[id]['bots']:
+        if games[id]['bots'][ids]['weapon'] in techw:
+            text3+='⁉'+games[id]['bots'][ids]['name']+' получает оружие: '+techwtoname(games[id]['bots']['weapon'])+'!\n'
     u=0
     u+=1
     print(u)
@@ -4080,6 +4084,8 @@ def begingame(id):
       bot.send_message(id, tt2)
     if text2!='':
         bot.send_message(id, text2)
+    if text3!='':
+        bot.send_message(id, text3)
     games[id]['started2']=1
     print('1')
     battle(id)
@@ -4094,7 +4100,15 @@ def animaltoname(animal):
     elif animal=='pig':
         return 'Свинья'
 
-
+def techwtoname(x):
+   if x=='bazuka':
+      return 'Базука'
+   if x=='sword':
+      return 'Лазерный меч'
+   if x=='flame':
+      return 'Огнемёт'
+   
+   
 def skintoname(x):
    if x=='oracle':
       return '🔮Оракул'
