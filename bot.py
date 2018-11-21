@@ -4066,9 +4066,9 @@ def begingame(id):
         text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
     techw=['bazuka','sword','flame']
     text3=''
-    for ids in games[id]['bots']:
-        if games[id]['bots'][ids]['weapon'] in techw:
-            text3+='⁉'+games[id]['bots'][ids]['name']+' получает оружие: '+techwtoname(games[id]['bots']['weapon'])+'!\n'
+    for ids in createlist:
+        if ids['weapon'] in techw:
+            text3+='⁉'+ids['name']+' получает оружие: '+techwtoname(ids['weapon'])+'!\n'
     u=0
     u+=1
     print(u)
