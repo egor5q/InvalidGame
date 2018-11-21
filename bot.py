@@ -2518,7 +2518,12 @@ def dmgs(id):
     
   
   
-  
+def assasin(id,me,target):
+   games[id]['res']+='⭕Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+   target['hp']-=1
+   
+
+
 def rockchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=95
@@ -2538,9 +2543,7 @@ def rockchance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
-      target['hp']-=1
-      bot1['energy']=0
+      assasin(id,bot1,target)
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
           damage=random.randint(2, 3)
@@ -2581,9 +2584,7 @@ def akchance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
-      target['hp']-=1
-      bot1['energy']=0
+      assasin(id,bot1,target)
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
           damage=random.randint(3, 4)
@@ -2620,9 +2621,7 @@ def handchance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
-      target['hp']-=1
-      bot1['energy']=0
+      assasin(id,bot1,target)
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,3)
@@ -2659,9 +2658,7 @@ def sawchance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
-      target['hp']-=1
-      bot1['energy']=0
+      assasin(id,bot1,target)
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
           damage=random.randint(1,2)
@@ -2708,9 +2705,7 @@ def kinzhalchance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
-      target['hp']-=1
-      bot1['energy']=0
+      assasin(id,bot1,target)
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=1
@@ -2759,9 +2754,7 @@ def bowchance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
-      target['hp']-=1
-      bot1['energy']=0
+      assasin(id,bot1,target)
   else:
     if bot1['bowcharge']==1:
       bot1['bowcharge']=0
@@ -2785,36 +2778,6 @@ def bowchance(energy, target, x, id, bot1,hit):
   games[id]['res']+=bot1['doptext']
                 
              
-def lightchance(energy, target, x, id, bot1,hit):
-  if energy>=5:
-    chance=50
-  elif energy==4:
-    chance=50
-  elif energy==3:
-    chance=10
-  elif energy==2:
-    chance=1
-  elif energy==1:
-    chance=1
-  elif energy<=0:
-    chance=1
-  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💥Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
-      target['hp']-=1
-      bot1['energy']=0
-  else:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
-          damage=100
-          if 'berserk' in bot1['skills'] and bot1['hp']<=1:
-              damage+=2
-          games[id]['res']+='⚠️'+bot1['name']+' Бъет '+target['name']+' Молнией! Нанесено '+str(damage)+' Урона.\n'
-          target['takendmg']+=damage
-          bot1['energy']-=5
-        
-    else:
-        games[id]['res']+='💨Молния босса ударила мимо '+target['name']+'!\n'
-        bot1['target']=None
-        bot1['energy']-=5
         
 def bitechance(energy, target, x, id, bot1,hit):
   if energy>=5:
@@ -2835,9 +2798,7 @@ def bitechance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='💀Голодный Паук доедает ослабевшего '+target['name']+'!\n'
-      target['hp']-=1
-      bot1['energy']=0
+      assasin(id,bot1,target)
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=5
@@ -2888,9 +2849,7 @@ def rhinochance(energy, target, x, id, bot1,hit):
   rhinominstun=int(os.environ['rhinominstun'])
   rhinomaxstun=int(os.environ['rhinomaxstun'])
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='Носорог топчет '+target['name']+'! Цель погибает.\n'
-      target['hp']-=1
-      bot1['energy']=0
+      assasin(id,bot1,target)
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(rhinomindmg,rhinomaxdmg)
@@ -2940,9 +2899,7 @@ def demonchance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='Демон изгоняет '+target['name']+'!\n Цель погибает.'
-      target['hp']-=1
-      bot1['energy']=0
+      assasin(id,bot1,target)
   else:
     if (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,3)
@@ -3008,8 +2965,7 @@ def pigchance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-      games[id]['res']+='Свинья молится Алисе, и та убивает '+target['name']+'!\n'
-      target['hp']-=1
+      assasin(id,bot1,target)
   else:
           damage=random.randint(0,0)
           x=random.randint(1,100)
@@ -3045,7 +3001,9 @@ def zombiechance(energy, target, x, id, bot1,hit):
     else:
          return 0
   name=users.find_one({'id':bot1['id']})['bot']['name']
-  if (x+target['miss']-bot1['accuracy'])<=chance:
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      assasin(id,bot1,target)
+  elif (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(3,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -3093,7 +3051,9 @@ def chlenchance(energy, target, x, id, bot1,hit):
     else:
          return 0
   name=users.find_one({'id':bot1['id']})['bot']['name']
-  if (x+target['miss']-bot1['accuracy'])<=chance:
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      assasin(id,bot1,target)
+  elif (x+target['miss']-bot1['accuracy'])<=chance:
           damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -3122,6 +3082,60 @@ def chlenchance(energy, target, x, id, bot1,hit):
                   games[id]['bots'][ids]['deffromgun']=1
           games[id]['res']+='☢'+bot1['name']+' открыл слишком много порталов! Весь нанесённый в раунде урон будет перенаправлен в его случайного '+\
         'соперника!\n'
+  games[id]['res']+=bot1['doptext']
+
+
+def flamechance(energy, target, x, id, bot1,hit):
+  if energy>=5:
+    chance=90
+  elif energy==4:
+    chance=74
+  elif energy==3:
+    chance=58
+  elif energy==2:
+    chance=42
+  elif energy==1:
+    chance=13
+  elif energy<=0:
+    chance=0
+  if hit==1:
+    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
+  name=users.find_one({'id':bot1['id']})['bot']['name']
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      assasin(id,bot1,target)
+  elif (x+target['miss']-bot1['accuracy'])<=chance:
+          damage=random.randint(2,2)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=2:
+              damage+=2
+          x=random.randint(1,100)
+          
+          flame=random.randint(1,100)
+          if flame<=25:
+               flame=1
+          else:
+               flame=0     
+          games[id]['res']+='💥'+bot1['name']+' поджигает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          target['takendmg']+=damage
+          target['fire']+=2
+          target['takendmg']+=bot1['dopdmg']
+          bot1['energy']-=2
+          if flame==1:
+             enm=[]
+             for ids in games[id]['bots']:
+                  if games[id]['bots'][ids]['id']!=bot1['id'] and games[id]['bots'][ids]['die']!=1:
+                     enm.append(games[id]['bots'][ids])
+             if len(enm)>0:
+                dt=random.choice(enm)
+                dt['fire']+=2
+                games[id]['res']+='🔥'+dt['name']+' загорается!\n'
+        
+  else:
+        games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
+        bot1['energy']-=2
   games[id]['res']+=bot1['doptext']
 
 
@@ -3247,7 +3261,6 @@ def skill(bot,id):
          if a<60+(60*bot['chance']):
            bot['heal']=10
            bot['hp']+=1
-           bot['energy']=0
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
          else:
@@ -3257,7 +3270,6 @@ def skill(bot,id):
   elif choice=='gipnoz':
              games[id]['res']+='👁‍🗨'+bot['name']+' использует гипноз на '+target['name']+'!\n'
              target['target']=target
-             bot['energy']-=1
              bot['gipnoz']=6
              i=1
                 
