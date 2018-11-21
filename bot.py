@@ -4054,7 +4054,7 @@ def begingame(id):
      except:
       text+='\n'
     giveitems(games[id])
-    for ids in createlist:
+    for ids in choicelist:
         print('cycle2')
         rnd=randomgen(id)
         aa=games[id]['bots'][ids].copy()
