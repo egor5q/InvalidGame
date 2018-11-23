@@ -1065,7 +1065,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='5300⚛️', callback_data='buymetalarmor'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('В конце хода вы блокируете одну единицу урона со 100% шансом, но шанс попасть по вам увеличивается на 6%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('В конце хода вы блокируете одну единицу урона со 100% шансом, но шанс попасть по вам увеличивается на 8%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
          
   elif call.data=='secrettech':
        kb=types.InlineKeyboardMarkup()
@@ -1089,7 +1089,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='10000⚛️', callback_data='buydouble'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Ваш боец теряет половину хп, и создаёт копию себя с отнятыми жизнями. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Ваш боец теряет половину хп, и создаёт копию себя с отнятыми жизнями и со всеми вашими скиллами (кроме двойника и инженера). Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
     
   elif call.data=='mage':
        kb=types.InlineKeyboardMarkup()
@@ -1128,7 +1128,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='2000⚛️', callback_data='buyliveful'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 15%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл даёт боту 2 доп. хп в начале матча, но уменьшает шанс попасть из любого оружия на 20%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='dvuzhil':
        kb=types.InlineKeyboardMarkup()
@@ -1146,7 +1146,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1000⚛️', callback_data='buypricel'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл увеличивает шанс попадания из любого оружия на 15%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл увеличивает шанс попадания из любого оружия на 30%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='cazn':
        kb=types.InlineKeyboardMarkup()
@@ -1977,9 +1977,9 @@ def results(id):
     games[id]['bots'][mobs]['firearmor']=0
     games[id]['bots'][mobs]['miss']=0  
     if 'nindza' in games[id]['bots'][mobs]['skills']:
-      games[id]['bots'][mobs]['miss']=20+(20*games[id]['bots'][mobs]['chance'])
+      games[id]['bots'][mobs]['miss']+=20+(20*games[id]['bots'][mobs]['chance'])
     if 'metalarmor' in games[id]['bots'][mobs]['skills']:
-      games[id]['bots'][mobs]['miss']-=6
+      games[id]['bots'][mobs]['miss']-=8
       games[id]['bots'][mobs]['currentarmor']=1
     games[id]['bots'][mobs]['skill']=0
     games[id]['bots'][mobs]['dopdmg']=0
@@ -2584,18 +2584,20 @@ def rockchance(energy, target, x, id, bot1,hit):
   elif energy==1:
     chance=20
   elif energy<=0:
-    chance=1
+    chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(2, 3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -2616,7 +2618,9 @@ def rockchance(energy, target, x, id, bot1,hit):
           
           
 def akchance(energy, target, x, id, bot1,hit):
-  if energy>=5:
+  if energy>5:
+    chance=90
+  elif energy==5:
     chance=80
   elif energy==4:
     chance=70
@@ -2630,15 +2634,17 @@ def akchance(energy, target, x, id, bot1,hit):
     chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(3, 4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -2660,24 +2666,26 @@ def handchance(energy, target, x, id, bot1,hit):
   elif energy==4:
     chance=90
   elif energy==3:
-    chance=80
+    chance=83
   elif energy==2:
-    chance=70
+    chance=72
   elif energy==1:
-    chance=60
+    chance=61
   elif energy<=0:
-    chance=1
+    chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -2695,28 +2703,30 @@ def handchance(energy, target, x, id, bot1,hit):
        
 def sawchance(energy, target, x, id, bot1,hit):
   if energy>=5:
-    chance=97
+    chance=95
   elif energy==4:
     chance=90
   elif energy==3:
-    chance=80
+    chance=76
   elif energy==2:
-    chance=65
+    chance=53
   elif energy==1:
-    chance=30
+    chance=15
   elif energy<=0:
-    chance=1
+    chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(1,2)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -2748,24 +2758,26 @@ def kinzhalchance(energy, target, x, id, bot1,hit):
   elif energy==4:
     chance=80
   elif energy==3:
-    chance=75
+    chance=73
   elif energy==2:
     chance=40
   elif energy==1:
-    chance=25
+    chance=20
   elif energy<=0:
     chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
           damage=1
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -2808,8 +2820,10 @@ def bowchance(energy, target, x, id, bot1,hit):
     chance=65
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
@@ -2818,19 +2832,19 @@ def bowchance(energy, target, x, id, bot1,hit):
   else:
     if bot1['bowcharge']==1:
       bot1['bowcharge']=0
-      if (x+(target['miss'])-bot1['accuracy'])<=chance or bot1['hit']==1:
+      if x*debuff/bonus<=chance or bot1['hit']==1:
           damage=6
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
           games[id]['res']+='🏹'+bot1['name']+' Стреляет в '+target['name']+' из лука! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
-          bot1['energy']-=6
+          bot1['energy']-=5
                    
       else:
         games[id]['res']+='💨'+bot1['name']+' Промахнулся по '+target['name']+'!\n'
         bot1['target']=None
-        bot1['energy']-=6
+        bot1['energy']-=5
     else:
       bot1['bowcharge']=1
       bot1['target']=None
@@ -2843,26 +2857,28 @@ def bitechance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=90
   elif energy==4:
-    chance=60
+    chance=72
   elif energy==3:
-    chance=50
+    chance=64
   elif energy==2:
     chance=40
   elif energy==1:
-    chance=20
+    chance=28
   elif energy<=0:
     chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
           damage=5
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -2901,8 +2917,10 @@ def rhinochance(energy, target, x, id, bot1,hit):
     chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
@@ -2915,7 +2933,7 @@ def rhinochance(energy, target, x, id, bot1,hit):
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(rhinomindmg,rhinomaxdmg)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -2959,15 +2977,17 @@ def demonchance(energy, target, x, id, bot1,hit):
     chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
   else:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -3027,8 +3047,10 @@ def pigchance(energy, target, x, id, bot1,hit):
     chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
@@ -3062,18 +3084,20 @@ def zombiechance(energy, target, x, id, bot1,hit):
   elif energy==1:
     chance=36
   elif energy<=0:
-    chance=9
+    chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
-  elif (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+  elif x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(3,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -3112,20 +3136,22 @@ def chlenchance(energy, target, x, id, bot1,hit):
   elif energy==2:
     chance=58
   elif energy==1:
-    chance=42
+    chance=34
   elif energy<=0:
     chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
-  elif (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+  elif x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -3172,15 +3198,17 @@ def flamechance(energy, target, x, id, bot1,hit):
     chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
-  elif (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+  elif x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(2,2)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -3217,26 +3245,28 @@ def swordchance(energy, target, x, id, bot1,hit):
   if energy>=5:
     chance=100
   elif energy==4:
-    chance=60
+    chance=65
   elif energy==3:
-    chance=45
+    chance=55
   elif energy==2:
     chance=25
   elif energy==1:
-    chance=0
+    chance=16
   elif energy<=0:
     chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/bonus<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
-  elif (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+  elif x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(1,4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -3266,18 +3296,20 @@ def bazukachance(energy, target, x, id, bot1,hit):
   elif energy==1:
     chance=37
   elif energy<=0:
-    chance=5
+    chance=0
   if bot1['blight']==1:
       chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
   if hit==1:
-    if (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+    if x*debuff/(bonus*2)<=chance or bot1['hit']==1:
          return 1
     else:
          return 0
   name=users.find_one({'id':bot1['id']})['bot']['name']
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
-  elif (x+target['miss']-bot1['accuracy'])<=chance or bot1['hit']==1:
+  elif x*debuff/bonus<=chance or bot1['hit']==1:
           damage=random.randint(4,4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
@@ -3288,7 +3320,7 @@ def bazukachance(energy, target, x, id, bot1,hit):
           target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=7
           bchance=random.randint(1,100)
-          if bchance<=50:
+          if bchance<=75:
               bchance=1
           else:
               bchance=0
@@ -3990,11 +4022,11 @@ def begingame(id):
             games[id]['turrets'].append(ids['id'])
         if 'metalarmor' in ids['skills']:
             ids['currentarmor']=1
-            ids['miss']-=6
+            ids['miss']-=8
         if 'liveful' in ids['skills']:
             ids['hp']+=2
             ids['maxhp']+=2
-            ids['accuracy']-=15
+            ids['accuracy']-=20
         if 'oldman' in ids['skin']:
             ids['chance']+=0.2
         if 'double' in ids['skills']:
@@ -4014,7 +4046,7 @@ def begingame(id):
         if 'medic' in ids['skills']:
             ids['heal']=9
         if 'pricel' in ids['skills']:
-            ids['accuracy']+=15+(15*ids['chance'])
+            ids['accuracy']+=30+(30*ids['chance'])
         if 'nindza' in ids['skills']:
             ids['miss']+=20+(20*ids['chance'])
         ids['maxhp']=ids['hp']
