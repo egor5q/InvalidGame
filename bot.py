@@ -2467,7 +2467,7 @@ def dmgs(id):
          else:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
          for idss in games[id]['bots']:
-            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=65+(65*games[id]['bots'][idss]['chance']):
+            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=60+(60*games[id]['bots'][idss]['chance']):
                games[id]['bots'][idss]['summonmonster'][1]+=a
                text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
        else:
@@ -2555,8 +2555,8 @@ def dmgs(id):
          games[id]['bots'].update(createzombie(ids[1]))
     for ids in monsters:
          player=games[id]['bots'][ids]
-         if player['summonmonster'][1]>12:
-            hp=12
+         if player['summonmonster'][1]>6:
+            hp=6
          else:
             hp=player['summonmonster'][1]
          games[id]['bots'].update(createmonster(player['id'],player['weapon'],hp,player['animal']))
