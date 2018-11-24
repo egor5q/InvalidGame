@@ -2567,7 +2567,7 @@ def dmgs(id):
   
   
 def assasin(id,me,target):
-   games[id]['res']+='⭕Ассасин '+bot1['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
+   games[id]['res']+='⭕Ассасин '+me['name']+' достаёт револьвер и добивает '+target['name']+' точным выстрелом в голову!\n'
    target['hp']-=1
    
 
