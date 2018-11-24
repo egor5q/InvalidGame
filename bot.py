@@ -1173,7 +1173,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buyzombie'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('После своей смерти воин живёт еще 2 хода, а затем умирает. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('После своей смерти воин живёт еще 2 хода, получая +3 урона к атакам, а затем умирает. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='gipnoz':
        kb=types.InlineKeyboardMarkup()
@@ -2281,6 +2281,11 @@ def dmgs(id):
            if games[id]['bots'][idss]['die']!=1 and games[id]['bots'][idss]['hp']>0 and games[id]['bots'][idss]['id']!=ids and games[id]['bots'][idss]['zombie']<=0:
               a.append(games[id]['bots'][idss])
         if len(a)>0:
+          yes=0
+          for idsss in games[id]['bots']:
+            if games[id]['bots'][idsss]['id']==ids and games[id]['bots'][idsss]['die']!=1:
+               yes=1
+          if yes==1:
             trgt=random.choice(a)
             dmg=1
             if random.randint(1,100)<=40*(1+games[id]['bots'][ids]['chance']):
@@ -2601,6 +2606,8 @@ def rockchance(energy, target, x, id, bot1,hit):
           damage=random.randint(2, 3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           games[id]['res']+='☄️'+bot1['name']+' Кидает камень в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
@@ -2648,6 +2655,8 @@ def akchance(energy, target, x, id, bot1,hit):
           damage=random.randint(3, 4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           games[id]['res']+='🔫'+bot1['name']+' Стреляет в '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'        
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
@@ -2689,6 +2698,8 @@ def handchance(energy, target, x, id, bot1,hit):
           damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           games[id]['res']+='🤜'+bot1['name']+' Бьет '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
@@ -2730,6 +2741,8 @@ def sawchance(energy, target, x, id, bot1,hit):
           damage=random.randint(1,2)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           games[id]['res']+='⚙️'+bot1['name']+' Стреляет в '+target['name']+' из Пилострела! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
@@ -2781,6 +2794,8 @@ def kinzhalchance(energy, target, x, id, bot1,hit):
           damage=1
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           if target['reload']!=1:
               games[id]['res']+='🗡'+bot1['name']+' Бъет '+target['name']+' Кинжалом! Нанесено '+str(damage)+' Урона.\n'
               target['takendmg']+=damage
@@ -2836,6 +2851,8 @@ def bowchance(energy, target, x, id, bot1,hit):
           damage=6
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           games[id]['res']+='🏹'+bot1['name']+' Стреляет в '+target['name']+' из лука! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
@@ -2882,6 +2899,8 @@ def bitechance(energy, target, x, id, bot1,hit):
           damage=5
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           x=random.randint(1,100)
           stun=0
           if x<=50:
@@ -2937,6 +2956,8 @@ def rhinochance(energy, target, x, id, bot1,hit):
           damage=random.randint(rhinomindmg,rhinomaxdmg)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           x=random.randint(1,100)
           eat=0
           if x<=10:
@@ -2991,6 +3012,8 @@ def demonchance(energy, target, x, id, bot1,hit):
           damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           x=random.randint(1,100)
           eat=0
           if x<=18:
@@ -3155,6 +3178,8 @@ def chlenchance(energy, target, x, id, bot1,hit):
           damage=random.randint(1,3)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           games[id]['res']+='🔯'+bot1['name']+' стреляет в '+target['name']+' из флюгегенхаймена! Нанесено '+str(damage)+' Урона.\n'
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
@@ -3212,6 +3237,8 @@ def flamechance(energy, target, x, id, bot1,hit):
           damage=random.randint(2,2)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           x=random.randint(1,100)
           
           flame=random.randint(1,100)
@@ -3270,6 +3297,8 @@ def swordchance(energy, target, x, id, bot1,hit):
           damage=random.randint(1,4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           x=random.randint(1,100)
            
           games[id]['res']+='⚔'+bot1['name']+' рубит '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
@@ -3313,6 +3342,8 @@ def bazukachance(energy, target, x, id, bot1,hit):
           damage=random.randint(4,4)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
+          if bot1['zombie']>0:
+              damage+=3
           x=random.randint(1,100)
            
           games[id]['res']+='💣'+bot1['name']+' стреляет в '+target['name']+' из базуки! Нанесено '+str(damage)+' Урона.\n'
