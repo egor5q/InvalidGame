@@ -376,7 +376,7 @@ def createmonster(id,weapon,hp, animal):
     x=randomgen(id2)
     t=users.find_one({'id':id})
     text='Кошмарное слияние['+t['bot']['name']+']'
-    return createunit(id=id,weapon=weapon,name=text,hp=hp,maxhp=hp,animal=animal,identeficator=x,damagelimit=2,animal=animal)
+    return createunit(id=id,weapon=weapon,name=text,hp=hp,maxhp=hp,animal=animal,identeficator=x,damagelimit=2)
     #return{x:{'name': 'Кошмарное слияние'+text,
     #          'weapon':weapon,
     #          'skills':[],
