@@ -299,6 +299,10 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
                      }
           }
    
+def createrare(id):
+   x=randomgen(id)
+   return createunit(name='Редкий слизнюк',id=x, identeficator=x,weapon='sliznuk',hp=10,maxhp=10,damagelimit=999)
+   
 def createpauk(id,hp):
     for ids in games:
          if id in games[ids]['bots']:
@@ -1862,7 +1866,7 @@ def results(id):
   if 0 not in games[id]['bots']:
    for ids in games[id]['bots']:
      if games[id]['bots'][ids]['die']==0:
-      if games[id]['bots'][ids]['id'] not in allid:
+      if games[id]['bots'][ids]['id'] not in allid or games[id]['bots'][ids]['name']=='Редкий слизнюк':
          allid.append(games[id]['bots'][ids]['id'])
    if die+1>=len(games[id]['bots']) or len(allid)<=1:
       z=1
@@ -1911,7 +1915,7 @@ def results(id):
           for ids in games[id]['bots']:
             if winner!=None:
               if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place and games[id]['bots'][ids]['id']!=winner['id'] and \
-            games[id]['bots'][ids]['id'] not in idlist:
+            games[id]['bots'][ids]['id'] not in idlist and games[id]['bots'][ids]['name']!='Редкий слизнюк':
                   a=games[id]['bots'][ids]
                   dieturn=games[id]['bots'][ids]['dieturn']
           if a!=None and a['id'] not in idlist:
@@ -2326,10 +2330,26 @@ def dmgs(id):
            if 'zombie' not in games[id]['bots'][mob]['skills']:
              if games[id]['bots'][mob]['die']!=1:
               if 'bloodmage' not in games[id]['bots'][mob]['skills']:
-                  text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                  if games[id]['bots'][mob]['name']!='Редкий слизнюк':
+                      text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                  else:
+                      text+='⭐'+games[id]['bots'][mob]['name']+' пойман!\n'
+                  if games[id]['bots'][mob]['name']=='Редкий слизнюк':
+                     text+='⭐Редкий слизнюк был пойман! Награду в размере 500❇/⚛ получают:\n'
+                     prizez=[]
+                     for prize in games[id]['bots']:
+                        if games[id]['bots'][prize]['target']==games[id]['bots'][mob] and games[id]['bots'][prize] not in prizez:
+                           prizez.append(games[id]['bots'][prize])
+                     if len(prizez)>0:
+                        for pp in prizez:
+                           users.update_one({'id':pp['id']},{'$inc':{'cookie':500}})
+                           users.update_one({'id':pp['id']},{'$inc':{'bot.exp':500}})
+                           bot.send_message(pp['id'],'Поздравляем, ваш боец поймал редкого слизнюка! Награда: 500❇/⚛.')
+                           text+=pp['name']+'\n'
                   if 'necromant' in games[id]['bots'][mob]['skills']:
                      monsters.append(games[id]['bots'][mob]['id'])
-                  games[id]['bots'][mob]['dieturn']=games[id]['xod']
+                  if games[id]['bots'][mob]['name']!='Редкий слизнюк':
+                      games[id]['bots'][mob]['dieturn']=games[id]['xod']
               else:
                  randd=random.randint(1,100)
                  if randd<=60*(60*games[id]['bots'][mob]['chance']):
@@ -3230,6 +3250,40 @@ def bazukachance(energy, target, x, id, bot1,hit):
 
 
 
+def sliznuk(energy, target, x, id, bot1,hit):
+  if energy>=5:
+    chance=0
+  elif energy==4:
+    chance=0
+  elif energy==3:
+    chance=0
+  elif energy==2:
+    chance=0
+  elif energy==1:
+    chance=0
+  elif energy<=0:
+    chance=0
+  if bot1['blight']==1:
+      chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
+  if hit==1:
+    if x*debuff/(bonus)<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
+  if random.randint(1,100)<=15 and target['weapon']!='hand':
+      games[id]['res']+='♻'+bot1['name']+' поглощает оружие '+target['name']+', восстанавливая 2❤ хп! Теперь он будет сражаться кулаками!\n'
+      target['weapon']='hand'
+      bot1['hp']+=2
+  else:
+      games[id]['res']+='🌊'+bot1['name']+' растекается по земле! В этом ходу по нему невозможно попасть!\n'
+      bot1['miss']=10000
+  bot1['energy']-=random.randint(1,5)
+  games[id]['res']+=bot1['doptext']
+
+
+
 def attack(bot, id,rr):
   a=[]
   enm=[]
@@ -3310,7 +3364,8 @@ def yvorot(bot, id):
 
 def reload(bot2, id):
    bot2['energy']=bot2['maxenergy']
-   if bot2['weapon']=='rock' or bot2['weapon']=='hand' or bot2['weapon']=='magic':
+   if bot2['weapon']=='rock' or bot2['weapon']=='hand' or bot2['weapon']=='magic' or bot2['weapon']=='kinzhal' or \
+   bot2['weapon']=='sliznuk' or bot2['weapon']=='sword':
         games[id]['res']+='😴'+bot2['name']+' Отдыхает. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
    else:
         games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
@@ -3873,6 +3928,14 @@ def begingame(id):
             bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
     
     print('55555')
+    if id==-1001208357368 and random.randint(1,100)==1:
+      games[id]['bots'].append(createrare(id))
+      bot.send_message(id, 'На поле боя был замечен **редкий слизнюк**! Кто поймает его, тот получит 500❇/⚛!',parse_mode='markdown')
+      for ids in games[id]['bots']:
+         try:
+            bot.send_message(games[id]['bots'][ids]['id'], 'Редкий слизнюк был замечен на поле битвы! Заходите в чат @cookiewarsru, чтобы посмотреть, кто его поймает!')
+         except:
+            pass
     spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
     for ids in choicelist:
         ids['takenmeteors']=0
