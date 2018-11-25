@@ -240,13 +240,8 @@ def autojoin(m):
   else:
       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
 
-#@bot.message_handler(commands=['xxxx'])
-#def xxxx(m):
-#   users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.weapon':None}})
-#   bot.send_message(m.chat.id, 'Всё')
 
-
-def createunit(id, name, weapon, hp=4, skills=[],identeficator=None,maxenergy=5,energy=5,items=[],accuracy=0,damagelimit=6,skin=[],\
+def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,maxenergy=5,energy=5,items=[],accuracy=0,damagelimit=6,skin=[],\
                animal=None,zombie=0):
    return{identeficator:{'name': name,
               'weapon':weapon,
@@ -312,61 +307,6 @@ def createpauk(id,hp):
     t=users.find_one({'id':id})
     text='Паук['+t['bot']['name']+']'
     return createunit(id=id,name=text,weapon='bite',hp=hp,maxhp=hp,damagelimit=7,identeficator=x)
-    #return{x:{'name': 'Паук'+text,
-    #          'weapon':'bite',
-    #          'skills':[],
-    #          'team':None,
-    #          'hp':hp,
-    #          'maxenergy':5,
-    #          'energy':5,
-    #          'items':[],           
-    #          'attack':0,
-    #          'yvorot':0,
-    #          'reload':0,
-    #          'skill':0,
-    #          'item':0,
-    #          'miss':0,
-    #          'shield':0,
-    #          'stun':0,
-    #          'takendmg':0,
-    #          'die':0,
-    #          'yvorotkd':0,
-    #          'id':id,
-    #          'blood':0,
-    #          'bought':[],
-    #          'accuracy':0,
-    #          'damagelimit':7,
-    #          'zombie':0,
-    #          'heal':0,
-    #          'shieldgen':0,
-    #          'skin':[],
-    #          'oracle':1,
-    #          'target':None,
-    #          'exp':0,
-    #          'gipnoz':0,
-    #          'maxhp':hp,
-    #          'currentarmor':0,
-    #          'armorturns':0,
-    #          'boundwith':None,
-    #          'boundtime':0,
-    #          'boundacted':0,
-    #          'bowcharge':0,
-    #          'weapons':['hand'],
-    #          'animal':None,
-    #          'allrounddmg':0,
-    #          'deffromgun':0,
-    #          'dieturn':0,
-    #          'magicshieldkd':0,
-    #          'fire':0,
-    #          'firearmor':0,
-    #          'identeficator':x,
-    #          'chance':0,
-    #          'hit':0,
-    #          'doptext':'',
-    #          'dopdmg':0,
-    #          'blight':0
-    #                 }
-    #      }
    
    
 def createmonster(id,weapon,hp, animal):
@@ -377,61 +317,6 @@ def createmonster(id,weapon,hp, animal):
     t=users.find_one({'id':id})
     text='Кошмарное слияние['+t['bot']['name']+']'
     return createunit(id=id,weapon=weapon,name=text,hp=hp,maxhp=hp,animal=animal,identeficator=x,damagelimit=2)
-    #return{x:{'name': 'Кошмарное слияние'+text,
-    #          'weapon':weapon,
-    #          'skills':[],
-    #          'team':None,
-    #          'hp':hp,
-    #          'maxenergy':5,
-    #          'energy':5,
-    #          'items':[],           
-    #          'attack':0,
-    #          'yvorot':0,
-    #          'reload':0,
-    #          'skill':0,
-    #          'item':0,
-    #          'miss':0,
-    #          'shield':0,
-    #          'stun':0,
-    #          'takendmg':0,
-    #          'die':0,
-    #          'yvorotkd':0,
-    #          'id':id,
-    #          'bowcharge':0,
-    #          'blood':0,
-    #          'bought':[],
-    #          'accuracy':0,
-    #          'damagelimit':2,
-    #          'zombie':0,
-    #          'heal':0,
-    #          'shieldgen':0,
-    #          'skin':[],
-    #          'oracle':1,
-    #          'target':None,
-    #          'exp':0,
-    #          'gipnoz':0,
-    #          'maxhp':hp,
-    #          'currentarmor':0,
-    #          'armorturns':0,
-    #          'boundwith':None,
-    #          'boundtime':0,
-    #          'boundacted':0,
-    #          'weapons':['hand'],
-    #          'animal':animal,
-    #          'allrounddmg':0,
-    #          'deffromgun':0,
-    #          'dieturn':0,
-    #          'magicshieldkd':0,
-    #          'fire':0,
-    #          'firearmor':0,
-    #          'chance':0,
-    #          'hit':0,
-    #          'doptext':'',
-    #          'dopdmg':0,
-    #          'blight':0
-    #                 }
-    #      }
-   
    
 
 def randomgen(id):
@@ -461,72 +346,6 @@ def createzombie(id):
     t=users.find_one({'id':id})
     text='Зомби['+t['bot']['name']+']'
     return createunit(id=id,name=text,weapon='zombiebite',energy=20,maxenergy=20,zombie=6,hp=1,maxhp=1,identeficator=x)
-    #return{x:{'name': 'Зомби'+text,
-    #          'weapon':'zombiebite',
-    #          'skills':[],
-    #          'team':None,
-    #          'hp':1,
-    #          'maxenergy':20,
-    #          'energy':20,
-    #          'bonusdmg':0,
-    #          'items':[],           
-    #          'attack':0,
-    #          'yvorot':0,
-    #          'reload':0,
-    #          'skill':0,
-    #          'item':0,
-    #          'miss':0,
-    #          'shield':0,
-    #          'stun':0,
-    #          'takendmg':0,
-    #          'die':0,
-    #          'yvorotkd':0,
-    #          'id':id,
-    #          'blood':0,
-    #          'bought':[],
-    #          'accuracy':0,
-    #          'damagelimit':6,
-    #          'zombie':6,
-    #          'heal':0,
-    #          'shieldgen':0,
-    #          'skin':[],
-    #          'bowcharge':0,
-    #          'oracle':1,
-    #          'target':None,
-    #          'exp':0,
-    #          'gipnoz':0,
-    #          'maxhp':2,
-    #          'currentarmor':0,
-    #          'armorturns':0,
-    #          'boundwith':None,
-    #          'boundtime':0,
-    #          'boundacted':0,
-    #          'weapons':['hand'],
-    #          'animal':None,
-    #          'allrounddmg':0,
-    #          'identeficator':x,
-    #          'deffromgun':0,
-    #          'dieturn':0,
-    #          'magicshieldkd':0,
-    #          'fire':0,
-    #          'firearmor':0,
-    #          'chance':0,
-    #          'hit':0,
-    #          'doptext':'',
-    #          'dopdmg':0,
-    #          'blight':0
-    #           
-    #                 }
-    #      }
-
-
-#@bot.message_handler(commands=['addboss'])
-#def addboss(m):
-#    if m.chat.id in games:
-#       if games[m.chat.id]['started']==0:
-#          games[m.chat.id]['bots'].update(createboss(0))
-#          bot.send_message(m.chat.id, 'Босс успешно добавлен!')
-    
 
 @bot.message_handler(commands=['weapons'])
 def weapon(m):
