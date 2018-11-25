@@ -3349,7 +3349,9 @@ def attack(bot, id,rr):
    
   elif bot['weapon']=='bazuka':
     return bazukachance(bot['energy'], target, x, id, bot,rr)
-                                     
+                      
+  elif bot['weapon']=='sliznuk':
+    return sliznuk(bot['energy'], target, x, id, bot,rr)
 
 def yvorot(bot, id):
   if 'shieldgen' in bot['skills'] and bot['shieldgen']<=0:
