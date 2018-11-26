@@ -283,6 +283,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'boundtime':0,
               'boundacted':0,
               'bowcharge':0,
+              'mainitem':[],
               'weapons':['hand'],
               'animal':animal,
               'allrounddmg':0,
