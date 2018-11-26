@@ -3778,7 +3778,7 @@ def starttimer(id):
 def slizz(m):
    if m.from_user.id==441399484:
       try:
-        games[m.from_user.id]['bots'].update(createrare(m.chat.id))
+        games[m.chat.id]['bots'].update(createrare(m.chat.id))
       except:
          pass
    
