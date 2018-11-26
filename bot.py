@@ -2356,7 +2356,9 @@ def dmgs(id):
                         for pp in prizez:
                            users.update_one({'id':pp['id']},{'$inc':{'cookie':500}})
                            users.update_one({'id':pp['id']},{'$inc':{'bot.exp':500}})
-                           bot.send_message(pp['id'],'Поздравляем, ваш боец поймал редкого слизнюка! Награда: 500❇/⚛.')
+                           if 'sliznuk' not in pp['bought'] and random.randint(1,100)<=25:
+                             users.update_one({'id':pp['id']},{'$push':{'bot.bought':'sliznuk'}})
+                           bot.send_message(pp['id'],'Поздравляем, ваш боец поймал редкого слизнюка! Награда: 500❇/⚛, и уникальное оружие! Доступно оно будет в следующих обновлениях.')
                            text+=pp['name']+'\n'
                   if 'necromant' in games[id]['bots'][mob]['skills']:
                      monsters.append(games[id]['bots'][mob]['id'])
