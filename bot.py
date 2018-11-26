@@ -3774,6 +3774,14 @@ def starttimer(id):
             bot.send_message(id, 'Прошло 5 минут, игра автоматически удалилась. Недостаточно игроков!')
             del games[id]
    
+@bot.message_handler(commands=['sliznuk'])
+def slizz(m):
+   if m.from_user.id==441399484:
+      try:
+        games[id]['bots'].update(createrare(m.chat.id))
+      except:
+         pass
+   
    
 @bot.message_handler(commands=['withoutautojoin'])
 def withoutauto(m):
@@ -3946,7 +3954,7 @@ def begingame(id):
     
     print('55555')
     if id==-1001208357368 and random.randint(1,100)==1:
-      games[id]['bots'].append(createrare(id))
+      games[id]['bots'].update(createrare(id))
       bot.send_message(id, 'На поле боя был замечен **редкий слизнюк**! Кто поймает его, тот получит 500❇/⚛!',parse_mode='markdown')
       for ids in games[id]['bots']:
          try:
@@ -4079,6 +4087,7 @@ def begingame(id):
     battle(id)
  else:
    pass
+
 
 def animaltoname(animal):
     if animal=='rhino':
