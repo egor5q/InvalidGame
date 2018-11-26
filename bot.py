@@ -303,7 +303,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
    
 def createrare(id):
    x=randomgen(id)
-   return createunit(name='Редкий слизнюк',id=x, identeficator=x,weapon='sliznuk',hp=10,maxhp=10,damagelimit=999)
+   return createunit(name='Редкий слизнюк',id=-300, identeficator=x,weapon='sliznuk',hp=10,maxhp=10,damagelimit=999)
    
 def createpauk(id,hp):
     for ids in games:
