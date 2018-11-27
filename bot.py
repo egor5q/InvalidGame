@@ -2439,8 +2439,8 @@ def dmgs(id):
          games[id]['bots'].update(createzombie(ids[1]))
     for ids in monsters:
          player=games[id]['bots'][ids]
-         if player['summonmonster'][1]>6:
-            hp=6
+         if player['summonmonster'][1]>8:
+            hp=8
          else:
             hp=player['summonmonster'][1]
          games[id]['bots'].update(createmonster(player['id'],player['weapon'],hp,player['animal']))
@@ -3990,6 +3990,8 @@ def begingame(id):
             ids['hp']+=2
             ids['maxhp']+=2
             ids['accuracy']-=20
+        if 'necromant' in ids['skills']:
+            ids['hp']-=2
         if 'oldman' in ids['skin']:
             ids['chance']+=0.2
         if 'double' in ids['skills']:
