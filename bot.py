@@ -1729,7 +1729,7 @@ def battle(id):
                 print('wtfend')
     print('endres')
     results(id)
-except:
+ except:
     for ids in games[id]['joinbotsreturn']:
          users.update_one({'id':ids},{'$inc':{'joinbots':1}})
     try:
