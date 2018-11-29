@@ -1714,7 +1714,7 @@ def giveitems(game):
   
                    
 def battle(id):  
- #try:
+ try:
     print('2')
     lst=[]
     for ids in games[id]['bots']:
@@ -1729,7 +1729,7 @@ def battle(id):
                 print('wtfend')
     print('endres')
     results(id)
-z=''' except:
+except:
     for ids in games[id]['joinbotsreturn']:
          users.update_one({'id':ids},{'$inc':{'joinbots':1}})
     try:
@@ -1737,7 +1737,7 @@ z=''' except:
         del games[id]
     except:
       pass
-   '''
+  
 def results(id): 
   lst=[]
   for ids in games[id]['bots']:
