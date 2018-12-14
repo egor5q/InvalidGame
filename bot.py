@@ -622,10 +622,12 @@ def me(m):
       elif exp<=100000:
          rang='Бог'
       elif exp<=250000:
-         rang='Сверхразум'
+         rang='Пасюк'
       elif exp<=666666:
-         rang='Дьявол'
+         rang='Сверхразум'
       elif exp<=1000000:
+         rang='Дьявол'
+      elif exp>1000000:
          rang='Высшее создание'
   if m.reply_to_message==None:
     try:
