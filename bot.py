@@ -977,7 +977,7 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='1500⚛️', callback_data='buymedic'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Этот скилл даёт боту возможность восстанавливать себе 1 хп каждые 9 ходов с шансом 60%. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Этот скилл даёт боту возможность восстанавливать себе 1 хп каждые 9 ходов с шансом 75%, но имеет 25% шанс потерять хп вместо восстановления. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
        
   elif call.data=='liveful':
        kb=types.InlineKeyboardMarkup()
@@ -2171,7 +2171,7 @@ def results(id):
   games[id]['res']=''
   games[id]['secondres']=''
   if z==0:
-    t=threading.Timer(12.0, battle, args=[id])
+    t=threading.Timer(games['timee'], battle, args=[id])
     t.start()
   else:
     del games[id]
@@ -3492,14 +3492,15 @@ def skill(bot,id):
   if choice=='medic':
        if bot['heal']<=0:
          a=random.randint(1,100)
-         if a<60+(60*bot['chance']):
+         if a<75+(75*bot['chance']) and random.randint(1,100)>25:
            bot['heal']=10
            bot['hp']+=1
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
            i=1
          else:
-              games[id]['res']+='⛑Медику '+bot['name']+' не удалось восстановить хп!\n'
+              games[id]['res']+='💔Медик '+bot['name']+' неправильно сделал себе укол! Он теряет 1 хп.\n'
               bot['heal']=10
+              bot['hp']-=1
                
   elif choice=='gipnoz':
              games[id]['res']+='👁‍🗨'+bot['name']+' использует гипноз на '+target['name']+'!\n'
@@ -3867,7 +3868,17 @@ def withoutauto(m):
                   bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
                except:
                   pass
-                
+   
+@bot.message_handler(commands=['fastfinish'])
+def ff(m):
+   if m.from_user.id==441399484:
+     try:
+        games[m.chat.id]['timee']=2
+        bot.send_message(m.chat.id, 'Режим быстрой игры запущен!')
+     except:
+        pass
+   
+   
                 
 @bot.message_handler(commands=['apocalypse'])
 def apocalypse(m):
@@ -4245,6 +4256,8 @@ def skilltoname(x):
        return '📡Отражающий костюм'
     elif x=='secrettech':
        return '⁉Секретные технологии'
+    elif x=='deathwind':
+       return 'Вихрь смерти'
    
    
 def createbott(id, y):
@@ -4298,7 +4311,8 @@ def creategame(id, special):
         'randomdmg':0,
         'joinbotsreturn':[],
         'turrets':[],
-        'enablestart':0
+        'enablestart':0,
+        'timee':12
         
              }
            }
