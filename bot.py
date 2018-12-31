@@ -202,7 +202,7 @@ def upd(m):
         if m.from_user.id==441399484:
           y=users.find({})
           for ids in y:
-                  users.update_one({'id':ids['id']},{'$set':{'prize8':0,'prize9':0,'prize10':0,'prize11':0}})
+                  users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0}})
           print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -4031,6 +4031,21 @@ def begingame(id):
         ids['meteorraingames']=0  
     createlist=[]
     for ids in choicelist:
+        if 'deathwind' in ids['skills'] and id==-1001208357368:
+            if ids['gameswithdeathwind']<3:
+                users.update_one({'id':ids['id']},{'$inc':{'bot.gameswithdeathwind':1}})
+            else:
+                users.update_one({'id':ids['id']},{'$inc':{'bot.gameswithdeathwind':1}})
+                x=random.randint(1,100)
+                if x<=4:
+                    for idss in choicelist:
+                        if idss['id']!=ids['id']:
+                            idss['die']=1
+                    bot.send_message(id, 'Вихрь смерти убивает всех соперников бойца '+ids['name']+'!')
+                if random.randint(1,100)<=15:
+                    ids['die']=1
+                    bot.send_message(id, 'Вихрь смерти убивает владельца способности - '+ids['name']+'!')
+                users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0}})
         if ids['weapon']==None:
             ids['weapon']='hand'
         active=['shieldgen', 'medic', 'gipnoz', 'firemage']
@@ -4369,7 +4384,8 @@ def createbot(id):
               'hit':0,                  ###ЕСЛИ ==1, ТО ТЫ ПОПАДАЕШЬ ПО ЦЕЛИ
               'doptext':'',
               'dopdmg':0,
-              'blight':0
+              'blight':0,
+              'gameswithdeathwind':0
 }
 
 def dailybox():
@@ -4421,7 +4437,7 @@ def beginmassbattle(id):
          text=''
          for ids in x:
           if ids['id']!=0:
-            if ids['joinbots']>0:
+            if ids['joinbots']>0 and ids['bot']['name']!=None:
                games[id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
