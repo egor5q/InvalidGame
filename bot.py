@@ -2171,7 +2171,7 @@ def results(id):
   games[id]['res']=''
   games[id]['secondres']=''
   if z==0:
-    t=threading.Timer(games['timee'], battle, args=[id])
+    t=threading.Timer(games[id]['timee'], battle, args=[id])
     t.start()
   else:
     del games[id]
