@@ -202,7 +202,7 @@ def upd(m):
         if m.from_user.id==441399484:
           y=users.find({})
           for ids in y:
-                  users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0}})
+                  users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0,'bot.reservenergy':0}})
           print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -1781,6 +1781,7 @@ def results(id):
                 bots['doptext']+='🔋'+bots['name']+' заряжает свою атаку! Соперник получает '+str(dmg)+' дополнительного урона!\n'
                 bots['target']['takendmg']+=dmg
                   
+                  
   for bots in lst:
     print('dddaa')
     if bots['weapon']=='sword' and bots['attack']==1:
@@ -1854,6 +1855,8 @@ def results(id):
     games[id]['bots'][mobs]['hit']=0
     games[id]['bots'][mobs]['shieldgen']-=1
     games[id]['bots'][mobs]['blight']=0
+    games[id]['bots'][mobs]['energy']+=games[id]['bots'][mobs]['reservenergy']
+    games[id]['bots'][mobs]['reservenergy']=0
     games[id]['bots'][mobs]['target']=None
     games[id]['bots'][mobs]['gipnoz']-=1
     games[id]['bots'][mobs]['doptext']=''
@@ -2242,6 +2245,11 @@ def dmgs(id):
                                   
     for ids in games[id]['bots']:
         print('dmgs2')
+        mob=games[id]['bots'][ids]
+        if 'naebatel' in mob['skin']:
+            for idss in games[id]['bots']:
+               if games[id]['bots'][idss]['target']==mob and random.randint(1,100)<=11:
+                  
         if 'firemage' in games[id]['bots'][ids]['skills']:
            if random.randint(1,100)<=18+(18*games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['die']!=1:
               games[id]['bots'][ids]['firearmor']=1
@@ -3381,7 +3389,10 @@ def attack(bot, id,rr):
   bot['target']=target
   x=random.randint(1,100)
     
-  if bot['weapon']=='rock':
+  if 'naebatel' in target['skin'] and random.randint(1,100)<=10:
+      return naeb(bot,target,id)
+      
+  elif bot['weapon']=='rock':
       return rockchance(bot['energy'], target, x, id, bot,rr)          
       
   elif bot['weapon']=='hand':
@@ -3431,6 +3442,19 @@ def attack(bot, id,rr):
   elif bot['weapon']=='sliznuk':
     return sliznuk(bot['energy'], target, x, id, bot,rr)
 
+   
+def naeb(bot,target,id):
+   enm=[]
+   for ids in games[id]['bots']:
+      if games[id]['bots'][ids]['id']!=bot['id'] and games[id]['bots'][ids]['die']!=1:
+         enm.append(games[id]['bots'][ids])
+   enemy=random.choice(enm)
+   games[id]['res']+='😯'+bot['name']+' атакует наебателя '+target['name']+', но тот наёбывает его! Вся энергия атаковавшего ('+str(bot['energy'])+') оказывается у '+enemy['name']+'!\n'
+   enemy['reservenergy']+=bot['energy']
+   bot['energy']=0
+   return 0
+   
+   
 def yvorot(bot, id):
   if 'shieldgen' in bot['skills'] and bot['shieldgen']<=0:
        games[id]['res']+='🛡'+bot['name']+' использует щит. Урон заблокирован!\n'
@@ -4399,7 +4423,8 @@ def createbot(id):
               'doptext':'',
               'dopdmg':0,
               'blight':0,
-              'gameswithdeathwind':0
+              'gameswithdeathwind':0,
+              'reservenergy':0
 }
 
 def dailybox():
