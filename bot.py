@@ -2246,10 +2246,6 @@ def dmgs(id):
     for ids in games[id]['bots']:
         print('dmgs2')
         mob=games[id]['bots'][ids]
-        if 'naebatel' in mob['skin']:
-            for idss in games[id]['bots']:
-               if games[id]['bots'][idss]['target']==mob and random.randint(1,100)<=11:
-                  
         if 'firemage' in games[id]['bots'][ids]['skills']:
            if random.randint(1,100)<=18+(18*games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['die']!=1:
               games[id]['bots'][ids]['firearmor']=1
