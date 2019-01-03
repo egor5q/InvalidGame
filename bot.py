@@ -297,7 +297,8 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'hit':0,
               'doptext':'',
               'dopdmg':0,
-              'blight':0
+              'blight':0,
+              'reservenergy':0
                      }
           }
    
