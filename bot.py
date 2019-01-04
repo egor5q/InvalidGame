@@ -1790,7 +1790,7 @@ def results(id):
         print(x)
         if x==1:
             bots['hit']=1
-            if random.randint(1,100)<=30*(bots['chance']+1):
+            if random.randint(1,100)<=40*(bots['chance']+1):
                 bots['doptext']+='💢'+bots['name']+' ослепляет соперника!\n'
                 bots['target']['blight']=1
                 
@@ -3195,7 +3195,7 @@ def flamechance(energy, target, x, id, bot1,hit):
           x=random.randint(1,100)
           
           flame=random.randint(1,100)
-          if flame<=25:
+          if flame<=35:
                flame=1
           else:
                flame=0     
@@ -3292,7 +3292,7 @@ def bazukachance(energy, target, x, id, bot1,hit):
   if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
       assasin(id,bot1,target)
   elif x*debuff/bonus<=chance or bot1['hit']==1:
-          damage=random.randint(4,4)
+          damage=random.randint(4,5)
           if 'berserk' in bot1['skills'] and bot1['hp']<=2:
               damage+=2
           if bot1['zombie']>0:
