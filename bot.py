@@ -1606,7 +1606,7 @@ def inline(call):
   elif call.data=='equipbow':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    if '🏹' in x['inventory']:
+    if '🏹' in x['inventory'] or x['id']==324316537:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'bow'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Лук"!')
@@ -2390,6 +2390,7 @@ def dmgs(id):
        else:
            pass
        pop=emojize(':poop:', use_aliases=True)
+       zilch=emojize(':panda_face:',use_aliases=True)
        if games[id]['bots'][mob]['hp']<100:
          if 'Кошмарное слияние' in games[id]['bots'][mob]['name']:
              text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'🖤'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
@@ -2397,6 +2398,8 @@ def dmgs(id):
            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'💙'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
          elif games[id]['bots'][mob]['id']==256659642:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+pop*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+         elif games[id]['bots'][mob]['id']==324316537:
+            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+zilch*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
          else:
             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
          for idss in games[id]['bots']:
