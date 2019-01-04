@@ -2751,6 +2751,10 @@ def kinzhalchance(energy, target, x, id, bot1,hit):
               a=random.randint(1,100)
               if a<=100:
                    damage=6
+                   if bot1['zombie']>0:
+                      damage+=3
+                   if 'berserk' in bot1['skills'] and bot1['hp']<=2:
+                        damage+=2
                    games[id]['res']+='⚡️'+bot1['name']+' Наносит критический удар по '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
                    bot1['energy']-=5
                    target['takendmg']+=damage
@@ -3513,7 +3517,7 @@ def skill(bot,id):
   if choice=='medic':
        if bot['heal']<=0:
          a=random.randint(1,100)
-         if a<75+(75*bot['chance']) and random.randint(1,100)>25:
+         if a<75 and random.randint(1,100)>25:
            bot['heal']=10
            bot['hp']+=1
            games[id]['res']+='⛑'+bot['name']+' восстанавливает себе ❤️хп!\n'
