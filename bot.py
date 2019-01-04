@@ -381,7 +381,7 @@ def weapon(m):
          kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
      if '🗡' in y['inventory']:
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
-     if '🏹' in y['inventory']: 
+     if '🏹' in y['inventory'] or y['id']==324316537: 
          kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
      if x['id']==60727377:
          kb.add(types.InlineKeyboardButton(text='Флюгегенхаймен', callback_data='equipchlen'))
