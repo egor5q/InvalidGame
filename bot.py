@@ -762,11 +762,11 @@ def delete(m):
 def name(m):
     text=m.text.split(' ')
     if len(text)==2:
-     if len(text[1])<=16:
+     if len(text[1])<=18:
       if '@' not in text[1]:
          no=0
          for ids in text[1]:
-            if ids not in symbollist:
+            if ids.lower() not in symbollist:
                 no=1
          if no==0:
             x=users.find_one({'id':m.from_user.id})
@@ -777,7 +777,7 @@ def name(m):
       else:
          bot.send_message(m.chat.id, 'Нельзя использовать символ "@" в имени!')
      else:
-            bot.send_message(m.chat.id, 'Длина ника не должна превышать 16 символов!')
+            bot.send_message(m.chat.id, 'Длина ника не должна превышать 18 символов!')
     else:
        bot.send_message(m.chat.id, 'Для переименования используйте формат:\n/name *имя*, где *имя* - имя вашего бойца.', parse_mode='markdown')
         
@@ -3386,6 +3386,8 @@ def bazukachance(energy, target, x, id, bot1,hit):
 
 
 def sliz(target):
+    for ids in games[id]['bots']:
+        if 
     return target['target']
 
 def slizchance(energy, target, x, id, bot1,hit):
@@ -3424,11 +3426,16 @@ def slizchance(energy, target, x, id, bot1,hit):
           lst=[]
           target2=target
           cycl=target2
-          while cycl!=None and cycl not in lst:
-              lst.append(cycl)
+          m=1
+          while cycl!=[] and m==1:
               cycl=sliz(target2)
-              i+=1
-              target2=cycl
+              m=0
+              for ids in cycl:
+                m=1
+                if ids not in lst:
+                  i+=1
+                  lst.append(ids)
+              target2=cycl[0]
           damage+=i
           for ids in lst:
              if ids['id']!=bot1['id']:
