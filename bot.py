@@ -1761,7 +1761,7 @@ def giveitems(game):
   
                    
 def battle(id):  
- #try:
+ try:
     print('2')
     lst=[]
     for ids in games[id]['bots']:
@@ -1776,14 +1776,14 @@ def battle(id):
                 print('wtfend')
     print('endres')
     results(id)
- #except:
- #   for ids in games[id]['joinbotsreturn']:
- #        users.update_one({'id':ids},{'$inc':{'joinbots':1}})
- #   try:
- #       bot.send_message(id, 'Произошла ошибка! Джойн-боты возвращены. Сбрасываю игру.')
- #       del games[id]
- #   except:
- #     pass
+ except:
+    for ids in games[id]['joinbotsreturn']:
+         users.update_one({'id':ids},{'$inc':{'joinbots':1}})
+    try:
+        bot.send_message(id, 'Произошла ошибка! Джойн-боты возвращены. Сбрасываю игру.')
+        del games[id]
+    except:
+      pass
   
 def results(id): 
   lst=[]
@@ -3394,7 +3394,7 @@ def slizchance(energy, target, x, id, bot1,hit):
   elif energy==4:
     chance=85
   elif energy==3:
-    chance=70
+    chance=75
   elif energy==2:
     chance=55
   elif energy==1:
@@ -3431,10 +3431,13 @@ def slizchance(energy, target, x, id, bot1,hit):
               target2=cycl
           damage+=i
           for ids in lst:
+             if ids['id']!=bot1['id']:
                 ids['takendmg']+=damage
                 ids['takendmg']+=bot1['dopdmg']
+             else:
+                i-=1
                 
-          games[id]['res']+='🦠'+bot1['name']+' стреляет в '+target['name']+' из слиземёта! Нанесено '+str(damage)+' урона по '+str(i)+' целям!\n'
+          games[id]['res']+='🦠'+bot1['name']+' стреляет в '+target['name']+' из слиземёта! Нанесено '+str(damage)+' урона по '+str(i)+' цели(ям)!\n'
           #target['takendmg']+=damage
           #target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=2
