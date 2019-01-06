@@ -3391,11 +3391,9 @@ def secondsliz(target,lst,id):
            lst.append(games[id]['bots'][ids])
     return lst
 
-def sliz(target,lst,id,botid):
+def sliz(target,id,botid):
     lst=[]
-    lst.append(target)
-    if target['target']!=None:
-        lst.append(target['target'])
+    lst.append(target['target'])
     for ids in games[id]['bots']:
         if (games[id]['bots'][ids]['target']==target and games[id]['bots'][ids] not in lst and games[id]['bots'][ids]['id']!=botid):
            lst.append(games[id]['bots'][ids])
@@ -3440,14 +3438,15 @@ def slizchance(energy, target, x, id, bot1,hit):
           m=1
           last=[]
           while m==1:
-              cycl=sliz(target2,lst,id,bot1['id'])
+              cycl=sliz(target2,id,bot1['id'])
               m=0
               for ids in cycl:
                 if ids not in lst and ids!=None:
                   i+=1
                   lst.append(ids)
                   m=1
-              target2=cycl[0]
+              if cycl[0]!=None:
+                  target2=cycl[0]
           print('1этап')
           print(i)
           while last!=lst:
