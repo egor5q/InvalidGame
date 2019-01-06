@@ -54,7 +54,17 @@ def silenttt(m):
       global hidetext
       hidetext=1
       bot.send_message(m.chat.id, 'Silent mode is ON.')
-      
+ 
+@bot.message_handler(commands=['give'])
+def givv(m):
+           if m.from_user.id==441399484:
+                      try:
+                                 y=users.find_one({'id':m.reply_to_message.from_user.id})
+                                 users.update_one({'id':y['id']},{'$push':{'bot.bought':m.text.split(' ')[1]}})
+                                 bot.send_message(m.chat.id, 'Теперь у '+y['name']+' есть '+m.text.split(' ')[1]+'!')
+                      except:
+                                 pass
+           
       
 @bot.message_handler(commands=['silentoff'])
 def silenttt(m):
