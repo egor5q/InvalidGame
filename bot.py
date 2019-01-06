@@ -3385,10 +3385,19 @@ def bazukachance(energy, target, x, id, bot1,hit):
   games[id]['res']+=bot1['doptext']
 
 
-def sliz(target):
+def secondsliz(target,lst,id):
     for ids in games[id]['bots']:
-        if 
-    return target['target']
+        if games[id]['bots'][ids]['target']==target and games[id]['bots'][ids] not in lst:
+           lst.append(games[id]['bots'][ids])
+    return lst
+
+def sliz(target,lst,id):
+    lst=lst
+    lst.append(target)
+    for ids in games[id]['bots']:
+        if games[id]['bots'][ids]['target']==target and games[id]['bots'][ids] not in lst:
+           lst.append(games[id]['bots'][ids])
+    return lst
 
 def slizchance(energy, target, x, id, bot1,hit):
   if energy>=5:
@@ -3427,8 +3436,9 @@ def slizchance(energy, target, x, id, bot1,hit):
           target2=target
           cycl=target2
           m=1
-          while cycl!=[] and m==1:
-              cycl=sliz(target2)
+          last=[]
+          while m==1:
+              cycl=sliz(target2,lst,id)
               m=0
               for ids in cycl:
                 m=1
@@ -3436,6 +3446,17 @@ def slizchance(energy, target, x, id, bot1,hit):
                   i+=1
                   lst.append(ids)
               target2=cycl[0]
+          while last!=lst:
+              last=lst
+              for ids in lst:
+                  d=secondsliz(ids,lst,id)
+                  app=[]
+                  for idss in d:
+                      if idss not in lst:
+                            app.append(idss)
+              for idss in app:
+                  lst.append(app)
+                
           damage+=i
           for ids in lst:
              if ids['id']!=bot1['id']:
