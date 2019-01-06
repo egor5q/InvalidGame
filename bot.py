@@ -3394,8 +3394,10 @@ def secondsliz(target,lst,id):
 def sliz(target,lst,id):
     lst=lst
     lst.append(target)
+    if target['target']!=None:
+        lst.append(target['target'])
     for ids in games[id]['bots']:
-        if games[id]['bots'][ids]['target']==target and games[id]['bots'][ids] not in lst:
+        if (games[id]['bots'][ids]['target']==target and games[id]['bots'][ids] not in lst):
            lst.append(games[id]['bots'][ids])
     return lst
 
