@@ -3420,9 +3420,9 @@ def slizchance(energy, target, x, id, bot1,hit):
           target2=target
           cycl=target2
           while cycl!=None and cycl not in lst:
+              lst.append(cycl)
               cycl=sliz(target2)
               i+=1
-              lst.append(cycl)
               target2=cycl
           damage+=i
           for ids in lst:
