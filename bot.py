@@ -3385,9 +3385,10 @@ def bazukachance(energy, target, x, id, bot1,hit):
   games[id]['res']+=bot1['doptext']
 
 
-def secondsliz(target,lst,id):
+def secondsliz(target,id,bot1):
+    lst=[]
     for ids in games[id]['bots']:
-        if games[id]['bots'][ids]['target']==target and games[id]['bots'][ids] not in lst:
+        if games[id]['bots'][ids]['target']==target and games[id]['bots'][ids] not in lst and games[id]['bots'][ids]['id']!=bot1:
            lst.append(games[id]['bots'][ids])
     return lst
 
@@ -3453,7 +3454,7 @@ def slizchance(energy, target, x, id, bot1,hit):
           while last!=lst:
               last=lst
               for ids in lst:
-                  d=secondsliz(ids,lst,id)
+                  d=secondsliz(ids,id,bot1['id'])
                   app=[]
                   for idss in d:
                       if idss not in lst:
