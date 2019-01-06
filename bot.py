@@ -40,7 +40,9 @@ client3=MongoClient(client2)
 db2=client3.trug
 userstrug=db2.users
 
-symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+           'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц','ч','ш','щ','ъ','ы','ь',
+            'э','ю','я',',','.','/','[',']','1','2','3','4','5','6','7','8','9','0','<','>','?','\','=','+','-','!','"','_','}','{']
 
 hidetext=0
 
@@ -385,6 +387,8 @@ def weapon(m):
          kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
      if x['id']==60727377:
          kb.add(types.InlineKeyboardButton(text='Флюгегенхаймен', callback_data='equipchlen'))
+     if 'sliznuk' in x['bot']['bought']:
+         kb.add(types.InlineKeyboardButton(text='Слизомёт', callback_data='equipsliz'))
      kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
@@ -678,6 +682,8 @@ def weapontoname(x):
       return 'Кулаки'
    elif x=='kinzhal':
       return 'Кинжал'
+   elif x=='slizgun':
+      return 'Слиземёт'
 
 
 @bot.message_handler(commands=['unequip'])
@@ -744,15 +750,22 @@ def delete(m):
 def name(m):
     text=m.text.split(' ')
     if len(text)==2:
-     if len(text[1])<=14:
+     if len(text[1])<=16:
       if '@' not in text[1]:
-         x=users.find_one({'id':m.from_user.id})
-         users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[1]}})
-         bot.send_message(m.chat.id, 'Вы успешно изменили имя бойца на '+text[1]+'!')
+         no=0
+         for ids in text[1]:
+            if ids not in symbollist:
+                no=1
+         if no==0:
+            x=users.find_one({'id':m.from_user.id})
+            users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[1]}})
+            bot.send_message(m.chat.id, 'Вы успешно изменили имя бойца на '+text[1]+'!')
+         else:
+            bot.send_message(m.chat.id, 'В имени разрешено использовать только:\nРусские буквы;\nАнглийские буквы;\nЗнаки препинания.')
       else:
          bot.send_message(m.chat.id, 'Нельзя использовать символ "@" в имени!')
      else:
-            bot.send_message(m.chat.id, 'Длина ника не должна превышать 12 символов!')
+            bot.send_message(m.chat.id, 'Длина ника не должна превышать 16 символов!')
     else:
        bot.send_message(m.chat.id, 'Для переименования используйте формат:\n/name *имя*, где *имя* - имя вашего бойца.', parse_mode='markdown')
         
@@ -1630,6 +1643,21 @@ def inline(call):
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Флюгегенхаймен"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
+            
+  elif call.data=='equipsliz':
+    x=userstrug.find_one({'id':call.from_user.id})
+    y=users.find_one({'id':call.from_user.id})
+    if 'sliznuk' in y['bot']['bought']:
+      if y['bot']['weapon']==None:
+        users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'slizgun'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Слиземёт"!')
+      elif y['bot']['weapon']=='rock':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
+          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Слиземёт"!')
+      else:
+        bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
+    else:
+        bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
          
          
   elif call.data=='gunoff':
@@ -2430,7 +2458,8 @@ def dmgs(id):
                            users.update_one({'id':pp['id']},{'$inc':{'bot.exp':500}})
                            if 'sliznuk' not in pp['bought'] and random.randint(1,100)<=25:
                              users.update_one({'id':pp['id']},{'$push':{'bot.bought':'sliznuk'}})
-                           bot.send_message(pp['id'],'Поздравляем, ваш боец поймал редкого слизнюка! Награда: 500❇/⚛, и уникальное оружие! Доступно оно будет в следующих обновлениях.')
+                             bot.send_message(pp['id'],'Поздравляем, ваш боец поймал редкого слизнюка! Награда: 500❇/⚛, и уникальное оружие! Доступно оно будет в следующих обновлениях.')
+                           bot.send_message(pp['id'],'Поздравляем, ваш боец поймал редкого слизнюка! Награда: 500❇/⚛.')
                            text+=pp['name']+'\n'
                   if 'necromant' in games[id]['bots'][mob]['skills']:
                      monsters.append(games[id]['bots'][mob]['id'])
@@ -3199,7 +3228,7 @@ def flamechance(energy, target, x, id, bot1,hit):
                flame=1
           else:
                flame=0     
-          games[id]['res']+='💥'+bot1['name']+' поджигает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          games[id]['res']+='💥'+bot1['name']+' поджигает '+target['name']+'! Нанесено '+str(damage)+' урона.\n'
           target['takendmg']+=damage
           target['fire']+=2
           target['takendmg']+=bot1['dopdmg']
@@ -3254,7 +3283,7 @@ def swordchance(energy, target, x, id, bot1,hit):
               damage+=3
           x=random.randint(1,100)
            
-          games[id]['res']+='⚔'+bot1['name']+' рубит '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
+          games[id]['res']+='⚔'+bot1['name']+' рубит '+target['name']+'! Нанесено '+str(damage)+' урона.\n'
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=2
@@ -3299,7 +3328,7 @@ def bazukachance(energy, target, x, id, bot1,hit):
               damage+=3
           x=random.randint(1,100)
            
-          games[id]['res']+='💣'+bot1['name']+' стреляет в '+target['name']+' из базуки! Нанесено '+str(damage)+' Урона.\n'
+          games[id]['res']+='💣'+bot1['name']+' стреляет в '+target['name']+' из базуки! Нанесено '+str(damage)+' урона.\n'
           target['takendmg']+=damage
           target['takendmg']+=bot1['dopdmg']
           bot1['energy']-=7
@@ -3339,6 +3368,67 @@ def bazukachance(energy, target, x, id, bot1,hit):
   games[id]['res']+=bot1['doptext']
 
 
+def sliz(bot1,target,id):
+    return target['target']
+
+def slizchance(energy, target, x, id, bot1,hit):
+  if energy>=5:
+    chance=95
+  elif energy==4:
+    chance=85
+  elif energy==3:
+    chance=70
+  elif energy==2:
+    chance=55
+  elif energy==1:
+    chance=21
+  elif energy<=0:
+    chance=0
+  if bot1['blight']==1:
+      chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
+  if hit==1:
+    if x*debuff/(bonus*2)<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
+  name=users.find_one({'id':bot1['id']})['bot']['name']
+  if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+      assasin(id,bot1,target)
+  elif x*debuff/bonus<=chance or bot1['hit']==1:
+          damage=random.randint(0,0)
+          if 'berserk' in bot1['skills'] and bot1['hp']<=2:
+              damage+=2
+          if bot1['zombie']>0:
+              damage+=3
+          x=random.randint(1,100)
+          i=0
+          lst=[]
+          target2=target
+          cycl=target2
+          while cycl!=None and cycl not in lst:
+              cycl=sliz(target2)
+              i+=1
+              lst.append(cycl)
+              target2=cycl
+          damage+=i
+          for ids in lst:
+                ids['takendmg']+=damage
+                ids['takendmg']+=bot1['dopdmg']
+                
+          games[id]['res']+='🦠'+bot1['name']+' стреляет в '+target['name']+' из слиземёта! Нанесено '+str(damage)+' урона по '+str(i)+' целям!\n'
+          #target['takendmg']+=damage
+          #target['takendmg']+=bot1['dopdmg']
+          bot1['energy']-=2
+        
+  else:
+        games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'!\n'
+        bot1['target']=None
+        bot1['energy']-=2
+  games[id]['res']+=bot1['doptext']
+
+
 
 def sliznuk(energy, target, x, id, bot1,hit):
   if energy>=5:
@@ -3367,8 +3457,7 @@ def sliznuk(energy, target, x, id, bot1,hit):
       target['weapon']='hand'
       bot1['hp']+=2
   else:
-      games[id]['res']+='🌊'+bot1['name']+' растекается по земле! В этом ходу по нему невозможно попасть!\n'
-      bot1['miss']=10000
+      games[id]['res']+='😶'+bot1['name']+' не понимает, что происодит.\n'
   bot1['energy']-=random.randint(1,5)
   games[id]['res']+=bot1['doptext']
 
@@ -3445,6 +3534,9 @@ def attack(bot, id,rr):
                       
   elif bot['weapon']=='sliznuk':
     return sliznuk(bot['energy'], target, x, id, bot,rr)
+            
+  elif bot['weapon']=='slizgun':
+    return slizchance(bot['energy'], target, x, id, bot,rr)
 
    
 def naeb(bot,target,id):
