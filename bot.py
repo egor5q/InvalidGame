@@ -1836,7 +1836,12 @@ def results(id):
                 
 
   for bots in lst:
-      if bots['attack']==1:
+      if bots['attack']==1 and bots['weapon']!='slizgun':
+        print('yyyyyy')
+        attack(bots,id,0)
+        
+  for bots in lst:     
+      if bots['attack']==1 and bots['weapon']=='slizgun':
         print('yyyyyy')
         attack(bots,id,0)
                      
@@ -3380,7 +3385,7 @@ def bazukachance(energy, target, x, id, bot1,hit):
   games[id]['res']+=bot1['doptext']
 
 
-def sliz(bot1,target,id):
+def sliz(target):
     return target['target']
 
 def slizchance(energy, target, x, id, bot1,hit):
