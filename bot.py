@@ -3441,7 +3441,7 @@ def slizchance(energy, target, x, id, bot1,hit):
               cycl=sliz(target2,lst,id)
               m=0
               for ids in cycl:
-                if ids not in lst:
+                if ids not in lst and ids!=None:
                   i+=1
                   lst.append(ids)
                   m=1
