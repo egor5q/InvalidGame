@@ -3441,10 +3441,10 @@ def slizchance(energy, target, x, id, bot1,hit):
               cycl=sliz(target2,lst,id)
               m=0
               for ids in cycl:
-                m=1
                 if ids not in lst:
                   i+=1
                   lst.append(ids)
+                  m=1
               target2=cycl[0]
           print('1этап')
           while last!=lst:
