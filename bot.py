@@ -3392,7 +3392,7 @@ def secondsliz(target,lst,id):
     return lst
 
 def sliz(target,lst,id):
-    lst=lst
+    lst=[]
     lst.append(target)
     if target['target']!=None:
         lst.append(target['target'])
