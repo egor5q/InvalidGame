@@ -3446,6 +3446,7 @@ def slizchance(energy, target, x, id, bot1,hit):
                   i+=1
                   lst.append(ids)
               target2=cycl[0]
+          print('1этап')
           while last!=lst:
               last=lst
               for ids in lst:
@@ -3455,7 +3456,7 @@ def slizchance(energy, target, x, id, bot1,hit):
                       if idss not in lst:
                             app.append(idss)
               for idss in app:
-                  lst.append(app)
+                  lst.append(idss)
                 
           damage+=i
           for ids in lst:
