@@ -400,7 +400,7 @@ def weapon(m):
      if x['id']==60727377:
          kb.add(types.InlineKeyboardButton(text='Флюгегенхаймен', callback_data='equipchlen'))
      if 'sliznuk' in x['bot']['bought']:
-         kb.add(types.InlineKeyboardButton(text='Слизомёт', callback_data='equipsliz'))
+         kb.add(types.InlineKeyboardButton(text='Слиземёт', callback_data='equipsliz'))
      kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
