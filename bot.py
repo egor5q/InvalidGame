@@ -4789,8 +4789,8 @@ def dailybox():
                     ind=num
               num+=1
            cday=a[ind-1]
-           сmonth=a[1]
-           сyear=a[ind+1]
+           cmonth=a[1]
+           cyear=a[ind+1]
            a=trua
            a=a.split(":")  
            m=int(a[1])     # минуты
