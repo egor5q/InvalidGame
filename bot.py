@@ -852,6 +852,7 @@ def selectbot(m):
             timed=x['bot']
             if x['botslots'][n]!={}:
                 users.update_one({'id':x['id']},{'$set':{'bot':x['botslots'][n],'botslots.'+n:timed}})
+                users.update_one({'id':x['id']},{'$set':{'bot.bought':x['bot']['bought']}})
             else:
                 bot.send_message(m.chat.id, 'У вас нет бойца в этом слоте!')
         except:
@@ -4750,7 +4751,6 @@ def dailybox():
    t=threading.Timer(60, dailybox)
    t.start()
    x=time.ctime()
-   print(x)
    x=x.split(" ")
    month=0
    year=0
