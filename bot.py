@@ -833,7 +833,7 @@ def createdna(m):
         try:
             n=int(n)
             cost=5000*n
-            if x['points']>=cost:
+            if x['cookie']>=cost:
                 users.update_one({'id':x['id']},{'$inc':{'dnawaiting':n, 'cookie':-cost}})
                 bot.send_message(m.chat.id, str(n)+' ДНК успешно добавлены в очередь на производство! Я сообщу вам, когда всё будет готово.')
         except:
