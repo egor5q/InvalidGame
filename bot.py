@@ -213,11 +213,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          botslots={'1':{},
-                    '2':{},
-                    '3':{}
-                   }
-          users.update_many({},{'$set':{'botslots':botslots}})
+          users.update_many({},{'$set':{'bot.mutations':[],'searched':[]}})
           print('yes')  
 
 @bot.message_handler(commands=['massbattle'])
@@ -261,6 +257,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
                animal=None,zombie=0):
    return{identeficator:{'name': name,
               'weapon':weapon,
+              'mutations':[],
               'skills':skills,
               'team':None,
               'hp':hp,
@@ -740,10 +737,10 @@ def buy(m):
     if x!=None:
      if x['dailybox']==1:
       try:
-         y=random.randint(25,75)
+         y=random.randint(100,225)
          users.update_one({'id':m.from_user.id}, {'$inc':{'cookie':y}})
          users.update_one({'id':m.from_user.id}, {'$set':{'dailybox':0}})
-         bot.send_message(m.chat.id, 'Вы открыли Поинтбокс и получили '+str(y)+'⚛️ поинтов!')
+         bot.send_message(m.chat.id, 'Вы открыли поинтбокс и получили '+str(y)+'⚛️ поинтов!')
       except:
          bot.send_message(m.chat.id, 'Вас нет в списке бота! Сначала напишите ему в личку /start.')
      else:
@@ -808,7 +805,8 @@ def crashgame(m):
   
 def dnamenu(user):
     kb=types.InlineKeyboardMarkup()
-    kb.add(types.InlineKeyboardButton('Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Покупка 🧬ДНК',callback_data='dna buy'))
+    kb.add(types.InlineKeyboardButton('🏢Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Покупка 🧬ДНК',callback_data='dna buy'))
+    kb.add(types.InlineKeyboardButton('📀Клонирование',callback_data='dna cloning')
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите меню.', reply_markup=kb) 
     
@@ -888,6 +886,53 @@ def inline(call):
         elif call.data=='dna buildings':
             medit('Выбрано: строения.',call.message.chat.id, call.message.message_id)
             buildmenu(x)
+           
+        elif call.data=='dna cloning':
+           if 'cloner' in x['buildings']:
+                slots=0
+                i=1
+                while i<=3:
+                    if x['botslots'][str(i)]=={} and str(i)+'slot' in x['buildings']:
+                        slots+=1
+                    i+=1
+                kb=types.InlineKeyboardMarkup()
+                kb.add(types.InlineKeyboardButton('Клонировать (свободных слотов осталось: '+str(slots)+')',callback_data='dna clonebot')))
+                medit('Чтобы клонировать своего бойца, нажмите на кнопку ниже. По завершению клонирования '+
+                      'вам будет доступен еще один боец, внешне ничем не отличающийся от вашего нынешнего. Но над этим бойцом вы сможете '+
+                      'проводить эксперименты по изменению генома, которые для старой версии бойца оказались бы смертельными. Будет возможность '+
+                      'переключаться между бойцами.',call.message.chat.id, call.message.message_id,reply_markup=kb)
+           else:
+                medit('Для этого вам нужен клонирователь!',call.message.chat.id, call.message.message_id)
+                
+        elif call.data=='dna clonebot':
+            if x['dna']>=1:
+                i=1
+                slots=0
+                cbot=None
+                while i<=3:
+                    if x['botslots'][str(i)]=={} and str(i)+'slot' in x['buildings']:
+                        slots+=1
+                        if cbot==None:
+                            cbot=str(i)
+                if slots>0:
+                    users.update_one({'id':x['id']},{'$set':{'botslots.'cbot:createbot(x['id'])}})
+                    medit('Запускаю клонирователь...\n'+
+                          '_->$Cloner authorization\n'+
+                          'console: enter password\n'+
+                          '->MyMomIsBeast\n'+
+                          'console: password incorrect, please try again.\n'+
+                          '->Fuck you!\n'+
+                          'console: no, fuck you. Please, enter correct password.\n'+
+                          '->MyMomIsBest\n'+
+                          'console: password correct, welcome!\n'+
+                          '->$bot_cloning.init('+x['name']+'.bot)\n'+
+                          'console: bot_cloning started successfully!\n'+
+                          'console: progress: 1%_',call.message.chat.id, call.message.message_id, parse_mode='markdown')
+                    bot.send_message(x['id'],'_console: progress: 100%. Copy of your bot is ready! Thank you for using "PenisDetrov" '+
+                                     'technology!_\n\nЧтобы поменять текущего бота на другого, нажмите /selectbot.'parse_mode='markdown')
+                else:
+                    medit('У вас нет доступных слотов!', call.message.chat.id, call.message.message_id)
+                
             
         elif call.data=='dna generator':
             kb=types.InlineKeyboardMarkup()
@@ -1077,9 +1122,8 @@ def inline(call):
        kb=types.InlineKeyboardMarkup()
        kb.add(types.InlineKeyboardButton(text='5500⚛️', callback_data='buyfiremage'))
        kb.add(types.InlineKeyboardButton(text='Назад', callback_data='back'))
-       medit('Раз в 7 ходов боец может применить на себя огненный щит: весь полученный на этом ходу урон уменьшается в 2 раза, а '+\
-             'атаковавшие вас соперники загораются на 3 хода, включая текущий. Имеет 18% шанс активироваться автоматически, не запуская '+
-             'КД. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
+       medit('Имеет 18% шанс активироваться. Весь полученный на этом ходу урон уменьшается в 2 раза, а '+\
+             'атаковавшие вас соперники загораются на 3 хода, включая текущий. Хотите приобрести?',call.message.chat.id, call.message.message_id, reply_markup=kb)
     
   elif call.data=='necromant':
        kb=types.InlineKeyboardMarkup()
@@ -4530,6 +4574,7 @@ def createuser(id, username, name):
            'cookie':0,
            'dna':0,
            'buildings':[],
+           'searched':[],
            'botslots':botslots,
            'dnacreator':None,
            'dnawaiting':0,
@@ -4603,6 +4648,7 @@ def connect(m):
 def createbot(id):
   return {'name': None,
               'weapon':'hand',
+              'mutations':[],
               'skills':[],
               'team':None,
               'hp':4,
