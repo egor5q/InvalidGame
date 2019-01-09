@@ -4719,6 +4719,7 @@ def createbot(id):
 
 
 def adddna(user):
+    print(user)
     users.update_one({'id':int(user['id'])},{'$inc':{'dna':1}})
     users.update_one({'id':user['id']},{'$set':{'dnacreator':None}})
     if user['dnawaiting']==0:
