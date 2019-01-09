@@ -214,11 +214,11 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          y=users.find({})
-          for ids in y:
-                  users.update_one({'id':ids['id']},{'$set':{'dna':0,'buildings':[],'dnawaiting':0,'dnacreator':None}})
+          users.update_many({},{'$set':{'dna':0,'buildings':[],'dnawaiting':0,'dnacreator':None}})
           print('yes')
-            
+users.update_many({},{'$set':{'dna':0,'buildings':[],'dnawaiting':0,'dnacreator':None}})
+print('yes')    
+
 @bot.message_handler(commands=['massbattle'])
 def upd(m):
         if m.from_user.id==441399484:
