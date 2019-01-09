@@ -805,7 +805,7 @@ def crashgame(m):
   
 def dnamenu(user):
     kb=types.InlineKeyboardMarkup()
-    kb.add(types.InlineKeyboardButton('🏢Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Покупка 🧬ДНК',callback_data='dna buy'))
+    kb.add(types.InlineKeyboardButton('🏢Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Генерация 🧬ДНК',callback_data='dna buy'))
     kb.add(types.InlineKeyboardButton('📀Клонирование',callback_data='dna cloning'))
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите меню.', reply_markup=kb) 
@@ -961,7 +961,7 @@ def inline(call):
                 medit('Чтобы клонировать своего бойца, нажмите на кнопку ниже. Стоимость: 1🧬. По завершению клонирования '+
                       'вам будет доступен еще один боец, внешне ничем не отличающийся от вашего нынешнего. Но над этим бойцом вы сможете '+
                       'проводить эксперименты по изменению генома, которые для старой версии бойца оказались бы смертельными. Будет возможность '+
-                      'переключаться между бойцами.',call.message.chat.id, call.message.message_id,reply_markup=kb)
+                      'переключаться между бойцами.\nДля покупки новы слотов введите /buyslot.',call.message.chat.id, call.message.message_id,reply_markup=kb)
            else:
                 medit('Для этого вам нужен клонирователь!',call.message.chat.id, call.message.message_id)
                 
@@ -996,7 +996,7 @@ def inline(call):
                     bot.send_message(x['id'],'_console: progress: 100%. Copy of your bot is ready! Thank you for using "PenisDetrov" '+
                                      'technology!_\n\nЧтобы поменять текущего бота на другого, нажмите /selectbot.',parse_mode='markdown')
                 else:
-                    medit('У вас нет доступных слотов!', call.message.chat.id, call.message.message_id)
+                    medit('У вас нет доступных слотов! Для покупки введите /buyslot.', call.message.chat.id, call.message.message_id)
             else:
                 bot.send_message(x['id'],'Недостаточно 🧬ДНК!')
             
