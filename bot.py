@@ -4672,7 +4672,7 @@ def dailybox():
    x=int(x[0])+3  # часы (+3, потому что heroku в Великобритании)
    z=time.ctime()
    z=z.split(' ')
-   u=users.find_many({})
+   u=users.find({})
    #for ids in u:
    #    if ids['dnawaiting']>0 and ids['dnacreator']==None:
    #        users.update_one({'id':ids['id']},{'$inc':{'dnawaiting':-1}})
