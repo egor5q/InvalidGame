@@ -4776,8 +4776,9 @@ def dailybox():
        if ids['dnawaiting']>0 and ids['dnacreator']==None:
            users.update_one({'id':ids['id']},{'$inc':{'dnawaiting':-1}})
            users.update_one({'id':ids['id']},{'$set':{'dnacreator':time.ctime()}})
-       if ids['dnacreator']!=None:
-           settime=ids['dnacreator']    # Тут вычисляется, когда была запущена генерация последнего ДНК.
+       cuser=users.find_one({'id':ids['id']})
+       if cuser['dnacreator']!=None:
+           settime=cuser['dnacreator']    # Тут вычисляется, когда была запущена генерация последнего ДНК.
            a=settime.split(" ")
            ind=0
            num=0
@@ -4787,7 +4788,7 @@ def dailybox():
                     trua=idss
                     ind=num
               num+=1
-           сday=a[ind-1]
+           cday=a[ind-1]
            сmonth=a[1]
            сyear=a[ind+1]
            a=trua
@@ -4797,11 +4798,11 @@ def dailybox():
            
            if x-hs==1:                    # Таймер генерации ДНК. В словарь игрока перед этим закидывается дата начала генерации.
                if y - m >= 0:             # Здесь каждую минуту проверяется, не прошел ли час.
-                    adddna(ids)
+                    adddna(cuser)
            elif x-hs>1:
-               adddna(ids)
+               adddna(cuser)
            elif cday!=day or cmonth!=month or cyear!=year:
-               adddna(ids)
+               adddna(cuser)
             
    party=0
    if z[0]=='Sat' or z[0]=='Sun':
