@@ -4750,10 +4750,10 @@ def dailybox():
        if ids['dnacreator']!=None:
            settime=ids['dnacreator']
            a=settime.split(" ")
-           for ids in a:
-              for idss in ids:
-                 if idss==':':
-                    trua=ids
+           for idss in a:
+              for idsss in idss:
+                 if idsss==':':
+                    trua=idss
            a=trua
            a=a.split(":")  
            m=int(a[1])     # минуты
