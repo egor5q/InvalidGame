@@ -827,7 +827,7 @@ def dnashop(m):
 
 @bot.message_handler(commands=['createdna'])
 def createdna(m):
-    x=users.find_one({'id':call.from_user.id})
+    x=users.find_one({'id':m.from_user.id})
     if 'dnagenerator' in x['buildings']:
         n=m.text.split(' ')[1]
         try:
