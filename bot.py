@@ -651,7 +651,7 @@ def me(m):
       except:
         a='ничего'
       x=users.find_one({'id':m.from_user.id})
-      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\n'+'ДНК: '+str(x['dna'])+'🧬\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
+      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\n'+'ДНК: '+str(x['dna'])+'🧬\nДНК на генерации: '+str(x['dnawaiting'])+'\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
                       'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+a)
       if m.from_user.id==441399484:
          bot.send_message(m.chat.id, 'Поинты бота CookieWars: '+str(x['fond'])+'⚛️')
@@ -660,7 +660,7 @@ def me(m):
   else:
       try:
         x=users.find_one({'id':m.reply_to_message.from_user.id})
-        bot.send_message(m.chat.id, 'Поинты юзера: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang)
+        bot.send_message(m.chat.id, 'Поинты юзера: '+str(x['cookie'])+'⚛️\n'+'ДНК: '+str(x['dna'])+'🧬\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang)
       except:
         pass
    
@@ -845,7 +845,24 @@ def createdna(m):
             
 @bot.message_handler(commands=['selectbot'])
 def selectbot(m):
-    pass
+    x=users.find_one({'id':m.from_user.id})
+    if x!=None:
+        n=m.text.split(' ')[1]
+        try:
+            timed=x['bot']
+            if x['botslots'][n]!={}:
+                users.update_one({'id':x['id']},{'$set':{'bot':x['botslots'][n],'botslots.'+n:timed}})
+            else:
+                bot.send_message(m.chat.id, 'У вас нет бойца в этом слоте!')
+        except:
+            i=1
+            text='Слоты, в которых у вас есть бойцы:\n'
+            while i<=3:
+                if x['botslots'][ids][str(i)]!={}:
+                    text+=str(i)+'\n'
+                i+=1
+            bot.send_message(m.chat.id, text+'Чтобы выбрать бойца, напишите следующую команду:\n/selectbot *номер*',parse_mode='markdown')
+     
 
 
         
@@ -921,6 +938,7 @@ def inline(call):
                     i+=1
                 if slots>0:
                     users.update_one({'id':x['id']},{'$set':{'botslots.'+cbot:createbot(x['id'])}})
+                    users.update_one({'id':x['id']},{'$set':{'botslots.'+cbot+'.bought':x['bot']['bought']}})
                     users.update_one({'id':x['id']},{'$inc':{'dna':-1}})
                     medit('Запускаю клонирователь...\n'+
                           '_->$Cloner authorization\n'+
