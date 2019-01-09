@@ -940,6 +940,7 @@ def inline(call):
                 if slots>0:
                     users.update_one({'id':x['id']},{'$set':{'botslots.'+cbot:createbot(x['id'])}})
                     users.update_one({'id':x['id']},{'$set':{'botslots.'+cbot+'.bought':x['bot']['bought']}})
+                    users.update_one({'id':x['id']},{'$push':{'botslots.'+cbot+'.mutations':'mutant'}})
                     users.update_one({'id':x['id']},{'$inc':{'dna':-1}})
                     medit('Запускаю клонирователь...\n'+
                           '_->$Cloner authorization\n'+
