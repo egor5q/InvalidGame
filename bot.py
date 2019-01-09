@@ -918,6 +918,7 @@ def inline(call):
                         slots+=1
                         if cbot==None:
                             cbot=str(i)
+                    i+=1
                 if slots>0:
                     users.update_one({'id':x['id']},{'$set':{'botslots.'+cbot:createbot(x['id'])}})
                     users.update_one({'id':x['id']},{'$inc':{'dna':-1}})
