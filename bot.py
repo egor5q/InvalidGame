@@ -890,7 +890,7 @@ def inline(call):
             kb=types.InlineKeyboardMarkup()
             kb.add(types.InlineKeyboardButton(text='40 000⚛️',callback_data='dna buy generator'))
             medit('ДНК-генератор - самое важное строение на пути к усовершенствованию генокода вашего бойца. Оно позволит вам производить ДНК-очки, '+
-                  'которые понадобятся для разработки способностей нового поколения.',reply_markup=kb)
+                  'которые понадобятся для разработки способностей нового поколения.',call.message.chat.id, call.message.message_id, reply_markup=kb)
             
         elif call.data=='dna buy generator':
             if 'dnagenerator' not in x['buildings']:
