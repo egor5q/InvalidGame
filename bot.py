@@ -4754,10 +4754,17 @@ def dailybox():
    x=x.split(" ")
    month=0
    year=0
+   ind=0
+   num=0
    for ids in x:
       for idss in ids:
          if idss==':':
             tru=ids
+            ind=num
+      num+=1
+   day=x[ind-1]
+   month=x[1]
+   year=x[ind+1]
    x=tru 
    x=x.split(":")  
    y=int(x[1])    # минуты
@@ -4770,12 +4777,19 @@ def dailybox():
            users.update_one({'id':ids['id']},{'$inc':{'dnawaiting':-1}})
            users.update_one({'id':ids['id']},{'$set':{'dnacreator':time.ctime()}})
        if ids['dnacreator']!=None:
-           settime=ids['dnacreator']
+           settime=ids['dnacreator']    # Тут вычисляется, когда была запущена генерация последнего ДНК.
            a=settime.split(" ")
+           ind=0
+           num=0
            for idss in a:
               for idsss in idss:
                  if idsss==':':
                     trua=idss
+                    ind=num
+              num+=1
+           сday=a[ind-1]
+           сmonth=a[1]
+           сyear=a[ind+1]
            a=trua
            a=a.split(":")  
            m=int(a[1])     # минуты
@@ -4785,6 +4799,8 @@ def dailybox():
                if y - m >= 0:             # Здесь каждую минуту проверяется, не прошел ли час.
                     adddna(ids)
            elif x-hs>1:
+               adddna(ids)
+           elif cday!=day or cmonth!=month or cyear!=year:
                adddna(ids)
             
    party=0
