@@ -811,7 +811,7 @@ def dnamenu(user):
     
 def buildmenu(user):
     kb=types.InlineKeyboardMarkup()
-    kb.add(types.InlineKeyboardButton('🏭ДНК-генератор',callback_data='dna generator'))
+    kb.add(types.InlineKeyboardButton('🏭ДНК-генератор',callback_data='dna generator'),types.InlineKeyboardButton('📀Клонирователь',callback_data='dna cloner'))
     kb.add(types.InlineKeyboardButton('Назад',callback_data='dna back1'))
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите строение.', reply_markup=kb) 
@@ -890,12 +890,30 @@ def inline(call):
             medit('ДНК-генератор - самое важное строение на пути к усовершенствованию генокода вашего бойца. Оно позволит вам производить ДНК-очки, '+
                   'которые понадобятся для разработки способностей нового поколения.',call.message.chat.id, call.message.message_id, reply_markup=kb)
             
+        elif call.data=='dna cloner':
+            kb=types.InlineKeyboardMarkup()
+            kb.add(types.InlineKeyboardButton(text='30 000⚛️',callback_data='dna buy cloner'))
+            medit('Клонирователь - устройсво, которое позволит вам сделать усовершенствованную копию своего бойца, тело которого сможет принять '+
+                  'те мутации, которые вы разработаете! Некоторые из них необратимы, поэтому в будущем вам понадобится '+
+                  'купить дополнительные слоты для хранения копий бойца.',call.message.chat.id, call.message.message_id, reply_markup=kb)
+            
         elif call.data=='dna buy generator':
             if 'dnagenerator' not in x['buildings']:
                 if x['cookie']>=40000:
                     users.update_one({'id':x['id']},{'$push':{'buildings':'dnagenerator'}})
                     users.update_one({'id':x['id']},{'$inc':{'cookie':-40000}})
                     medit('Вы успешно приобрели ДНК-генератор!',call.message.chat.id,call.message.message_id)
+                else:
+                    medit('Не хватает поинтов!',call.message.chat.id,call.message.message_id)
+            else:
+                medit('У вас уже есть это!',call.message.chat.id,call.message.message_id)
+                
+        elif call.data=='dna buy cloner':
+            if 'dnagenerator' not in x['buildings']:
+                if x['cookie']>=30000:
+                    users.update_one({'id':x['id']},{'$push':{'buildings':'cloner'}})
+                    users.update_one({'id':x['id']},{'$inc':{'cookie':-30000}})
+                    medit('Вы успешно приобрели клонирователь!',call.message.chat.id,call.message.message_id)
                 else:
                     medit('Не хватает поинтов!',call.message.chat.id,call.message.message_id)
             else:
@@ -2360,14 +2378,15 @@ def dmgs(id):
         else:
            text+='Так как Пасюк и Сергей применили пушку одновременно, никто из них не получает урона, пиздец.\n' 
       
-                                  
     for ids in games[id]['bots']:
-        print('dmgs2')
-        mob=games[id]['bots'][ids]
         if 'firemage' in games[id]['bots'][ids]['skills']:
            if random.randint(1,100)<=18+(18*games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['die']!=1:
               games[id]['bots'][ids]['firearmor']=1
               games[id]['res']+='🔥Повелитель огня '+games[id]['bots'][ids]['name']+' использует огненный щит!\n'
+    
+    for ids in games[id]['bots']:
+        print('dmgs2')
+        mob=games[id]['bots'][ids]
         if games[id]['bots'][ids]['target']!=None:
             if games[id]['bots'][ids]['target']['firearmor']==1:
                 games[id]['bots'][ids]['fire']=3
@@ -3720,10 +3739,6 @@ def skill(bot,id):
           
         else:
            bot.send_message(id, '@Loshadkin, баг с гипнозом, приди!')
-       elif 'firemage' in bot['mainskill']:
-           bot['firearmorkd']=8
-           bot['firearmor']=1
-           games[id]['res']+='🔥Повелитель огня '+bot['name']+' использует огненный щит!\n'
        target=x
        
    
@@ -3753,9 +3768,6 @@ def skill(bot,id):
              target['target']=target
              bot['gipnoz']=6
              i=1
-                
-  elif choice=='firemage':
-        pass
               
              
 
@@ -3908,15 +3920,7 @@ def actnumber(bot, id):
   print('actnumber3')      
   x=random.randint(1,100)
   if len(npc['skills'])>0 and 'active' in npc['skills']:
-    if 'firemage' in npc['skills'] and npc['firearmorkd']<=0:
-        if low==len(enemy):
-           fire=0
-        else:
-            fire=1
-            npc['mainskill'].append('firemage')
-            skill=1
-    else:
-        fire=0
+    fire=0
     if 'gipnoz' in npc['skills'] and npc['gipnoz']<=0:
         if low==len(enemy):
            gipn=0
@@ -4510,6 +4514,10 @@ def createbott(id, y):
         return{id:y}
 
 def createuser(id, username, name):
+    botslots={'1':{},
+              '2':{},
+              '3':{}
+             }
     return{'id':id,
            'bot':createbot(id),
            'username':username,
@@ -4517,6 +4525,7 @@ def createuser(id, username, name):
            'cookie':0,
            'dna':0,
            'buildings':[],
+           'botslots':botslots
            'dnacreator':None,
            'dnawaiting':0,
            'cookiecoef':0.10,
