@@ -216,7 +216,7 @@ def upd(m):
         if m.from_user.id==441399484:
           y=users.find({})
           for ids in y:
-                  users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0,'bot.reservenergy':0}})
+                  users.update_one({'id':ids['id']},{'$set':{'dna':0,'buildings':[],'dnawaiting':0,'dnacreator':None}})
           print('yes')
             
 @bot.message_handler(commands=['massbattle'])
@@ -804,6 +804,43 @@ def crashgame(m):
          games[m.chat.id]['xod']=None
          bot.send_message(m.chat.id, 'О нет! Вы сломали игру!!!!')
         
+  
+def dnamenu(user):
+    kb=types.InlineKeyboardMarkup()
+    kb.add(types.InlineKeyboardButton('Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Покупка 🧬ДНК',callback_data='dna buy'))
+    kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
+    bot.send_message(user['id'], 'Выберите меню.', reply_markup=kb) 
+    
+def buildmenu(user):
+    kb=types.InlineKeyboardMarkup()
+    kb.add(types.InlineKeyboardButton('🏭Завод ДНК',callback_data='dna generator'))
+    kb.add(types.InlineKeyboardButton('Назад',callback_data='dna back1'))
+    kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
+    bot.send_message(user['id'], 'Выберите строение.', reply_markup=kb) 
+
+@bot.message_handler(commands=['dnashop'])
+def dnashop(m):
+    x=users.find_one({'id':m.from_user.id})
+    if m.from_user.id==m.chat.id:
+        dnamenu(x)
+    else:
+        bot.send_message(m.chat.id, 'Можно использовать только в личке!')
+
+
+@bot.message_handler(commands=['createdna'])
+def createdna(m):
+    x=users.find_one({'id':call.from_user.id})
+    if 'dnagenerator' in x['buildings']:
+        n=m.text.split(' ')[1]
+        try:
+            n=int(n)
+            cost=5000*n
+            if x['points']>=cost:
+                users.update_one({'id':x['id']},{'$inc':{'dnawaiting':n, 'cookie':-cost}})
+                bot.send_message(m.chat.id, str(n)+' ДНК успешно добавлены в очередь на производство! Я сообщу вам, когда всё будет готово.')
+            
+            
+        
         
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call): 
@@ -834,7 +871,42 @@ def inline(call):
   turret='☑️'
   secrettech='☑️'
   x=users.find_one({'id':call.from_user.id})
-  if call.data=='hp':
+  if 'dna' in call.data:
+        if call.data=='dna buy':
+            if 'dnagenerator' in x['buildings']:
+                medit('Выберите количество ДНК, которое хотите произвести. На производство одной единицы '+
+                                 '🧬ДНК уходит 1 час и 5000⚛️ поинтов. Даже если бот перезагрузится за это время, генерация все равно продолжится. '+
+                                 'Для этого напишите следующую команду:\n/createdna *количество*',call.message.chat.id, call.message.message_id, parse_mode='markdown')
+            else:
+                medit('Чтобы производить ДНК, вам нужно купить строение - "Завод ДНК".',call.message.chat.id, call.message.message_id)
+                
+        elif call.data=='dna buildings':
+            medit('Выбрано: строения.',call.message.chat.id, call.message.message_id)
+            buildmenu(x)
+            
+        elif call.data=='dna generator':
+            kb=types.InlineKeyboardMarkup()
+            kb.add(types.InlineKeyboardButton(text='40 000⚛️',callback_data='dna buy generator'))
+            medit('ДНК-генератор - самое важное строение на пути к усовершенствованию генокода вашего бойца. Оно позволит вам производить ДНК-очки, '+
+                  'которые понадобятся для разработки способностей нового поколения.',reply_markup=kb)
+            
+        elif call.data=='dna buy generator':
+            if 'dnagenerator' not in x['buildings']:
+                if x['cookie']>=40000:
+                    users.update_one({'id':x['id']},{'$push':{'buildings':'dnagenerator'}})
+                    users.update_one({'id':x['id']},{'$inc':{'cookie':-40000}})
+                    medit('Вы успешно приобрели ДНК-генератор!',call.message.chat.id,call.message.message_id)
+                else:
+                    medit('Не хватает поинтов!',call.message.chat.id,call.message.message_id)
+            else:
+                medit('У вас уже есть это!',call.message.chat.id,call.message.message_id)
+            
+        elif call.data=='dna back1':
+            medit('Выбрано: назад.',call.message.chat.id, call.message.message_id)
+            dnamenu(x)
+            
+                
+  elif call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
             shield='✅'
         if 'medic' in x['bot']['bought']:
@@ -4443,6 +4515,10 @@ def createuser(id, username, name):
            'username':username,
            'name':name,
            'cookie':0,
+           'dna':0,
+           'buildings':[],
+           'dnacreator':None,
+           'dnawaiting':0,
            'cookiecoef':0.10,
            'joinbots':0,
            'enablejoin':0,
@@ -4577,6 +4653,7 @@ def createbot(id):
               'reservenergy':0
 }
 
+
 def dailybox():
    t=threading.Timer(60, dailybox)
    t.start()
@@ -4587,15 +4664,28 @@ def dailybox():
       for idss in ids:
          if idss==':':
             tru=ids
-   x=tru
-      
-   x=x.split(":")
-      
-   y=int(x[1])
-   x=int(x[0])+3
+   x=tru 
+   x=x.split(":")  
+   y=int(x[1])    # минуты
+   x=int(x[0])+3  # часы (+3, потому что heroku в Великобритании)
    z=time.ctime()
-  
    z=z.split(' ')
+   u=users.find_many({})
+   #for ids in u:
+   #    if ids['dnawaiting']>0 and ids['dnacreator']==None:
+   #        users.update_one({'id':ids['id']},{'$inc':{'dnawaiting':-1}})
+   #        users.update_one({'id':ids['id']},{'$set':{'dnacreator':time.ctime()}})
+   #    if ids['dnacreator']!=None:
+   #        settime=ids['dnacreator']
+   #        a=settime.split(" ")
+   #        for ids in a:
+   #           for idss in ids:
+   #              if idss==':':
+   #                 trua=ids
+   #        a=trua
+   #        a=a.split(":")  
+   #        m=int(a[1])    # минуты
+   #        a=int(a[0])+3  # часы (+3, потому что heroku в Великобритании)
    party=0
    if z[0]=='Sat' or z[0]=='Sun':
       party=1
