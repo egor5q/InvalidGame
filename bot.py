@@ -4719,7 +4719,7 @@ def createbot(id):
 
 
 def adddna(user):
-    users.update_one({'id':user['id']},{'$inc':{'dna':1}})
+    users.update_one({'id':int(user['id'])},{'$inc':{'dna':1}})
     users.update_one({'id':user['id']},{'$set':{'dnacreator':None}})
     if user['dnawaiting']==0:
         bot.send_message(user['id'], 'Все 🧬ДНК были успешно произведены!')
