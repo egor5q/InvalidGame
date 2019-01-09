@@ -214,10 +214,10 @@ items=['flash', 'knife']
 def upd(m):
         if m.from_user.id==441399484:
           botslots={'1':{},
-              '2':{},
-              '3':{}
-             }
-          users.update_many({},{'$set':{'botslots':botslots})
+                    '2':{},
+                    '3':{}
+                   }
+          users.update_many({},{'$set':{'botslots':botslots}})
           print('yes')  
 
 @bot.message_handler(commands=['massbattle'])
