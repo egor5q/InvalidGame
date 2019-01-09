@@ -838,7 +838,9 @@ def createdna(m):
             if x['points']>=cost:
                 users.update_one({'id':x['id']},{'$inc':{'dnawaiting':n, 'cookie':-cost}})
                 bot.send_message(m.chat.id, str(n)+' ДНК успешно добавлены в очередь на производство! Я сообщу вам, когда всё будет готово.')
-            
+        except:
+            bot.send_message(m.chat.id, 'Неправильный формат сообщения!')
+           
             
         
         
