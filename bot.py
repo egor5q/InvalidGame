@@ -4681,6 +4681,7 @@ def dailybox():
    z=z.split(' ')
    u=users.find({})
    for ids in u:
+       print (ids)
        if ids['dnawaiting']>0 and ids['dnacreator']==None:
            users.update_one({'id':ids['id']},{'$inc':{'dnawaiting':-1}})
            users.update_one({'id':ids['id']},{'$set':{'dnacreator':time.ctime()}})
