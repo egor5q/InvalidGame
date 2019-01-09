@@ -915,7 +915,7 @@ def inline(call):
                         if cbot==None:
                             cbot=str(i)
                 if slots>0:
-                    users.update_one({'id':x['id']},{'$set':{'botslots.'cbot:createbot(x['id'])}})
+                    users.update_one({'id':x['id']},{'$set':{'botslots.'+cbot:createbot(x['id'])}})
                     medit('Запускаю клонирователь...\n'+
                           '_->$Cloner authorization\n'+
                           'console: enter password\n'+
