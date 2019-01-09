@@ -213,7 +213,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'bot.mutations':[],'searched':[]}})
+          users.update_many({},{'$push':{'buildings':'1slot'}})
           print('yes')  
 
 @bot.message_handler(commands=['massbattle'])
@@ -817,6 +817,30 @@ def buildmenu(user):
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите строение.', reply_markup=kb) 
 
+    
+@bot.message_handler(commands=['buyslot'])
+def buyslot(m):
+    x=users.find_one({'id':m.from_user.id})
+    kb=types.InlineKeyboardMarkup()
+    text2=''
+    if '2slot' in x['buildings'] and '3slot' not in x['buildings']:
+        ccost='30 000⚛️/219р'
+        text2='30 000⚛️'
+        slot='3'
+    elif '2slot' not in x['buildings']:
+        ccost='15 000⚛️/129р'
+        text2='15 000⚛️'
+        slot='2'
+    else:
+        bot.send_message(m.chat.id, 'У вас уже есть все доступные для покупки слоты!')
+        break
+    kb.add(types.InlineKeyboardButton(text=text2,callback_data='dnabuy slot '+slot))                             
+    bot.send_message(m.chat.id, 'Изначально у вас есть 1 свободный слот для бойца помимо базового. Есть 2 способа покупки новых слотов:\n'+
+                     'Рубли;\nПоинты.\nЦена слотов в поинтах (первый, второй): 15 000⚛️/30 000⚛️.\nВ рублях: 129р/219р.'+
+                     'Текущая цена следующего слота: '+ccost+'. Чтобы купить слот за поинты, нажмите кнопку ниже. Чтобы купить слот '+
+                     'за рубли, вы должны купить поинты на сумму, которая будет не меньше вышеуказанной, и в подарок вы получите слот.\n\n'+
+                     '*ВНИМАНИЕ!!!* За одну покупку нельзя получить сразу 2 слота, это должны быть 2 разны платежа!',reply_markup=kb, parse_mode='markdown')
+    
 @bot.message_handler(commands=['dnashop'])
 def dnashop(m):
     x=users.find_one({'id':m.from_user.id})
@@ -908,6 +932,19 @@ def inline(call):
         elif call.data=='dna buildings':
             medit('Выбрано: строения.',call.message.chat.id, call.message.message_id)
             buildmenu(x)
+            
+        elif 'dnabuy slot' in call.data:
+            build=call.data.split(' ')[2]
+            if build=='2':
+                cost=15000
+            elif build=='3':
+                cost=30000
+            if x['cookie']>=cost:
+                users.update_one({'id':x['id']},{'$push':{'buildings':build+'slot'}})
+                medit('Вы успешно купили слот для '+build+'го бойца!', call.message.chat.id, call.message.message_id)
+            else:
+                medit('Недостаточно поинтов!', call.message.chat.id, call.message.message_id)
+            
            
         elif call.data=='dna cloning':
            if 'cloner' in x['buildings']:
@@ -4600,7 +4637,7 @@ def createuser(id, username, name):
            'name':name,
            'cookie':0,
            'dna':0,
-           'buildings':[],
+           'buildings':['1slot'],
            'searched':[],
            'botslots':botslots,
            'dnacreator':None,
@@ -4910,8 +4947,16 @@ def payy(comment):
               pass
          if z!=None and id!=None:
             c=int(bar[ids]['price']*20)
+            usr=users.find_one({'id':int(id)})
+            dtxt=''
+            if bar[ids]['price']>=150 and '2slot' not in usr['buildings']:
+                users.update_one({'id':int(id)},{'$push':{'buildings':'2slot'}})
+                dtxt+=';\n2й слот для бойца!'
+            elif bar[ids]['price']>=250 and '3slot' not in usr['buildings']:
+                users.update_one({'id':int(id)},{'$push':{'buildings':'3slot'}})
+                dtxt+=';\n3й слот для бойца!'
             users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
-            bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')
+            bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛'+dtxt)
             donates.update_one({},{'$pull':{'donaters':id}})      
             api.stop()
             api.start()
@@ -4954,9 +4999,17 @@ def foo(bar):
            i+=1
       if z!=None and id!=None:
          c=int(z['price']*20)
+         usr=users.find_one({'id':int(id)})
+         dtxt=''
+         if z['price']>=129 and '2slot' not in usr['buildings']:
+             users.update_one({'id':int(id)},{'$push':{'buildings':'2slot'}})
+             dtxt+=';\n2й слот для бойца!'
+         elif z['price']>=219 and '3slot' not in usr['buildings']:
+             users.update_one({'id':int(id)},{'$push':{'buildings':'3slot'}})
+             dtxt+=';\n3й слот для бойца!'
          users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
          pay.update_one({},{'$pull':{'donaters':removal}})
-         bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛')     
+         bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛'+dtxt)     
          bot.send_message(441399484,'New payment!')
       print(bar)
       
