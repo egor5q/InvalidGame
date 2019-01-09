@@ -912,7 +912,7 @@ def inline(call):
                 medit('У вас уже есть это!',call.message.chat.id,call.message.message_id)
                 
         elif call.data=='dna buy cloner':
-            if 'dnagenerator' not in x['buildings']:
+            if 'cloner' not in x['buildings']:
                 if x['cookie']>=30000:
                     users.update_one({'id':x['id']},{'$push':{'buildings':'cloner'}})
                     users.update_one({'id':x['id']},{'$inc':{'cookie':-30000}})
