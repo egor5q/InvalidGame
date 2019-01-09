@@ -215,9 +215,7 @@ items=['flash', 'knife']
 def upd(m):
         if m.from_user.id==441399484:
           users.update_many({},{'$set':{'dna':0,'buildings':[],'dnawaiting':0,'dnacreator':None}})
-          print('yes')
-users.update_many({},{'$set':{'dna':0,'buildings':[],'dnawaiting':0,'dnacreator':None}})
-print('yes')    
+          print('yes')  
 
 @bot.message_handler(commands=['massbattle'])
 def upd(m):
