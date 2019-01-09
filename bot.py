@@ -806,7 +806,7 @@ def crashgame(m):
 def dnamenu(user):
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton('🏢Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Покупка 🧬ДНК',callback_data='dna buy'))
-    kb.add(types.InlineKeyboardButton('📀Клонирование',callback_data='dna cloning')
+    kb.add(types.InlineKeyboardButton('📀Клонирование',callback_data='dna cloning'))
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите меню.', reply_markup=kb) 
     
