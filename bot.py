@@ -843,7 +843,11 @@ def createdna(m):
            bot.send_message(m.chat.id, 'У вас нет ДНК-генератора!')
            
             
-        
+@bot.message_handler(commands=['selectbot'])
+def selectbot(m):
+    pass
+
+
         
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call): 
@@ -929,7 +933,7 @@ def inline(call):
                           'console: bot_cloning started successfully!\n'+
                           'console: progress: 1%_',call.message.chat.id, call.message.message_id, parse_mode='markdown')
                     bot.send_message(x['id'],'_console: progress: 100%. Copy of your bot is ready! Thank you for using "PenisDetrov" '+
-                                     'technology!_\n\nЧтобы поменять текущего бота на другого, нажмите /selectbot.'parse_mode='markdown')
+                                     'technology!_\n\nЧтобы поменять текущего бота на другого, нажмите /selectbot.',parse_mode='markdown')
                 else:
                     medit('У вас нет доступных слотов!', call.message.chat.id, call.message.message_id)
                 
