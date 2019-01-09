@@ -653,7 +653,7 @@ def me(m):
       except:
         a='ничего'
       x=users.find_one({'id':m.from_user.id})
-      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
+      bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\n'+'ДНК: '+str(x['dna'])+'🧬\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
                       'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+a)
       if m.from_user.id==441399484:
          bot.send_message(m.chat.id, 'Поинты бота CookieWars: '+str(x['fond'])+'⚛️')
@@ -662,7 +662,7 @@ def me(m):
   else:
       try:
         x=users.find_one({'id':m.reply_to_message.from_user.id})
-        bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games']))#+'\n🎖Ранг: '+rang)
+        bot.send_message(m.chat.id, 'Поинты юзера: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang)
       except:
         pass
    
@@ -813,7 +813,7 @@ def dnamenu(user):
     
 def buildmenu(user):
     kb=types.InlineKeyboardMarkup()
-    kb.add(types.InlineKeyboardButton('🏭Завод ДНК',callback_data='dna generator'))
+    kb.add(types.InlineKeyboardButton('🏭ДНК-генератор',callback_data='dna generator'))
     kb.add(types.InlineKeyboardButton('Назад',callback_data='dna back1'))
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите строение.', reply_markup=kb) 
@@ -4656,12 +4656,19 @@ def createbot(id):
 }
 
 
+def adddna(user):
+    users.update_one({'id':user['id']},{'$inc':{'dna':1}})
+    users.update_one({'id':user['id']},{'$set':{'dnacreator':None}})
+    if user['dnawaiting']==0:
+        bot.send_message(user['id'], 'Все 🧬ДНК были успешно произведены!')
+
 def dailybox():
    t=threading.Timer(60, dailybox)
    t.start()
    x=time.ctime()
    x=x.split(" ")
-   
+   month=0
+   year=0
    for ids in x:
       for idss in ids:
          if idss==':':
@@ -4673,21 +4680,28 @@ def dailybox():
    z=time.ctime()
    z=z.split(' ')
    u=users.find({})
-   #for ids in u:
-   #    if ids['dnawaiting']>0 and ids['dnacreator']==None:
-   #        users.update_one({'id':ids['id']},{'$inc':{'dnawaiting':-1}})
-   #        users.update_one({'id':ids['id']},{'$set':{'dnacreator':time.ctime()}})
-   #    if ids['dnacreator']!=None:
-   #        settime=ids['dnacreator']
-   #        a=settime.split(" ")
-   #        for ids in a:
-   #           for idss in ids:
-   #              if idss==':':
-   #                 trua=ids
-   #        a=trua
-   #        a=a.split(":")  
-   #        m=int(a[1])    # минуты
-   #        a=int(a[0])+3  # часы (+3, потому что heroku в Великобритании)
+   for ids in u:
+       if ids['dnawaiting']>0 and ids['dnacreator']==None:
+           users.update_one({'id':ids['id']},{'$inc':{'dnawaiting':-1}})
+           users.update_one({'id':ids['id']},{'$set':{'dnacreator':time.ctime()}})
+       if ids['dnacreator']!=None:
+           settime=ids['dnacreator']
+           a=settime.split(" ")
+           for ids in a:
+              for idss in ids:
+                 if idss==':':
+                    trua=ids
+           a=trua
+           a=a.split(":")  
+           m=int(a[1])     # минуты
+           hs=int(a[0])+3  # часы (+3, потому что heroku в Великобритании)
+           
+           if x-hs==1:                    # Таймер генерации ДНК. В словарь игрока перед этим закидывается дата начала генерации.
+               if y - m >= 0:             # Здесь каждую минуту проверяется, не прошел ли час.
+                    adddna(ids)
+           elif x-hs>1:
+               adddna(ids)
+            
    party=0
    if z[0]=='Sat' or z[0]=='Sun':
       party=1
