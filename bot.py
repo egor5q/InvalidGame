@@ -3892,7 +3892,7 @@ def attack(bot, id,rr):
   for bots in games[id]['bots']:
      enm.append(games[id]['bots'][bots])
   for bots in enm:
-      if bots['id']!=bot['id'] and bots['id']!=-bot['id']:
+      if bots['id']!=bot['id']:
           a.append(bots)
   x=random.randint(1,len(a))
   dd=0
