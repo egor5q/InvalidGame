@@ -4641,10 +4641,10 @@ def begingame(id):
            allskin=[]
            allskill=[]
            i=0
-           for idss in kon4['skills']:
-             allskill.append(idsss)
-           for idss in kon4['skin']:
-             allskin.append(idss)
+           for code in kon4['skills']:
+             allskill.append(code)
+           for code in kon4['skin']:
+             allskin.append(code)
            for sk in allskill:
              text+=skilltoname(sk)+'\n'
            try:
