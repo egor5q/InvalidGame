@@ -829,6 +829,7 @@ def dnamenu(user):
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton('🏢Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Генерация 🧬ДНК',callback_data='dna buy'))
     kb.add(types.InlineKeyboardButton('📀Клонирование',callback_data='dna cloning'),types.InlineKeyboardButton('👨‍🔬Исследования',callback_data='dna research'))
+    kb.add(types.InlineKeyboardButton('🧪Мутирование',callback_data='dna mutate')
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите меню.', reply_markup=kb) 
     
@@ -1072,6 +1073,12 @@ def inline(call):
             else:
                 medit('У вас уже есть это!',call.message.chat.id,call.message.message_id)
             
+        elif call.data=='dna mutate':
+            kb=types.InlineKeyboardMarkup()
+            kb.add(types.InlineKeyboardButton(text='10 000⚛️',callback_data='dna buy generator'))
+            medit('ДНК-генератор - самое важное строение на пути к усовершенствованию генокода вашего бойца. Оно позволит вам производить ДНК-очки, '+
+                  'которые понадобятся для разработки способностей нового поколения.',call.message.chat.id, call.message.message_id, reply_markup=kb)
+           
         elif call.data=='dna back1':
             medit('Выбрано: назад.',call.message.chat.id, call.message.message_id)
             dnamenu(x)
@@ -1092,7 +1099,7 @@ def inline(call):
             data='dnaresearch werewolf'
             if 'werewolf' not in x['searched']:
                 cost=5
-            elif 'werewolf1' not in x['mutationlvls']:
+            elif 'werewolf1' not in x['mutationlvls']:mutationlvls
                 cost=2
                 tx='Улучшить'
             else:
@@ -4523,170 +4530,174 @@ def chaosstats(m):
                          'Средний получаемый урон с метеорита: '+str(sredn))
                                                                            
 def begingame(id):
- if games[id]['started2']!=1:
-    choicelist=[]
-    for i in games[id]['bots']:
-      choicelist.append(games[id]['bots'][i])
-    try:
-      games[id]['timer'].cancel()
-      print('timer cancelled')
-    except:
-      pass
-    modes=['teamfight','meteors','teamfight']
-    if games[id]['apocalypse']==1:
-        games[id]['mode']=random.choice(modes)
-        n=modetoname(games[id]['mode'])
-        bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
-        if games[id]['mode']=='teamfight':
-            print('2111')
-            for i in games[id]['bots']:
-               print(games[id]['bots'][i])
-            choicelist=[]
-            for i in games[id]['bots']:
-                choicelist.append(games[id]['bots'][i])
-            leader1=random.choice(choicelist)
-            leader2=random.choice(choicelist)
-            print('2112')
-            while leader2['id']==leader1['id']:
-              print('2222')
-              leader2=random.choice(choicelist)
-            print('333')
-            i=random.randint(0,1)
-            for idsr in choicelist:
-              if idsr['id']!=leader1['id'] and idsr['id']!=leader2['id']:
-                if i==0:
-                    idsr['id']=leader1['id']
-                    i=1
-                else:
-                    idsr['id']=leader2['id']
-                    i=0
-            print('4444')
-            team1=''
-            team2=''
-            for idsz in choicelist:
-                if idsz['id']==leader1['id']:
-                    team1+=idsz['name']+'\n'
-                else:
-                    team2+=idsz['name']+'\n'
-            bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
-    
-    print('55555')
-    if id==-1001488903839:
-        games[id]['mode']='farm'
-    if id==-1001208357368 and random.randint(1,100)==1:
-      games[id]['bots'].update(createrare(id))
-      bot.send_message(id, 'На поле боя был замечен **редкий слизнюк**! Кто поймает его, тот получит 500❇/⚛!',parse_mode='markdown')
-      for ids in games[id]['bots']:
-         try:
-            bot.send_message(games[id]['bots'][ids]['id'], 'Редкий слизнюк был замечен на поле битвы! Заходите в чат @cookiewarsru, чтобы посмотреть, кто его поймает!')
-         except:
-            pass
-    spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
-    for ids in choicelist:
-        ids['takenmeteors']=0
-        ids['takenmeteordmg']=0
-        ids['meteorraingames']=0  
-    createlist=[]
-    for ids in choicelist:
-        user=users.find_one({'id':ids['id']})
-        if 'deathwind' in ids['skills'] and id==-1001208357368:
-            if ids['gameswithdeathwind']<3:
-                users.update_one({'id':ids['id']},{'$inc':{'bot.gameswithdeathwind':1}})
-            else:
-                users.update_one({'id':ids['id']},{'$inc':{'bot.gameswithdeathwind':1}})
-                x=random.randint(1,100)
-                if x<=4:
-                    for idss in choicelist:
-                        if idss['id']!=ids['id']:
-                            idss['die']=1
-                    bot.send_message(id, 'Вихрь смерти убивает всех соперников бойца '+ids['name']+'!')
-                if random.randint(1,100)<=15:
-                    ids['die']=1
-                    bot.send_message(id, 'Вихрь смерти убивает владельца способности - '+ids['name']+'!')
-                users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0}})
-        if ids['weapon']==None:
-            ids['weapon']='hand'
-        active=['shieldgen', 'medic', 'gipnoz']
-        yes=0
-        for i in active:
-            if i in ids['skills']:
-                yes=1  
-        if yes==1:
-              ids['skills'].append('active')
-        buffs(ids)
-    text=''
-    text2=''
-    print(createlist)
-    kon4=[]
-    for ids in choicelist:
-      kon4.append(ids)
-    for ids3 in kon4:
-     try:
-        print('kon')
-        text+=ids3['name']+':\n'
-        print('kon0')
-        print('kon1')
-        allskin=[]
-        i=0
-        imax=len(ids3['skills'])
-        while i<imax:
-          allskin.append(ids3['skills'][i])
-          i+=1
-        print('konmid1')
-        for sk in allskin:
-          print('fghdhs')
-          text+=skilltoname(sk)+'\n'
-          print('kon1end')
+ try:
+    if games[id]['started2']!=1:
+       choicelist=[]
+       for i in games[id]['bots']:
+         choicelist.append(games[id]['bots'][i])
+       try:
+         games[id]['timer'].cancel()
+         print('timer cancelled')
+       except:
+         pass
+       modes=['teamfight','meteors','teamfight']
+       if games[id]['apocalypse']==1:
+           games[id]['mode']=random.choice(modes)
+           n=modetoname(games[id]['mode'])
+           bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
+           if games[id]['mode']=='teamfight':
+               print('2111')
+               for i in games[id]['bots']:
+                  print(games[id]['bots'][i])
+               choicelist=[]
+               for i in games[id]['bots']:
+                   choicelist.append(games[id]['bots'][i])
+               leader1=random.choice(choicelist)
+               leader2=random.choice(choicelist)
+               print('2112')
+               while leader2['id']==leader1['id']:
+                 print('2222')
+                 leader2=random.choice(choicelist)
+               print('333')
+               i=random.randint(0,1)
+               for idsr in choicelist:
+                 if idsr['id']!=leader1['id'] and idsr['id']!=leader2['id']:
+                   if i==0:
+                       idsr['id']=leader1['id']
+                       i=1
+                   else:
+                       idsr['id']=leader2['id']
+                       i=0
+               print('4444')
+               team1=''
+               team2=''
+               for idsz in choicelist:
+                   if idsz['id']==leader1['id']:
+                       team1+=idsz['name']+'\n'
+                   else:
+                       team2+=idsz['name']+'\n'
+               bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
+       
+       print('55555')
+       if id==-1001488903839:
+           games[id]['mode']='farm'
+       if id==-1001208357368 and random.randint(1,100)==1:
+         games[id]['bots'].update(createrare(id))
+         bot.send_message(id, 'На поле боя был замечен **редкий слизнюк**! Кто поймает его, тот получит 500❇/⚛!',parse_mode='markdown')
+         for ids in games[id]['bots']:
+            try:
+               bot.send_message(games[id]['bots'][ids]['id'], 'Редкий слизнюк был замечен на поле битвы! Заходите в чат @cookiewarsru, чтобы посмотреть, кто его поймает!')
+            except:
+               pass
+       spisok=['kinzhal','rock', 'hand', 'ak', 'saw']
+       for ids in choicelist:
+           ids['takenmeteors']=0
+           ids['takenmeteordmg']=0
+           ids['meteorraingames']=0  
+       createlist=[]
+       for ids in choicelist:
+           user=users.find_one({'id':ids['id']})
+           if 'deathwind' in ids['skills'] and id==-1001208357368:
+               if ids['gameswithdeathwind']<3:
+                   users.update_one({'id':ids['id']},{'$inc':{'bot.gameswithdeathwind':1}})
+               else:
+                   users.update_one({'id':ids['id']},{'$inc':{'bot.gameswithdeathwind':1}})
+                   x=random.randint(1,100)
+                   if x<=4:
+                       for idss in choicelist:
+                           if idss['id']!=ids['id']:
+                               idss['die']=1
+                       bot.send_message(id, 'Вихрь смерти убивает всех соперников бойца '+ids['name']+'!')
+                   if random.randint(1,100)<=15:
+                       ids['die']=1
+                       bot.send_message(id, 'Вихрь смерти убивает владельца способности - '+ids['name']+'!')
+                   users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0}})
+           if ids['weapon']==None:
+               ids['weapon']='hand'
+           active=['shieldgen', 'medic', 'gipnoz']
+           yes=0
+           for i in active:
+               if i in ids['skills']:
+                   yes=1  
+           if yes==1:
+                 ids['skills'].append('active')
+           buffs(ids)
+       text=''
+       text2=''
+       print(createlist)
+       kon4=[]
+       for ids in choicelist:
+         kon4.append(ids)
+       for ids3 in kon4:
         try:
-            text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
-            print('kon2')
+           print('kon')
+           text+=ids3['name']+':\n'
+           print('kon0')
+           print('kon1')
+           allskin=[]
+           i=0
+           imax=len(ids3['skills'])
+           while i<imax:
+             allskin.append(ids3['skills'][i])
+             i+=1
+           print('konmid1')
+           for sk in allskin:
+             print('fghdhs')
+             text+=skilltoname(sk)+'\n'
+             print('kon1end')
+           try:
+               text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
+               print('kon2')
+           except:
+               text+='Скин: отсутствует.\n'
+               print('kon3')
+           text+='\n'
+           print('kon4')
         except:
-            text+='Скин: отсутствует.\n'
-            print('kon3')
-        text+='\n'
-        print('kon4')
-     except:
-      text+='\n'
-    giveitems(games[id])
-    for ids in createlist:
-        print('cycle2')
-        rnd=randomgen(id)
-        aa=games[id]['bots'][ids].copy()
-        games[id]['bots'].update(createbott(rnd, aa))
-        games[id]['bots'][rnd]['identeficator']==rnd
-        print(games[id]['bots'][rnd])
-        games[id]['bots'][rnd]['name']+='[Двойник]'
-        games[id]['bots'][rnd]['items']=[]
-        games[id]['bots'][rnd]['identeficator']=rnd
-        text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
-    techw=['bazuka','sword','flame']
-    text3=''
-    for ids in choicelist:
-        if ids['weapon'] in techw:
-            text3+='⁉'+ids['name']+' получает оружие: '+techwtoname(ids['weapon'])+'!\n'
-    u=0
-    u+=1
-    print(u)
-    bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
-    tt2=''
-    animals=['rhino','demon','pig']
-    for ids in games[id]['bots']:
-         if games[id]['bots'][ids]['weapon']=='magic':
-            animal=random.choice(animals)
-            games[id]['bots'][ids]['animal']=animal
-            animalname=animaltoname(animal)
-            tt2+='Волшебная палочка бойца '+games[id]['bots'][ids]['name']+' превращает его в случайное существо: '+animalname+'!\n\n'
-    if tt2!='':
-      bot.send_message(id, tt2)
-    if text2!='':
-        bot.send_message(id, text2)
-    if text3!='':
-        bot.send_message(id, text3)
-    games[id]['started2']=1
-    print('1')
-    battle(id)
- else:
-   pass
+         text+='\n'
+       giveitems(games[id])
+       for ids in createlist:
+           print('cycle2')
+           rnd=randomgen(id)
+           aa=games[id]['bots'][ids].copy()
+           games[id]['bots'].update(createbott(rnd, aa))
+           games[id]['bots'][rnd]['identeficator']==rnd
+           print(games[id]['bots'][rnd])
+           games[id]['bots'][rnd]['name']+='[Двойник]'
+           games[id]['bots'][rnd]['items']=[]
+           games[id]['bots'][rnd]['identeficator']=rnd
+           text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
+       techw=['bazuka','sword','flame']
+       text3=''
+       for ids in choicelist:
+           if ids['weapon'] in techw:
+               text3+='⁉'+ids['name']+' получает оружие: '+techwtoname(ids['weapon'])+'!\n'
+       u=0
+       u+=1
+       print(u)
+       bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
+       tt2=''
+       animals=['rhino','demon','pig']
+       for ids in games[id]['bots']:
+            if games[id]['bots'][ids]['weapon']=='magic':
+               animal=random.choice(animals)
+               games[id]['bots'][ids]['animal']=animal
+               animalname=animaltoname(animal)
+               tt2+='Волшебная палочка бойца '+games[id]['bots'][ids]['name']+' превращает его в случайное существо: '+animalname+'!\n\n'
+       if tt2!='':
+         bot.send_message(id, tt2)
+       if text2!='':
+           bot.send_message(id, text2)
+       if text3!='':
+           bot.send_message(id, text3)
+       games[id]['started2']=1
+       print('1')
+       battle(id)
+    else:
+      pass
+ except Exception as e:
+    print('Ошибка:\n', traceback.format_exc())
+    bot.send_message(441399484, traceback.format_exc())
 
 
 def buffs(ids):
@@ -5198,6 +5209,8 @@ def foo(bar):
          elif z['price']>=219 and '3slot' not in usr['buildings']:
              users.update_one({'id':int(id)},{'$push':{'buildings':'3slot'}})
              dtxt+=';\n3й слот для бойца!'
+         if z['price']>=300:
+             dtxt+=';\nСмайлики для хп! Отпишите Пасюку, чтобы выбрать.'
          users.update_one({'id':int(id)},{'$inc':{'cookie':c}})
          pay.update_one({},{'$pull':{'donaters':removal}})
          bot.send_message(int(id),'Ваш платёж прошёл успешно! Получено: '+str(c)+'⚛'+dtxt)     
