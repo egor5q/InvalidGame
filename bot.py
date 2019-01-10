@@ -817,7 +817,7 @@ def crashgame(m):
 def dnamenu(user):
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton('🏢Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Генерация 🧬ДНК',callback_data='dna buy'))
-    kb.add(types.InlineKeyboardButton('📀Клонирование',callback_data='dna cloning'))
+    kb.add(types.InlineKeyboardButton('📀Клонирование',callback_data='dna cloning'),types.InlineKeyboardButton('👨‍🔬Исследования',callback_data='dna research'))
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите меню.', reply_markup=kb) 
     
@@ -827,6 +827,14 @@ def buildmenu(user):
     kb.add(types.InlineKeyboardButton('Назад',callback_data='dna back1'))
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите строение.', reply_markup=kb) 
+    
+    
+def researchmenu(user):
+    kb=types.InlineKeyboardMarkup()
+    kb.add(types.InlineKeyboardButton('🔥⚡️Мутации',callback_data='dna mutations'))
+    kb.add(types.InlineKeyboardButton('Назад',callback_data='dna back1'))
+    kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
+    bot.send_message(user['id'], 'Выберите меню.', reply_markup=kb) 
 
     
 @bot.message_handler(commands=['buyslot'])
@@ -1055,6 +1063,34 @@ def inline(call):
             medit('Выбрано: назад.',call.message.chat.id, call.message.message_id)
             dnamenu(x)
             
+        elif call.data=='dna research':
+            medit('Выбрано: исследования.',call.message.chat.id, call.message.message_id)
+            researchmenu(x)
+            
+        elif call.data=='dna mutations':
+            kb=types.InlineKeyboardMarkup()
+            kb.add(types.InlineKeyboardButton(text='🐺Оборотень', callback_data='dna werewolf'))
+            medit('Выберите мутацию, которую хотите изучить. Изучив мутацию 1 раз, вы сможете применять её к любому количеству бойцов.',call.message.chat.id, call.message.message_id))
+            
+        elif call.data=='dna werewolf':
+            kb=types.InlineKeyboardMarkup()
+            cost=5
+            kb.add(types.InlineKeyboardButton(text='Изучить ('+str(cost)+'🧬)', callback_data='dna research werewolf'))
+            medit('Оборотень - это человек-волк, который имеет все преимущества обеих личностей. Каждый чётный ход вы будете превращаться в '+
+                  'волка, который имеет 40% уворота, вампиризм (при успешной атаке восстанавливает себе хп) '+
+                  'и способность - "Раздирание плоти", которая отнимает цели 1 хп независимо ни от чего.',call.message.chat.id, call.message.message_id)
+            
+        elif call.data=='dna research werewolf':
+            if 'werewolf' not in x['searched']:
+                cost=5
+                if x['dna']>=cost:
+                    users.update_one({'id':x['id']},{'$push':{'searched':'werewolf'}})
+                    users.update_one({'id':x['id']},{'$inc':{'dna':-cost}})
+                    medit('Начинаем эксперимент...\n\n_->DNA.converter.launch(Human.DNA; Wolf.DNA)\n'+
+                          'console: enter password first, retard.\n->da sosi\nconsole: password correct, welcome!\n'+
+                          'console: combinating: wolf.DNA+human.DNA...\nconsole: ...\nconsole: DNA combinated successfully! recieved: '+
+                          'werewolf.DNA_\n\nДНК оборотня успешно произведено!',call.message.chat.id, call.message.message_id,parse_mode='markdown')
+                    
                 
   elif call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
@@ -4170,7 +4206,7 @@ def start(m):
         pass
   if users.find_one({'id':m.from_user.id})==None:
         try:
-            bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный персонаж - селянин. В будущем вы можете улучшить его за куки! Подробнее об игре можно узнать с помощью команды /help.')
+            bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный боец. В будущем вы сможете улучшить его за поинты! Подробнее об игре можно узнать с помощью команды /help.')
             users.insert_one(createuser(m.from_user.id, m.from_user.username, m.from_user.first_name))
         except:
             bot.send_message(m.chat.id, 'Напишите боту в личку!')
