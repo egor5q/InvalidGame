@@ -2225,6 +2225,9 @@ def results(id):
           except:
             points+=4
         for ids in games[id]['bots']:
+           if 'werewolf' in games[id]['bots'][ids]['mutations']:
+               points+=15
+        for ids in games[id]['bots']:
             for itemss in games[id]['bots'][ids]['skills']:
               if games[id]['bots'][ids]['id']!=winner['id']:
                if itemss!='cube' and itemss!='active':
@@ -4508,8 +4511,6 @@ def begingame(id):
               ids['skills'].append('active')
         if 'werewolf' in ids['mutations']:
             ids['miss']+=30*(1+ids['chance'])
-        if 'werewolf1' in user['mutationlvls']:
-            ids['skills']
         if 'paukovod' in ids['skills']:
             ids['hp']-=2
             ids['maxhp']-=2
