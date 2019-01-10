@@ -213,15 +213,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          x=users.find({})
-          a=0
-          for ids in x:
-                if 'cloner' in ids['buildings']:
-                    users.update_one({'id':ids['id']},{'$inc':{'cookie':30000}})
-                    users.update_one({'id':ids['id']},{'$pull':{'buildings':'cloner'}})
-                    bot.send_message(ids['id'],'Цена клонирователя была изменена! Вам возвращены средства и забрано строение.')
-                    a+=1
-          bot.send_message(441399484, 'a= '+str(a))
+          users.update_many({},{'$set':{'mutationlvls':[]}})
           print('yes')  
 
 @bot.message_handler(commands=['massbattle'])
@@ -947,6 +939,7 @@ def inline(call):
   secrettech='☑️'
   x=users.find_one({'id':call.from_user.id})
   if 'dna' in call.data:
+        conflicts=['werewolf']
         if call.data=='dna buy':
             if 'dnagenerator' in x['buildings']:
                 medit('Выберите количество ДНК, которое хотите произвести. На производство одной единицы '+
@@ -967,6 +960,7 @@ def inline(call):
                 cost=30000
             if x['cookie']>=cost:
                 users.update_one({'id':x['id']},{'$push':{'buildings':build+'slot'}})
+                users.update_one({'id':x['id']},{'$inc':{'cookie':-cost}})
                 medit('Вы успешно купили слот для '+build+'го бойца!', call.message.chat.id, call.message.message_id)
             else:
                 medit('Недостаточно поинтов!', call.message.chat.id, call.message.message_id)
@@ -1070,26 +1064,54 @@ def inline(call):
         elif call.data=='dna mutations':
             kb=types.InlineKeyboardMarkup()
             kb.add(types.InlineKeyboardButton(text='🐺Оборотень', callback_data='dna werewolf'))
-            medit('Выберите мутацию, которую хотите изучить. Изучив мутацию 1 раз, вы сможете применять её к любому количеству бойцов.',call.message.chat.id, call.message.message_id)
+            medit('Выберите мутацию, которую хотите изучить. Изучив мутацию 1 раз, вы сможете применять её к любому количеству бойцов.',call.message.chat.id, call.message.message_id,reply_markup=kb)
             
         elif call.data=='dna werewolf':
             kb=types.InlineKeyboardMarkup()
             cost=5
-            kb.add(types.InlineKeyboardButton(text='Изучить ('+str(cost)+'🧬)', callback_data='dna research werewolf'))
-            medit('Оборотень - это человек-волк, который имеет все преимущества обеих личностей. Каждый чётный ход вы будете превращаться в '+
-                  'волка, который имеет 40% уворота, вампиризм (при успешной атаке восстанавливает себе хп) '+
-                  'и способность - "Раздирание плоти", которая отнимает цели 1 хп независимо ни от чего.',call.message.chat.id, call.message.message_id)
-            
-        elif call.data=='dna research werewolf':
+            tx='Изучить'
+            data='dnaresearch werewolf'
             if 'werewolf' not in x['searched']:
                 cost=5
-                if x['dna']>=cost:
-                    users.update_one({'id':x['id']},{'$push':{'searched':'werewolf'}})
-                    users.update_one({'id':x['id']},{'$inc':{'dna':-cost}})
-                    medit('Начинаем эксперимент...\n\n_->DNA.converter.launch(Human.DNA; Wolf.DNA)\n'+
-                          'console: enter password first, retard.\n->da sosi\nconsole: password correct, welcome!\n'+
-                          'console: combinating: wolf.DNA+human.DNA...\nconsole: ...\nconsole: DNA combinated successfully! recieved: '+
-                          'werewolf.DNA_\n\nДНК оборотня успешно произведено!',call.message.chat.id, call.message.message_id,parse_mode='markdown')
+            elif 'werewolf1' not in x['mutationlvls']:
+                cost=2
+                tx='Улучшить'
+            else:
+                data='close'
+                cost=0
+                tx='У вас уже есть все доступные улучшения! Закрыть.'
+            kb.add(types.InlineKeyboardButton(text=tx+' ('+str(cost)+'🧬)', callback_data=data))
+            medit('Оборотень - это человек-волк, который имеет все преимущества обеих личностей. Каждый чётный ход вы будете превращаться в '+
+                  'волка, который имеет 30% уворота и вампиризм (при успешной атаке восстанавливает себе хп). '+
+                  'В дальнейшем вы сможете улучшить это ДНК, добавляя новые способности и усиляя предыдущие.',call.message.chat.id, call.message.message_id,reply_markup=kb)
+            
+        elif 'dnaresearch' in call.data:
+            mutation=call.data.split(' ')[1]
+            if mutation not in x['searched']:
+                cost=5
+                topush='searched'
+                whatpush=mutation
+                text1='Начинаем эксперимент...\n\n_->DNA.converter.launch(Human.DNA; Wolf.DNA)\n'+\
+                      'console: enter password first, retard.\n->da sosi\nconsole: password correct, welcome!\n'+\
+                      'console: combinating: wolf.DNA+human.DNA...\nconsole: ...\nconsole: DNA combinated successfully! recieved: '+\
+                      'werewolf.DNA. Thank you for using "PenisDetrov" '+\
+                      'technology!_\n\nДНК оборотня успешно произведено!'
+            elif mutation+'1' not in x['mutationlvls']:
+                cost=2
+                topush='mutationlvls'
+                whatpush=mutation+'1'
+                text1='Начинаем эксперимент...\n\n_->DNA.converter.launch('+mutation+'.DNA)\n'+\
+                      'console: enter password first, retard.\n->zaebal...\nconsole: da ladno, it,s humor)) Welcome!\n'+\
+                      'console: updating: '+mutation+'.DNA...\nconsole: ...\nconsole: DNA updated successfully! recieved: '+\
+                      'upgraged.'+mutation+'DNA. Thank you for using "PenisDetrov" '+\
+                      'technology!_\n\nДНК "'+mutation+'" успешно улучшено!'
+            if x['dna']>=cost:
+                users.update_one({'id':x['id']},{'$push':{topush:whatpush}})
+                users.update_one({'id':x['id']},{'$inc':{'dna':-cost}})
+                medit(text1, call.message.chat.id, call.message.message_id, parse_mode='markdown')
+            else:
+                medit('_console: Недостаточно поинтов!_', call.message.chat.id, call.message.message_id, parse_mode='markdown')
+            
                     
                 
   elif call.data=='hp':
@@ -4346,7 +4368,7 @@ def begin(m):
          text=''
          for ids in x:
           if ids['id']!=0:
-            if ids['enablejoin']==1 and ids['joinbots']>0 and ids['bot']['name']!=None:
+            if ids['enablejoin']==1 and ids['joinbots']>0 and ids['bot']['name']!=None and 'mutant' not in ids['bot']['mutations']:
                games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[m.chat.id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
@@ -4459,6 +4481,7 @@ def begingame(id):
         ids['meteorraingames']=0  
     createlist=[]
     for ids in choicelist:
+        user=users.find_one({'id':ids['id']})
         if 'deathwind' in ids['skills'] and id==-1001208357368:
             if ids['gameswithdeathwind']<3:
                 users.update_one({'id':ids['id']},{'$inc':{'bot.gameswithdeathwind':1}})
@@ -4476,13 +4499,17 @@ def begingame(id):
                 users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0}})
         if ids['weapon']==None:
             ids['weapon']='hand'
-        active=['shieldgen', 'medic', 'gipnoz', 'firemage']
+        active=['shieldgen', 'medic', 'gipnoz']
         yes=0
         for i in active:
             if i in ids['skills']:
                 yes=1  
         if yes==1:
               ids['skills'].append('active')
+        if 'werewolf' in ids['mutations']:
+            ids['miss']+=30*(1+ids['chance'])
+        if 'werewolf1' in user['mutationlvls']:
+            ids['skills']
         if 'paukovod' in ids['skills']:
             ids['hp']-=2
             ids['maxhp']-=2
@@ -4692,6 +4719,7 @@ def createuser(id, username, name):
            'cookie':0,
            'dna':0,
            'buildings':['1slot'],
+           'mutationlvls':[],
            'searched':[],
            'botslots':botslots,
            'dnacreator':None,
