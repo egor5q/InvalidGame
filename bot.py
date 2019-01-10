@@ -990,8 +990,8 @@ def inline(call):
                           'console: no, fuck you. Please, enter correct password.\n'+
                           '->MyMomIsBest\n'+
                           'console: password correct, welcome!\n'+
-                          '->$bot_cloning.init('+x['name']+'.bot)\n'+
-                          'console: bot_cloning started successfully!\n'+
+                          '->$bot.cloning.init('+x['name']+'.bot)\n'+
+                          'console: bot.cloning started successfully!\n'+
                           'console: progress: 1%_',call.message.chat.id, call.message.message_id, parse_mode='markdown')
                     bot.send_message(x['id'],'_console: progress: 100%. Copy of your bot is ready! Thank you for using "PenisDetrov" '+
                                      'technology!_\n\nЧтобы поменять текущего бота на другого, нажмите /selectbot.',parse_mode='markdown')
