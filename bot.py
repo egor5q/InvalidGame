@@ -341,7 +341,8 @@ def createmonster(id,weapon,hp, animal):
 def createsniper(chatid,id='sniper'):
     x=randomgen(chatid)
     text='Зомби-снайпер'
-    return createunit(id=id,weapon='rifle',name=text,hp=0,die=1,maxhp=hp,animal=None,identeficator=x,damagelimit=1)
+    hp=0
+    return createunit(id=id,weapon='rifle',name=text,hp=hp,die=1,maxhp=hp,animal=None,identeficator=x,damagelimit=1)
 
 def randomgen(id):
     i=0
