@@ -732,6 +732,19 @@ def j(m):
       bot.send_message(m.chat.id, x[1]+'🤖 джойн-ботов успешно выдано!')
     except:
         pass
+
+
+
+@bot.message_handler(commands=['d'])
+def dnaaagive(m):
+  if m.from_user.id==441399484:
+    x=m.text.split('/d')
+    try:
+      int(x[1])
+      users.update_one({'id':m.reply_to_message.from_user.id}, {'$inc':{'dna':int(x[1])}})
+      bot.send_message(m.chat.id, x[1]+'🧬 ДНК успешно выдано!')
+    except:
+        pass
                 
 
 @bot.message_handler(commands=['dailybox'])
