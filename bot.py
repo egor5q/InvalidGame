@@ -2060,19 +2060,13 @@ def giveitems(game):
                    
 def battle(id): 
   try:
-    print('2')
     lst=[]
     for ids in games[id]['bots']:
-      print('ff')
       lst.append(games[id]['bots'][ids])
     for wtf in lst:
-        print('wtf')
         if wtf['die']!=1 or wtf['weapon']=='rifle':
             if wtf['stun']<=0 and wtf['magicshieldkd']<=0:
-                print('wtfstart')
                 wtf[act(wtf, id)]=1
-                print('wtfend')
-    print('endres')
     results(id)
   except Exception as e:
     print('Ошибка:\n', traceback.format_exc())
@@ -2292,7 +2286,6 @@ def results(id):
       lst.append(games[id]['bots'][ids])
   for bots in lst:
      if bots['yvorot']==1:
-        print('yyyyyy')
         yvorot(bots, id)
         
   for bots in lst:
@@ -2302,7 +2295,6 @@ def results(id):
               
   for bots in lst:
       if bots['item']==1:
-          print('yyyyyy')
           item(bots, id) 
               
   for bots in lst:
@@ -2310,10 +2302,8 @@ def results(id):
         reload(bots, id)          
               
   for bots in lst:
-    print('dddaa')
     if 'electrocharge' in bots['skills'] and bots['attack']==1:
         x=attack(bots,id,1)
-        print(x)
         if x==1:
             bots['hit']=1
             if random.randint(1,100)<=20*(bots['chance']+1):
@@ -2328,7 +2318,6 @@ def results(id):
     print('dddaa')
     if bots['weapon']=='sword' and bots['attack']==1:
         x=attack(bots,id,1)
-        print(x)
         if x==1:
             bots['hit']=1
             if random.randint(1,100)<=40*(bots['chance']+1):
@@ -2338,20 +2327,16 @@ def results(id):
 
   for bots in lst:
       if bots['attack']==1 and bots['weapon']!='slizgun':
-        print('yyyyyy')
         attack(bots,id,0)
         
   for bots in lst:     
       if bots['attack']==1 and bots['weapon']=='slizgun':
-        print('yyyyyy')
         attack(bots,id,0)
                      
   for ids in lst:
     if ids['shield']>=1:
         ids['takendmg']=0
-  print('dmgsstart')
   dmgs(id)
-  print('dmgsend')
   z=0
   global hidetext
   if id==-1001208357368:
@@ -2369,9 +2354,7 @@ def results(id):
   games[id]['randomdmg']=0
   games[id]['summonlist']=[]
   for mobs in games[id]['bots']:
-    print('mobcheck')
     mobcheck(id,mobs)
-  print('mobcheckfinish')
   for ids in games[id]['bots']:
       if games[id]['bots'][ids]['die']==1:
             die+=1
@@ -2385,18 +2368,14 @@ def results(id):
    for ids in games[id]['bots']:
             if games[id]['bots'][ids]['identeficator']==None:
                allus+=1
-   print('ad1')
    endxoda=allus*3
-   print('ad2')
    alive=0
    for ids in games[id]['bots']:
         if games[id]['bots'][ids]['die']!=1:
             alive+=1
    if ((die+1>=len(games[id]['bots']) or len(allid)<=1) and games[id]['mode']!='farm') or ((games[id]['mode']=='farm' and games[id]['xod']>=endxoda) or alive==0):
       z=1
-      print('ad3')
       if games[id]['mode']=='farm':
-            print('farm1')
             points=0
             allmoney=allus
             while allmoney!=0:
@@ -2409,7 +2388,6 @@ def results(id):
                     winners.append(games[id]['bots'][ids])
                     winid.append(games[id]['bots'][ids]['id'])
             slist=''
-            print('farm2')
             try:
                 points=int(points/len(winners))
             except:
@@ -2422,7 +2400,6 @@ def results(id):
             ftext='Режим "Пекло":\nВсе выжившие получают награду в размере: '+str(points)+'⚛️!\nСписок выживших:\n'+slist
             z=1
             bot.send_message(id,ftext)
-            print('farmend')
       else:
         name=None
         for ids in games[id]['bots']:
@@ -2430,10 +2407,8 @@ def results(id):
                   if games[id]['bots'][ids]['id']<0:
                     games[id]['bots'][ids]['id']-=(games[id]['bots'][ids]['id']*2)
                     games[id]['bots'][ids]['name']=games[id]['bots'][ids]['name']
-                    print(games[id]['bots'][ids]['id'])
                   name=games[id]['bots'][ids]['name']
                   winner=games[id]['bots'][ids]
-                  print(winner['id'])
         if name!=None:
           points=6
           for ids in games[id]['bots']:
@@ -2530,12 +2505,10 @@ def results(id):
          except:
            pass
    else:
-       print('ad4')
   else:
        if games[id]['bots'][0]['hp']<=0:
            bot.send_message(id, '🏆Босс побеждён!')
-           z=1
-  print('pitend1')     
+           z=1    
   games[id]['results']=''
   games[id]['res']=''
   games[id]['secondres']=''
