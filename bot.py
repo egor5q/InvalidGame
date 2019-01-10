@@ -338,11 +338,8 @@ def createmonster(id,weapon,hp, animal):
     return createunit(id=id,weapon=weapon,name=text,hp=hp,maxhp=hp,animal=animal,identeficator=x,damagelimit=2)
    
     
-def createsniper(id='sniper'):
-    for ids in games:
-         if id in games[ids]['bots']:
-            id2=games[ids]['chatid']
-    x=randomgen(id2)
+def createsniper(id='sniper',chatid):
+    x=randomgen(chatid)
     text='Зомби-снайпер'
     return createunit(id=id,weapon='rifle',name=text,hp=0,die=1,maxhp=hp,animal=None,identeficator=x,damagelimit=1)
 
@@ -2581,7 +2578,7 @@ def dmgs(id):
             trgt['takendmg']+=dm
             text+='⛰На бойца '+trgt['name']+' обрушилась скала! Он получает '+str(dm)+' урона!\n'
         if random.randint(1,100)<=16:
-            games[id]['bots'].update(createsniper() )
+            games[id]['bots'].update(createsniper(chatid=id) )
             text+='⁉️🎯Зомби-снайпер почуял кровь! Берегитесь...\n'
             
     for ids in games[id]['turrets']:
