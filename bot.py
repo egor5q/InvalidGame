@@ -2060,7 +2060,8 @@ def giveitems(game):
         game['bots'][ids]['items'].append(random.choice(items))
   
                    
-def battle(id):  
+def battle(id): 
+  try:
     print('2')
     lst=[]
     for ids in games[id]['bots']:
@@ -2075,6 +2076,8 @@ def battle(id):
                 print('wtfend')
     print('endres')
     results(id)
+  except Exception as e:
+    print('Ошибка:\n', traceback.format_exc())
 
   
 def priz(id,ids,user,winner):
