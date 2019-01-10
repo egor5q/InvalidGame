@@ -879,6 +879,11 @@ def selectbot(m):
             if x['botslots'][n]!={}:
                 users.update_one({'id':x['id']},{'$set':{'bot':x['botslots'][n],'botslots.'+n:timed}})
                 users.update_one({'id':x['id']},{'$set':{'bot.bought':x['bot']['bought']}})
+                if x['botslots'][n]['name']==None:
+                      name='Без имени'
+                else:
+                      name=x['botslots'][n]['name']
+                bot.send_message(m.chat.id, 'Вы успешно выбрали бота "'+name+'"!')
             else:
                 bot.send_message(m.chat.id, 'У вас нет бойца в этом слоте!')
         except:
