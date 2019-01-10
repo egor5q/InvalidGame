@@ -2419,7 +2419,7 @@ def results(id):
                 users.update_one({'id':ids['id']},{'$inc':{'cookie':points}})
             if slist=='':
                 slist='Выживши нет! Все проиграли!'
-            ftext='Режим "Пекло":\nВсе выжившие получают награду в размере: '+points+'⚛️!\nСписок выживших:\n'+slist
+            ftext='Режим "Пекло":\nВсе выжившие получают награду в размере: '+str(points)+'⚛️!\nСписок выживших:\n'+slist
             z=1
             bot.send_message(id,ftext)
             print('farmend')
