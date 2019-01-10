@@ -332,8 +332,8 @@ def createdouble(id,ids):
     x=randomgen(id)
     t=users.find_one({'id':ids})
     text='Двойник['+t['bot']['name']+']'
-    return createunit(id=ids,name=text,weapon=t['weapon'],hp=t['hp'],maxhp=t['hp'],skills=t['skills'],skin=t['skin'],
-                      damagelimit=t['damagelimit'],energy=t['maxenergy'],maxenergy=t['maxenergy'],identeficator=x)
+    return createunit(id=ids,name=text,weapon=t['bot']['weapon'],hp=t['bot']['hp'],maxhp=t['bot']['hp'],skills=t['bot']['skills'],skin=t['bot']['skin'],
+                      damagelimit=t['bot']['damagelimit'],energy=t['bot']['maxenergy'],maxenergy=t['bot']['maxenergy'],identeficator=x)
    
    
 def createmonster(id,weapon,hp, animal):
