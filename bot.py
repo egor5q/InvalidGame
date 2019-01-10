@@ -213,7 +213,14 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          users.update_many({},{'$push':{'buildings':'1slot'}})
+          x=users.find({})
+          a=0
+          for ids in x:
+                if 'dnagenerator' in ids['buildings']:
+                    users.update_one({'id':ids['id']},{'$inc':{'cookie':40000}},{'$pull':{'buildings':'dnagenerator'}})
+                    bot.send_message(ids['id'],'Цена генератора ДНК была изменена! Вам возвращены средства и забран генератор.')
+                    a+=1
+          bot.send_message(441399484, 'a= '+str(a))
           print('yes')  
 
 @bot.message_handler(commands=['massbattle'])
@@ -966,7 +973,7 @@ def inline(call):
                 medit('Чтобы клонировать своего бойца, нажмите на кнопку ниже. Стоимость: 1🧬. По завершению клонирования '+
                       'вам будет доступен еще один боец, внешне ничем не отличающийся от вашего нынешнего. Но над этим бойцом вы сможете '+
                       'проводить эксперименты по изменению генома, которые для старой версии бойца оказались бы смертельными. Будет возможность '+
-                      'переключаться между бойцами.\nДля покупки новы слотов введите /buyslot.',call.message.chat.id, call.message.message_id,reply_markup=kb)
+                      'переключаться между бойцами.\nДля покупки новых слотов введите /buyslot.',call.message.chat.id, call.message.message_id,reply_markup=kb)
            else:
                 medit('Для этого вам нужен клонирователь!',call.message.chat.id, call.message.message_id)
                 
@@ -998,8 +1005,8 @@ def inline(call):
                           '->$bot.cloning.init('+x['name']+'.bot)\n'+
                           'console: bot.cloning started successfully!\n'+
                           'console: progress: 1%_',call.message.chat.id, call.message.message_id, parse_mode='markdown')
-                    bot.send_message(x['id'],'_console: progress: 100%. Copy of your bot is ready! Thank you for using "PenisDetrov" '+
-                                     'technology!_\n\nЧтобы поменять текущего бота на другого, нажмите /selectbot.',parse_mode='markdown')
+                    bot.send_message(x['id'],'_console: progress: 100%. Copy of your fighter is ready! Thank you for using "PenisDetrov" '+
+                                     'technology!_\n\nЧтобы поменять текущего бойца на другого, нажмите /selectbot.',parse_mode='markdown')
                 else:
                     medit('У вас нет доступных слотов! Для покупки введите /buyslot.', call.message.chat.id, call.message.message_id)
             else:
@@ -1007,22 +1014,22 @@ def inline(call):
             
         elif call.data=='dna generator':
             kb=types.InlineKeyboardMarkup()
-            kb.add(types.InlineKeyboardButton(text='40 000⚛️',callback_data='dna buy generator'))
+            kb.add(types.InlineKeyboardButton(text='10 000⚛️',callback_data='dna buy generator'))
             medit('ДНК-генератор - самое важное строение на пути к усовершенствованию генокода вашего бойца. Оно позволит вам производить ДНК-очки, '+
                   'которые понадобятся для разработки способностей нового поколения.',call.message.chat.id, call.message.message_id, reply_markup=kb)
             
         elif call.data=='dna cloner':
             kb=types.InlineKeyboardMarkup()
-            kb.add(types.InlineKeyboardButton(text='30 000⚛️',callback_data='dna buy cloner'))
+            kb.add(types.InlineKeyboardButton(text='15 000⚛️',callback_data='dna buy cloner'))
             medit('Клонирователь - устройсво, которое позволит вам сделать усовершенствованную копию своего бойца, тело которого сможет принять '+
                   'те мутации, которые вы разработаете! Некоторые из них необратимы, поэтому в будущем вам понадобится '+
                   'купить дополнительные слоты для хранения копий бойца.',call.message.chat.id, call.message.message_id, reply_markup=kb)
             
         elif call.data=='dna buy generator':
             if 'dnagenerator' not in x['buildings']:
-                if x['cookie']>=40000:
+                if x['cookie']>=10000:
                     users.update_one({'id':x['id']},{'$push':{'buildings':'dnagenerator'}})
-                    users.update_one({'id':x['id']},{'$inc':{'cookie':-40000}})
+                    users.update_one({'id':x['id']},{'$inc':{'cookie':-10000}})
                     medit('Вы успешно приобрели ДНК-генератор!',call.message.chat.id,call.message.message_id)
                 else:
                     medit('Не хватает поинтов!',call.message.chat.id,call.message.message_id)
@@ -1031,9 +1038,9 @@ def inline(call):
                 
         elif call.data=='dna buy cloner':
             if 'cloner' not in x['buildings']:
-                if x['cookie']>=30000:
+                if x['cookie']>=15000:
                     users.update_one({'id':x['id']},{'$push':{'buildings':'cloner'}})
-                    users.update_one({'id':x['id']},{'$inc':{'cookie':-30000}})
+                    users.update_one({'id':x['id']},{'$inc':{'cookie':-15000}})
                     medit('Вы успешно приобрели клонирователь!',call.message.chat.id,call.message.message_id)
                 else:
                     medit('Не хватает поинтов!',call.message.chat.id,call.message.message_id)
