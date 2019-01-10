@@ -2072,7 +2072,7 @@ def battle(id):
     print('Ошибка:\n', traceback.format_exc())
 
   
-def prizes(id,ids,winner):
+def prizes(id,ids,winner,points):
        for ids in games[id]['bots']:
              user=users.find_one({'id':games[id]['bots'][ids]['id']})
              prize1=150
@@ -2231,7 +2231,8 @@ def prizes(id,ids,winner):
                       pass
                 users.update_one({'id':user['id']}, {'$set':{'prize11':1}})
                 users.update_one({'id':user['id']}, {'$inc':{'cookie':prize11}})
-
+           
+           
 def mobcheck(id,mobs):
     print('mobcheck')
     player=games[id]['bots'][mobs]
@@ -2477,7 +2478,34 @@ def results(id):
               if games[id]['mode']==None:
                 
                 prizes(id,ids,winner)
-              
+                x=users.find({})
+                try:
+                       cookie=round(points*0.04, 0)
+                       cookie=int(cookie)
+                       if name!='Редкий слизнюк':
+                         bot.send_message(id, '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+                         try:
+                          bot.send_message(winner2['id'], '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+                         except:
+                          pass
+                         userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
+                       else:
+                        bot.send_message(id, 'Редкий слизнюк сбежал!')
+                except:
+                         
+                         bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов! Куки получить не удалось - для этого надо зарегистрироваться в @TrugRuBot!')
+                try:
+                        users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
+                        users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
+                except:
+                        pass
+                for ids in games[id]['bots']:
+                   try:
+                        if games[id]['bots'][ids]['identeficator']==None:
+                          users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.exp':2}})
+                          users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'cookie':2}})
+                   except:
+                        pass
               else:
                 if games[id]['mode']=='teamfight':
                   g='Команда '
