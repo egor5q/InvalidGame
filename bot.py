@@ -829,7 +829,7 @@ def dnamenu(user):
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton('🏢Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Генерация 🧬ДНК',callback_data='dna buy'))
     kb.add(types.InlineKeyboardButton('📀Клонирование',callback_data='dna cloning'),types.InlineKeyboardButton('👨‍🔬Исследования',callback_data='dna research'))
-    kb.add(types.InlineKeyboardButton('🧪Мутирование',callback_data='dna mutate')
+    kb.add(types.InlineKeyboardButton('🧪Мутирование',callback_data='dna mutate'))
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите меню.', reply_markup=kb) 
     
@@ -1075,9 +1075,8 @@ def inline(call):
             
         elif call.data=='dna mutate':
             kb=types.InlineKeyboardMarkup()
-            kb.add(types.InlineKeyboardButton(text='10 000⚛️',callback_data='dna buy generator'))
-            medit('ДНК-генератор - самое важное строение на пути к усовершенствованию генокода вашего бойца. Оно позволит вам производить ДНК-очки, '+
-                  'которые понадобятся для разработки способностей нового поколения.',call.message.chat.id, call.message.message_id, reply_markup=kb)
+            #kb.add(types.InlineKeyboardButton(text='',callback_data='dna mutatebot '+mutation))
+            #medit('a',call.message.chat.id, call.message.message_id, reply_markup=kb)
            
         elif call.data=='dna back1':
             medit('Выбрано: назад.',call.message.chat.id, call.message.message_id)
