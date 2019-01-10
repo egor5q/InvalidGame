@@ -2504,7 +2504,6 @@ def results(id):
              users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'games':1}})
          except:
            pass
-   else:
   else:
        if games[id]['bots'][0]['hp']<=0:
            bot.send_message(id, '🏆Босс побеждён!')
