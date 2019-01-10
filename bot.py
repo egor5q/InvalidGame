@@ -2394,7 +2394,7 @@ def results(id):
    for ids in games[id]['bots']:
         if games[id]['bots'][ids]['die']!=1:
             alive+=1
-   if ((die+1>=len(games[id]['bots']) or len(allid)<=1) and games[id]['mode']!='farm') or ((games[id]['mode']=='farm' and games[id]['turn']>=endxoda) or alive==0):
+   if ((die+1>=len(games[id]['bots']) or len(allid)<=1) and games[id]['mode']!='farm') or ((games[id]['mode']=='farm' and games[id]['xod']>=endxoda) or alive==0):
       z=1
       print('ad3')
       if games[id]['mode']=='farm':
@@ -4519,7 +4519,7 @@ def begingame(id):
       print('timer cancelled')
     except:
       pass
-    modes=['teamfight','meteors']
+    modes=['teamfight','meteors','teamfight']
     if games[id]['apocalypse']==1:
         games[id]['mode']=random.choice(modes)
         n=modetoname(games[id]['mode'])
