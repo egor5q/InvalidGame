@@ -1070,7 +1070,7 @@ def inline(call):
         elif call.data=='dna mutations':
             kb=types.InlineKeyboardMarkup()
             kb.add(types.InlineKeyboardButton(text='🐺Оборотень', callback_data='dna werewolf'))
-            medit('Выберите мутацию, которую хотите изучить. Изучив мутацию 1 раз, вы сможете применять её к любому количеству бойцов.',call.message.chat.id, call.message.message_id))
+            medit('Выберите мутацию, которую хотите изучить. Изучив мутацию 1 раз, вы сможете применять её к любому количеству бойцов.',call.message.chat.id, call.message.message_id)
             
         elif call.data=='dna werewolf':
             kb=types.InlineKeyboardMarkup()
