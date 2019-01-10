@@ -4787,7 +4787,7 @@ def createbot(id):
 
 def adddna(user):
     print(user)
-    users.update_one({'id':int(user['id'])},{'$inc':{'dna':1}})
+    users.update_one({'id':user['id']},{'$inc':{'dna':1}})
     users.update_one({'id':user['id']},{'$set':{'dnacreator':None}})
     if user['dnawaiting']==0:
         bot.send_message(user['id'], 'Все 🧬ДНК были успешно произведены!')
@@ -4818,11 +4818,11 @@ def dailybox():
    z=z.split(' ')
    u=users.find({})
    for ids in u:
+       cuser=users.find_one({'id':ids['id']})
        if ids['dnawaiting']>0 and ids['dnacreator']==None:
            users.update_one({'id':ids['id']},{'$inc':{'dnawaiting':-1}})
            users.update_one({'id':ids['id']},{'$set':{'dnacreator':time.ctime()}})
-       cuser=users.find_one({'id':ids['id']})
-       if cuser['dnacreator']!=None:
+       elif cuser['dnacreator']!=None:
            settime=cuser['dnacreator']    # Тут вычисляется, когда была запущена генерация последнего ДНК.
            a=settime.split(" ")
            ind=0
