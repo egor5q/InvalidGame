@@ -2386,7 +2386,7 @@ def results(id):
             if games[id]['bots'][ids]['identeficator']==None:
                allus+=1
    print('ad1')
-   endxoda=allus*4
+   endxoda=allus*3
    print('ad2')
    alive=0
    for ids in games[id]['bots']:
@@ -2581,7 +2581,7 @@ def dmgs(id):
             dm=random.randint(1,30)
             trgt['takendmg']+=dm
             text+='⛰На бойца '+trgt['name']+' обрушилась скала! Он получает '+str(dm)+' урона!\n'
-        if random.randint(1,100)<=16:
+        if random.randint(1,100)<=10:
             games[id]['bots'].update(createsniper(chatid=id) )
             text+='⁉️🎯Зомби-снайпер почуял кровь! Берегитесь...\n'
             
