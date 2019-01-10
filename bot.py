@@ -1110,7 +1110,7 @@ def inline(call):
                 users.update_one({'id':x['id']},{'$inc':{'dna':-cost}})
                 medit(text1, call.message.chat.id, call.message.message_id, parse_mode='markdown')
             else:
-                medit('_console: Недостаточно поинтов!_', call.message.chat.id, call.message.message_id, parse_mode='markdown')
+                medit('_console: Недостаточно 🧬ДНК!_', call.message.chat.id, call.message.message_id, parse_mode='markdown')
             
                     
                 
