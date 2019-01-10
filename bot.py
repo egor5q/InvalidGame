@@ -1098,7 +1098,7 @@ def inline(call):
             data='dnaresearch werewolf'
             if 'werewolf' not in x['searched']:
                 cost=5
-            elif 'werewolf1' not in x['mutationlvls']:mutationlvls
+            elif 'werewolf1' not in x['mutationlvls']:
                 cost=2
                 tx='Улучшить'
             else:
