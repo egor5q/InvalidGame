@@ -2072,7 +2072,7 @@ def battle(id):
     print('Ошибка:\n', traceback.format_exc())
 
   
-def priz(id,ids,user,winner):
+def prizes(id,ids,user,winner):
              prize1=150
              prize2=200
              prize3=300
