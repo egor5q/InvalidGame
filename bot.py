@@ -326,6 +326,14 @@ def createpauk(id,hp):
     t=users.find_one({'id':id})
     text='Паук['+t['bot']['name']+']'
     return createunit(id=id,name=text,weapon='bite',hp=hp,maxhp=hp,damagelimit=7,identeficator=x)
+
+
+def createdouble(id,ids):
+    x=randomgen(id)
+    t=users.find_one({'id':ids})
+    text='Двойник['+t['bot']['name']+']'
+    return createunit(id=ids,name=text,weapon=t['weapon'],hp=t['hp'],maxhp=t['hp'],skills=t['skills'],skin=t['skin'],
+                      damagelimit=t['damagelimit'],energy=t['maxenergy'],maxenergy=t['maxenergy'],identeficator=x)
    
    
 def createmonster(id,weapon,hp, animal):
@@ -4650,12 +4658,7 @@ def begingame(id):
            print('cycle2')
            rnd=randomgen(id)
            aa=ids.copy()
-           games[id]['bots'].update(createbott(rnd, aa))
-           games[id]['bots'][rnd]['identeficator']==rnd
-           print(games[id]['bots'][rnd])
-           games[id]['bots'][rnd]['name']+='[Двойник]'
-           games[id]['bots'][rnd]['items']=[]
-           games[id]['bots'][rnd]['identeficator']=rnd
+           games[id]['bots'].update(createdouble(id,ids))
            text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
        techw=['bazuka','sword','flame']
        text3=''
