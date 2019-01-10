@@ -254,7 +254,7 @@ def autojoin(m):
 
 
 def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,maxenergy=5,energy=5,items=[],accuracy=0,damagelimit=6,skin=[],\
-               animal=None,zombie=0):
+               animal=None,zombie=0, die=0):
    return{identeficator:{'name': name,
               'weapon':weapon,
               'mutations':[],
@@ -273,7 +273,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'shield':0,
               'stun':0,
               'takendmg':0,
-              'die':0,
+              'die':die,
               'yvorotkd':0,
               'id':id,
               'blood':0,
@@ -337,6 +337,14 @@ def createmonster(id,weapon,hp, animal):
     text='Кошмарное слияние['+t['bot']['name']+']'
     return createunit(id=id,weapon=weapon,name=text,hp=hp,maxhp=hp,animal=animal,identeficator=x,damagelimit=2)
    
+    
+def createsniper(id='sniper'):
+    for ids in games:
+         if id in games[ids]['bots']:
+            id2=games[ids]['chatid']
+    x=randomgen(id2)
+    text='Зомби-снайпер'
+    return createunit(id=id,weapon='rifle',name=text,hp=0,die=1,maxhp=hp,animal=None,identeficator=x,damagelimit=1)
 
 def randomgen(id):
     i=0
@@ -2061,7 +2069,7 @@ def battle(id):
       lst.append(games[id]['bots'][ids])
     for wtf in lst:
         print('wtf')
-        if wtf['die']!=1:
+        if wtf['die']!=1 or wtf['weapon']=='rifle':
             if wtf['stun']<=0 and wtf['magicshieldkd']<=0:
                 print('wtfstart')
                 wtf[act(wtf, id)]=1
@@ -2217,295 +2225,328 @@ def results(id):
      if games[id]['bots'][ids]['die']==0:
       if games[id]['bots'][ids]['id'] not in allid:
          allid.append(games[id]['bots'][ids]['id'])
-   if die+1>=len(games[id]['bots']) or len(allid)<=1:
-      z=1
-      name=None
-      for ids in games[id]['bots']:
-            if games[id]['bots'][ids]['die']!=1:
-                if games[id]['bots'][ids]['id']<0:
-                  games[id]['bots'][ids]['id']-=(games[id]['bots'][ids]['id']*2)
-                  games[id]['bots'][ids]['name']=games[id]['bots'][ids]['name']
-                  print(games[id]['bots'][ids]['id'])
-                name=games[id]['bots'][ids]['name']
-                winner=games[id]['bots'][ids]
-                print(winner['id'])
-      if name!=None:
-        points=6
-        for ids in games[id]['bots']:
-          try:
+   allus=0
+   for ids in games[id]['bots']:
             if games[id]['bots'][ids]['identeficator']==None:
-               points+=4
-          except:
-            points+=4
+               allus+=1
+   endxod=allus*4
+   alive=0
+   for ids in games[id]['bots']:
+        if games[id]['bots'][ids]['die']!=1:
+            alive+=1
+   if ((die+1>=len(games[id]['bots']) or len(allid)<=1) and games[id]['mode']!='farm') or ((games[id]['mode']=='farm' and games[id]['turn']>=endhod) or alive==0):
+      z=1
+      if games[id]['mode']=='farm':
+            points=0
+            allmoney=allus
+            while allmoney!=0:
+                points+=random.randint(1,70)
+                allmoney-=1
+            winners=[]
+            winid=[]
+            for ids in games[id]['bots']:
+                if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['id'] not in winners:
+                    winners.append(games[id]['bots'][ids])
+                    winid.append(games[id]['bots'][ids]['id'])
+            slist=''
+            points=int(points/len(winners))
+            for ids in winners:
+                slist+=ids['name']+'\n'
+                users.update_one({'id':ids['id']},{'$inc':{'cookie':points}})
+            if slist=='':
+                slist='Выживши нет! Все проиграли!'
+            ftext='Режим "Пекло":\nВсе выжившие получают награду в размере: '+points+'⚛️!\nСписок выживших:\n'+slist
+            z=1
+            bot.send_message(id,ftext)
+      else:
+        name=None
         for ids in games[id]['bots']:
-           if 'werewolf' in games[id]['bots'][ids]['mutations']:
-               points+=15
-        for ids in games[id]['bots']:
-            for itemss in games[id]['bots'][ids]['skills']:
-              if games[id]['bots'][ids]['id']!=winner['id']:
-               if itemss!='cube' and itemss!='active':
-                try:
-                  if games[id]['bots'][ids]['identeficator']==None:
-                     points+=2
-                except:
-                     points+=2
-        for ids in games[id]['bots']:
-            for itemss in games[id]['bots'][ids]['skin']:
-              if games[id]['bots'][ids]['id']!=winner['id']:
-                try:
-                  if games[id]['bots'][ids]['identeficator']==None:
-                     points+=2
-                except:
-                     points+=2         
-        place=[]
-        a=None
-        i=0
-        idlist=[]
-        while i<3:
-          dieturn=-1
-          a=None
+              if games[id]['bots'][ids]['die']!=1:
+                  if games[id]['bots'][ids]['id']<0:
+                    games[id]['bots'][ids]['id']-=(games[id]['bots'][ids]['id']*2)
+                    games[id]['bots'][ids]['name']=games[id]['bots'][ids]['name']
+                    print(games[id]['bots'][ids]['id'])
+                  name=games[id]['bots'][ids]['name']
+                  winner=games[id]['bots'][ids]
+                  print(winner['id'])
+        if name!=None:
+          points=6
           for ids in games[id]['bots']:
-            if winner!=None:
-              if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place and games[id]['bots'][ids]['id']!=winner['id'] and \
-            games[id]['bots'][ids]['id'] not in idlist and games[id]['bots'][ids]['name']!='Редкий слизнюк':
-                  a=games[id]['bots'][ids]
-                  dieturn=games[id]['bots'][ids]['dieturn']
-          if a!=None and a['id'] not in idlist and a['name']!='Редкий слизнюк':
-              place.append(a)
-              idlist.append(a['id'])
-          i+=1
-        p2=points
-        txt='Награды для 2-4 мест (если такие имеются):\n'
-        for ids in place:
-            p2=int(p2*0.50)
-            txt+=ids['name']+': '+str(p2)+'❇️/⚛️\n'
-            users.update_one({'id':ids['id']},{'$inc':{'cookie':p2}})
-            users.update_one({'id':ids['id']},{'$inc':{'bot.exp':p2}})
-        if winner['id']!=0:
-           prize1=150
-           prize2=200
-           prize3=300
-           prize4=450
-           prize5=600
-           prize6=800
-           prize7=10000
-           prize8=20000
-           prize9=30000
-           prize10=40000
-           prize11=100000
-           winner2=users.find_one({'id':winner['id']})
-           y=userstrug.find_one({'id':winner['id']})
-           if games[id]['mode']=='teamfight':
-                yy='Команда '
-                zz='а'
-           else:
-                yy=''
-                zz=''
-           if id==-1001208357368:
-            if games[id]['mode']==None:
-             x=users.find({})
-             try:
-              cookie=round(points*0.04, 0)
-              cookie=int(cookie)
-              if name!='Редкий слизнюк':
-                bot.send_message(id, '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+            try:
+              if games[id]['bots'][ids]['identeficator']==None:
+                 points+=4
+            except:
+              points+=4
+          for ids in games[id]['bots']:
+             if 'werewolf' in games[id]['bots'][ids]['mutations']:
+                 points+=15
+          for ids in games[id]['bots']:
+              for itemss in games[id]['bots'][ids]['skills']:
+                if games[id]['bots'][ids]['id']!=winner['id']:
+                 if itemss!='cube' and itemss!='active':
+                  try:
+                    if games[id]['bots'][ids]['identeficator']==None:
+                       points+=2
+                  except:
+                       points+=2
+          for ids in games[id]['bots']:
+              for itemss in games[id]['bots'][ids]['skin']:
+                if games[id]['bots'][ids]['id']!=winner['id']:
+                  try:
+                    if games[id]['bots'][ids]['identeficator']==None:
+                       points+=2
+                  except:
+                       points+=2    
+                 
+          place=[]
+          a=None
+          i=0
+          idlist=[]
+          while i<3:
+            dieturn=-1
+            a=None
+            for ids in games[id]['bots']:
+              if winner!=None:
+                if games[id]['bots'][ids]['dieturn']>dieturn and games[id]['bots'][ids] not in place and games[id]['bots'][ids]['id']!=winner['id'] and \
+              games[id]['bots'][ids]['id'] not in idlist and games[id]['bots'][ids]['name']!='Редкий слизнюк':
+                    a=games[id]['bots'][ids]
+                    dieturn=games[id]['bots'][ids]['dieturn']
+            if a!=None and a['id'] not in idlist and a['name']!='Редкий слизнюк':
+                place.append(a)
+                idlist.append(a['id'])
+            i+=1
+          p2=points
+          txt='Награды для 2-4 мест (если такие имеются):\n'
+          for ids in place:
+              p2=int(p2*0.50)
+              txt+=ids['name']+': '+str(p2)+'❇️/⚛️\n'
+              users.update_one({'id':ids['id']},{'$inc':{'cookie':p2}})
+              users.update_one({'id':ids['id']},{'$inc':{'bot.exp':p2}})
+          if winner['id']!=0:
+             prize1=150
+             prize2=200
+             prize3=300
+             prize4=450
+             prize5=600
+             prize6=800
+             prize7=10000
+             prize8=20000
+             prize9=30000
+             prize10=40000
+             prize11=100000
+             winner2=users.find_one({'id':winner['id']})
+             y=userstrug.find_one({'id':winner['id']})
+             if games[id]['mode']=='teamfight':
+                  yy='Команда '
+                  zz='а'
+             else:
+                  yy=''
+                  zz=''
+             if id==-1001208357368:
+              if games[id]['mode']==None:
+               x=users.find({})
+               try:
+                cookie=round(points*0.04, 0)
+                cookie=int(cookie)
+                if name!='Редкий слизнюк':
+                  bot.send_message(id, '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+                  try:
+                   bot.send_message(winner2['id'], '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+                  except:
+                   pass
+                  userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
+                else:
+                 bot.send_message(id, 'Редкий слизнюк сбежал!')
+               except:
+                  
+                  bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов! Куки получить не удалось - для этого надо зарегистрироваться в @TrugRuBot!')
+               try:
+                 users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
+                 users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
+               except:
+                 pass
+               for ids in games[id]['bots']:
                 try:
-                 bot.send_message(winner2['id'], '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+                 if games[id]['bots'][ids]['identeficator']==None:
+                   users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.exp':2}})
+                   users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'cookie':2}})
                 except:
                  pass
-                userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
+                user=users.find_one({'id':games[id]['bots'][ids]['id']})
+                if user!=None:
+                   i=games[id]['bots'][ids]['exp']
+                   if i>100 and user['prize1']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize1/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Эсквайр"! Вы получаете '+str(int(prize1/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Эсквайр"! Награда: '+str(prize1)+'⚛️')
+                      except:
+                         pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize1':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize1}})
+                   if i>500 and user['prize2']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize2/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Солдат"! Вы получаете '+str(int(prize2/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Солдат"! Награда: '+str(prize2)+'⚛️')
+                      except:
+                         pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize2':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize2}})
+                   if i>800 and user['prize3']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize3/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Опытный боец"! Вы получаете '+str(int(prize3/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Опытный боец"! Награда: '+str(prize3)+'⚛️')
+                      except:
+                         pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize3':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize3}})
+                   if i>2000 and user['prize4']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize4/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Подполковник"! Вы получаете '+str(int(prize4/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Подполковник"! Награда: '+str(prize4)+'⚛️')
+                      except:
+                         pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize4':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize4}})
+                   if i>3500 and user['prize5']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize5/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Генерал"! Вы получаете '+str(int(prize5/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Генерал"! Награда: '+str(prize5)+'⚛️')
+                      except:
+                         pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize5':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize5}})
+                   if i>7000 and user['prize6']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize6/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Повелитель"! Вы получаете '+str(int(prize6/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Повелитель"! Награда: '+str(prize6)+'⚛️')
+                      except:
+                         pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize6':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize6}})
+                   if i>50000 and user['prize7']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize7/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Бог"! Вы получаете '+str(int(prize7/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Бог"! Награда: '+str(prize7)+'⚛️')
+                      except:
+                            pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize7':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize7}})
+                   if i>100000 and user['prize8']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize8/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Пасюк"! Вы получаете '+str(int(prize8/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Пасюк"! Награда: '+str(prize8)+'⚛️')
+                      except:
+                            pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize8':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize8}})
+                   if i>250000 and user['prize9']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize9/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Сверхразум"! Вы получаете '+str(int(prize9/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Сверхразум"! Награда: '+str(prize9)+'⚛️')
+                      except:
+                            pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize9':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize9}})
+                   if i>666666 and user['prize10']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize10/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Дьявол"! Вы получаете '+str(int(prize10/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Дьявол"! Награда: '+str(prize10)+'⚛️')
+                      except:
+                            pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize10':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize10}})
+                   if i>1000000 and user['prize11']==0:
+                      if user['inviter']!=None:
+                         users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize11/2)}})
+                         try:
+                            bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Высшее существо"! Вы получаете '+str(int(prize11/2))+'⚛️.')
+                         except:
+                            pass
+                      try:
+                         bot.send_message(user['id'], 'Вы получили ранг "Высшее существо"! Награда: '+str(prize11)+'⚛️')
+                      except:
+                            pass
+                      users.update_one({'id':user['id']}, {'$set':{'prize11':1}})
+                      users.update_one({'id':user['id']}, {'$inc':{'cookie':prize11}})
               else:
-               bot.send_message(id, 'Редкий слизнюк сбежал!')
-             except:
-                
-                bot.send_message(id, '🏆'+name+' победил! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов! Куки получить не удалось - для этого надо зарегистрироваться в @TrugRuBot!')
-             try:
-               users.update_one({'id':winner['id']}, {'$inc':{'cookie':points}})
-               users.update_one({'id':winner['id']}, {'$inc':{'bot.exp':points}})
-             except:
-               pass
-             for ids in games[id]['bots']:
-              try:
-               if games[id]['bots'][ids]['identeficator']==None:
-                 users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.exp':2}})
-                 users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'cookie':2}})
-              except:
-               pass
-              user=users.find_one({'id':games[id]['bots'][ids]['id']})
-              if user!=None:
-                 i=games[id]['bots'][ids]['exp']
-                 if i>100 and user['prize1']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize1/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Эсквайр"! Вы получаете '+str(int(prize1/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Эсквайр"! Награда: '+str(prize1)+'⚛️')
-                    except:
-                       pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize1':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize1}})
-                 if i>500 and user['prize2']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize2/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Солдат"! Вы получаете '+str(int(prize2/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Солдат"! Награда: '+str(prize2)+'⚛️')
-                    except:
-                       pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize2':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize2}})
-                 if i>800 and user['prize3']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize3/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Опытный боец"! Вы получаете '+str(int(prize3/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Опытный боец"! Награда: '+str(prize3)+'⚛️')
-                    except:
-                       pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize3':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize3}})
-                 if i>2000 and user['prize4']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize4/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Подполковник"! Вы получаете '+str(int(prize4/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Подполковник"! Награда: '+str(prize4)+'⚛️')
-                    except:
-                       pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize4':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize4}})
-                 if i>3500 and user['prize5']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize5/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Генерал"! Вы получаете '+str(int(prize5/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Генерал"! Награда: '+str(prize5)+'⚛️')
-                    except:
-                       pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize5':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize5}})
-                 if i>7000 and user['prize6']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize6/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Повелитель"! Вы получаете '+str(int(prize6/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Повелитель"! Награда: '+str(prize6)+'⚛️')
-                    except:
-                       pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize6':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize6}})
-                 if i>50000 and user['prize7']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize7/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Бог"! Вы получаете '+str(int(prize7/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Бог"! Награда: '+str(prize7)+'⚛️')
-                    except:
-                          pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize7':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize7}})
-                 if i>100000 and user['prize8']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize8/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Пасюк"! Вы получаете '+str(int(prize8/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Пасюк"! Награда: '+str(prize8)+'⚛️')
-                    except:
-                          pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize8':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize8}})
-                 if i>250000 and user['prize9']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize9/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Сверхразум"! Вы получаете '+str(int(prize9/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Сверхразум"! Награда: '+str(prize9)+'⚛️')
-                    except:
-                          pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize9':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize9}})
-                 if i>666666 and user['prize10']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize10/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Дьявол"! Вы получаете '+str(int(prize10/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Дьявол"! Награда: '+str(prize10)+'⚛️')
-                    except:
-                          pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize10':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize10}})
-                 if i>1000000 and user['prize11']==0:
-                    if user['inviter']!=None:
-                       users.update_one({'id':user['inviter']}, {'$inc':{'cookie':int(prize11/2)}})
-                       try:
-                          bot.send_message(user['inviter'], 'Ваш приглашённый игрок '+user['name']+' получил ранг "Высшее существо"! Вы получаете '+str(int(prize11/2))+'⚛️.')
-                       except:
-                          pass
-                    try:
-                       bot.send_message(user['id'], 'Вы получили ранг "Высшее существо"! Награда: '+str(prize11)+'⚛️')
-                    except:
-                          pass
-                    users.update_one({'id':user['id']}, {'$set':{'prize11':1}})
-                    users.update_one({'id':user['id']}, {'$inc':{'cookie':prize11}})
-            else:
-              if games[id]['mode']=='teamfight':
-                g='Команда '
-                a='а'
-              else:
-                g=''
-                a=''
-              bot.send_message(id, '🏆'+g+name+' победил'+a+'! Но в режиме апокалипсиса призы не выдаются, играйте ради веселья! :)')
-              if games[id]['mode']=='meteors':
-                  for ids in games[id]['bots']:
-                   if games[id]['bots'][ids]['identeficator']==None:
-                    try:
-                      users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':1}})
-                      users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteordmg':games[id]['bots'][ids]['takenmeteordmg']}})
-                      users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteors':games[id]['bots'][ids]['takenmeteors']}})
-                    except:
-                      pass
-           else:
-                  bot.send_message(id, '🏆'+name+' победил! Но награду за победу можно получить только в официальном чате - @cookiewarsru!')
+                if games[id]['mode']=='teamfight':
+                  g='Команда '
+                  a='а'
+                else:
+                  g=''
+                  a=''
+                bot.send_message(id, '🏆'+g+name+' победил'+a+'! Но в режиме апокалипсиса призы не выдаются, играйте ради веселья! :)')
+                if games[id]['mode']=='meteors':
+                    for ids in games[id]['bots']:
+                     if games[id]['bots'][ids]['identeficator']==None:
+                      try:
+                        users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':1}})
+                        users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteordmg':games[id]['bots'][ids]['takenmeteordmg']}})
+                        users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteors':games[id]['bots'][ids]['takenmeteors']}})
+                      except:
+                        pass
+             else:
+                    bot.send_message(id, '🏆'+name+' победил! Но награду за победу можно получить только в официальном чате - @cookiewarsru!')
+          else:
+              bot.send_message(id, '🏆'+name+' победил!')
         else:
-            bot.send_message(id, '🏆'+name+' победил!')
-      else:
-        bot.send_message(id, 'Все проиграли!')
-      for ids in games[id]['bots']:
-       try:
-         if games[id]['bots'][ids]['identeficator']==None:
-           users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'games':1}})
-       except:
-         pass
+          bot.send_message(id, 'Все проиграли!')
+        for ids in games[id]['bots']:
+         try:
+           if games[id]['bots'][ids]['identeficator']==None:
+             users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'games':1}})
+         except:
+           pass
   else:
        if games[id]['bots'][0]['hp']<=0:
            bot.send_message(id, '🏆Босс побеждён!')
@@ -2542,6 +2583,24 @@ def dmgs(id):
             text+='🆘'+trgt['name']+' получает метеор в ебало на '+str(meteordmg)+' урона!\n'
             trgt['takenmeteordmg']+=meteordmg
             trgt['takenmeteors']+=1
+    if games[id]['mode']=='farm':
+        liv=[]
+        for ids in games[id]['bots']:
+            if games[id]['bots'][ids]['die']==0:
+                liv.append(games[id]['bots'][ids])
+        if random.randint(1,100)<=9:
+            dead=random.choice(liv)
+            dead['die']=1
+            text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'! Тот погибает.\n'
+        if random.randint(1,100)<=25:
+            trgt=random.choice(liv)
+            dm=random.randint(1,30)
+            trgt['takendmg']+=dm
+            text+='⛰На бойца '+trgt['name']+' обрушилась скала! Он получает '+str(dm)+' урона!\n'
+        if random.randint(1,100)<=16:
+            games[id]['bots'].update(createsniper() )
+            text+='⁉️🎯Зомби-снайпер почуял кровь! Берегитесь...\n'
+            
     for ids in games[id]['turrets']:
         a=[]
         for idss in games[id]['bots']:
@@ -3810,6 +3869,36 @@ def sliznuk(energy, target, x, id, bot1,hit):
       games[id]['res']+='😶'+bot1['name']+' не понимает, что происодит.\n'
   bot1['energy']-=random.randint(1,5)
   games[id]['res']+=bot1['doptext']
+    
+    
+def riflechance(energy, target, x, id, bot1,hit):
+  if energy>=5:
+    chance=100
+  elif energy==4:
+    chance=100
+  elif energy==3:
+    chance=100
+  elif energy==2:
+    chance=100
+  elif energy==1:
+    chance=100
+  elif energy<=0:
+    chance=100
+  if bot1['blight']==1:
+      chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
+  if hit==1:
+    if x*debuff/(bonus)<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
+  if random.randint(1,100)<=50:
+      games[id]['res']+='🎯'+bot1['name']+' отнимает 1 хп у '+target['name']+' точным выстрелом!\n'
+      target['hp']-=1
+  else:
+      games[id]['res']+='💯'+bot1['name']+' выцеливает жертву...\n'
+  games[id]['res']+=bot1['doptext']
 
 
 
@@ -3887,6 +3976,9 @@ def attack(bot, id,rr):
             
   elif bot['weapon']=='slizgun':
     return slizchance(bot['energy'], target, x, id, bot,rr)
+
+  elif bot['weapon']=='rifle':
+    return riflechance(bot['energy'], target, x, id, bot,rr)
 
    
 def naeb(bot,target,id):
