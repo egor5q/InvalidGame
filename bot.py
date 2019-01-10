@@ -217,7 +217,8 @@ def upd(m):
           a=0
           for ids in x:
                 if 'dnagenerator' in ids['buildings']:
-                    users.update_one({'id':ids['id']},{'$inc':{'cookie':40000}},{'$pull':{'buildings':'dnagenerator'}})
+                    users.update_one({'id':ids['id']},{'$inc':{'cookie':40000}})
+                    users.update_one({'id':ids['id']},{'$pull':{'buildings':'dnagenerator'}})
                     bot.send_message(ids['id'],'Цена генератора ДНК была изменена! Вам возвращены средства и забран генератор.')
                     a+=1
           bot.send_message(441399484, 'a= '+str(a))
