@@ -4057,78 +4057,85 @@ def item(bot, id):
     for bots in games[id]['bots']:
         if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id'] and games[id]['bots'][bots]['die']!=1:
             a.append(games[id]['bots'][bots])
-    x=random.randint(1,len(a))
-    if bot['mainitem']==[]:
-        dd=0
-        while a[x-1]['die']==1 and dd<100:
-            print('while4')
-            dd+=1
-            x=random.randint(1,len(a))
+    if len(a)>=1:
+           x=random.randint(1,len(a))
+           if bot['mainitem']==[]:
+               dd=0
+               while a[x-1]['die']==1 and dd<100:
+                   print('while4')
+                   dd+=1
+                   x=random.randint(1,len(a))
+           else:
+               livex=0
+               if 'flash' in bot['mainitem']:
+                 yes=0
+                 for ii in games[id]['bots']:
+                    if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']!=1:
+                         yes=1
+                 if yes==1:        
+                   dd=0
+                   x=random.randint(1, len(a))
+                   while a[x-1]['energy']<=2 and a[x-1]['die']==1 and dd<=100:
+                       print('while5')
+                       x=random.randint(1,len(a))
+                       dd+=1
+                   livex=1
+                 else:
+                
+                     while a[x-1]['die']==1:
+                         print('while6')
+                         x=random.randint(1,len(a))
+           target=a[x-1]
+           if bot['target']!=None:
+               target=bot['target']
+           bot['target']=target 
     else:
-        livex=0
-        if 'flash' in bot['mainitem']:
-          yes=0
-          for ii in games[id]['bots']:
-             if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']!=1:
-                  yes=1
-          if yes==1:        
-            dd=0
-            x=random.randint(1, len(a))
-            while a[x-1]['energy']<=2 and a[x-1]['die']==1 and dd<=100:
-                print('while5')
-                x=random.randint(1,len(a))
-                dd+=1
-            livex=1
-          else:
-         
-              while a[x-1]['die']==1:
-                  print('while6')
-                  x=random.randint(1,len(a))
-    target=a[x-1]
-    if bot['target']!=None:
-        target=bot['target']
-    bot['target']=target                                            
+           pass
   else:
     target=games[id]['bots'][0]
   x=[]
   i=1
   for items in bot['items']:
       x.append(items)
-  if bot['mainitem']==[]:
-    z=random.choice(x)
+  if x!=[]:
+           if bot['mainitem']==[]:
+             z=random.choice(x)
+           else:
+             z=random.choice(bot['mainitem'])
+           if z=='flash':
+                   games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
+                   target['energy']=0
+                   try:
+                     bot['items'].remove('flash')
+                   except:
+                     pass
+                   bot['target']=None
+           
+           elif z=='knife':
+                   x=random.randint(1,100)
+                   bot['energy']-=2
+                   z=random.randint(1, len(a))
+                   ddd=0
+                   while a[z-1]['die']==1 and ddd<100:
+                     z=random.randint(1,len(a))
+                     ddd+=1
+                   if x>target['miss']:
+                       games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
+                       target['takendmg']+=3
+                       try:
+                         bot['items'].remove('knife')
+                       except:
+                        pass
+                   else:
+                     games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
+                     try:
+                       bot['items'].remove('knife')
+                       bot['target']=None
+                     except:
+                        pass
   else:
-    z=random.choice(bot['mainitem'])
-  if z=='flash':
-          games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
-          target['energy']=0
-          try:
-            bot['items'].remove('flash')
-          except:
-            pass
-          bot['target']=None
-
-  elif z=='knife':
-          x=random.randint(1,100)
-          bot['energy']-=2
-          z=random.randint(1, len(a))
-          ddd=0
-          while a[z-1]['die']==1 and ddd<100:
-            z=random.randint(1,len(a))
-            ddd+=1
-          if x>target['miss']:
-              games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
-              target['takendmg']+=3
-              try:
-                bot['items'].remove('knife')
-              except:
-               pass
-          else:
-            games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
-            try:
-              bot['items'].remove('knife')
-              bot['target']=None
-            except:
-               pass
+       games[id]['res']+='Блять бот юзает предмет когда у него нет предметов @Loshadkin сюда блять\n'
+       
 
 
 
