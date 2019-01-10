@@ -4620,39 +4620,30 @@ def begingame(id):
                    yes=1  
            if yes==1:
                  ids['skills'].append('active')
-           buffs(ids)
+           createlist=buffs(ids)
        text=''
        text2=''
-       print(createlist)
        kon4=[]
        for ids in choicelist:
          kon4.append(ids)
        for ids3 in kon4:
         try:
-           print('kon')
            text+=ids3['name']+':\n'
-           print('kon0')
-           print('kon1')
            allskin=[]
            i=0
            imax=len(ids3['skills'])
            while i<imax:
              allskin.append(ids3['skills'][i])
              i+=1
-           print('konmid1')
            for sk in allskin:
-             print('fghdhs')
              text+=skilltoname(sk)+'\n'
-             print('kon1end')
            try:
                text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
-               print('kon2')
            except:
                text+='Скин: отсутствует.\n'
-               print('kon3')
            text+='\n'
-           print('kon4')
-        except:
+        except Exception as e:
+         bot.send_message(441399484, traceback.format_exc())
          text+='\n'
        giveitems(games[id])
        for ids in createlist:
@@ -4700,6 +4691,7 @@ def begingame(id):
 
 
 def buffs(ids):
+        createlist=[]
         if 'werewolf' in ids['mutations']:
             ids['miss']+=30*(1+ids['chance'])
         if 'paukovod' in ids['skills']:
@@ -4741,6 +4733,7 @@ def buffs(ids):
         ids['maxhp']=ids['hp']
         if 'robot' in ids['skin']:
             ids['maxenergy']+=2
+        return createlist
            
 
 def animaltoname(animal):
