@@ -2229,6 +2229,7 @@ def results(id):
    for ids in games[id]['bots']:
             if games[id]['bots'][ids]['identeficator']==None:
                allus+=1
+   print('ad1')
    endxod=allus*4
    alive=0
    for ids in games[id]['bots']:
@@ -2237,6 +2238,7 @@ def results(id):
    if ((die+1>=len(games[id]['bots']) or len(allid)<=1) and games[id]['mode']!='farm') or ((games[id]['mode']=='farm' and games[id]['turn']>=endhod) or alive==0):
       z=1
       if games[id]['mode']=='farm':
+            print('farm1')
             points=0
             allmoney=allus
             while allmoney!=0:
@@ -2249,6 +2251,7 @@ def results(id):
                     winners.append(games[id]['bots'][ids])
                     winid.append(games[id]['bots'][ids]['id'])
             slist=''
+            print('farm2')
             points=int(points/len(winners))
             for ids in winners:
                 slist+=ids['name']+'\n'
@@ -2258,6 +2261,7 @@ def results(id):
             ftext='Режим "Пекло":\nВсе выжившие получают награду в размере: '+points+'⚛️!\nСписок выживших:\n'+slist
             z=1
             bot.send_message(id,ftext)
+            print('farmend')
       else:
         name=None
         for ids in games[id]['bots']:
