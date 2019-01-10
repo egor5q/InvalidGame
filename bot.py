@@ -4639,12 +4639,13 @@ def begingame(id):
         try:
            text+=ids3['name']+':\n'
            allskin=[]
+           allskill=[]
            i=0
-           imax=len(ids3['skills'])
-           while i<imax:
-             allskin.append(ids3['skills'][i])
-             i+=1
-           for sk in allskin:
+           for idss in kon4['skills']:
+             allskill.append(idsss)
+           for idss in kon4['skin']:
+             allskin.append(idss)
+           for sk in allskill:
              text+=skilltoname(sk)+'\n'
            try:
                text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
