@@ -4316,13 +4316,14 @@ def withoutauto(m):
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра без автоприсоединений началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
         x=users.find({})
-        for idss in x:
-          if idss['id']!=0:
-            if idss['ping']==1:
-               try:
-                  bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
-               except:
-                  pass
+        if m.chat.id==-1001208357368:
+            for idss in x:
+              if idss['id']!=0:
+                if idss['ping']==1:
+                   try:
+                      bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
+                   except:
+                      pass
    
 @bot.message_handler(commands=['fastfinish'])
 def ff(m):
@@ -4482,6 +4483,8 @@ def begingame(id):
             bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
     
     print('55555')
+    if id==-1001488903839:
+        games[id]['mode']='farm'
     if id==-1001208357368 and random.randint(1,100)==1:
       games[id]['bots'].update(createrare(id))
       bot.send_message(id, 'На поле боя был замечен **редкий слизнюк**! Кто поймает его, тот получит 500❇/⚛!',parse_mode='markdown')
