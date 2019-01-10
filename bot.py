@@ -873,8 +873,8 @@ def createdna(m):
 def selectbot(m):
     x=users.find_one({'id':m.from_user.id})
     if x!=None:
-        n=m.text.split(' ')[1]
         try:
+            n=m.text.split(' ')[1]
             timed=x['bot']
             if x['botslots'][n]!={}:
                 users.update_one({'id':x['id']},{'$set':{'bot':x['botslots'][n],'botslots.'+n:timed}})
