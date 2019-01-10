@@ -864,8 +864,8 @@ def dnashop(m):
 def createdna(m):
     x=users.find_one({'id':m.from_user.id})
     if 'dnagenerator' in x['buildings']:
-        n=m.text.split(' ')[1]
         try:
+            n=m.text.split(' ')[1]
             n=int(n)
             cost=5000*n
             if x['cookie']>=cost:
