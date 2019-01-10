@@ -2072,7 +2072,9 @@ def battle(id):
     print('Ошибка:\n', traceback.format_exc())
 
   
-def prizes(id,ids,user,winner):
+def prizes(id,ids,winner):
+       for ids in games[id]['bots']:
+             user=users.find_one({'id':ids['id']})
              prize1=150
              prize2=200
              prize3=300
@@ -2473,7 +2475,8 @@ def results(id):
                   zz=''
              if id==-1001208357368:
               if games[id]['mode']==None:
-                prizes(id,ids,user,winner)
+                
+                prizes(id,ids,winner)
               
               else:
                 if games[id]['mode']=='teamfight':
@@ -2544,11 +2547,11 @@ def dmgs(id):
         for ids in games[id]['bots']:
             if games[id]['bots'][ids]['die']==0:
                 liv.append(games[id]['bots'][ids])
-        if random.randint(1,100)<=9:
+        if random.randint(1,100)<=6:
             dead=random.choice(liv)
             dead['die']=1
             text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'! Тот погибает.\n'
-        if random.randint(1,100)<=25:
+        if random.randint(1,100)<=20:
             trgt=random.choice(liv)
             dm=random.randint(1,30)
             trgt['takendmg']+=dm
@@ -2605,7 +2608,6 @@ def dmgs(id):
               games[id]['res']+='🔥Повелитель огня '+games[id]['bots'][ids]['name']+' использует огненный щит!\n'
     
     for ids in games[id]['bots']:
-        print('dmgs2')
         mob=games[id]['bots'][ids]
         if games[id]['bots'][ids]['target']!=None:
             if games[id]['bots'][ids]['target']['firearmor']==1:
