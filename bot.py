@@ -4621,47 +4621,7 @@ def begingame(id):
                 yes=1  
         if yes==1:
               ids['skills'].append('active')
-        if 'werewolf' in ids['mutations']:
-            ids['miss']+=30*(1+ids['chance'])
-        if 'paukovod' in ids['skills']:
-            ids['hp']-=2
-            ids['maxhp']-=2
-        if 'turret' in ids['skills']:
-            games[id]['turrets'].append(ids['id'])
-        if 'metalarmor' in ids['skills']:
-            ids['currentarmor']=1
-            ids['miss']-=8
-        if 'liveful' in ids['skills']:
-            ids['hp']+=2
-            ids['maxhp']+=2
-            ids['accuracy']-=20
-        if 'necromant' in ids['skills']:
-            ids['hp']-=2
-        if 'oldman' in ids['skin']:
-            ids['chance']+=0.2
-        if 'double' in ids['skills']:
-            b=int(round(ids['hp']/2,0))
-            ids['hp']=b
-            ids['maxhp']=b
-            createlist.append(ids['id'])
-        if 'mage' in ids['skills']:
-            ids['weapon']='magic'
-        if 'secrettech' in ids['skills']:
-            ids['weapon']=random.choice(['bazuka','sword','flame'])
-        if 'magictitan' in ids['skills']:
-            ids['magicshield']=6
-        if 'dvuzhil' in ids['skills']:
-            ids['hp']+=0
-            ids['damagelimit']+=3
-        if 'medic' in ids['skills']:
-            ids['heal']=9
-        if 'pricel' in ids['skills']:
-            ids['accuracy']+=30+(30*ids['chance'])
-        if 'nindza' in ids['skills']:
-            ids['miss']+=20+(20*ids['chance'])
-        ids['maxhp']=ids['hp']
-        if 'robot' in ids['skin']:
-            ids['maxenergy']+=2
+        buffs(ids)
     text=''
     text2=''
     print(createlist)
@@ -4736,6 +4696,50 @@ def begingame(id):
  else:
    pass
 
+
+def buffs(ids):
+        if 'werewolf' in ids['mutations']:
+            ids['miss']+=30*(1+ids['chance'])
+        if 'paukovod' in ids['skills']:
+            ids['hp']-=2
+            ids['maxhp']-=2
+        if 'turret' in ids['skills']:
+            games[id]['turrets'].append(ids['id'])
+        if 'metalarmor' in ids['skills']:
+            ids['currentarmor']=1
+            ids['miss']-=8
+        if 'liveful' in ids['skills']:
+            ids['hp']+=2
+            ids['maxhp']+=2
+            ids['accuracy']-=20
+        if 'necromant' in ids['skills']:
+            ids['hp']-=2
+        if 'oldman' in ids['skin']:
+            ids['chance']+=0.2
+        if 'double' in ids['skills']:
+            b=int(round(ids['hp']/2,0))
+            ids['hp']=b
+            ids['maxhp']=b
+            createlist.append(ids['id'])
+        if 'mage' in ids['skills']:
+            ids['weapon']='magic'
+        if 'secrettech' in ids['skills']:
+            ids['weapon']=random.choice(['bazuka','sword','flame'])
+        if 'magictitan' in ids['skills']:
+            ids['magicshield']=6
+        if 'dvuzhil' in ids['skills']:
+            ids['hp']+=0
+            ids['damagelimit']+=3
+        if 'medic' in ids['skills']:
+            ids['heal']=9
+        if 'pricel' in ids['skills']:
+            ids['accuracy']+=30+(30*ids['chance'])
+        if 'nindza' in ids['skills']:
+            ids['miss']+=20+(20*ids['chance'])
+        ids['maxhp']=ids['hp']
+        if 'robot' in ids['skin']:
+            ids['maxenergy']+=2
+           
 
 def animaltoname(animal):
     if animal=='rhino':
