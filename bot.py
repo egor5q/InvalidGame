@@ -2070,6 +2070,7 @@ def battle(id):
     results(id)
   except Exception as e:
     print('Ошибка:\n', traceback.format_exc())
+    bot.send_message(441399484, traceback.format_exc())
 
   
 def prizes(id,ids,winner):
