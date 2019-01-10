@@ -2535,7 +2535,7 @@ def results(id):
        if games[id]['bots'][0]['hp']<=0:
            bot.send_message(id, '🏆Босс побеждён!')
            z=1
-       
+  print('pitend1')     
   games[id]['results']=''
   games[id]['res']=''
   games[id]['secondres']=''
