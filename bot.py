@@ -4632,7 +4632,7 @@ def begingame(id):
                createlist.append(elem)
        text=''
        text2=''
-       for ids3 in chiocelist:
+       for ids3 in choicelist:
         try:
            text+=ids3['name']+':\n'
            allskin=[]
