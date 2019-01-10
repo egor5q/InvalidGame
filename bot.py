@@ -2386,12 +2386,14 @@ def results(id):
                allus+=1
    print('ad1')
    endxoda=allus*4
+   print('ad2')
    alive=0
    for ids in games[id]['bots']:
         if games[id]['bots'][ids]['die']!=1:
             alive+=1
    if ((die+1>=len(games[id]['bots']) or len(allid)<=1) and games[id]['mode']!='farm') or ((games[id]['mode']=='farm' and games[id]['turn']>=endxoda) or alive==0):
       z=1
+      print('ad3')
       if games[id]['mode']=='farm':
             print('farm1')
             points=0
@@ -2523,6 +2525,8 @@ def results(id):
              users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'games':1}})
          except:
            pass
+   else:
+       print('ad4')
   else:
        if games[id]['bots'][0]['hp']<=0:
            bot.send_message(id, '🏆Босс побеждён!')
@@ -5193,5 +5197,5 @@ if True:
    donates.update_one({},{'$set':{'donaters':[]}})
    print('7777')
    bot.send_message(-1001208357368, 'Бот был перезагружен!')
-   bot.polling(none_stop=True,timeout=600)
+   bot.polling(none_stop=True)
  
