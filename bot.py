@@ -2243,6 +2243,56 @@ def priz(id,ids,user,winner):
                 users.update_one({'id':user['id']}, {'$set':{'prize11':1}})
                 users.update_one({'id':user['id']}, {'$inc':{'cookie':prize11}})
 
+def mobcheck(id,mobs):
+    print('mobcheck')
+    player=games[id]['bots'][mobs]
+    if games[id]['bots'][mobs]['hp']>games[id]['bots'][mobs]['maxhp']:
+        games[id]['bots'][mobs]['hp']=games[id]['bots'][mobs]['maxhp']
+    games[id]['bots'][mobs]['attack']=0
+    games[id]['bots'][mobs]['yvorot']=0 
+    games[id]['bots'][mobs]['reload']=0 
+    games[id]['bots'][mobs]['item']=0
+    games[id]['bots'][mobs]['firearmor']=0
+    games[id]['bots'][mobs]['miss']=0  
+    if 'nindza' in games[id]['bots'][mobs]['skills']:
+      games[id]['bots'][mobs]['miss']+=20+(20*games[id]['bots'][mobs]['chance'])
+    if 'metalarmor' in games[id]['bots'][mobs]['skills']:
+      games[id]['bots'][mobs]['miss']-=8
+      games[id]['bots'][mobs]['currentarmor']=1
+    games[id]['bots'][mobs]['skill']=0
+    games[id]['bots'][mobs]['dopdmg']=0
+    games[id]['bots'][mobs]['shield']=0
+    games[id]['bots'][mobs]['armorturns']-=1
+    if games[id]['bots'][mobs]['armorturns']==0:
+        games[id]['bots'][mobs]['currentarmor']=0
+    games[id]['bots'][mobs]['boundtime']-=1
+    games[id]['bots'][mobs]['boundacted']=0
+    if games[id]['bots'][mobs]['boundtime']==0:
+        games[id]['bots'][mobs]['boundwith']=None
+    games[id]['bots'][mobs]['takendmg']=0
+    if 'firemage' in games[id]['bots'][mobs]['skills']:
+        games[id]['bots'][mobs]['firearmorkd']-=1
+    games[id]['bots'][mobs]['yvorotkd']-=1
+    games[id]['bots'][mobs]['shield']-=1
+    games[id]['bots'][mobs]['hit']=0
+    games[id]['bots'][mobs]['shieldgen']-=1
+    games[id]['bots'][mobs]['blight']=0
+    games[id]['bots'][mobs]['energy']+=games[id]['bots'][mobs]['reservenergy']
+    games[id]['bots'][mobs]['reservenergy']=0
+    games[id]['bots'][mobs]['target']=None
+    games[id]['bots'][mobs]['gipnoz']-=1
+    games[id]['bots'][mobs]['doptext']=''
+    games[id]['bots'][mobs]['mainskill']=[]
+    if games[id]['bots'][mobs]['deffromgun']>0:
+        games[id]['bots'][mobs]['deffromgun']-=1
+    games[id]['bots'][mobs]['mainitem']=[]
+    if games[id]['bots'][mobs]['heal']!=0:
+        games[id]['bots'][mobs]['heal']-=1
+    if games[id]['bots'][mobs]['die']!=1:
+     if games[id]['bots'][mobs]['hp']<1:
+      games[id]['bots'][mobs]['die']=1
+                
+                
 def results(id): 
   lst=[]
   for ids in games[id]['bots']:
@@ -2327,52 +2377,7 @@ def results(id):
   games[id]['summonlist']=[]
   for mobs in games[id]['bots']:
     print('mobcheck')
-    player=games[id]['bots'][mobs]
-    if games[id]['bots'][mobs]['hp']>games[id]['bots'][mobs]['maxhp']:
-        games[id]['bots'][mobs]['hp']=games[id]['bots'][mobs]['maxhp']
-    games[id]['bots'][mobs]['attack']=0
-    games[id]['bots'][mobs]['yvorot']=0 
-    games[id]['bots'][mobs]['reload']=0 
-    games[id]['bots'][mobs]['item']=0
-    games[id]['bots'][mobs]['firearmor']=0
-    games[id]['bots'][mobs]['miss']=0  
-    if 'nindza' in games[id]['bots'][mobs]['skills']:
-      games[id]['bots'][mobs]['miss']+=20+(20*games[id]['bots'][mobs]['chance'])
-    if 'metalarmor' in games[id]['bots'][mobs]['skills']:
-      games[id]['bots'][mobs]['miss']-=8
-      games[id]['bots'][mobs]['currentarmor']=1
-    games[id]['bots'][mobs]['skill']=0
-    games[id]['bots'][mobs]['dopdmg']=0
-    games[id]['bots'][mobs]['shield']=0
-    games[id]['bots'][mobs]['armorturns']-=1
-    if games[id]['bots'][mobs]['armorturns']==0:
-        games[id]['bots'][mobs]['currentarmor']=0
-    games[id]['bots'][mobs]['boundtime']-=1
-    games[id]['bots'][mobs]['boundacted']=0
-    if games[id]['bots'][mobs]['boundtime']==0:
-        games[id]['bots'][mobs]['boundwith']=None
-    games[id]['bots'][mobs]['takendmg']=0
-    if 'firemage' in games[id]['bots'][mobs]['skills']:
-        games[id]['bots'][mobs]['firearmorkd']-=1
-    games[id]['bots'][mobs]['yvorotkd']-=1
-    games[id]['bots'][mobs]['shield']-=1
-    games[id]['bots'][mobs]['hit']=0
-    games[id]['bots'][mobs]['shieldgen']-=1
-    games[id]['bots'][mobs]['blight']=0
-    games[id]['bots'][mobs]['energy']+=games[id]['bots'][mobs]['reservenergy']
-    games[id]['bots'][mobs]['reservenergy']=0
-    games[id]['bots'][mobs]['target']=None
-    games[id]['bots'][mobs]['gipnoz']-=1
-    games[id]['bots'][mobs]['doptext']=''
-    games[id]['bots'][mobs]['mainskill']=[]
-    if games[id]['bots'][mobs]['deffromgun']>0:
-        games[id]['bots'][mobs]['deffromgun']-=1
-    games[id]['bots'][mobs]['mainitem']=[]
-    if games[id]['bots'][mobs]['heal']!=0:
-        games[id]['bots'][mobs]['heal']-=1
-    if games[id]['bots'][mobs]['die']!=1:
-     if games[id]['bots'][mobs]['hp']<1:
-      games[id]['bots'][mobs]['die']=1
+    mobcheck(id,mobs)
   print('mobcheckfinish')
   for ids in games[id]['bots']:
       if games[id]['bots'][ids]['die']==1:
@@ -2388,12 +2393,12 @@ def results(id):
             if games[id]['bots'][ids]['identeficator']==None:
                allus+=1
    print('ad1')
-   endxod=allus*4
+   endxoda=allus*4
    alive=0
    for ids in games[id]['bots']:
         if games[id]['bots'][ids]['die']!=1:
             alive+=1
-   if ((die+1>=len(games[id]['bots']) or len(allid)<=1) and games[id]['mode']!='farm') or ((games[id]['mode']=='farm' and games[id]['turn']>=endhod) or alive==0):
+   if ((die+1>=len(games[id]['bots']) or len(allid)<=1) and games[id]['mode']!='farm') or ((games[id]['mode']=='farm' and games[id]['turn']>=endxoda) or alive==0):
       z=1
       if games[id]['mode']=='farm':
             print('farm1')
