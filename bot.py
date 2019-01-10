@@ -4585,7 +4585,6 @@ def begingame(id):
                        team2+=idsz['name']+'\n'
                bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
        
-       print('55555')
        if id==-1001488903839:
            games[id]['mode']='farm'
        if id==-1001208357368 and random.randint(1,100)==1:
@@ -4628,7 +4627,9 @@ def begingame(id):
                    yes=1  
            if yes==1:
                  ids['skills'].append('active')
-           createlist.append(buffs(ids))
+           n=buffs(ids)
+           for elem in n:
+               createlist.append(elem)
        text=''
        text2=''
        kon4=[]
@@ -4655,9 +4656,7 @@ def begingame(id):
          text+='\n'
        giveitems(games[id])
        for ids in createlist:
-           print('cycle2')
            rnd=randomgen(id)
-           aa=ids.copy()
            games[id]['bots'].update(createdouble(id,ids))
            text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
        techw=['bazuka','sword','flame']
