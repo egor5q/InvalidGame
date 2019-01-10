@@ -659,7 +659,7 @@ def me(m):
       except:
         a='ничего'
       dnaw=0
-      if x['dnagenerator']!=None:
+      if x['dnacreator']!=None:
            dnaw+=1
       x=users.find_one({'id':m.from_user.id})
       bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\n'+'ДНК: '+str(x['dna']+dnaw)+'🧬\nДНК на генерации: '+str(x['dnawaiting'])+'\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
