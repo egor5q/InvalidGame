@@ -2409,7 +2409,10 @@ def results(id):
                     winid.append(games[id]['bots'][ids]['id'])
             slist=''
             print('farm2')
-            points=int(points/len(winners))
+            try:
+                points=int(points/len(winners))
+            except:
+                points=0
             for ids in winners:
                 slist+=ids['name']+'\n'
                 users.update_one({'id':ids['id']},{'$inc':{'cookie':points}})
