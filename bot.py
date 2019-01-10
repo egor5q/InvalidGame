@@ -4649,7 +4649,7 @@ def begingame(id):
        for ids in createlist:
            print('cycle2')
            rnd=randomgen(id)
-           aa=games[id]['bots'][ids].copy()
+           aa=ids.copy()
            games[id]['bots'].update(createbott(rnd, aa))
            games[id]['bots'][rnd]['identeficator']==rnd
            print(games[id]['bots'][rnd])
