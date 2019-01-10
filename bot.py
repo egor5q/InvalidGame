@@ -2072,7 +2072,7 @@ def battle(id):
     print('Ошибка:\n', traceback.format_exc())
 
   
-def prizes(id,ids,winner,points):
+def prizes(id,ids,winner):
        for ids in games[id]['bots']:
              user=users.find_one({'id':games[id]['bots'][ids]['id']})
              prize1=150
