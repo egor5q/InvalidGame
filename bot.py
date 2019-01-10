@@ -885,7 +885,7 @@ def selectbot(m):
             i=1
             text='Слоты, в которых у вас есть бойцы:\n'
             while i<=3:
-                if x['botslots'][ids][str(i)]!={}:
+                if x['botslots'][str(i)]!={}:
                     text+=str(i)+'\n'
                 i+=1
             bot.send_message(m.chat.id, text+'Чтобы выбрать бойца, напишите следующую команду:\n/selectbot *номер*',parse_mode='markdown')
