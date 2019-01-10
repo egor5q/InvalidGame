@@ -4620,7 +4620,7 @@ def begingame(id):
                    yes=1  
            if yes==1:
                  ids['skills'].append('active')
-           createlist=buffs(ids)
+           createlist.append(buffs(ids))
        text=''
        text2=''
        kon4=[]
