@@ -4632,18 +4632,15 @@ def begingame(id):
                createlist.append(elem)
        text=''
        text2=''
-       kon4=[]
-       for ids in choicelist:
-         kon4.append(ids)
-       for ids3 in kon4:
+       for ids3 in chiocelist:
         try:
            text+=ids3['name']+':\n'
            allskin=[]
            allskill=[]
            i=0
-           for code in kon4['skills']:
+           for code in ids3['skills']:
              allskill.append(code)
-           for code in kon4['skin']:
+           for code in ids3['skin']:
              allskin.append(code)
            for sk in allskill:
              text+=skilltoname(sk)+'\n'
