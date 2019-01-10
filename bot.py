@@ -2074,7 +2074,7 @@ def battle(id):
   
 def prizes(id,ids,winner):
        for ids in games[id]['bots']:
-             user=users.find_one({'id':ids['id']})
+             user=users.find_one({'id':games[id]['bots'][ids]['id']})
              prize1=150
              prize2=200
              prize3=300
@@ -2381,7 +2381,7 @@ def results(id):
             points=0
             allmoney=allus
             while allmoney!=0:
-                points+=random.randint(1,70)
+                points+=random.randint(20,70)
                 allmoney-=1
             winners=[]
             winid=[]
