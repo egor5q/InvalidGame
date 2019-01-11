@@ -978,7 +978,7 @@ def inline(call):
   secrettech='☑️'
   x=users.find_one({'id':call.from_user.id})
   if 'dna' in call.data:
-        conflicts=['werewolf']
+        conflict=['werewolf']
         if call.data=='dna buy':
             if 'dnagenerator' in x['buildings']:
                 medit('Выберите количество ДНК, которое хотите произвести. На производство одной единицы '+
@@ -1101,7 +1101,10 @@ def inline(call):
                 elif m=='elemental':
                     text='Элементаль'
                 kb.add(types.InlineKeyboardButton(text=text,callback_data='dna mutatebot '+m))
-            medit('Выберите, какую мутацию хотите применить к бойцу '+x['bot']['name']+'. Внимание!!! Нельзя иметь '+
+            name=x['bot']['name']
+            if name==None:
+                name='Без имени'
+            medit('Выберите, какую мутацию хотите применить к бойцу '+name+'. Внимание!!! Нельзя иметь '+
                   'больше одной мутации на бойца!\nНе забудьте выбрать нужного бойца '+
                   'командой /selectbot.',call.message.chat.id, call.message.message_id, reply_markup=kb)
            
