@@ -2302,7 +2302,7 @@ def mobcheck(id,mobs):
       games[id]['bots'][mobs]['miss']+=20*(1+games[id]['bots'][mobs]['chance'])
     if 'werewolf' in player['mutations']:
         if games[id]['xod']%2==0:
-            player['miss']+=30*(1+ids['chance'])
+            player['miss']+=30*(1+player['chance'])
             prm=player['name']
             player['name']=player['dopname']
             player['dopname']=prm
