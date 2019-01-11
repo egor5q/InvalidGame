@@ -211,28 +211,28 @@ skills=[]
 
 items=['flash', 'knife']
 
-#@bot.message_handler(commands=['update'])
-#def upd(m):
-#        if m.from_user.id==441399484:
-#          users.update_many({},{'$set':{'bot.dopname':None}})
-#          x=users.find({})
-#          for ids in x:
-#              if ids['botslots']['1']!={}:
-#                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.dopname':None}})
-#          for ids in x:
-#              if ids['botslots']['2']!={}:
-#                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.dopname':None}})
-#          for ids in x:
-#              if ids['botslots']['3']!={}:
-#                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.dopname':None}})
-#          print('yes')  
-
-
 @bot.message_handler(commands=['update'])
 def upd(m):
-      if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'pingnogmo':0}})
-          print('yes')
+        if m.from_user.id==441399484:
+          users.update_many({},{'$set':{'bot.effects':[]}})
+          x=users.find({})
+          for ids in x:
+              if ids['botslots']['1']!={}:
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.effects':[]}})
+          for ids in x:
+              if ids['botslots']['2']!={}:
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.effects':[]}})
+          for ids in x:
+              if ids['botslots']['3']!={}:
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.effects':[]}})
+          print('yes')  
+
+
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#      if m.from_user.id==441399484:
+#          users.update_many({},{'$set':{'pingnogmo':0}})
+#          print('yes')
 
 @bot.message_handler(commands=['massbattle'])
 def upd(m):
@@ -1156,6 +1156,7 @@ def inline(call):
         elif call.data=='dna mutations':
             kb=types.InlineKeyboardMarkup()
             kb.add(types.InlineKeyboardButton(text='🐺Оборотень', callback_data='dna werewolf'))
+            kb.add(types.InlineKeyboardButton(text='⚡️Электродемон', callback_data='dna electro'))
             medit('Выберите мутацию, которую хотите изучить. Изучив мутацию 1 раз, вы сможете применять её к любому количеству бойцов.',call.message.chat.id, call.message.message_id,reply_markup=kb)
             
         elif call.data=='dna werewolf':
@@ -1177,17 +1178,50 @@ def inline(call):
                   'волка, который имеет 30% уворота и вампиризм (при успешной атаке восстанавливает себе хп). '+
                   'В дальнейшем вы сможете улучшить это ДНК, добавляя новые способности и усиляя предыдущие.',call.message.chat.id, call.message.message_id,reply_markup=kb)
             
+        elif call.data=='dna electro':
+            kb=types.InlineKeyboardMarkup()
+            cost=6
+            tx='Изучить'
+            data='dnaresearch electro'
+            if 'electro' not in x['searched']:
+                cost=6
+            #elif 'electro1' not in x['mutationlvls']:
+            #    cost=2
+            #    tx='Улучшить'
+            else:
+                data='close'
+                cost=0
+                tx='У вас уже есть все доступные улучшения! Закрыть.'
+            kb.add(types.InlineKeyboardButton(text=tx+' ('+str(cost)+'🧬)', callback_data=data))
+            medit('(пока что не дает баффов, разрабатывается...) Электродемон - нечисть, питающаяся электричеством. После получения его ДНК, боец обретёт силу, которая и не снилась '+
+                  'его отцу... Первый скилл - "электрошок" - боец выпускает мощный заряд электричества в выбранную цель, '+
+                  'не позволяя ей использовать скиллы в этом матче. Так же хп бойца увеличиваются на 2.\n'+
+                  'В дальнейшем вы сможете улучшить это ДНК, добавляя новые способности и усиляя предыдущие.',call.message.chat.id, call.message.message_id,reply_markup=kb)
+            
         elif 'dnaresearch' in call.data:
             mutation=call.data.split(' ')[1]
             if mutation not in x['searched']:
+            if mutation=='werewolf':
                 cost=5
-                topush='searched'
-                whatpush=mutation
-                text1='Начинаем эксперимент...\n\n_->DNA.converter.launch(Human.DNA; Wolf.DNA)\n'+\
+            elif mutation=='electro':
+                cost=6
+            topush='searched'
+            whatpush=mutation
+            if mutation=='werewolf':
+                dna1='Human.DNA'
+                dna2='Wolf.DNA'
+                result='werewolf.DNA'
+                result2='оборотня'
+            elif mutation=='electro':
+                dna1='darkness.DNA'
+                dna2='energy.DNA'
+                result='electro.DNA'
+                result2='электродемона'
+            text1='Начинаем эксперимент...\n\n_->DNA.converter.launch('+dna1+'; '+dna2+')\n'+\
                       'console: enter password first, retard.\n->da sosi\nconsole: password correct, welcome!\n'+\
-                      'console: combinating: wolf.DNA+human.DNA...\nconsole: ...\nconsole: DNA combinated successfully! recieved: '+\
-                      'werewolf.DNA. Thank you for using "PenisDetrov" '+\
-                      'technology!_\n\nДНК оборотня успешно произведено!'
+                      'console: combinating: '+dna1+'+'+dna2+'...\nconsole: ...\nconsole: DNA combinated successfully! recieved: '+\
+                      result+'. Thank you for using "PenisDetrov" '+\
+                      'technology!_\n\nДНК '+result2+' успешно произведено!'
             elif mutation+'1' not in x['mutationlvls']:
                 cost=2
                 topush='mutationlvls'
@@ -4189,73 +4223,38 @@ def skill(bot,id):
              
 
 def item(bot, id):
-  target=None
-  if 0 not in games[id]['bots']:
-    a=[]
-    for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['die']!=1:
-            a.append(games[id]['bots'][bots])
-    if len(a)>=1:
-           x=random.randint(1,len(a))
+           target=None
            if bot['mainitem']==[]:
-               dd=0
-               while a[x-1]['die']==1 and dd<100:
-                   print('while4')
-                   dd+=1
-                   x=random.randint(1,len(a))
-           else:
-               livex=0
-               if 'flash' in bot['mainitem']:
-                 yes=0
-                 for ii in games[id]['bots']:
-                    if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['die']!=1:
-                         yes=1
-                 if yes==1:        
-                   dd=0
-                   x=random.randint(1, len(a))
-                   while a[x-1]['energy']<=2 and a[x-1]['die']==1 and dd<=100:
-                       print('while5')
-                       x=random.randint(1,len(a))
-                       dd+=1
-                   livex=1
-                 else:
-                
-                     while a[x-1]['die']==1:
-                         print('while6')
-                         x=random.randint(1,len(a))
-           target=a[x-1]
-           if bot['target']!=None:
-               target=bot['target']
-           bot['target']=target 
-    else:
-           pass
-  else:
-    target=games[id]['bots'][0]
-  x=[]
-  i=1
-  for items in bot['items']:
-      x.append(items)
-  if x!=[]:
-           if bot['mainitem']==[]:
-             z=random.choice(x)
+             games[id]['res']+='Позовите @Loshadkin блеать, он опять с кодом накосячил, пидорас.\n'
            else:
              z=random.choice(bot['mainitem'])
            if z=='flash':
-                if target!=None:
-                   games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
-                   target['energy']=0
-                   try:
-                     bot['items'].remove('flash')
-                   except:
-                     pass
-                   bot['target']=None
+                allenemy=[]
+                for ids in games[id]['bots']:
+                    tr=games[id]['bots'][ids]
+                    if tr['die']!=1 and tr['energy']>2:
+                        allenemy.append(tr)
+                if allenemy!=[]:
+                    target=random.choice(allenemy)
+                    games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
+                    target['energy']=0
+                    try:
+                        bot['items'].remove('flash')
+                    except:
+                        pass
+                    bot['target']=None
                 else:
-                     games[id]['res']+=bot['name']+' пьёт чай - соперников не осталось!\n'   
+                     games[id]['res']+='☕️'+bot['name']+' пьёт чай - соперников для флешки не осталось!\n'   
            
            elif z=='knife':
                    x=random.randint(1,100)
                    bot['energy']-=2
-                   if target!=None:
+                   allenemy=[]
+                   for ids in games[id]['bots']:
+                        tr=games[id]['bots'][ids]
+                            if tr['die']!=1 and tr['zombie']<=0:
+                                allenemy.append(tr)
+                   if allenemy!=[]:
                      if x>target['miss']:
                        games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
                        target['takendmg']+=3
@@ -4266,15 +4265,12 @@ def item(bot, id):
                      else:
                        games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
                        try:
-                         bot['items'].remove('knife')
                          bot['target']=None
+                         bot['items'].remove('knife')
                        except:
                           pass
                    else:
-                        games[id]['res']+=bot['name']+' пьёт чай - соперников не осталось!\n'         
-  else:
-       games[id]['res']+='😴'+bot['name']+' отдыхает. Энергия восстановлена до '+str(bot['maxenergy'])+'!\n' 
-       bot['energy']=bot['maxenergy']
+                        games[id]['res']+=bot['name']+' пьёт чай - соперников для броска ножа не осталось!\n'         
        
 
 
@@ -4282,7 +4278,6 @@ def item(bot, id):
 def actnumber(bot, id):  
   a=[]
   npc=bot
-  print('actnumber1')
   if npc['energy']>0 and npc['energy']<=2:
     x=random.randint(1,100)
     if npc['weapon']!='hand':
@@ -4312,6 +4307,9 @@ def actnumber(bot, id):
       attack=1
   else:
     attack=0
+  if npc['weapon']=='bow':
+    attack=1
+    npc['energy']=0
     
   x=random.randint(1,100)  
   low=0
@@ -4322,7 +4320,6 @@ def actnumber(bot, id):
   for mob in enemy1:
       if mob['id']!=npc['id']:
          enemy.append(mob)
-  print('actnumber2')
   for mob in enemy:
    if mob['energy']<=2 or mob['stun']>0 or (mob['weapon']=='magic' and mob['animal']=='pig') or mob['die']==1 or (mob['weapon']=='bow' and mob['bowcharge']==0) or mob['magicshieldkd']>0:  
     low+=1
@@ -4343,11 +4340,9 @@ def actnumber(bot, id):
    else:
       yvorot=0
    if 'shieldgen' in npc['skills'] and npc['shieldgen']<=0 and low<len(enemy):
-      yvorot=1
-  print('actnumber3')      
+      yvorot=1   
   x=random.randint(1,100)
   if len(npc['skills'])>0 and 'active' in npc['skills']:
-    fire=0
     if 'gipnoz' in npc['skills'] and npc['gipnoz']<=0:
         if low==len(enemy):
            gipn=0
@@ -4357,14 +4352,17 @@ def actnumber(bot, id):
             skill=1
     else:
         gipn=0
-    if gipn==0 and fire==0:
+    if gipn==0:
         skill=0
     else:
         skill=1   
     
   else:
     skill=0
-  if 'medic' in npc['skills'] and npc['heal']<=0 and npc['maxhp']!=npc['hp']:
+  for ids in npc['effects']:
+      if npc['effects'][ids]['name']=='silence' and npc['effects'][ids]['lenght']>0:
+            skill=0
+  if 'medic' in npc['skills'] and npc['heal']<=0 and npc['maxhp']!=npc['hp'] and random.randint(1,100)<=75:
       skill=1
       npc['mainskill'].append('medic')
         
@@ -4382,7 +4380,7 @@ def actnumber(bot, id):
         npc['mainitem'].append('knife')
     if knife==1 or flash==1:      
         x=random.randint(1,100)
-        if x<=50:
+        if x<=45:
             item=1
         else:
             item=0
@@ -4397,15 +4395,12 @@ def actnumber(bot, id):
     else:
       reload=1
   else:
-    reload=0
-  print('actnumber4')  
+    reload=0 
   return{'attack':{'name':'attack', 'x':attack}, 'yvorot':{'name':'yvorot', 'x':yvorot}, 'item':{'name':'item', 'x':item}, 'reload':{'name':'reload', 'x':reload},'skill':{'name':'skill', 'x':skill}}
          
       
 def act(bot, id):
-  print('actstart')
   actions=actnumber(bot, id)
-  print('actend')
   curact=[]
   for item in actions:
     if actions[item]['x']==1:
@@ -4446,7 +4441,6 @@ def helpp(m):
 @bot.message_handler(commands=['start'])
 def start(m):
   x=m.text.split('/start')
-  print(x)
   try:
      if int(x[1]) in games:
       if games[int(x[1])]['started']==0:
@@ -4882,6 +4876,7 @@ def buffs(ids):
         if 'werewolf' in ids['mutations']:
             smile='🐺'
             ids['dopname']='['+smile+']'+ids['name']
+            ids['accuracy']+=10
         if 'paukovod' in ids['skills']:
             ids['hp']-=2
             ids['maxhp']-=2
@@ -5101,11 +5096,12 @@ def createbot(id):
               'mutations':[],
               'skills':[],
               'team':None,
+              'effects':[],
               'hp':4,
               'maxhp':0,
               'maxenergy':5,
               'energy':5,
-              'items':[],           
+              'items':[], 
               'attack':0,
               'yvorot':0,
               'reload':0,
