@@ -4584,7 +4584,7 @@ def begingame(id):
                    else:
                        idsr['id']=leader2['id']
                        i=0
-               print('4444'               team1=''
+               team1=''
                team2=''
                for idsz in choicelist:
                    if idsz['id']==leader1['id']:
