@@ -2126,7 +2126,7 @@ def inline(call):
            
   elif call.data=='usejoinw':
       x=users.find_one({'id':call.from_user.id})
-      if x['mutantjoin']==0:
+      if x['nomutantjoin']==0:
           users.update_one({'id':call.from_user.id}, {'$set':{'nomutantjoin':1}})
           medit('✅Автоджоин к играм без мутантов успешно включён!', call.message.chat.id, call.message.message_id)
       else:
