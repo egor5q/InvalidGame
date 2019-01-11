@@ -1084,7 +1084,7 @@ def inline(call):
         elif call.data=='dna mutate':
             kb=types.InlineKeyboardMarkup()
             for ids in x['searched']:
-                m=x['searched'][ids]
+                m=ids
                 if m=='werewolf': 
                     text='Оборотень'
                 elif m=='elemental':
