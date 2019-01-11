@@ -2436,6 +2436,7 @@ def results(id):
             if games[id]['bots'][ids]['identeficator']==None:
                allus+=1
    endxoda=allus*3
+   endxoda+=1
    alive=0
    for ids in games[id]['bots']:
         if games[id]['bots'][ids]['die']!=1:
@@ -2639,16 +2640,16 @@ def dmgs(id):
         for ids in games[id]['bots']:
             if games[id]['bots'][ids]['die']==0:
                 liv.append(games[id]['bots'][ids])
-        if random.randint(1,100)<=6:
+        if random.randint(1,100)<=8:
             dead=random.choice(liv)
             dead['die']=1
             text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'! Тот погибает.\n'
-        if random.randint(1,100)<=20:
+        if random.randint(1,100)<=27:
             trgt=random.choice(liv)
             dm=random.randint(1,30)
             trgt['takendmg']+=dm
             text+='⛰На бойца '+trgt['name']+' обрушилась скала! Он получает '+str(dm)+' урона!\n'
-        if random.randint(1,100)<=10:
+        if random.randint(1,100)<=12:
             games[id]['bots'].update(createsniper(chatid=id) )
             text+='⁉️🎯Зомби-снайпер почуял кровь! Берегитесь...\n'
             
@@ -4121,6 +4122,7 @@ def skill(bot,id):
              
 
 def item(bot, id):
+  target=None
   if 0 not in games[id]['bots']:
     a=[]
     for bots in games[id]['bots']:
@@ -4172,6 +4174,7 @@ def item(bot, id):
            else:
              z=random.choice(bot['mainitem'])
            if z=='flash':
+                if target!=None:
                    games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
                    target['energy']=0
                    try:
@@ -4179,26 +4182,32 @@ def item(bot, id):
                    except:
                      pass
                    bot['target']=None
+                else:
+                     games[id]['res']+=bot['name']+' пьёт чай - соперников не осталось!\n'   
            
            elif z=='knife':
                    x=random.randint(1,100)
                    bot['energy']-=2
-                   if x>target['miss']:
+                   if target!=None:
+                     if x>target['miss']:
                        games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
                        target['takendmg']+=3
                        try:
                          bot['items'].remove('knife')
                        except:
                         pass
+                     else:
+                       games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
+                       try:
+                         bot['items'].remove('knife')
+                         bot['target']=None
+                       except:
+                          pass
                    else:
-                     games[id]['res']+='💨'+bot['name']+' Не попадает ножом в '+target['name']+'!\n'
-                     try:
-                       bot['items'].remove('knife')
-                       bot['target']=None
-                     except:
-                        pass
+                        games[id]['res']+=bot['name']+' пьёт чай - соперников не осталось!\n'         
   else:
-       games[id]['res']+='Блять бот юзает предмет когда у него нет предметов @Loshadkin сюда блять\n'
+       games[id]['res']+='😴'+bot['name']+' отдыхает. Энергия восстановлена до '+str(bot['maxenergy'])+'!\n' 
+       bot['energy']=bot['maxenergy']
        
 
 
