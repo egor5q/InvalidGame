@@ -4255,6 +4255,7 @@ def item(bot, id):
                         if tr['die']!=1 and tr['zombie']<=0:
                                 allenemy.append(tr)
                    if allenemy!=[]:
+                     target=random.choice(allenemy)
                      if x>target['miss']:
                        games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
                        target['takendmg']+=3
@@ -4359,9 +4360,7 @@ def actnumber(bot, id):
     
   else:
     skill=0
-  for ids in npc['effects']:
-      if npc['effects'][ids]['name']=='silence' and npc['effects'][ids]['lenght']>0:
-            skill=0
+
   if 'medic' in npc['skills'] and npc['heal']<=0 and npc['maxhp']!=npc['hp'] and random.randint(1,100)<=75:
       skill=1
       npc['mainskill'].append('medic')
