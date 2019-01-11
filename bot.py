@@ -1177,8 +1177,10 @@ def inline(call):
                     users.update_one({'id':x['id']},{'$push':{'bot.mutations':mutation}})
                     medit('Даём бойцу инъекцию с ДНК '+text+'! Отойдём подальше, мало ли что...\n...\n'+
                           'Готово! Чтобы увидеть мутацию в действии, сыграйте матч и посмотрите за результатом.',call.message.chat.id, call.message.message_id, parse_mode='markdown')
+                else:
+                    medit('Нельзя мутировать начального бойца! Создайте его улучшенную копию с помощью клонирователя!',call.message.chat.id, call.message.message_id, parse_mode='markdown')
             else:
-                pass
+                medit('Этот боец уже имеет мутацию!',call.message.chat.id, call.message.message_id, parse_mode='markdown')
            
                 
   elif call.data=='hp':
