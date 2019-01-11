@@ -211,21 +211,27 @@ skills=[]
 
 items=['flash', 'knife']
 
+#@bot.message_handler(commands=['update'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#          users.update_many({},{'$set':{'bot.dopname':None}})
+#          x=users.find({})
+#          for ids in x:
+#              if ids['botslots']['1']!={}:
+#                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.dopname':None}})
+#          for ids in x:
+#              if ids['botslots']['2']!={}:
+#                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.dopname':None}})
+#          for ids in x:
+#              if ids['botslots']['3']!={}:
+#                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.dopname':None}})
+#          print('yes')  
+
+
 @bot.message_handler(commands=['update'])
 def upd(m):
-        if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'bot.dopname':None}})
-          x=users.find({})
-          for ids in x:
-              if ids['botslots']['1']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.dopname':None}})
-          for ids in x:
-              if ids['botslots']['2']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.dopname':None}})
-          for ids in x:
-              if ids['botslots']['3']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.dopname':None}})
-          print('yes')  
+      if m.from_user.id==441399484:
+          users.update_many({},{'$set':{'nomutantjoin':0}})
 
 @bot.message_handler(commands=['massbattle'])
 def upd(m):
@@ -2512,7 +2518,7 @@ def results(id):
               points+=4
           for ids in games[id]['bots']:
              if 'werewolf' in games[id]['bots'][ids]['mutations']:
-                 points+=15
+                 points+=20
           for ids in games[id]['bots']:
               for itemss in games[id]['bots'][ids]['skills']:
                 if games[id]['bots'][ids]['id']!=winner['id']:
@@ -4432,11 +4438,14 @@ def start(m):
          if y['bot']['id'] not in games[int(x[1])]['ids']:
           if y['bot']['name']!=None:
            if games[int(x[1])]['started']==0:
-            games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
-            users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
-            bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
-            bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+y['bot']['name']+') присоединился!')
-            games[int(x[1])]['ids'].append(m.from_user.id)
+            if games[int(x[1])]['gmo']==0 and y['bot']['mutations']!=[]:
+                bot.send_message(m.chat.id, 'Нельзя заходить в бой "без мутаций" улучшенным бойцом! Напишите /selectbot для выбора.')
+            else:
+                games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
+                users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
+                bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
+                bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+y['bot']['name']+') присоединился!')
+                games[int(x[1])]['ids'].append(m.from_user.id)
           else:
              bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
   except:
@@ -4506,6 +4515,8 @@ def withoutauto(m):
    # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:# and m.from_user.id==441399484:
         games.update(creategame(m.chat.id, 0))
+        if m.chat.id==-1001172494515:
+            games[m.chat.id]['gmo']=0
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         games[m.chat.id]['timer']=t
@@ -4593,6 +4604,75 @@ def begin(m):
                    text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
                except:
                    pass
+         
+         bot.send_message(m.chat.id, text)
+         x=users.find({})
+         for idss in x:
+          if idss['id']!=0:
+            if idss['ping']==1:
+               try:
+                  bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
+               except:
+                  pass
+               
+            
+        elif m.chat.id==-1001172494515:
+         text=''
+         games[m.chat.id]['gmo']=0
+         for ids in x:
+          if ids['id']!=0:
+            if ids['nomutationjoin']==1 and ids['joinbots']>0 and ids['bot']['name']!=None and ids['bot']['mutations']==[]:
+               games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
+               games[m.chat.id]['ids'].append(ids['id'])
+               users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
+               games[m.chat.id]['joinbotsreturn'].append(ids['id'])
+               try:
+                   text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
+               except:
+                   pass
+         bot.send_message(m.chat.id, text)
+         x=users.find({})
+         for idss in x:
+          if idss['id']!=0:
+            if idss['pingnogmo']==1:
+               try:
+                  bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
+               except:
+                  pass
+   else:
+        bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.')   
+   
+@bot.message_handler(commands=['withoutgmo'])
+def begin(m):
+   newchat=-1001172494515
+   y=variables.find_one({'vars':'main'})
+   if y['enablegames']==1:                      
+ # if m.chat.id==-1001208357368:#-229396706:
+     if m.chat.id not in games:
+        games.update(creategame(m.chat.id,0))
+        games[m.chat.id]['gmo']=0
+        t=threading.Timer(300, starttimer, args=[m.chat.id])
+        t.start()
+        games[m.chat.id]['timer']=t
+        t=threading.Timer(60,enablestart,args=[m.chat.id])
+        t.start()
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
+        x=users.find({})
+        if m.chat.id==-1001208357368:
+         text=''
+         for ids in x:
+          if ids['id']!=0:
+            if ids['nomutantjoin']==1 and ids['joinbots']>0 and ids['bot']['name']!=None and ids['bot']['mutations']==[]:
+               games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
+               games[m.chat.id]['ids'].append(ids['id'])
+               users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
+               games[m.chat.id]['joinbotsreturn'].append(ids['id'])
+               try:
+                   text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
+               except:
+                   pass
          bot.send_message(m.chat.id, text)
          x=users.find({})
          for idss in x:
@@ -4606,8 +4686,8 @@ def begin(m):
         if m.chat.id!=-1001208357368:
            bot.send_message(441399484, 'Где-то началась игра!')
    else:
-        bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.')   
-   
+        bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.') 
+
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
     return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
                                  parse_mode=parse_mode)        
@@ -4933,6 +5013,7 @@ def createuser(id, username, name):
            'cookiecoef':0.10,
            'joinbots':0,
            'enablejoin':0,
+           'nomutantjoin':0,
            'currentjoinbots':0,
            'dailybox':1,
            'games':0,
@@ -4959,6 +5040,7 @@ def creategame(id, special):
         'ids':[],
         'bots':{},
         'results':'',
+        'gmo':1,
         'secondres':'',
         'res':'',
         'started':0,
