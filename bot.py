@@ -4634,7 +4634,7 @@ def begin(m):
          games[m.chat.id]['gmo']=0
          for ids in x:
           if ids['id']!=0:
-            if ids['nomutationjoin']==1 and ids['joinbots']>0 and ids['bot']['name']!=None and ids['bot']['mutations']==[]:
+            if ids['nomutantjoin']==1 and ids['joinbots']>0 and ids['bot']['name']!=None and ids['bot']['mutations']==[]:
                games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[m.chat.id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
