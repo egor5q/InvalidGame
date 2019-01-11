@@ -4084,7 +4084,7 @@ def item(bot, id):
   if 0 not in games[id]['bots']:
     a=[]
     for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id'] and games[id]['bots'][bots]['die']!=1:
+        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['die']!=1:
             a.append(games[id]['bots'][bots])
     if len(a)>=1:
            x=random.randint(1,len(a))
@@ -4143,11 +4143,6 @@ def item(bot, id):
            elif z=='knife':
                    x=random.randint(1,100)
                    bot['energy']-=2
-                   z=random.choice(a)
-                   ddd=0
-                   while z['die']==1 and ddd<100:
-                     z=random.choice(z)
-                     ddd+=1
                    if x>target['miss']:
                        games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
                        target['takendmg']+=3
