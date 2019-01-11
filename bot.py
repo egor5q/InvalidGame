@@ -231,7 +231,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
       if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'nomutantjoin':0}})
+          users.update_many({},{'$set':{'pingnogmo':0}})
           print('yes')
 
 @bot.message_handler(commands=['massbattle'])
@@ -4593,7 +4593,6 @@ def enablestart(id):
 def begin(m):
    y=variables.find_one({'vars':'main'})
    if y['enablegames']==1:                      
- # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:
         games.update(creategame(m.chat.id,0))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
@@ -4650,7 +4649,7 @@ def begin(m):
           if idss['id']!=0:
             if idss['pingnogmo']==1:
                try:
-                  bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
+                  bot.send_message(idss['id'], 'В чате @cookiewars_no_gmo началась игра!') 
                except:
                   pass
    else:
@@ -4696,9 +4695,7 @@ def begin(m):
                   bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
                except:
                   pass
-               
-        if m.chat.id!=-1001208357368:
-           bot.send_message(441399484, 'Где-то началась игра!')
+
    else:
         bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.') 
 
@@ -5032,6 +5029,7 @@ def createuser(id, username, name):
            'dailybox':1,
            'games':0,
            'ping':0,
+           'pingnogmo':0,
            'referals':[],
            'inviter':None,
            'prize1':0,
