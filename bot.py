@@ -44,7 +44,7 @@ symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
            'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р' , 'с' , 'т' , 'у' , 'ф' , 'х' , 'ц' , 'ч' , 'ш' , 'щ',
             'ъ' , 'ы' , 'ь',
             'э','ю' , 'я' , ',' , '.' , '/' , '[' , ']' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '<' , 
-            '>' , '?' , 'k' , '^' , '!' , '_' , '}' , '{','=','#']
+            '>' , '?' , 'k' , '^' , '!' , '_' , '}' , '{','=','#',"'"]
 
 hidetext=0
 hidetextmutants=0
@@ -678,9 +678,13 @@ def me(m):
       dnaw=0
       if x['dnacreator']!=None:
            dnaw+=1
+      mutate=''
       x=users.find_one({'id':m.from_user.id})
+      for ids in x['bot']['mutations']:
+          if ids=='werewolf':
+                mutate+='🐺Оборотень\n'
       bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\n'+'ДНК: '+str(x['dna'])+'🧬\nДНК на генерации: '+str(x['dnawaiting']+dnaw)+'\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
-                      'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+a)
+                      'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+a+'\nМутации: '+mutate)
       if m.from_user.id==441399484:
          bot.send_message(m.chat.id, 'Поинты бота CookieWars: '+str(x['fond'])+'⚛️')
     except:
@@ -2877,6 +2881,7 @@ def dmgs(id):
                text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
             if unit['target']==games[id]['bots'][mob] and 'werewolf' in unit['mutations'] and games[id]['xod']%2==0:
                text+=unit['name']+' кусает цель и восстанавливает '+em_hp+'хп!\n'
+               unit['hp']+=1
        else:
            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        if games[id]['bots'][mob]['hp']<=2 and 'berserk' in games[id]['bots'][mob]['skills'] and oldhp>=3:
