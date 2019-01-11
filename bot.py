@@ -812,9 +812,23 @@ def name(m):
             if ids.lower() not in symbollist:
                 no=1
          if no==0:
-            x=users.find_one({'id':m.from_user.id})
-            users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[1]}})
-            bot.send_message(m.chat.id, 'Вы успешно изменили имя бойца на '+text[1]+'!')
+            y=users.find({})
+            allnames=[]
+            for ids in y:
+                allnames.append(ids['bot']['name'])
+                i=1
+                while i<=3:
+                    try:
+                        allnames.append(ids['botslots'][str(i)]['name'])
+                    except:
+                        pass
+                    i+=1
+            if text[1] not in allnames:
+                x=users.find_one({'id':m.from_user.id})
+                users.update_one({'id':m.from_user.id}, {'$set':{'bot.name':text[1]}})
+                bot.send_message(m.chat.id, 'Вы успешно изменили имя бойца на '+text[1]+'!')
+            else:
+                bot.send_message(m.chat.id, 'Такое имя уже занято!')
          else:
             bot.send_message(m.chat.id, 'В имени разрешено использовать только:\nРусские буквы;\nАнглийские буквы;\nЗнаки препинания.')
       else:
@@ -847,12 +861,15 @@ def crashgame(m):
          games[m.chat.id]['xod']=None
          bot.send_message(m.chat.id, 'О нет! Вы сломали игру!!!!')
         
-  
+ 
+def infomenu(user):
+    pass
+
 def dnamenu(user):
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton('🏢Строения',callback_data='dna buildings'),types.InlineKeyboardButton(text='Генерация 🧬ДНК',callback_data='dna buy'))
     kb.add(types.InlineKeyboardButton('📀Клонирование',callback_data='dna cloning'),types.InlineKeyboardButton('👨‍🔬Исследования',callback_data='dna research'))
-    kb.add(types.InlineKeyboardButton('🧪Мутирование',callback_data='dna mutate'))
+    kb.add(types.InlineKeyboardButton('🧪Мутирование',callback_data='dna mutate'),types.InlineKeyboardButton('Инфа о мутациях',callback_data='dna info'))
     kb.add(types.InlineKeyboardButton('Закрыть меню', callback_data='close'))
     bot.send_message(user['id'], 'Выберите меню.', reply_markup=kb) 
     
@@ -1095,7 +1112,11 @@ def inline(call):
                     medit('Не хватает поинтов!',call.message.chat.id,call.message.message_id)
             else:
                 medit('У вас уже есть это!',call.message.chat.id,call.message.message_id)
-            
+          
+        elif call.data=='dna info':
+            infomenu(x)
+            medit('Выбрано: инфа о мутациях.',call.message.chat.id, call.message.message_id, reply_markup=kb)
+        
         elif call.data=='dna mutate':
             kb=types.InlineKeyboardMarkup()
             for ids in x['searched']:
