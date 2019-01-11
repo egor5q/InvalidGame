@@ -1083,8 +1083,15 @@ def inline(call):
             
         elif call.data=='dna mutate':
             kb=types.InlineKeyboardMarkup()
-            #kb.add(types.InlineKeyboardButton(text='',callback_data='dna mutatebot '+mutation))
-            #medit('a',call.message.chat.id, call.message.message_id, reply_markup=kb)
+            for ids in x['searched']:
+                m=x['searched'][ids]
+                if m=='werewolf': 
+                    text='Оборотень'
+                elif m=='elemental':
+                    text='Элементаль'
+                kb.add(types.InlineKeyboardButton(text=text,callback_data='dna mutatebot '+m))
+            medit('Выберите, какую мутацию хотите применить к бойцу '+x['bot']['name']+'. Не забудьте выбрать нужного бойца '+
+                  'командой /selectbot!',call.message.chat.id, call.message.message_id, reply_markup=kb)
            
         elif call.data=='dna back1':
             medit('Выбрано: назад.',call.message.chat.id, call.message.message_id)
@@ -4643,7 +4650,8 @@ def begingame(id):
            for code in ids3['skin']:
              allskin.append(code)
            for sk in allskill:
-             text+=skilltoname(sk)+'\n'
+             if sk!='active':
+                 text+=skilltoname(sk)+'\n'
            try:
                text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
            except:
