@@ -330,10 +330,10 @@ def createpauk(id,hp):
 
 def createdouble(id,ids):
     x=randomgen(id)
-    t=users.find_one({'id':ids})
-    text='Двойник['+t['bot']['name']+']'
-    return createunit(id=ids,name=text,weapon=t['bot']['weapon'],hp=t['bot']['hp'],maxhp=t['bot']['hp'],skills=t['bot']['skills'],skin=t['bot']['skin'],
-                      damagelimit=t['bot']['damagelimit'],energy=t['bot']['maxenergy'],maxenergy=t['bot']['maxenergy'],identeficator=x)
+    t=users.find_one({'id':ids['id']})
+    text='Двойник['+ids['name']+']'
+    return createunit(id=ids['id'],name=text,weapon=ids['weapon'],hp=ids['hp'],maxhp=ids['hp'],skills=ids['skills'],skin=ids['skin'],
+                      damagelimit=ids['damagelimit'],energy=ids['maxenergy'],maxenergy=ids['maxenergy'],identeficator=x)
    
    
 def createmonster(id,weapon,hp, animal):
@@ -1153,8 +1153,17 @@ def inline(call):
             else:
                 medit('_console: Недостаточно 🧬ДНК!_', call.message.chat.id, call.message.message_id, parse_mode='markdown')
             
-        elif 'dnaresearch' in call.data:
-           pass
+        elif 'dna mutatebot' in call.data:
+            mutation=call.data.split(' ')[2]
+            no=0
+            for ids in conflict:
+                if ids in x['bot']['mutations']:
+                    no=1
+            if no==0:
+                pass
+            else:
+                pass
+           
                 
   elif call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
@@ -4557,7 +4566,6 @@ def begingame(id):
            n=modetoname(games[id]['mode'])
            bot.send_message(id, 'В этот раз вас ждёт режим: "'+n+'"!')
            if games[id]['mode']=='teamfight':
-               print('2111')
                for i in games[id]['bots']:
                   print(games[id]['bots'][i])
                choicelist=[]
@@ -4565,11 +4573,8 @@ def begingame(id):
                    choicelist.append(games[id]['bots'][i])
                leader1=random.choice(choicelist)
                leader2=random.choice(choicelist)
-               print('2112')
                while leader2['id']==leader1['id']:
-                 print('2222')
                  leader2=random.choice(choicelist)
-               print('333')
                i=random.randint(0,1)
                for idsr in choicelist:
                  if idsr['id']!=leader1['id'] and idsr['id']!=leader2['id']:
@@ -4579,8 +4584,7 @@ def begingame(id):
                    else:
                        idsr['id']=leader2['id']
                        i=0
-               print('4444')
-               team1=''
+               print('4444'               team1=''
                team2=''
                for idsz in choicelist:
                    if idsz['id']==leader1['id']:
@@ -4613,12 +4617,12 @@ def begingame(id):
                else:
                    users.update_one({'id':ids['id']},{'$inc':{'bot.gameswithdeathwind':1}})
                    x=random.randint(1,100)
-                   if x<=4:
+                   if x<=1:
                        for idss in choicelist:
                            if idss['id']!=ids['id']:
                                idss['die']=1
                        bot.send_message(id, 'Вихрь смерти убивает всех соперников бойца '+ids['name']+'!')
-                   if random.randint(1,100)<=15:
+                   if random.randint(1,100)<=1:
                        ids['die']=1
                        bot.send_message(id, 'Вихрь смерти убивает владельца способности - '+ids['name']+'!')
                    users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0}})
@@ -4661,7 +4665,7 @@ def begingame(id):
        for ids in createlist:
            rnd=randomgen(id)
            games[id]['bots'].update(createdouble(id,ids))
-           text2+='🎭'+games[id]['bots'][ids]['name']+' призывает своего двойника! У каждого из них по '+str(games[id]['bots'][ids]['hp'])+' хп!\n'
+           text2+='🎭'+ids['name']+' призывает своего двойника! У каждого из них по '+str(ids['hp'])+' хп!\n'
        techw=['bazuka','sword','flame']
        text3=''
        for ids in choicelist:
@@ -4715,11 +4719,6 @@ def buffs(ids):
             ids['hp']-=2
         if 'oldman' in ids['skin']:
             ids['chance']+=0.2
-        if 'double' in ids['skills']:
-            b=int(round(ids['hp']/2,0))
-            ids['hp']=b
-            ids['maxhp']=b
-            createlist.append(ids['id'])
         if 'mage' in ids['skills']:
             ids['weapon']='magic'
         if 'secrettech' in ids['skills']:
@@ -4738,6 +4737,11 @@ def buffs(ids):
         ids['maxhp']=ids['hp']
         if 'robot' in ids['skin']:
             ids['maxenergy']+=2
+        if 'double' in ids['skills']:
+            b=int(round(ids['hp']/2,0))
+            ids['hp']=b
+            ids['maxhp']=b
+            createlist.append(ids)
         return createlist
            
 
