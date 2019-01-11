@@ -47,6 +47,7 @@ symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
             '>' , '?' , 'k' , '^' , '!' , '_' , '}' , '{','=','#']
 
 hidetext=0
+hidetextmutants=0
 
 @bot.message_handler(commands=['silenton'])
 def silenttt(m):
@@ -341,7 +342,6 @@ def createpauk(id,hp):
 
 def createdouble(id,ids):
     x=randomgen(id)
-    t=users.find_one({'id':ids['id']})
     text='Двойник['+ids['name']+']'
     return createunit(id=ids['id'],name=text,weapon=ids['weapon'],hp=ids['hp'],maxhp=ids['hp'],skills=ids['skills'],skin=ids['skin'],
                       damagelimit=ids['damagelimit'],energy=ids['maxenergy'],maxenergy=ids['maxenergy'],identeficator=x)
@@ -2452,7 +2452,7 @@ def results(id):
             winners=[]
             winid=[]
             for ids in games[id]['bots']:
-                if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['id'] not in winners:
+                if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['id'] not in winid:
                     winners.append(games[id]['bots'][ids])
                     winid.append(games[id]['bots'][ids]['id'])
             slist=''
@@ -2640,10 +2640,6 @@ def dmgs(id):
         for ids in games[id]['bots']:
             if games[id]['bots'][ids]['die']==0:
                 liv.append(games[id]['bots'][ids])
-        if random.randint(1,100)<=8:
-            dead=random.choice(liv)
-            dead['die']=1
-            text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'! Тот погибает.\n'
         if random.randint(1,100)<=27:
             trgt=random.choice(liv)
             dm=random.randint(1,30)
@@ -2652,6 +2648,10 @@ def dmgs(id):
         if random.randint(1,100)<=12:
             games[id]['bots'].update(createsniper(chatid=id) )
             text+='⁉️🎯Зомби-снайпер почуял кровь! Берегитесь...\n'
+        if random.randint(1,100)<=9:
+            dead=random.choice(liv)
+            dead['hp']=-5
+            text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'! Тот погибает.\n'
             
     for ids in games[id]['turrets']:
         a=[]
@@ -2692,7 +2692,7 @@ def dmgs(id):
             if ids['takendmg']>0:
               text+='☢'+ids['name']+' получает '+str(ids['takendmg'])+' урона!\n'
         else:
-           text+='Так как Пасюк и Сергей применили пушку одновременно, никто из них не получает урона, пиздец.\n' 
+           text+='Целей для портальной пушки не нашлось.\n' 
       
     for ids in games[id]['bots']:
         if 'firemage' in games[id]['bots'][ids]['skills']:
@@ -2843,22 +2843,40 @@ def dmgs(id):
        pop=emojize(':poop:', use_aliases=True)
        zilch=emojize(':panda_face:',use_aliases=True)
        if games[id]['bots'][mob]['hp']<100:
-         if 'Кошмарное слияние' in games[id]['bots'][mob]['name']:
-             text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'🖤'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
-         elif games[id]['bots'][mob]['id']==581167827:
-           text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'💙'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
-         elif games[id]['bots'][mob]['id']==256659642:
-            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+pop*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
-         elif games[id]['bots'][mob]['id']==324316537:
-            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+zilch*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
-         elif games[id]['bots'][mob]['id']==420049610:
-            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'💜'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'
+         cmob=games[id]['bots'][mob]
+         if cmob['id']==581167827:
+            em_hp='💙'
+         elif cmob['id']==256659642:
+            em_hp=pop
+         elif cmob['id']==324316537:
+            em_hp=zilch
+         elif cmob['id']==420049610:
+            em_hp='💜'
+         elif 'Кошмарное слияние' in cmob['name']:
+            em_hp='🖤'
          else:
-            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+'♥'*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
+            em_hp='♥'
+         text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+em_hp*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
          for idss in games[id]['bots']:
+            cmob=games[id]['bots'][idss]
+            if cmob['id']==581167827:
+               em_hp='💙'
+            elif cmob['id']==256659642:
+               em_hp=pop
+            elif cmob['id']==324316537:
+               em_hp=zilch
+            elif cmob['id']==420049610:
+               em_hp='💜'
+            elif 'Кошмарное слияние' in cmob['name']:
+               em_hp='🖤'
+            else:
+               em_hp='♥'
+            unit=games[id]['bots'][idss]
             if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=60+(60*games[id]['bots'][idss]['chance']):
                games[id]['bots'][idss]['summonmonster'][1]+=a
                text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
+            if unit['target']==games[id]['bots'][mob] and 'werewolf' in unit['mutations'] and games[id]['xod']%2==0:
+               text+=unit['name']+' кусает цель и восстанавливает '+em_hp+'хп!\n'
        else:
            text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+str(games[id]['bots'][mob]['hp'])+'хп!\n'
        if games[id]['bots'][mob]['hp']<=2 and 'berserk' in games[id]['bots'][mob]['skills'] and oldhp>=3:
@@ -3947,7 +3965,7 @@ def riflechance(energy, target, x, id, bot1,hit):
     else:
          return 0
   if random.randint(1,100)<=50:
-      games[id]['res']+='🎯'+bot1['name']+' отнимает 1 хп у '+target['name']+' точным выстрелом!\n'
+      games[id]['res']+='🎯'+bot1['name']+' отнимает 💔 хп у '+target['name']+' точным выстрелом!\n'
       target['hp']-=1
   else:
       games[id]['res']+='💯'+bot1['name']+' выцеливает жертву...\n'
@@ -4540,7 +4558,7 @@ def begin(m):
          text=''
          for ids in x:
           if ids['id']!=0:
-            if ids['enablejoin']==1 and ids['joinbots']>0 and ids['bot']['name']!=None and 'mutant' not in ids['bot']['mutations']:
+            if ids['enablejoin']==1 and ids['joinbots']>0 and ids['bot']['name']!=None:
                games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
                games[m.chat.id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
