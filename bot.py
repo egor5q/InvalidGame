@@ -4252,7 +4252,7 @@ def item(bot, id):
                    allenemy=[]
                    for ids in games[id]['bots']:
                         tr=games[id]['bots'][ids]
-                            if tr['die']!=1 and tr['zombie']<=0:
+                        if tr['die']!=1 and tr['zombie']<=0:
                                 allenemy.append(tr)
                    if allenemy!=[]:
                      if x>target['miss']:
