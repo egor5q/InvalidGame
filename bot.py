@@ -1126,7 +1126,7 @@ def inline(call):
           
         elif call.data=='dna info':
             infomenu(x)
-            medit('Выбрано: инфа о мутациях.',call.message.chat.id, call.message.message_id, reply_markup=kb)
+            medit('Выбрано: инфа о мутациях.',call.message.chat.id, call.message.message_id)
         
         elif call.data=='dna mutate':
             kb=types.InlineKeyboardMarkup()
