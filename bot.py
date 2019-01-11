@@ -1201,27 +1201,27 @@ def inline(call):
         elif 'dnaresearch' in call.data:
             mutation=call.data.split(' ')[1]
             if mutation not in x['searched']:
-            if mutation=='werewolf':
-                cost=5
-            elif mutation=='electro':
-                cost=6
-            topush='searched'
-            whatpush=mutation
-            if mutation=='werewolf':
-                dna1='Human.DNA'
-                dna2='Wolf.DNA'
-                result='werewolf.DNA'
-                result2='оборотня'
-            elif mutation=='electro':
-                dna1='darkness.DNA'
-                dna2='energy.DNA'
-                result='electro.DNA'
-                result2='электродемона'
-            text1='Начинаем эксперимент...\n\n_->DNA.converter.launch('+dna1+'; '+dna2+')\n'+\
-                      'console: enter password first, retard.\n->da sosi\nconsole: password correct, welcome!\n'+\
-                      'console: combinating: '+dna1+'+'+dna2+'...\nconsole: ...\nconsole: DNA combinated successfully! recieved: '+\
-                      result+'. Thank you for using "PenisDetrov" '+\
-                      'technology!_\n\nДНК '+result2+' успешно произведено!'
+                      if mutation=='werewolf':
+                          cost=5
+                      elif mutation=='electro':
+                          cost=6
+                      topush='searched'
+                      whatpush=mutation
+                      if mutation=='werewolf':
+                          dna1='Human.DNA'
+                          dna2='Wolf.DNA'
+                          result='werewolf.DNA'
+                          result2='оборотня'
+                      elif mutation=='electro':
+                          dna1='darkness.DNA'
+                          dna2='energy.DNA'
+                          result='electro.DNA'
+                          result2='электродемона'
+                      text1='Начинаем эксперимент...\n\n_->DNA.converter.launch('+dna1+'; '+dna2+')\n'+\
+                                'console: enter password first, retard.\n->da sosi\nconsole: password correct, welcome!\n'+\
+                                'console: combinating: '+dna1+'+'+dna2+'...\nconsole: ...\nconsole: DNA combinated successfully! recieved: '+\
+                                result+'. Thank you for using "PenisDetrov" '+\
+                                'technology!_\n\nДНК '+result2+' успешно произведено!'
             elif mutation+'1' not in x['mutationlvls']:
                 cost=2
                 topush='mutationlvls'
