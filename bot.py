@@ -1086,12 +1086,13 @@ def inline(call):
             for ids in x['searched']:
                 m=ids
                 if m=='werewolf': 
-                    text='Оборотень'
+                    text='🐺Оборотень'
                 elif m=='elemental':
                     text='Элементаль'
                 kb.add(types.InlineKeyboardButton(text=text,callback_data='dna mutatebot '+m))
-            medit('Выберите, какую мутацию хотите применить к бойцу '+x['bot']['name']+'. Не забудьте выбрать нужного бойца '+
-                  'командой /selectbot!',call.message.chat.id, call.message.message_id, reply_markup=kb)
+            medit('Выберите, какую мутацию хотите применить к бойцу '+x['bot']['name']+'. Внимание!!! Нельзя иметь '+
+                  'больше одной мутации на бойца!\nНе забудьте выбрать нужного бойца '+
+                  'командой /selectbot.',call.message.chat.id, call.message.message_id, reply_markup=kb)
            
         elif call.data=='dna back1':
             medit('Выбрано: назад.',call.message.chat.id, call.message.message_id)
@@ -1152,7 +1153,8 @@ def inline(call):
             else:
                 medit('_console: Недостаточно 🧬ДНК!_', call.message.chat.id, call.message.message_id, parse_mode='markdown')
             
-                    
+        elif 'dnaresearch' in call.data:
+           pass
                 
   elif call.data=='hp':
         if 'shieldgen' in x['bot']['bought']:
@@ -4141,10 +4143,10 @@ def item(bot, id):
            elif z=='knife':
                    x=random.randint(1,100)
                    bot['energy']-=2
-                   z=random.randint(1, len(a))
+                   z=random.choice(a)
                    ddd=0
-                   while a[z-1]['die']==1 and ddd<100:
-                     z=random.randint(1,len(a))
+                   while z['die']==1 and ddd<100:
+                     z=random.choice(z)
                      ddd+=1
                    if x>target['miss']:
                        games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
