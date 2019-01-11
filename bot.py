@@ -232,6 +232,7 @@ items=['flash', 'knife']
 def upd(m):
       if m.from_user.id==441399484:
           users.update_many({},{'$set':{'nomutantjoin':0}})
+          print('yes')
 
 @bot.message_handler(commands=['massbattle'])
 def upd(m):
@@ -259,12 +260,16 @@ def donate(m):
 def autojoin(m):
   if m.from_user.id==m.chat.id:
     enable='☑️'
+    enablen='☑️'
     x=users.find_one({'id':m.from_user.id})
     if x['enablejoin']==1:
          enable='✅'
+    if x['nomutantjoin']==1:
+         enablen='✅'
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton(text='Купить джойн-ботов', callback_data='buyjoin'))
-    kb.add(types.InlineKeyboardButton(text=enable+'Активировать джойн-ботов', callback_data='usejoin'))
+    kb.add(types.InlineKeyboardButton(text=enable+'Джойн-боты: с мутантами', callback_data='usejoin'))
+    kb.add(types.InlineKeyboardButton(text=enablen+'Джойн-боты: без мутантов', callback_data='usejoinw'))
     bot.send_message(m.chat.id, 'Выберите действие.', reply_markup=kb)
   else:
       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
@@ -2114,10 +2119,19 @@ def inline(call):
       x=users.find_one({'id':call.from_user.id})
       if x['enablejoin']==0:
           users.update_one({'id':call.from_user.id}, {'$set':{'enablejoin':1}})
-          medit('Автоджоин успешно включён!', call.message.chat.id, call.message.message_id)
+          medit('✅Автоджоин ко всем играм успешно включён!', call.message.chat.id, call.message.message_id)
       else:
           users.update_one({'id':call.from_user.id}, {'$set':{'enablejoin':0}})
-          medit('Автоджоин успешно выключен!', call.message.chat.id, call.message.message_id)
+          medit('🚫Автоджоин ко всем играм успешно выключен!', call.message.chat.id, call.message.message_id)
+           
+  elif call.data=='usejoinw':
+      x=users.find_one({'id':call.from_user.id})
+      if x['mutantjoin']==0:
+          users.update_one({'id':call.from_user.id}, {'$set':{'nomutantjoin':1}})
+          medit('✅Автоджоин к играм без мутантов успешно включён!', call.message.chat.id, call.message.message_id)
+      else:
+          users.update_one({'id':call.from_user.id}, {'$set':{'nomutantjoin':0}})
+          medit('🚫Автоджоин к играм без мутантов успешно выключен!', call.message.chat.id, call.message.message_id)
         
   else:
       kb=types.InlineKeyboardMarkup()
