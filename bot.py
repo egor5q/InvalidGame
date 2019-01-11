@@ -213,7 +213,17 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'mutationlvls':[]}})
+          users.update_many({},{'$set':{'bot.dopname':None}})
+          x=users.find({})
+          for ids in x:
+              if ids['botslots']['1']!={}:
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.dopname':None}})
+          for ids in x:
+              if ids['botslots']['2']!={}:
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.dopname':None}})
+          for ids in x:
+              if ids['botslots']['3']!={}:
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.dopname':None}})
           print('yes')  
 
 @bot.message_handler(commands=['massbattle'])
@@ -256,6 +266,7 @@ def autojoin(m):
 def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,maxenergy=5,energy=5,items=[],accuracy=0,damagelimit=6,skin=[],\
                animal=None,zombie=0, die=0):
    return{identeficator:{'name': name,
+              'dopname':None,
               'weapon':weapon,
               'mutations':[],
               'skills':skills,
@@ -1156,11 +1167,16 @@ def inline(call):
         elif 'dna mutatebot' in call.data:
             mutation=call.data.split(' ')[2]
             no=0
+            if mutation=='werewolf':
+                text='оборотня'
             for ids in conflict:
                 if ids in x['bot']['mutations']:
                     no=1
             if no==0:
-                pass
+                if 'mutant' in x['bot']['mutations']:
+                    users.update_one({'id':x['id']},{'$push':{'bot.mutations':mutation}})
+                    medit('Даём бойцу инъекцию с ДНК '+text+'! Отойдём подальше, мало ли что...\n...\n'+
+                          'Готово! Чтобы увидеть мутацию в действии, сыграйте матч и посмотрите за результатом.',call.message.chat.id, call.message.message_id, parse_mode='markdown')
             else:
                 pass
            
@@ -2278,7 +2294,17 @@ def mobcheck(id,mobs):
     games[id]['bots'][mobs]['firearmor']=0
     games[id]['bots'][mobs]['miss']=0  
     if 'nindza' in games[id]['bots'][mobs]['skills']:
-      games[id]['bots'][mobs]['miss']+=20+(20*games[id]['bots'][mobs]['chance'])
+      games[id]['bots'][mobs]['miss']+=20*(1+games[id]['bots'][mobs]['chance'])
+    if 'werewolf' in player['mutations']:
+        if games[id]['xod']%2==0:
+            player['miss']+=30*(1+ids['chance'])
+            prm=player['name']
+            player['name']=player['dopname']
+            player['dopname']=prm
+        else:
+            prm=player['name']
+            player['name']=player['dopname']
+            player['dopname']=prm
     if 'metalarmor' in games[id]['bots'][mobs]['skills']:
       games[id]['bots'][mobs]['miss']-=8
       games[id]['bots'][mobs]['currentarmor']=1
@@ -2432,7 +2458,7 @@ def results(id):
                 slist+=ids['name']+'\n'
                 users.update_one({'id':ids['id']},{'$inc':{'cookie':points}})
             if slist=='':
-                slist='Выживши нет! Все проиграли!'
+                slist='Выживших нет! Все проиграли!'
             ftext='Режим "Пекло":\nВсе выжившие получают награду в размере: '+str(points)+'⚛️!\nСписок выживших:\n'+slist
             z=1
             bot.send_message(id,ftext)
@@ -4702,7 +4728,8 @@ def begingame(id):
 def buffs(ids):
         createlist=[]
         if 'werewolf' in ids['mutations']:
-            ids['miss']+=30*(1+ids['chance'])
+            smile='🐺'
+            ids['dopname']='['+smile+']'+ids['name']
         if 'paukovod' in ids['skills']:
             ids['hp']-=2
             ids['maxhp']-=2
@@ -4914,6 +4941,7 @@ def connect(m):
        
 def createbot(id):
   return {'name': None,
+              'dopname':None,
               'weapon':'hand',
               'mutations':[],
               'skills':[],
