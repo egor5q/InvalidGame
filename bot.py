@@ -1168,7 +1168,7 @@ def inline(call):
                 elif m=='elemental':
                     text='Элементаль'
                 elif m=='electro':
-                    text='Электродемон'
+                    text='🔌Электродемон'
                 kb.add(types.InlineKeyboardButton(text=text,callback_data='dna mutatebot '+m))
             name=x['bot']['name']
             if name==None:
@@ -1188,7 +1188,7 @@ def inline(call):
         elif call.data=='dna mutations':
             kb=types.InlineKeyboardMarkup()
             kb.add(types.InlineKeyboardButton(text='🐺Оборотень', callback_data='dna werewolf'))
-            kb.add(types.InlineKeyboardButton(text='⚡️Электродемон', callback_data='dna electro'))
+            kb.add(types.InlineKeyboardButton(text='🔌Электродемон', callback_data='dna electro'))
             medit('Выберите мутацию, которую хотите изучить. Изучив мутацию 1 раз, вы сможете применять её к любому количеству бойцов.',call.message.chat.id, call.message.message_id,reply_markup=kb)
             
         elif call.data=='dna werewolf':
