@@ -4245,10 +4245,8 @@ def skill(bot,id):
     target=games[id]['bots'][0]
   for item in bot['skills']:
       skills.append(item)
-  if bot['mainskill']==[]:
-      choice=random.choice(skills)
-  else:       
-      choice=random.choice(bot['mainskill'])
+   
+  choice=random.choice(bot['mainskill'])
   if choice=='medic':
        if bot['heal']<=0:
          a=random.randint(1,100)
