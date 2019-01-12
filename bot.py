@@ -893,7 +893,7 @@ def crashgame(m):
 def infomenu(user):
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton('🐺Оборотень',callback_data='dna info werewolf'),types.InlineKeyboardButton(text='⚡️Электродемон',callback_data='dna info electro'))
-    kb.add(types.InlineKeyboardButton('Назад', callback_data='back1'))
+    kb.add(types.InlineKeyboardButton('Назад', callback_data='dna back1'))
     bot.send_message(user['id'],'Выберите мутацию для просмотра:',reply_markup=kb)
 
 def dnamenu(user):
