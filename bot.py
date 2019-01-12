@@ -119,6 +119,7 @@ def topp(m):
           lst=users.find({})
           dieturn=-1
           a=None
+          winexp=0
           for ids in lst:
               g=1
               myexp=0
@@ -132,10 +133,11 @@ def topp(m):
                      if ids['id'] not in idlist:
                         a=ids
                         dieturn=myexp
-          if a!=None and a['id'] not in idlist:
-              place.append(a['id'])
+                        winexp=myexp
+          if a!=None:
+            if a['id'] not in idlist:
               idlist.append(a['id'])
-              text+=str(i)+': '+a['name']+' - '+str(myexp)+'❇\n'
+              text+=str(i)+': '+a['name']+' - '+str(winexp)+'❇\n'
           i+=1
         bot.send_message(m.chat.id, text)
             
