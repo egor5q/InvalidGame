@@ -2756,21 +2756,31 @@ def dmgs(id):
             trgt['takenmeteors']+=1
     if games[id]['mode']=='farm':
         liv=[]
+        dead=[]
         for ids in games[id]['bots']:
             if games[id]['bots'][ids]['die']==0:
                 liv.append(games[id]['bots'][ids])
+        for ids in games[id]['bots']:
+            if games[id]['bots'][ids]['die']==1 and games[id]['bots'][ids]['identeficator']==None:
+                dead.append(games[id]['bots'][ids])
+            
         if random.randint(1,100)<=27:
             trgt=random.choice(liv)
             dm=random.randint(1,30)
             trgt['takendmg']+=dm
             text+='⛰На бойца '+trgt['name']+' обрушилась скала! Он получает '+str(dm)+' урона!\n'
-        if random.randint(1,100)<=12:
+        if random.randint(1,100)<=11:
             games[id]['bots'].update(createsniper(chatid=id) )
             text+='⁉️🎯Зомби-снайпер почуял кровь! Берегитесь...\n'
-        if random.randint(1,100)<=9:
+        if random.randint(1,100)<=8:
             dead=random.choice(liv)
             dead['hp']=-5
             text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'! Тот погибает.\n'
+        if random.randint(1,100)<=2:
+            recreate=random.choice(dead)
+            recreate['die']=0
+            recreate['hp']=2
+            text+='👼Ангел воскрешает бойца '+recreate['name']+' с 2 хп!\n'
             
     for ids in games[id]['turrets']:
         a=[]
