@@ -137,12 +137,6 @@ def topp(m):
               idlist.append(a['id'])
               text+=str(i)+': '+a['name']+' - '+str(myexp)+'❇\n'
           i+=1
-          print('i+=1')
-        plc=1
-        for ids in place:
-            u=users.find_one({'id':ids})
-            text+=str(plc)+': '+u['name']+' - '+str(u['bot']['exp'])+'❇\n'
-            plc+=1
         bot.send_message(m.chat.id, text)
             
 
