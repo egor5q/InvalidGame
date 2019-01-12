@@ -2777,10 +2777,11 @@ def dmgs(id):
             dead['hp']=-5
             text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'! Тот погибает.\n'
         if random.randint(1,100)<=2:
-            recreate=random.choice(dead)
-            recreate['die']=0
-            recreate['hp']=2
-            text+='👼Ангел воскрешает бойца '+recreate['name']+' с 2 хп!\n'
+            if len(dead)>0:
+                recreate=random.choice(dead)
+                recreate['die']=0
+                recreate['hp']=2
+                text+='👼Ангел воскрешает бойца '+recreate['name']+' с 2 хп!\n'
             
     for ids in games[id]['turrets']:
         a=[]
@@ -4537,13 +4538,19 @@ def start(m):
           if y['bot']['name']!=None:
            if games[int(x[1])]['started']==0:
             if games[int(x[1])]['gmo']==0 and y['bot']['mutations']!=[]:
-                bot.send_message(m.chat.id, 'Нельзя заходить в бой "без мутаций" улучшенным бойцом! Напишите /selectbot для выбора.')
+                i=1
+                while i<=3:
+                    if y['botslots'][str(i)]!={}:
+                        if y['botslots'][str(i)]['mutations']==[]:
+                            thisbot=y['botslots'][str(i)]
+                    i+=1
             else:
-                games[int(x[1])]['bots'].update(createbott(m.from_user.id, y['bot']))
-                users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
-                bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
-                bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+y['bot']['name']+') присоединился!')
-                games[int(x[1])]['ids'].append(m.from_user.id)
+                thisbot=y['bot']
+           games[int(x[1])]['bots'].update(createbott(m.from_user.id, thisbot))
+           users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
+           bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
+           bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+thisbot['name']+') присоединился!')
+           games[int(x[1])]['ids'].append(m.from_user.id)
           else:
              bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
   except:
