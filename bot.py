@@ -4098,7 +4098,7 @@ def attack(bot, id,rr):
   enm=[]
   for bots in games[id]['bots']:
     cenemy=games[id]['bots'][bots]
-    if cenemy['die']!=1 and cenemy['zombie']<=0:
+    if cenemy['die']!=1 and cenemy['zombie']<=0 and cenemy['id']!=bot['id']:
         enm.append(cenemy)
   if len(enm)>0:
       target=random.choice(enm)
