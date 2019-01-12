@@ -40,6 +40,22 @@ client3=MongoClient(client2)
 db2=client3.trug
 userstrug=db2.users
 
+mutate_info={
+    'werewolf':{
+        'name':'werewolf',
+        'info':'Мутация "оборотень". Применив её на бойца, вы дадите ему способность превращаться в оборотня каждый чётный ход (2, 4, 6...). '+\
+        'Превращаясь, он получает следующие способности:\n1. Вампиризм - со 100% шансом, отняв хп цели, он восстанавливает себе 1 хп.\n'+\
+        '2. Скрытность - пассивное уклонение в 30%.\n\nТеперь об улучшениях ДНК:\nПервое улучшение - повышает точность юнита (даже вне формы '+\
+        'волка) на 10%.'
+    },
+    'electro':{
+        'name':'electro',
+        'info':'Мутация "Электродемон" позволяет бойцу использовать электричество как мощное оружие. Начальные способности:\n'+\
+        '1. Электрошок - каждые 7 ходов он может отключить случайный скилл у случайного бойца на всю игру. Если у цели нет скиллов, '+\
+        'она потеряет 1 хп.\n2. Силовое поле - хп бойца в начале матча увеличиваются на 2.'
+    }
+}
+
 symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
            'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р' , 'с' , 'т' , 'у' , 'ф' , 'х' , 'ц' , 'ч' , 'ш' , 'щ',
             'ъ' , 'ы' , 'ь',
@@ -214,17 +230,17 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'bot.effects':[]}})
+          users.update_many({},{'$set':{'bot.shockcd':0,'bot.effects':[]}})
           x=users.find({})
           for ids in x:
               if ids['botslots']['1']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.effects':[]}})
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.shockcd':0}})
           for ids in x:
               if ids['botslots']['2']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.effects':[]}})
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.shockcd':0}})
           for ids in x:
               if ids['botslots']['3']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.effects':[]}})
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.shockcd':0}})
           print('yes')  
 
 
@@ -875,7 +891,10 @@ def crashgame(m):
         
  
 def infomenu(user):
-    pass
+    kb=types.InlineKeyboardMarkup()
+    kb.add(types.InlineKeyboardButton('🐺Оборотень',callback_data='dna info werewolf'),types.InlineKeyboardButton(text='⚡️Электродемон',callback_data='dna info electro'))
+    kb.add(types.InlineKeyboardButton('Назад', callback_data='back1'))
+    bot.send_message(user['id'],'Выберите мутацию для просмотра:',reply_markup=kb)
 
 def dnamenu(user):
     kb=types.InlineKeyboardMarkup()
@@ -1129,6 +1148,16 @@ def inline(call):
         elif call.data=='dna info':
             infomenu(x)
             medit('Выбрано: инфа о мутациях.',call.message.chat.id, call.message.message_id)
+            
+        elif 'dna info' in call.data:
+            text=mutate_info[call.data.split(' ')[2]]['info']
+            kb=types.InlineKeyboardMarkup()
+            kb.add(types.InlineKeyboardButton(text='Назад',callback_data='dna back2'))
+            medit(text,call.message.chat.id, call.message.message_id,reply_markup=kb)
+        
+        elif call.data=='dna back2':
+            medit('Выбрано: назад.',call.message.chat.id,call.message.message_id)
+            infomenu(x)
         
         elif call.data=='dna mutate':
             kb=types.InlineKeyboardMarkup()
@@ -1138,6 +1167,8 @@ def inline(call):
                     text='🐺Оборотень'
                 elif m=='elemental':
                     text='Элементаль'
+                elif m=='electro':
+                    text='Электродемон'
                 kb.add(types.InlineKeyboardButton(text=text,callback_data='dna mutatebot '+m))
             name=x['bot']['name']
             if name==None:
@@ -1244,6 +1275,8 @@ def inline(call):
             no=0
             if mutation=='werewolf':
                 text='оборотня'
+            elif mutation=='electro':
+                text='электродемона'
             for ids in conflict:
                 if ids in x['bot']['mutations']:
                     no=1
@@ -2569,8 +2602,8 @@ def results(id):
             except:
               points+=4
           for ids in games[id]['bots']:
-             if 'werewolf' in games[id]['bots'][ids]['mutations']:
-                 points+=20
+             if 'werewolf' in games[id]['bots'][ids]['mutations'] or 'electro' in games[id]['bots'][ids]['mutations']:
+                 points+=18
           for ids in games[id]['bots']:
               for itemss in games[id]['bots'][ids]['skills']:
                 if games[id]['bots'][ids]['id']!=winner['id']:
@@ -2589,6 +2622,7 @@ def results(id):
                   except:
                        points+=2    
                  
+          points+=games[id]['prizefond']      
           place=[]
           a=None
           i=0
@@ -4063,81 +4097,83 @@ def attack(bot, id,rr):
   a=[]
   enm=[]
   for bots in games[id]['bots']:
-     enm.append(games[id]['bots'][bots])
-  for bots in enm:
-      if bots['id']!=bot['id']:
-          a.append(bots)
-  x=random.randint(1,len(a))
-  dd=0
-  while (a[x-1]['die']==1 or a[x-1]['zombie']>0) and dd<200:
-     x=random.randint(1,len(a))
-     dd+=1
-  target=a[x-1]
+    cenemy=games[id]['bots'][bots]
+    if cenemy['die']!=1 and cenemy['zombie']<=0:
+        enm.append(cenemy)
+  if len(enm)>0:
+      target=random.choice(enm)
+  else:
+      target=None
   if bot['target']!=None:
       target=bot['target']
   bot['target']=target
   x=random.randint(1,100)
+  if bot['target']!=None:
     
-  if 'naebatel' in target['skin'] and random.randint(1,100)<=10:
-      return naeb(bot,target,id)
+    if 'naebatel' in target['skin'] and random.randint(1,100)<=10:
+        return naeb(bot,target,id)
+        
+    elif bot['weapon']=='rock':
+        return rockchance(bot['energy'], target, x, id, bot,rr)          
+        
+    elif bot['weapon']=='hand':
+        return handchance(bot['energy'], target, x, id, bot,rr)          
+    
+    elif bot['weapon']=='magic':
+        if bot['animal']=='demon':
+            return demonchance(bot['energy'], target, x, id, bot,rr)  
+        if bot['animal']=='rhino':
+            return rhinochance(bot['energy'], target, x, id, bot,rr) 
+        if bot['animal']=='pig':
+            return pigchance(bot['energy'], target, x, id, bot,rr) 
+    
+    elif bot['weapon']=='ak':
+        return akchance(bot['energy'], target, x, id, bot,rr)  
+    
+    elif bot['weapon']=='saw':
+        return sawchance(bot['energy'], target, x, id, bot,rr)
+        
+    elif bot['weapon']=='kinzhal':
+      return kinzhalchance(bot['energy'], target, x, id, bot,rr)
       
-  elif bot['weapon']=='rock':
-      return rockchance(bot['energy'], target, x, id, bot,rr)          
+    elif bot['weapon']=='chlen':
+      return chlenchance(bot['energy'], target, x, id, bot,rr)
+    
+    elif bot['weapon']=='light':
+      return lightchance(bot['energy'], target, x, id, bot,rr)
+     
+    elif bot['weapon']=='bite':
+      return bitechance(bot['energy'], target, x, id, bot,rr)
       
-  elif bot['weapon']=='hand':
-      return handchance(bot['energy'], target, x, id, bot,rr)          
-
-  elif bot['weapon']=='magic':
-      if bot['animal']=='demon':
-          return demonchance(bot['energy'], target, x, id, bot,rr)  
-      if bot['animal']=='rhino':
-          return rhinochance(bot['energy'], target, x, id, bot,rr) 
-      if bot['animal']=='pig':
-          return pigchance(bot['energy'], target, x, id, bot,rr) 
-  
-  elif bot['weapon']=='ak':
-      return akchance(bot['energy'], target, x, id, bot,rr)  
-
-  elif bot['weapon']=='saw':
-      return sawchance(bot['energy'], target, x, id, bot,rr)
+    elif bot['weapon']=='bow':
+      return bowchance(bot['energy'], target, x, id, bot,rr)
       
-  elif bot['weapon']=='kinzhal':
-    return kinzhalchance(bot['energy'], target, x, id, bot,rr)
+    elif bot['weapon']=='zombiebite':
+      return zombiechance(bot['energy'], target, x, id, bot,rr)
+     
+    elif bot['weapon']=='flame':
+      return flamechance(bot['energy'], target, x, id, bot,rr)
+     
+    elif bot['weapon']=='sword':
+      return swordchance(bot['energy'], target, x, id, bot,rr)
+     
+    elif bot['weapon']=='bazuka':
+      return bazukachance(bot['energy'], target, x, id, bot,rr)
+                        
+    elif bot['weapon']=='sliznuk':
+      return sliznuk(bot['energy'], target, x, id, bot,rr)
+              
+    elif bot['weapon']=='slizgun':
+      return slizchance(bot['energy'], target, x, id, bot,rr)
     
-  elif bot['weapon']=='chlen':
-    return chlenchance(bot['energy'], target, x, id, bot,rr)
+    elif bot['weapon']=='rifle':
+        return riflechance(bot['energy'], target, x, id, bot,rr)
 
-  elif bot['weapon']=='light':
-    return lightchance(bot['energy'], target, x, id, bot,rr)
-   
-  elif bot['weapon']=='bite':
-    return bitechance(bot['energy'], target, x, id, bot,rr)
+  else:
+    games[id]['res']+='☕️'+bot['name']+' пьёт чай - соперников не осталось!\n'
     
-  elif bot['weapon']=='bow':
-    return bowchance(bot['energy'], target, x, id, bot,rr)
     
-  elif bot['weapon']=='zombiebite':
-    return zombiechance(bot['energy'], target, x, id, bot,rr)
-   
-  elif bot['weapon']=='flame':
-    return flamechance(bot['energy'], target, x, id, bot,rr)
-   
-  elif bot['weapon']=='sword':
-    return swordchance(bot['energy'], target, x, id, bot,rr)
-   
-  elif bot['weapon']=='bazuka':
-    return bazukachance(bot['energy'], target, x, id, bot,rr)
-                      
-  elif bot['weapon']=='sliznuk':
-    return sliznuk(bot['energy'], target, x, id, bot,rr)
-            
-  elif bot['weapon']=='slizgun':
-    return slizchance(bot['energy'], target, x, id, bot,rr)
-
-  elif bot['weapon']=='rifle':
-    return riflechance(bot['energy'], target, x, id, bot,rr)
-
-   
+    
 def naeb(bot,target,id):
    enm=[]
    for ids in games[id]['bots']:
@@ -4175,15 +4211,11 @@ def skill(bot,id):
   a=[]
   if 0 not in games[id]['bots']:
       for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['id']!=-bot['id'] and games[id]['bots'][bots]['die']!=1:
+        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['die']!=1:
             a.append(games[id]['bots'][bots])
       if len(a)>0:
        x=random.choice(a)
-       if bot['mainskill']==[]:
-        while x['die']==1:
-            print('while1')
-            x=random.choice(a)
-       elif 'gipnoz' in bot['mainskill']:
+       if 'gipnoz' in bot['mainskill']:
         zz=[]
         for ii in games[id]['bots']:
               if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['magicshieldkd']<=0 and games[id]['bots'][ii]['die']==0 and games[id]['bots'][ii]['id']!=bot['id'] and ((games[id]['bots'][ii]['weapon']=='bow' and games[id]['bots'][ii]['bowcharge']==1) or games[id]['bots'][ii]['weapon']!='bow'):
@@ -4192,7 +4224,7 @@ def skill(bot,id):
           x=random.choice(zz)
           
         else:
-           bot.send_message(id, '@Loshadkin, баг с гипнозом, приди!')
+           games[id]['res']+=bot['name']+' пьёт чай!\n'
        target=x
        
    
@@ -4222,7 +4254,43 @@ def skill(bot,id):
              target['target']=target
              bot['gipnoz']=6
              i=1
-              
+            
+  elif choice=='electro':
+        target=None
+        enemies=[]
+        for ids in games[id]['bots']:
+            t=games[id]['bots'][ids]
+            if t['id']!=bot['id'] and len(t['skills'])>0 and t['die']!=1:
+                enemies.append(t)
+        if len(enemies)>0:
+            target=random.choice(enemies)
+        else:
+            for ids in games[id]['bots']:
+                t=games[id]['bots'][ids]
+                if t['id']!=bot['id'] and t['die']!=1:
+                    enemies.append(t)
+        if len(enemies)>0:
+            target=random.choice(enemies)
+        else:
+            games[id]['res']+='☕️'+bot['name']+' пьёт чай! Врагов не осталось!\n'
+        dmg=0
+        bot['energy']-=3
+        if target!=None:
+           if len(target['skills'])>0:
+               skill=random.choice(target['skills'])
+               target['skills'].remove(skill)
+               games[id]['prizefond']+=2
+               games[id]['res']+=bot['name']+' выпускает мощный поток энергии в '+target['name']+'! Тот теряет скилл "'+skilltoname(skill)+'"!\n'
+               if skill=='liveful':
+                    target['hp']-=2
+                    target['accuracy']+=20
+               if skill=='dvuzhil':
+                    target['damagelimit']-=3
+               if skill=='pricel':
+                    target['accuracy']-=30
+           else:
+               games[id]['res']+=bot['name']+' выпускает мощный поток энергии в '+target['name']+'! У него не было скиллов, поэтому он теряет 💔 хп!\n'
+               target['hp']-=1
              
 
 def item(bot, id):
@@ -4346,7 +4414,7 @@ def actnumber(bot, id):
    if 'shieldgen' in npc['skills'] and npc['shieldgen']<=0 and low<len(enemy):
       yvorot=1   
   x=random.randint(1,100)
-  if len(npc['skills'])>0 and 'active' in npc['skills']:
+  if len(npc['skills'])>0 and random.randint(1,100)<=80:
     if 'gipnoz' in npc['skills'] and npc['gipnoz']<=0:
         if low==len(enemy):
            gipn=0
@@ -4363,6 +4431,10 @@ def actnumber(bot, id):
     
   else:
     skill=0
+  if 'electro' in npc['mutations'] and npc['shockcd']<=0 and random.randint(1,100)<=90:
+      skill=1
+      npc['mainskill'].append('electro')
+      
 
   if 'medic' in npc['skills'] and npc['heal']<=0 and npc['maxhp']!=npc['hp'] and random.randint(1,100)<=75:
       skill=1
@@ -4802,13 +4874,6 @@ def begingame(id):
                    users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0}})
            if ids['weapon']==None:
                ids['weapon']='hand'
-           active=['shieldgen', 'medic', 'gipnoz']
-           yes=0
-           for i in active:
-               if i in ids['skills']:
-                   yes=1  
-           if yes==1:
-                 ids['skills'].append('active')
            n=buffs(ids)
            for elem in n:
                createlist.append(elem)
@@ -4878,7 +4943,15 @@ def buffs(ids):
         if 'werewolf' in ids['mutations']:
             smile='🐺'
             ids['dopname']='['+smile+']'+ids['name']
-            ids['accuracy']+=10
+            user=users.find_one({'id':ids['id']})
+            if 'werewolf1' in user['mutationlvls']:
+                ids['accuracy']+=10
+                
+        if 'electro' in ids['mutations']:
+            smile='🔌'
+            ids['name']='['+smile+']'+ids['name']
+            ids['hp']+=2
+            ids['maxhp']+=2
         if 'paukovod' in ids['skills']:
             ids['hp']-=2
             ids['maxhp']-=2
@@ -4965,8 +5038,6 @@ def skilltoname(x):
         return '👹Зомби'
     elif x=='gipnoz':
         return '👁Гипнотизёр'
-    elif x=='cube':
-       return 'Куб рандома'
     elif x=='paukovod':
        return '🕷Пауковод'
     elif x=='vampire':
@@ -5067,7 +5138,8 @@ def creategame(id, special):
         'joinbotsreturn':[],
         'turrets':[],
         'enablestart':0,
-        'timee':12
+        'timee':12,
+        'prizefond':0
         
              }
            }
@@ -5094,6 +5166,7 @@ def connect(m):
 def createbot(id):
   return {'name': None,
               'dopname':None,
+              'shockcd':0,
               'weapon':'hand',
               'mutations':[],
               'skills':[],
