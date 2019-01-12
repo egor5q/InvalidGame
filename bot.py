@@ -249,9 +249,9 @@ def myid(m):
 def donate(m):
   if m.from_user.id==m.chat.id:
    bot.send_message(m.chat.id, 'Донат - покупка игровых ресурсов за реальные деньги.\n'+ 
-                    'Курс: 20⚛ за 1р. Покупки совершаются через qiwi - кошелёк. Чтобы совершить покупку, '+
+                    'Курс: 25⚛ за 1р. Покупки совершаются через qiwi - кошелёк. Чтобы совершить покупку, '+
                     'напишите /pay *сумма*\n\nДоступные бонусы:\nОт 300р: выбранные вами емодзи для хп;\n'+
-                    'От 129р до 219р: слоты для бойца (подробнее в /buyslot);\nОт 350р: ДНК в подарок (150р = 1 ДНК).', parse_mode='markdown')
+                    'От 129р до 219р: слоты для бойца (подробнее в /buyslot);\nОт 300р: ДНК в подарок (150р = 1 ДНК).', parse_mode='markdown')
   else:
    bot.send_message(m.chat.id, 'Можно использовать только в личке!')
    
@@ -5382,7 +5382,7 @@ def foo(bar):
            print(id)
            i+=1
       if z!=None and id!=None:
-         c=int(z['price']*20)
+         c=int(z['price']*25)
          usr=users.find_one({'id':int(id)})
          dtxt=''
          if z['price']>=129 and '2slot' not in usr['buildings']:
