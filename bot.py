@@ -110,31 +110,35 @@ def nextgame(m):
 
 @bot.message_handler(commands=['top'])
 def topp(m):
+        text='Топ-10 игроков в кукиварс по опыту:\n\n'
         place=[]
         a=None
-        i=0
+        i=1
         idlist=[]
-        while i<10:
+        while i<=10:
           lst=users.find({})
           dieturn=-1
           a=None
           for ids in lst:
-              if ids['bot']['exp']>dieturn:
-                  print('1')
+              g=1
+              myexp=0
+              while g<=3:
+                    if ids['botslots'][str(g)]!={}:
+                        myexp+=ids['botslots'][str(g)]['exp']
+                    g+=1
+              myexp+=ids['bot']['exp']
+              if myexp>dieturn:
                   if ids['id'] not in place:
-                     print('2')
                      if ids['id'] not in idlist:
-                        print('3')
-                        print(ids['name'])
                         a=ids
-                        dieturn=ids['bot']['exp']
+                        dieturn=myexp
           if a!=None and a['id'] not in idlist:
               place.append(a['id'])
               idlist.append(a['id'])
+              text+=str(i)+': '+a['name']+' - '+str(myexp)+'❇\n'
           i+=1
           print('i+=1')
         plc=1
-        text='Топ-10 игроков в кукиварс по опыту:\n\n'
         for ids in place:
             u=users.find_one({'id':ids})
             text+=str(plc)+': '+u['name']+' - '+str(u['bot']['exp'])+'❇\n'
@@ -4283,7 +4287,7 @@ def skill(bot,id):
                target['skills'].remove(skill)
                games[id]['prizefond']+=2
                bot['shockcd']=8
-               games[id]['res']+=bot['name']+' выпускает мощный поток энергии в '+target['name']+'! Тот теряет скилл "'+skilltoname(skill)+'"!\n'
+               games[id]['res']+='✴️'+bot['name']+' выпускает мощный поток энергии в '+target['name']+'! Тот теряет скилл "'+skilltoname(skill)+'"!\n'
                if skill=='liveful':
                     target['hp']-=2
                     target['accuracy']+=20
@@ -4292,7 +4296,7 @@ def skill(bot,id):
                if skill=='pricel':
                     target['accuracy']-=30
            else:
-               games[id]['res']+=bot['name']+' выпускает мощный поток энергии в '+target['name']+'! У него не было скиллов, поэтому он теряет 💔 хп!\n'
+               games[id]['res']+='✴️'+bot['name']+' выпускает мощный поток энергии в '+target['name']+'! У него не было скиллов, поэтому он теряет 💔 хп!\n'
                target['hp']-=1
              
 
