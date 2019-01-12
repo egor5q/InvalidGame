@@ -3050,7 +3050,7 @@ def dmgs(id):
           if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['hp']>0:
               text+=games[id]['bots'][mob]['name']+' сосёт!\n'
     for mob in games[id]['bots']:
-        if 'paukovod' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
+        if 'paukovod' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['hp']<=0:
                   text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
                   pauk.append(games[id]['bots'][mob])
     for itemss in pauk:
