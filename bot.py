@@ -52,7 +52,7 @@ mutate_info={
         'name':'electro',
         'info':'Мутация "Электродемон" позволяет бойцу использовать электричество как мощное оружие. Начальные способности:\n'+\
         '1. Электрошок - каждые 7 ходов он может отключить случайный скилл у случайного бойца на всю игру. Если у цели нет скиллов, '+\
-        'она потеряет 1 хп.\n2. Силовое поле - хп бойца в начале матча увеличиваются на 2.'
+        'она потеряет 1 хп.\nУлучшения ДНК:\nПервое: силовое поле - хп бойца в начале матча увеличиваются на 1.'
     }
 }
 
@@ -1218,9 +1218,9 @@ def inline(call):
             data='dnaresearch electro'
             if 'electro' not in x['searched']:
                 cost=6
-            #elif 'electro1' not in x['mutationlvls']:
-            #    cost=2
-            #    tx='Улучшить'
+            elif 'electro1' not in x['mutationlvls']:
+                cost=2
+                tx='Улучшить'
             else:
                 data='close'
                 cost=0
@@ -4300,6 +4300,8 @@ def skill(bot,id):
                     target['damagelimit']-=3
                if skill=='pricel':
                     target['accuracy']-=30
+               if skill=='paukovod':
+                    target['hp']+=2
            else:
                games[id]['res']+='✴️'+bot['name']+' выпускает мощный поток энергии в '+target['name']+'! У него не было скиллов, поэтому он теряет 💔 хп!\n'
                target['hp']-=1
@@ -4957,6 +4959,7 @@ def begingame(id):
 
 
 def buffs(ids):
+        user=users.find_one({'id':
         createlist=[]
         if 'werewolf' in ids['mutations']:
             smile='🐺'
@@ -4968,8 +4971,10 @@ def buffs(ids):
         if 'electro' in ids['mutations']:
             smile='🔌'
             ids['name']='['+smile+']'+ids['name']
-            ids['hp']+=2
-            ids['maxhp']+=2
+            
+            if 'electro1' in user['mutationlvls']:
+                ids['hp']+=1
+                ids['maxhp']+=1
         if 'paukovod' in ids['skills']:
             ids['hp']-=2
             ids['maxhp']-=2
