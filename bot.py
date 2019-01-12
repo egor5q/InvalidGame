@@ -301,6 +301,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'skills':skills,
               'team':None,
               'hp':hp,
+              'shockcd':0,
               'maxenergy':maxenergy,
               'energy':energy,
               'items':items,           
@@ -2414,6 +2415,7 @@ def mobcheck(id,mobs):
     games[id]['bots'][mobs]['item']=0
     games[id]['bots'][mobs]['firearmor']=0
     games[id]['bots'][mobs]['miss']=0  
+    games[id]['bots'][mobs]['shockcd']-=1
     if 'nindza' in games[id]['bots'][mobs]['skills']:
       games[id]['bots'][mobs]['miss']+=20*(1+games[id]['bots'][mobs]['chance'])
     if 'werewolf' in player['mutations']:
@@ -4280,6 +4282,7 @@ def skill(bot,id):
                skill=random.choice(target['skills'])
                target['skills'].remove(skill)
                games[id]['prizefond']+=2
+               bot['shockcd']=8
                games[id]['res']+=bot['name']+' выпускает мощный поток энергии в '+target['name']+'! Тот теряет скилл "'+skilltoname(skill)+'"!\n'
                if skill=='liveful':
                     target['hp']-=2
