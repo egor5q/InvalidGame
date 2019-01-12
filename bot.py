@@ -4959,7 +4959,7 @@ def begingame(id):
 
 
 def buffs(ids):
-        user=users.find_one({'id':
+        user=users.find_one({'id':ids['id']})
         createlist=[]
         if 'werewolf' in ids['mutations']:
             smile='🐺'
