@@ -3044,13 +3044,15 @@ def dmgs(id):
               games[id]['bots'][mob]['zombie']=2
               games[id]['bots'][mob]['hp']=1
               text+='👹'+games[id]['bots'][mob]['name']+' теперь зомби!\n'
-           if 'paukovod' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
-                  text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
-                  pauk.append(games[id]['bots'][mob])
+   
      if games[id]['xod']%5==0:
        if games[id]['bots'][mob]['id']==87651712:
           if games[id]['bots'][mob]['die']!=1 and games[id]['bots'][mob]['hp']>0:
               text+=games[id]['bots'][mob]['name']+' сосёт!\n'
+    for mob in games[id]['bots']:
+        if 'paukovod' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
+                  text+='🕷Паук бойца '+games[id]['bots'][mob]['name']+' в ярости! Он присоединяется к бою.\n'
+                  pauk.append(games[id]['bots'][mob])
     for itemss in pauk:
        if 'double' in itemss['skills']:
             g=random.randint(1,2)
@@ -4232,7 +4234,7 @@ def item(bot, id):
                 allenemy=[]
                 for ids in games[id]['bots']:
                     tr=games[id]['bots'][ids]
-                    if tr['die']!=1 and tr['energy']>2:
+                    if tr['die']!=1 and tr['energy']>2 and tr['id']!=bot['id']:
                         allenemy.append(tr)
                 if allenemy!=[]:
                     target=random.choice(allenemy)
@@ -4252,7 +4254,7 @@ def item(bot, id):
                    allenemy=[]
                    for ids in games[id]['bots']:
                         tr=games[id]['bots'][ids]
-                        if tr['die']!=1 and tr['zombie']<=0:
+                        if tr['die']!=1 and tr['zombie']<=0 and tr['id']!=bot['id']:
                                 allenemy.append(tr)
                    if allenemy!=[]:
                      target=random.choice(allenemy)
