@@ -1031,7 +1031,7 @@ def inline(call):
   secrettech='☑️'
   x=users.find_one({'id':call.from_user.id})
   if 'dna' in call.data:
-        conflict=['werewolf']
+        conflict=['werewolf','electro']
         if call.data=='dna buy':
             if 'dnagenerator' in x['buildings']:
                 medit('Выберите количество ДНК, которое хотите произвести. На производство одной единицы '+
