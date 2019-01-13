@@ -2982,6 +2982,8 @@ def dmgs(id):
             em_hp=zilch
          elif cmob['id']==420049610:
             em_hp='💜'
+         elif cmob['id']==493430476:
+            em_hp='🐷'
          elif 'Кошмарное слияние' in cmob['name']:
             em_hp='🖤'
          else:
