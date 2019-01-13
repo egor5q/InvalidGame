@@ -2659,7 +2659,7 @@ def results(id):
         
   for bots in lst:
       if bots not in acted:
-          games[id]['res']+='🔽'+bots['name']+' пропускает ход!\n')
+          games[id]['res']+='🔽'+bots['name']+' пропускает ход!\n'
           medit('Время вышло!',bots['msg'].chat.id, bots['msg'].message_id)
           bots['msg']=None
                      
