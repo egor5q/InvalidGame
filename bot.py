@@ -230,14 +230,16 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'bot.shockcd':0,'bot.effects':[]}})
+          users.update_many({},{'$set':{'bot.shockcd':0}})
           x=users.find({})
           for ids in x:
               if ids['botslots']['1']!={}:
                     users.update_one({'id':ids['id']},{'$set':{'botslots.1.shockcd':0}})
+          x=users.find({})         
           for ids in x:
               if ids['botslots']['2']!={}:
                     users.update_one({'id':ids['id']},{'$set':{'botslots.2.shockcd':0}})
+          x=users.find({})         
           for ids in x:
               if ids['botslots']['3']!={}:
                     users.update_one({'id':ids['id']},{'$set':{'botslots.3.shockcd':0}})
@@ -293,7 +295,7 @@ def autojoin(m):
 
 
 def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,maxenergy=5,energy=5,items=[],accuracy=0,damagelimit=6,skin=[],\
-               animal=None,zombie=0, die=0):
+               animal=None,zombie=0, die=0,shockcd=0):
    return{identeficator:{'name': name,
               'dopname':None,
               'weapon':weapon,
@@ -301,7 +303,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'skills':skills,
               'team':None,
               'hp':hp,
-              'shockcd':0,
+              'shockcd':shockcd,
               'maxenergy':maxenergy,
               'energy':energy,
               'items':items,           
@@ -373,7 +375,7 @@ def createdouble(id,ids):
     x=randomgen(id)
     text='Двойник['+ids['name']+']'
     return createunit(id=ids['id'],name=text,weapon=ids['weapon'],hp=ids['hp'],maxhp=ids['hp'],skills=ids['skills'],skin=ids['skin'],
-                      damagelimit=ids['damagelimit'],energy=ids['maxenergy'],maxenergy=ids['maxenergy'],identeficator=x)
+                      damagelimit=ids['damagelimit'],energy=ids['maxenergy'],maxenergy=ids['maxenergy'],identeficator=x, shockcd=0)
    
    
 def createmonster(id,weapon,hp, animal):
