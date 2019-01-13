@@ -230,19 +230,19 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'bot.shockcd':0}})
+          users.update_many({},{'$set':{'bot.msg':0,'bot.realid':None}})
           x=users.find({})
           for ids in x:
               if ids['botslots']['1']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.shockcd':0}})
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.msg':None,'botslots.1.realid':None}})
           x=users.find({})         
           for ids in x:
               if ids['botslots']['2']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.shockcd':0}})
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.msg':None,'botslots.2.realid':None}})
           x=users.find({})         
           for ids in x:
               if ids['botslots']['3']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.shockcd':0}})
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.msg':None,'botslots.3.realid':None}})
           print('yes')  
 
 
@@ -300,6 +300,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'dopname':None,
               'weapon':weapon,
               'mutations':[],
+              'msg':None,
               'skills':skills,
               'team':None,
               'hp':hp,
@@ -353,7 +354,8 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'doptext':'',
               'dopdmg':0,
               'blight':0,
-              'reservenergy':0
+              'reservenergy':0,
+              'realid':None
                      }
           }
    
@@ -2205,6 +2207,46 @@ def inline(call):
           users.update_one({'id':call.from_user.id}, {'$set':{'nomutantjoin':0}})
           medit('🚫Автоджоин к играм без мутантов успешно выключен!', call.message.chat.id, call.message.message_id)
         
+  elif 'fight' in call.data:
+    kb=types.InlineKeyboardMarkup()
+    chat=int(call.data.split[2])
+    me=games[chat]['bots'][call.from_user.id]
+    if 'ready' not in me['effects']:
+        if 'attackchoice' in call.data:
+            enemy=[]
+            for ids in games[chat]['bots']:
+                enm=games[chat]['bots'][ids]
+                if enm['id']!=me['id']:
+                    enemy.append(enm)
+            for ids in enemy:
+                if ids['identeficator']!=None:
+                    x=ids['identeficator']
+                elif ids['realid']!=None:
+                    x=ids['realid']
+                kb.add(types.InlineKeyboardButton(text=ids['name'],callback_data='fight selecttarget '+str(chat)+' '+str(x)))
+            kb.add(types.InlineKeyboardButton(text='Назад',callback_data='fight back '+str(chat)))
+            medit('Выберите соперника для атаки.',me['msg'].chat.id, me['msg'].message_id)
+            
+        elif 'back' in call.data:
+            givekeyboard(chat,me)
+            
+        elif 'selecttarget' in call.data:
+            target=call.data.split(' ')[3]
+            enemy=None
+            try:
+                enemy=games[chat]['bots'][int(target)]
+            except:
+                for ids in games[chat]['bots']:
+                    tr=games[chat]['bots'][ids]
+                    if tr['identeficator']==target:
+                        enemy=tr
+            me['target']=enemy
+            me['attack']=1
+            me['effects'].append('ready')
+            medit('Цель выбрана - '+enemy['name']+'!',me['msg'].chat.id,me['msg'].message_id)
+            
+        
+        
   else:
       kb=types.InlineKeyboardMarkup()
       kb.add(types.InlineKeyboardButton(text='+1🤖', callback_data='+1'),types.InlineKeyboardButton(text='+2🤖', callback_data='+2'),types.InlineKeyboardButton(text='+5🤖', callback_data='+5'))
@@ -2238,13 +2280,27 @@ def battle(id):
     for wtf in lst:
         if wtf['die']!=1 or wtf['weapon']=='rifle':
             if wtf['stun']<=0 and wtf['magicshieldkd']<=0:
-                wtf[act(wtf, id)]=1
+                if 'playercontrol' not in wtf['effects']:
+                    wtf[act(wtf, id)]=1
+                else:
+                    givekeyboard(wtf,id)
+            
     results(id)
   except Exception as e:
     print('Ошибка:\n', traceback.format_exc())
     bot.send_message(441399484, traceback.format_exc())
 
-  
+def givekeyboard(id, user):
+    kb=types.InlineKeyboardMarkup()
+    kb.add(types.InlineKeyboardButton(text='⚔️Атака',callback_data='fight attackchoice '+str(id)),types.InlineKeyboardButton(text='🕑Перезарядка', callback_data='fight reload '+str(id)))
+    kb.add(types.InlineKeyboardButton(text='💨Уворот',callback_data='fight yvorot '+str(id)),types.InlineKeyboardButton(text='⭐️Скиллы', callback_data='fight skills '+str(id)))
+    kb.add(types.InlineKeyboardButton(text='🎲Предметы',callback_data='fight items '+str(id)),types.InlineKeyboardButton(text='▶️Пропустить',callback_data='fight skip '+str(id)))
+    if user['msg']==None:
+        msg=bot.send_message(user['id'],'Выберите действие.',reply_markup=kb)
+        user['msg']=msg
+    else:
+        medit('Выберите действие.',user['msg'].chat.id, user['msg'].message_id, reply_markup=kb)
+    
 def prizes(id,ids,winner):
        for ids in games[id]['bots']:
              user=users.find_one({'id':games[id]['bots'][ids]['id']})
@@ -5195,6 +5251,7 @@ def createbot(id):
               'dopname':None,
               'shockcd':0,
               'weapon':'hand',
+              'msg':None,
               'mutations':[],
               'skills':[],
               'team':None,
@@ -5258,7 +5315,8 @@ def createbot(id):
               'dopdmg':0,
               'blight':0,
               'gameswithdeathwind':0,
-              'reservenergy':0
+              'reservenergy':0,
+              'realid':None
 }
 
 
