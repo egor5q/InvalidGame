@@ -2231,6 +2231,18 @@ def inline(call):
         elif 'back' in call.data:
             givekeyboard(chat,me)
             
+        elif 'backskills' in call.data:
+            usable=['gipnoz','electro']
+            for ids in me['skills']:
+                if ids in usable:
+                    kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+            for ids in me['mutations']:
+                if ids in usable:
+                    if ids=='electro' and me['shockcd']<=0:
+                        kb.add(types.InlineKeyboardButton(text='🔌Разряд!', callback_data='fight use '+str(chat)+' '+'electro'))
+            kb.add(types.InlineKeyboardButton(text='Назад',callback_data='fight back '+str(chat)))
+            medit('Выберите скилл.',me['msg'].chat.id,me['msg'].message_id,reply_markup=kb)
+            
         elif 'selecttarget' in call.data:
             target=call.data.split(' ')[3]
             enemy=None
@@ -2245,6 +2257,66 @@ def inline(call):
             me['attack']=1
             me['effects'].append('ready')
             medit('Цель выбрана - '+enemy['name']+'!',me['msg'].chat.id,me['msg'].message_id)
+            me['msg']=None
+            
+        elif 'reload' in call.data:
+            me['reload']=1
+            me['effects'].append('ready')
+            medit('Выбрано: перезарядка.',me['msg'].chat.id,me['msg'].message_id)
+            me['msg']=None
+            
+        elif 'yvorot' in call.data and (me['yvorotkd']<=0 or me['shieldgen']<=0):
+            me['yvorot']=1
+            me['effects'].append('ready')
+            medit('Выбрано: уворот.',me['msg'].chat.id,me['msg'].message_id)
+            me['msg']=None
+            
+        elif 'skills' in call.data:
+            usable=['gipnoz','electro']
+            for ids in me['skills']:
+                if ids in usable:
+                    kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+            for ids in me['mutations']:
+                if ids in usable:
+                    if ids=='electro' and me['shockcd']<=0:
+                        kb.add(types.InlineKeyboardButton(text='🔌Разряд!', callback_data='fight use '+str(chat)+' '+'electro'))
+            kb.add(types.InlineKeyboardButton(text='Назад',callback_data='fight back '+str(chat)))
+            medit('Выберите скилл.',me['msg'].chat.id,me['msg'].message_id,reply_markup=kb)
+            
+        elif 'use' in call.data:
+            skill=call.data.split(' ')[3]
+            enemy=[]
+            for ids in games[chat]['bots']:
+                enm=games[chat]['bots'][ids]
+                if enm['id']!=me['id']:
+                    enemy.append(enm)
+            for ids in enemy:
+                if ids['identeficator']!=None:
+                    x=ids['identeficator']
+                elif ids['realid']!=None:
+                    x=ids['realid']
+                kb.add(types.InlineKeyboardButton(text=ids['name'],callback_data='fight skilltarget '+str(chat)+' '+str(x)+' '+skill))
+            kb.add(types.InlineKeyboardButton(text='Назад',callback_data='fight backskills '+str(chat)))
+            medit('Выберите цель.',me['msg'].chat.id,me['msg'].message_id,reply_markup=kb)
+            
+        elif 'skilltarget' in call.data:
+            target=call.data.split(' ')[3]
+            skill=call.data.split(' ')[4]
+            enemy=None
+            try:
+                enemy=games[chat]['bots'][int(target)]
+            except:
+                for ids in games[chat]['bots']:
+                    tr=games[chat]['bots'][ids]
+                    if tr['identeficator']==target:
+                        enemy=tr
+            me['target']=enemy
+            me['skill']=1
+            me['effects'].append('ready')
+            me['mainskill'].append(skill)
+            medit('Цель выбрана - '+enemy['name']+'!',me['msg'].chat.id,me['msg'].message_id)
+            me['msg']=None
+            
             
         
         
@@ -2526,24 +2598,30 @@ def mobcheck(id,mobs):
                 
 def results(id): 
   lst=[]
+  acted=[]
   for ids in games[id]['bots']:
       lst.append(games[id]['bots'][ids])
+    
   for bots in lst:
      if bots['yvorot']==1:
         yvorot(bots, id)
+        acted.append(bots)
         
   for bots in lst:
      if bots['skill']==1:
         games[id]['bots']
-        skill(bots, id)   
+        skill(bots, id) 
+        acted.append(bots)
               
   for bots in lst:
       if bots['item']==1:
           item(bots, id) 
+          acted.append(bots)
               
   for bots in lst:
      if bots['reload']==1:
-        reload(bots, id)          
+        reload(bots, id) 
+        acted.append(bots)
               
   for bots in lst:
     if 'electrocharge' in bots['skills'] and bots['attack']==1:
@@ -2559,7 +2637,6 @@ def results(id):
                   
                   
   for bots in lst:
-    print('dddaa')
     if bots['weapon']=='sword' and bots['attack']==1:
         x=attack(bots,id,1)
         if x==1:
@@ -2567,15 +2644,24 @@ def results(id):
             if random.randint(1,100)<=40*(bots['chance']+1):
                 bots['doptext']+='💢'+bots['name']+' ослепляет соперника!\n'
                 bots['target']['blight']=1
+                acted.append(bots)
                 
 
   for bots in lst:
       if bots['attack']==1 and bots['weapon']!='slizgun':
         attack(bots,id,0)
+        acted.append(bots)
         
   for bots in lst:     
       if bots['attack']==1 and bots['weapon']=='slizgun':
         attack(bots,id,0)
+        acted.append(bots)
+        
+  for bots in lst:
+      if bots not in acted:
+          games[id]['res']+='🔽'+bots['name']+' пропускает ход!\n')
+          medit('Время вышло!',bots['msg'].chat.id, bots['msg'].message_id)
+          bots['msg']=None
                      
   for ids in lst:
     if ids['shield']>=1:
@@ -2589,7 +2675,7 @@ def results(id):
       bot.send_message(id, games[id]['secondres'])
     else:
       if random.randint(1,3)==1:
-         bot.send_message(id, 'Silent mode is on')
+         bot.send_message(id, 'Silent mode is on (игра идёт, но в тихом режиме)')
   else:
       bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
       bot.send_message(id, games[id]['secondres'])
@@ -4283,27 +4369,26 @@ def skill(bot,id):
   i=0
   skills=[]
   a=[]
-  if 0 not in games[id]['bots']:
-      for bots in games[id]['bots']:
-        if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['die']!=1:
-            a.append(games[id]['bots'][bots])
-      if len(a)>0:
-       x=random.choice(a)
-       if 'gipnoz' in bot['mainskill']:
-        zz=[]
-        for ii in games[id]['bots']:
-              if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['magicshieldkd']<=0 and games[id]['bots'][ii]['die']==0 and games[id]['bots'][ii]['id']!=bot['id'] and ((games[id]['bots'][ii]['weapon']=='bow' and games[id]['bots'][ii]['bowcharge']==1) or games[id]['bots'][ii]['weapon']!='bow'):
-                  zz.append(games[id]['bots'][ii])
-        if len(zz)>0:
-          x=random.choice(zz)
-          
-        else:
-           games[id]['res']+=bot['name']+' пьёт чай!\n'
-       target=x
+  for bots in games[id]['bots']:
+    if games[id]['bots'][bots]['id']!=bot['id'] and games[id]['bots'][bots]['die']!=1:
+        a.append(games[id]['bots'][bots])
+  if len(a)>0:
+   x=random.choice(a)
+   if 'gipnoz' in bot['mainskill']:
+    zz=[]
+    for ii in games[id]['bots']:
+          if games[id]['bots'][ii]['energy']>=3 and games[id]['bots'][ii]['magicshieldkd']<=0 and games[id]['bots'][ii]['die']==0 and games[id]['bots'][ii]['id']!=bot['id'] and ((games[id]['bots'][ii]['weapon']=='bow' and games[id]['bots'][ii]['bowcharge']==1) or games[id]['bots'][ii]['weapon']!='bow'):
+              zz.append(games[id]['bots'][ii])
+    if len(zz)>0:
+      x=random.choice(zz)
+      
+    else:
+       games[id]['res']+=bot['name']+' пьёт чай!\n'
+   target=x
+   if bot['target']!=None:
+        target=bot['target']
        
    
-  else:    
-    target=games[id]['bots'][0]
   for item in bot['skills']:
       skills.append(item)
    
@@ -4328,6 +4413,7 @@ def skill(bot,id):
              i=1
             
   elif choice=='electro':
+     if bot['target']==None:
         target=None
         enemies=[]
         for ids in games[id]['bots']:
@@ -4345,27 +4431,29 @@ def skill(bot,id):
             target=random.choice(enemies)
         else:
             games[id]['res']+='☕️'+bot['name']+' пьёт чай! Врагов не осталось!\n'
-        dmg=0
-        bot['energy']-=3
-        if target!=None:
-           if len(target['skills'])>0:
-               skill=random.choice(target['skills'])
-               target['skills'].remove(skill)
-               games[id]['prizefond']+=2
-               bot['shockcd']=8
-               games[id]['res']+='✴️'+bot['name']+' выпускает мощный поток энергии в '+target['name']+'! Тот теряет скилл "'+skilltoname(skill)+'"!\n'
-               if skill=='liveful':
-                    target['hp']-=2
-                    target['accuracy']+=20
-               if skill=='dvuzhil':
-                    target['damagelimit']-=3
-               if skill=='pricel':
-                    target['accuracy']-=30
-               if skill=='paukovod':
-                    target['hp']+=2
-           else:
-               games[id]['res']+='✴️'+bot['name']+' выпускает мощный поток энергии в '+target['name']+'! У него не было скиллов, поэтому он теряет 💔 хп!\n'
-               target['hp']-=1
+     else:
+        target=bot['target']
+     dmg=0
+     bot['energy']-=3
+     if target!=None:
+        if len(target['skills'])>0:
+            skill=random.choice(target['skills'])
+            target['skills'].remove(skill)
+            games[id]['prizefond']+=2
+            bot['shockcd']=8
+            games[id]['res']+='✴️'+bot['name']+' выпускает мощный поток энергии в '+target['name']+'! Тот теряет скилл "'+skilltoname(skill)+'"!\n'
+            if skill=='liveful':
+                 target['hp']-=2
+                 target['accuracy']+=20
+            if skill=='dvuzhil':
+                 target['damagelimit']-=3
+            if skill=='pricel':
+                 target['accuracy']-=30
+            if skill=='paukovod':
+                 target['hp']+=2
+        else:
+            games[id]['res']+='✴️'+bot['name']+' выпускает мощный поток энергии в '+target['name']+'! У него не было скиллов, поэтому он теряет 💔 хп!\n'
+            target['hp']-=1
              
 
 def item(bot, id):
@@ -4375,6 +4463,7 @@ def item(bot, id):
            else:
              z=random.choice(bot['mainitem'])
            if z=='flash':
+              if bot['target']==None:
                 allenemy=[]
                 for ids in games[id]['bots']:
                     tr=games[id]['bots'][ids]
@@ -4382,6 +4471,9 @@ def item(bot, id):
                         allenemy.append(tr)
                 if allenemy!=[]:
                     target=random.choice(allenemy)
+              else:
+                target=bot['target']
+              if target!=None:
                     games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
                     target['energy']=0
                     try:
@@ -4389,19 +4481,24 @@ def item(bot, id):
                     except:
                         pass
                     bot['target']=None
-                else:
-                     games[id]['res']+='☕️'+bot['name']+' пьёт чай - соперников для флешки не осталось!\n'   
+              else:
+                     games[id]['res']+='☕️'+bot['name']+' пьёт чай - соперников для флешки не осталось!\n'  
+                
            
            elif z=='knife':
                    x=random.randint(1,100)
                    bot['energy']-=2
                    allenemy=[]
-                   for ids in games[id]['bots']:
+                   if bot['target']==None:
+                     for ids in games[id]['bots']:
                         tr=games[id]['bots'][ids]
                         if tr['die']!=1 and tr['zombie']<=0 and tr['id']!=bot['id']:
                                 allenemy.append(tr)
-                   if allenemy!=[]:
-                     target=random.choice(allenemy)
+                     if allenemy!=[]:
+                       target=random.choice(allenemy)
+                   else:
+                     target=bot['target']
+                   if target!=None:
                      if x>target['miss']:
                        games[id]['res']+='🔪'+bot['name']+' Кидает нож в '+target['name']+'! Нанесено 3 урона.\n'
                        target['takendmg']+=3
@@ -4506,7 +4603,7 @@ def actnumber(bot, id):
     
   else:
     skill=0
-  if 'electro' in npc['mutations'] and npc['shockcd']<=0 and random.randint(1,100)<=90:
+  if 'electro' in npc['mutations'] and npc['shockcd']<=0 and random.randint(1,100)<=90 and npc['energy']>=3:
       skill=1
       npc['mainskill'].append('electro')
       
@@ -4608,6 +4705,7 @@ def start(m):
             else:
                 thisbot=y['bot']
            games[int(x[1])]['bots'].update(createbott(m.from_user.id, thisbot))
+           games[int(x[1])]['bots'][m.from_user.id]['realid']=m.from_user.id
            users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
            bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
            bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+thisbot['name']+') присоединился!')
@@ -4686,7 +4784,7 @@ def withoutauto(m):
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         games[m.chat.id]['timer']=t
-        t=threading.Timer(1,enablestart,args=[m.chat.id])
+        t=threading.Timer(15,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
@@ -4700,6 +4798,25 @@ def withoutauto(m):
                       bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
                    except:
                       pass
+                    
+@bot.message_handler(commands=['pvp'])
+def withoutauto(m):
+   # if m.chat.id==-1001208357368:#-229396706:
+     if m.chat.id not in games:# and m.from_user.id==441399484:
+        games.update(creategame(m.chat.id, 0))
+        games[m.chat.id]['pvp']=1
+        games[m.chat.id]['timee']=60
+        if m.chat.id==-1001172494515:
+            games[m.chat.id]['gmo']=0
+        t=threading.Timer(300, starttimer, args=[m.chat.id])
+        t.start()
+        games[m.chat.id]['timer']=t
+        t=threading.Timer(10,enablestart,args=[m.chat.id])
+        t.start()
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        bot.send_message(m.chat.id, 'ПВП началось! Автостарт через 5 минут.\n\n', reply_markup=kb)    
+                    
    
 @bot.message_handler(commands=['fastfinish'])
 def ff(m):
@@ -5206,6 +5323,7 @@ def creategame(id, special):
         'chatid':id,
         'ids':[],
         'bots':{},
+        'pvp':0,
         'results':'',
         'gmo':1,
         'secondres':'',
