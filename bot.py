@@ -300,6 +300,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'dopname':None,
               'weapon':weapon,
               'mutations':[],
+              'effects':[],
               'msg':None,
               'skills':skills,
               'team':None,
