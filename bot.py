@@ -364,6 +364,12 @@ def createrare(id):
    x=randomgen(id)
    return createunit(name='Редкий слизнюк',id=-300, identeficator=x,weapon='sliznuk',hp=10,maxhp=10,damagelimit=999)
    
+def createlava(chatid, id='lava'):
+    x=randomgen(chatid)
+    text='Алмазный голем'
+    hp=4
+    return createunit(id=id,weapon='lava',name=text,hp=hp,maxhp=hp,animal=None,identeficator=x,damagelimit=15)
+    
 def createpauk(id,hp):
     for ids in games:
          if id in games[ids]['bots']:
@@ -394,8 +400,8 @@ def createmonster(id,weapon,hp, animal):
 def createsniper(chatid,id='sniper'):
     x=randomgen(chatid)
     text='Зомби-снайпер'
-    hp=0
-    return createunit(id=id,weapon='rifle',name=text,hp=hp,die=1,maxhp=hp,animal=None,identeficator=x,damagelimit=1)
+    hp=1
+    return createunit(id=id,weapon='rifle',name=text,hp=hp,maxhp=hp,animal=None,identeficator=x,damagelimit=1,zombie=8)
 
 def randomgen(id):
     i=0
@@ -2379,7 +2385,7 @@ def battle(id):
     for ids in games[id]['bots']:
       lst.append(games[id]['bots'][ids])
     for wtf in lst:
-        if wtf['die']!=1 or wtf['weapon']=='rifle':
+        if wtf['die']!=1:
             if wtf['stun']<=0:
                 if 'playercontrol' not in wtf['effects']:
                     wtf[act(wtf, id)]=1
@@ -2784,8 +2790,9 @@ def results(id):
    endxoda=allus*3
    endxoda+=1
    alive=0
+   dead=['lava','sniper']
    for ids in games[id]['bots']:
-        if games[id]['bots'][ids]['die']!=1:
+        if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['id'] not in dead:
             alive+=1
    if ((die+1>=len(games[id]['bots']) or len(allid)<=1) and games[id]['mode']!='farm') or ((games[id]['mode']=='farm' and games[id]['xod']>=endxoda) or alive==0):
       z=1
@@ -2798,7 +2805,7 @@ def results(id):
             winners=[]
             winid=[]
             for ids in games[id]['bots']:
-                if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['id'] not in winid:
+                if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['id'] not in winid and games[id]['bots'][ids]['id'] not in dead:
                     winners.append(games[id]['bots'][ids])
                     winid.append(games[id]['bots'][ids]['id'])
             slist=''
@@ -2969,7 +2976,6 @@ def results(id):
 def dmgs(id):
     c=0
     text=''
-    print('dmgs1')
     if games[id]['mode']=='meteors':
         targets=[]
         for ids in games[id]['bots']:
@@ -3008,7 +3014,10 @@ def dmgs(id):
         if random.randint(1,100)<=8:
             dead=random.choice(liv)
             dead['hp']=-5
-            text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'! Тот погибает.\n'
+            text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'!\n'  
+        if random.randint(1,100)<=1:
+            text+='‼️💎Битва пробудила алмазного голема! Он вступает в бой!\n'
+            games[id]['bots'].update(createlava(chatid=id) )
         if random.randint(1,100)<=1:
             try:
                 if len(dead)>0:
@@ -3065,6 +3074,7 @@ def dmgs(id):
            if random.randint(1,100)<=18+(18*games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['die']!=1:
               games[id]['bots'][ids]['firearmor']=1
               games[id]['res']+='🔥Повелитель огня '+games[id]['bots'][ids]['name']+' использует огненный щит!\n'
+            
     
     for ids in games[id]['bots']:
         mob=games[id]['bots'][ids]
@@ -3120,19 +3130,22 @@ def dmgs(id):
         if 'suit' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=25*(1+games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['takendmg']>0 and games[id]['bots'][ids]['target']!=None:
             games[id]['bots'][ids]['target']['takendmg']+=games[id]['bots'][ids]['takendmg']
             text+='📡'+games[id]['bots'][ids]['name']+' направляет полученный урон в свою цель! Нанесено '+str(games[id]['bots'][ids]['takendmg'])+' урона.\n'
-            
+          
+    for ids in games[id]['bots']:
+        p=games[id]['bots'][ids]
+        if p['shield']>0:
+            p['takendmg']=0
+        
     for ids in games[id]['bots']:
        if games[id]['randomdmg']!=1:
           if games[id]['bots'][ids]['takendmg']>c:
             c=games[id]['bots'][ids]['takendmg']
                
     for ids in games[id]['bots']:
-        print('dmgs3')
         if games[id]['bots'][ids]['takendmg']>c:
             c=games[id]['bots'][ids]['takendmg']
     monsters=[]        
     for mob in games[id]['bots']:
-        print('dmgs4')
         if 'magictitan' in games[id]['bots'][mob]['skills']:
           if games[id]['bots'][mob]['magicshieldkd']>0:
             games[id]['bots'][mob]['magicshieldkd']-=1
@@ -3148,8 +3161,6 @@ def dmgs(id):
                      text+='💔'+games[id]['bots'][mob]['name']+' истекает кровью и теряет жизнь!\n'
         if 'vampire' in games[id]['bots'][mob]['skills'] and games[id]['bots'][mob]['die']!=1:
             if games[id]['bots'][mob]['target']!=None:
-                print('1')
-                print(games[id]['bots'][mob]['target']['takendmg'])
                 if games[id]['bots'][mob]['target']['takendmg']==c and c>0:
                   a=random.randint(1,100)
                   if a<=9+(9*games[id]['bots'][mob]['chance']):
@@ -3183,7 +3194,6 @@ def dmgs(id):
                 
     pauk=[]
     for mob in games[id]['bots']:
-     print('dmgs5')
      if games[id]['bots'][mob]['takendmg']==c:
       if games[id]['bots'][mob]['takendmg']>0:
        oldhp=games[id]['bots'][mob]['hp']
@@ -3345,8 +3355,6 @@ def dmgs(id):
        else:
             g=3
        games[id]['bots'].update(createpauk(itemss['id'], g))
-       print('pauk')
-       print(games[id]['bots'])
     for ids in games[id]['summonlist']:
       if ids[0]=='pig':
          games[id]['bots'].update(createzombie(ids[1]))
@@ -4344,6 +4352,47 @@ def riflechance(energy, target, x, id, bot1,hit):
 
 
 
+def lavachance(energy, target, x, id, bot1,hit):
+  if energy>=5:
+    chance=100
+  elif energy==4:
+    chance=100
+  elif energy==3:
+    chance=100
+  elif energy==2:
+    chance=100
+  elif energy==1:
+    chance=100
+  elif energy<=0:
+    chance=100
+  if bot1['blight']==1:
+      chance=-100
+  bonus=1+bot1['accuracy']/100
+  debuff=1+target['miss']/100
+  if hit==1:
+    if x*debuff/(bonus)<=chance or bot1['hit']==1:
+         return 1
+    else:
+         return 0
+  if 'lavacharge' not in bot1['effects']:
+      games[id]['res']+='💎'+bot1['name']+' поднимает руку, готовясь к удару!\n'
+      bot1['effects'].append('lavacharge')
+  elif 'lavacharge2' not in bot1['effects']:
+      games[id]['res']+='💎Рука алмазного голема начинает падать с большой скоростью!\n'
+      bot1['effects'].append('lavacharge2')
+  else:
+      games[id]['res']+='💎Землю сотрясает мощный удар алмазного голема! Все участники боя получают 18 урона!\n'
+      bot1['effects'].remove('lavacharge')
+      bot1['effects'].remove('lavacharge2')
+      for ids in games[id]['bots']:
+          p=games[id]['bots'][ids]
+          if p['id']!=bot1['id'] and p['die']!=1:
+            p['takendmg']+=18
+            
+  games[id]['res']+=bot1['doptext']
+
+
+
 def attack(bot, id,rr):
   a=[]
   enm=[]
@@ -4419,6 +4468,9 @@ def attack(bot, id,rr):
     
     elif bot['weapon']=='rifle':
         return riflechance(bot['energy'], target, x, id, bot,rr)
+    
+    elif bot['weapon']=='lava':
+        return lavachance(bot['energy'], target, x, id, bot,rr)
 
   else:
     games[id]['res']+='☕️'+bot['name']+' пьёт чай - соперников не осталось!\n'
@@ -4451,10 +4503,12 @@ def yvorot(bot, id):
 def reload(bot2, id):
    bot2['energy']=bot2['maxenergy']
    if bot2['weapon']=='rock' or bot2['weapon']=='hand' or bot2['weapon']=='magic' or bot2['weapon']=='kinzhal' or \
-   bot2['weapon']=='sliznuk' or bot2['weapon']=='sword':
-        games[id]['res']+='😴'+bot2['name']+' Отдыхает. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
+        bot2['weapon']=='sliznuk' or bot2['weapon']=='sword':
+        games[id]['res']+='😴'+bot2['name']+' отдыхает. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
+   elif bot2['weapon']=='bite':
+        games[id]['res']+='😴'+bot2['name']+' восполняет запасы яда. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
    else:
-        games[id]['res']+='🕓'+bot2['name']+' Перезаряжается. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
+        games[id]['res']+='🕓'+bot2['name']+' перезаряжается. Энергия восстановлена до '+str(bot2['maxenergy'])+'!\n'
     
 def skill(bot,id):
   i=0
@@ -5646,8 +5700,6 @@ def beginmassbattle(id):
                except:
                   pass
                
-        if m.chat.id!=-1001208357368:
-           bot.send_message(441399484, 'Где-то началась игра!')
    else:
         bot.send_message(id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.')
     
@@ -5787,5 +5839,6 @@ if True:
    donates.update_one({},{'$set':{'donaters':[]}})
    print('7777')
    bot.send_message(-1001208357368, 'Бот был перезагружен!')
+   bot.send_message(-1001172494515, 'Бот был перезагружен!')
    bot.polling(none_stop=True)
  
