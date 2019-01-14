@@ -2564,6 +2564,10 @@ def mobcheck(id,mobs):
       games[id]['bots'][mobs]['currentarmor']=1
     games[id]['bots'][mobs]['skill']=0
     games[id]['bots'][mobs]['dopdmg']=0
+    try:
+        games[id]['bots'][mobs]['effects'].remove('ready')
+    except:
+        pass
     games[id]['bots'][mobs]['shield']=0
     games[id]['bots'][mobs]['armorturns']-=1
     if games[id]['bots'][mobs]['armorturns']==0:
@@ -5072,7 +5076,7 @@ def begingame(id):
                    users.update_one({'id':ids['id']},{'$set':{'bot.gameswithdeathwind':0}})
            if ids['weapon']==None:
                ids['weapon']='hand'
-           n=buffs(ids)
+           n=buffs(ids,id)
            for elem in n:
                createlist.append(elem)
        text=''
@@ -5136,7 +5140,7 @@ def begingame(id):
     bot.send_message(441399484, traceback.format_exc())
 
 
-def buffs(ids):
+def buffs(ids,id):
         user=users.find_one({'id':ids['id']})
         createlist=[]
         if 'werewolf' in ids['mutations']:
@@ -5192,6 +5196,8 @@ def buffs(ids):
             ids['hp']=b
             ids['maxhp']=b
             createlist.append(ids)
+        if games[id]['pvp']==1:
+            ids['effects'].append('playercontrol')
         return createlist
            
 
