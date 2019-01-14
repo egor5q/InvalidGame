@@ -2995,12 +2995,15 @@ def dmgs(id):
             dead=random.choice(liv)
             dead['hp']=-5
             text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'! Тот погибает.\n'
-        if random.randint(1,100)<=2:
-            if len(dead)>0:
-                recreate=random.choice(dead)
-                recreate['die']=0
-                recreate['hp']=2
-                text+='👼Ангел воскрешает бойца '+recreate['name']+' с 2 хп!\n'
+        if random.randint(1,100)<=1:
+            try:
+                if len(dead)>0:
+                    recreate=random.choice(dead)
+                    recreate['die']=0
+                    recreate['hp']=2
+                    text+='👼Ангел воскрешает бойца '+recreate['name']+' с 2 хп!\n'
+            except:
+                pass
             
     for ids in games[id]['turrets']:
         a=[]
