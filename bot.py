@@ -2382,6 +2382,7 @@ def battle(id):
         if wtf['die']!=1 or wtf['weapon']=='rifle':
             if wtf['stun']<=0:
                 if 'playercontrol' not in wtf['effects']:
+                    print('НИЖЕ ПРИНТ V')
                     print(wtf)
                     wtf[act(wtf, id)]=1
 
