@@ -2356,7 +2356,6 @@ def battle(id):
                 if 'playercontrol' not in wtf['effects']:
                     wtf[act(wtf, id)]=1
 
-            
     results(id)
   except Exception as e:
     print('Ошибка:\n', traceback.format_exc())
@@ -2880,7 +2879,7 @@ def results(id):
     t.start()
     for ids in games[id]['bots']:
         if 'playercontrol' in games[id]['bots']['effects']:
-            givekeyboard(id,ids)
+            givekeyboard(id,games[id]['bots'][ids])
   else:
     del games[id]
                  
@@ -5137,7 +5136,7 @@ def begingame(id):
        t=threading.Timer(games[id]['timee'],battle,args=[id])
        for ids in games[id]['bots']:
          if 'playercontrol' in games[id]['bots'][ids]['effects']:
-            givekeyboard(id,ids)
+            givekeyboard(id,games[id]['bots'][ids])
        t.start()
     else:
       pass
