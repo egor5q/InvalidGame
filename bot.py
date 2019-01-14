@@ -2226,7 +2226,7 @@ def inline(call):
                     x=ids['realid']
                 kb.add(types.InlineKeyboardButton(text=ids['name'],callback_data='fight selecttarget '+str(chat)+' '+str(x)))
             kb.add(types.InlineKeyboardButton(text='Назад',callback_data='fight back '+str(chat)))
-            medit('Выберите соперника для атаки.',me['msg'].chat.id, me['msg'].message_id)
+            medit('Выберите соперника для атаки.',me['msg'].chat.id, me['msg'].message_id,reply_markup=kb)
             
         elif 'back' in call.data:
             givekeyboard(chat,me)
