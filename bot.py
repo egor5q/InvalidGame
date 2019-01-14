@@ -2746,6 +2746,7 @@ def results(id):
                     afk+=1
               if afk>=2:
                   games[id]['res']+='😵'+bots['name']+' умер от АФК!\n'
+                  bots['die']=1
               bots['msg']=None
             
       elif bots in acted:
