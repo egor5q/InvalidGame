@@ -2702,8 +2702,9 @@ def results(id):
   for bots in lst:
       if bots not in acted and bots['die']!=1 and bots['stun']<=0:
           games[id]['res']+='🔽'+bots['name']+' пропускает ход!\n'
-          medit('Время вышло!',bots['msg'].chat.id, bots['msg'].message_id)
-          bots['msg']=None
+          if bots['msg']!=None:
+              medit('Время вышло!',bots['msg'].chat.id, bots['msg'].message_id)
+              bots['msg']=None
                      
   for ids in lst:
     if ids['shield']>=1:
