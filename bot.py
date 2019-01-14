@@ -2210,7 +2210,7 @@ def inline(call):
         
   elif 'fight' in call.data:
     kb=types.InlineKeyboardMarkup()
-    chat=int(call.data.split)[2]
+    chat=int(call.data.split(' ')[2])
     me=games[chat]['bots'][call.from_user.id]
     if 'ready' not in me['effects']:
         if 'attackchoice' in call.data:
