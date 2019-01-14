@@ -2368,6 +2368,7 @@ def givekeyboard(id, user):
     kb.add(types.InlineKeyboardButton(text='⚔️Атака',callback_data='fight attackchoice '+str(id)),types.InlineKeyboardButton(text='🕑Перезарядка', callback_data='fight reload '+str(id)))
     kb.add(types.InlineKeyboardButton(text='💨Уворот',callback_data='fight yvorot '+str(id)),types.InlineKeyboardButton(text='⭐️Скиллы', callback_data='fight skills '+str(id)))
     kb.add(types.InlineKeyboardButton(text='🎲Предметы',callback_data='fight items '+str(id)),types.InlineKeyboardButton(text='▶️Пропустить',callback_data='fight skip '+str(id)))
+    print(user['msg'])
     if user['msg']==None:
         msg=bot.send_message(user['id'],'Выберите действие.',reply_markup=kb)
         user['msg']=msg
