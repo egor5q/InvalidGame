@@ -2356,7 +2356,7 @@ def battle(id):
                 if 'playercontrol' not in wtf['effects']:
                     wtf[act(wtf, id)]=1
                 else:
-                    givekeyboard(wtf,id)
+                    givekeyboard(id,wtf)
             
     results(id)
   except Exception as e:
