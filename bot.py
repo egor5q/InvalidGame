@@ -5136,7 +5136,7 @@ def begingame(id):
        games[id]['started2']=1
        t=threading.Timer(games[id]['timee'],battle,args=[id])
        for ids in games[id]['bots']:
-         if 'playercontrol' in games[id]['bots']['effects']:
+         if 'playercontrol' in games[id]['bots'][ids]['effects']:
             givekeyboard(id,ids)
        t.start()
     else:
