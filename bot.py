@@ -2355,8 +2355,7 @@ def battle(id):
             if wtf['stun']<=0 and wtf['magicshieldkd']<=0:
                 if 'playercontrol' not in wtf['effects']:
                     wtf[act(wtf, id)]=1
-                else:
-                    givekeyboard(id,wtf)
+
             
     results(id)
   except Exception as e:
@@ -2879,6 +2878,9 @@ def results(id):
   if z==0:
     t=threading.Timer(games[id]['timee'], battle, args=[id])
     t.start()
+    for ids in games[id]['bots']:
+        if 'playercontrol' in games[id]['bots']['effects']:
+            givekeyboard(id,ids)
   else:
     del games[id]
                  
@@ -5132,8 +5134,11 @@ def begingame(id):
        if text3!='':
            bot.send_message(id, text3)
        games[id]['started2']=1
-       print('1')
-       battle(id)
+       t=threading.Timer(games[id]['timee'],battle,args=[id])
+       for ids in games[id]['bots']:
+         if 'playercontrol' in games[id]['bots']['effects']:
+            givekeyboard(id,ids)
+       t.start()
     else:
       pass
  except Exception as e:
