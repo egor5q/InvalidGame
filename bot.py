@@ -2402,7 +2402,7 @@ def givekeyboard(id, user):
        em_hp='💜'
     elif user['id']==493430476:
        em_hp='🐷'
-    elif 'Кошмарное слияние' in cmob['name']:
+    elif 'Кошмарное слияние' in user['name']:
        em_hp='🖤'
     else:
        em_hp='♥'
