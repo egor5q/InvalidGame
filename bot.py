@@ -230,7 +230,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'bot.msg':0,'bot.realid':None}})
+          users.update_many({},{'$set':{'bot.msg':None,'bot.realid':None}})
           x=users.find({})
           for ids in x:
               if ids['botslots']['1']!={}:
@@ -2210,7 +2210,7 @@ def inline(call):
         
   elif 'fight' in call.data:
     kb=types.InlineKeyboardMarkup()
-    chat=int(call.data.split[2])
+    chat=int(call.data.split)[2]
     me=games[chat]['bots'][call.from_user.id]
     if 'ready' not in me['effects']:
         if 'attackchoice' in call.data:
