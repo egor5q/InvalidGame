@@ -3008,7 +3008,7 @@ def dmgs(id):
             dm=random.randint(1,30)
             trgt['takendmg']+=dm
             text+='⛰На бойца '+trgt['name']+' обрушилась скала! Он получает '+str(dm)+' урона!\n'
-        if random.randint(1,100)<=11:
+        if random.randint(1,100)<=19:
             games[id]['bots'].update(createsniper(chatid=id) )
             text+='⁉️🎯Зомби-снайпер почуял кровь! Берегитесь...\n'
         if random.randint(1,100)<=8:
