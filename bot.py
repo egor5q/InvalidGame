@@ -2384,7 +2384,10 @@ def playercheck(id):
         if 'playercontrol' in b['effects'] and b['msg']==None:
             allpready+=1
     if allpready==allp:
-        games[id]['battletimer'].cancel()
+        try:
+            games[id]['battletimer'].cancel()
+        except:
+            pass
         results(id)
     
 def givekeyboard(id, user):
@@ -2392,7 +2395,9 @@ def givekeyboard(id, user):
     kb.add(types.InlineKeyboardButton(text='⚔️Атака',callback_data='fight attackchoice '+str(id)),types.InlineKeyboardButton(text='🕑Перезарядка', callback_data='fight reload '+str(id)))
     kb.add(types.InlineKeyboardButton(text='💨Уворот',callback_data='fight yvorot '+str(id)),types.InlineKeyboardButton(text='⭐️Скиллы', callback_data='fight skills '+str(id)))
     kb.add(types.InlineKeyboardButton(text='▶️Пропустить',callback_data='fight skip '+str(id)))
-    print(user['msg'])
+    
+    pop=emojize(':poop:', use_aliases=True)
+    zilch=emojize(':panda_face:',use_aliases=True)
     if user['id']==581167827:
        em_hp='💙'
     elif user['id']==256659642:
