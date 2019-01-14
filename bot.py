@@ -2905,7 +2905,7 @@ def results(id):
     games[id]['battletimer']=t
     for ids in games[id]['bots']:
         plr=games[id]['bots'][ids]
-        if 'playercontrol' in plr['effects'] and plr['stunned']<=0 and plr['die']!=1:
+        if 'playercontrol' in plr['effects'] and plr['stun']<=0 and plr['die']!=1:
             givekeyboard(id,games[id]['bots'][ids])
   else:
     del games[id]
@@ -5001,7 +5001,7 @@ def begin(m):
    else:
         bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.') 
 
-def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode='Markdown'):
+def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode=None):
     return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
                                  parse_mode=parse_mode)        
         
