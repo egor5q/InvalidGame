@@ -2392,8 +2392,22 @@ def givekeyboard(id, user):
     kb.add(types.InlineKeyboardButton(text='💨Уворот',callback_data='fight yvorot '+str(id)),types.InlineKeyboardButton(text='⭐️Скиллы', callback_data='fight skills '+str(id)))
     kb.add(types.InlineKeyboardButton(text='▶️Пропустить',callback_data='fight skip '+str(id)))
     print(user['msg'])
+    if user['id']==581167827:
+       em_hp='💙'
+    elif user['id']==256659642:
+       em_hp=pop
+    elif user['id']==324316537:
+       em_hp=zilch
+    elif user['id']==420049610:
+       em_hp='💜'
+    elif user['id']==493430476:
+       em_hp='🐷'
+    elif 'Кошмарное слияние' in cmob['name']:
+       em_hp='🖤'
+    else:
+       em_hp='♥'
     if user['msg']==None:
-        msg=bot.send_message(user['id'],'Выберите действие.',reply_markup=kb)
+        msg=bot.send_message(user['id'],'Выберите действие.\nЭнергия: '+'⚡️'*user['energy']+'\nХП: '+em_hp*user['hp'],reply_markup=kb)
         user['msg']=msg
     else:
         medit('Выберите действие.',user['msg'].chat.id, user['msg'].message_id, reply_markup=kb)
@@ -2686,7 +2700,7 @@ def results(id):
         acted.append(bots)
         
   for bots in lst:
-      if bots not in acted:
+      if bots not in acted and bots['die']!=1 and bots['stun']<=0:
           games[id]['res']+='🔽'+bots['name']+' пропускает ход!\n'
           medit('Время вышло!',bots['msg'].chat.id, bots['msg'].message_id)
           bots['msg']=None
