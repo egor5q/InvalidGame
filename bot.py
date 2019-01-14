@@ -2734,7 +2734,7 @@ def results(id):
           games[id]['res']+='🔽'+bots['name']+' пропускает ход!\n'
           if bots['msg']!=None:
               medit('Время вышло!',bots['msg'].chat.id, bots['msg'].message_id)
-              bots['effects'].push('afk')
+              bots['effects'].append('afk')
               for ids in bots['effects']:
                 if ids=='afk':
                     afk+=1
