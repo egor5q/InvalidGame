@@ -829,7 +829,8 @@ def buy(m):
   
 @bot.message_handler(commands=['delete'])
 def delete(m):
-    if m.from_user.id==441399484 or m.from_user.id==60727377 or m.from_user.id==137499781:
+    adm=[441399484,60727377,137499781,324316537,420049610]
+    if m.from_user.id in adm:
         if m.chat.id in games:
             del games[m.chat.id]
             bot.send_message(m.chat.id, 'Игра была удалена!')
@@ -2649,6 +2650,8 @@ def mobcheck(id,mobs):
     games[id]['bots'][mobs]['target']=None
     games[id]['bots'][mobs]['gipnoz']-=1
     games[id]['bots'][mobs]['doptext']=''
+    if 'playercontrol' in player['effects'] and player['identeficator']!=None:
+        player['effects'].remove('playercontrol')
     games[id]['bots'][mobs]['mainskill']=[]
     if games[id]['bots'][mobs]['deffromgun']>0:
         games[id]['bots'][mobs]['deffromgun']-=1
