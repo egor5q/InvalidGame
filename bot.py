@@ -2258,18 +2258,21 @@ def inline(call):
             me['effects'].append('ready')
             medit('Цель выбрана - '+enemy['name']+'!',me['msg'].chat.id,me['msg'].message_id)
             me['msg']=None
+            playercheck(chat)
             
         elif 'reload' in call.data:
             me['reload']=1
             me['effects'].append('ready')
             medit('Выбрано: перезарядка.',me['msg'].chat.id,me['msg'].message_id)
             me['msg']=None
+            playercheck(chat)
             
         elif 'yvorot' in call.data and (me['yvorotkd']<=0 or me['shieldgen']<=0):
             me['yvorot']=1
             me['effects'].append('ready')
             medit('Выбрано: уворот.',me['msg'].chat.id,me['msg'].message_id)
             me['msg']=None
+            playercheck(chat)
             
         elif 'skills' in call.data:
             usable=['gipnoz','electro']
@@ -2316,6 +2319,13 @@ def inline(call):
             me['mainskill'].append(skill)
             medit('Цель выбрана - '+enemy['name']+'!',me['msg'].chat.id,me['msg'].message_id)
             me['msg']=None
+            playercheck(chat)
+        
+        elif 'skip' in call.data:
+            me['effects'].append('ready')
+            medit('Выбрано: пропуск хода.',me['msg'].chat.id,me['msg'].message_id)
+            me['msg']=None
+            playercheck(chat)
             
             
         
@@ -2361,11 +2371,26 @@ def battle(id):
     print('Ошибка:\n', traceback.format_exc())
     bot.send_message(441399484, traceback.format_exc())
 
+def playercheck(id):
+    allp=0
+    allpready=0
+    for ids in games[id]['bots']:
+        b=games[id]['bots'][ids]
+        if 'playercontrol' in b['effects']:
+            allp+=1
+    for ids in games[id]['bots']:
+        b=games[id]['bots'][ids]
+        if 'playercontrol' in b['effects'] and b['msg']==None:
+            allpready+=1
+    if allpready==allp:
+        games[id]['battletimer'].cancel()
+        results(id)
+    
 def givekeyboard(id, user):
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton(text='⚔️Атака',callback_data='fight attackchoice '+str(id)),types.InlineKeyboardButton(text='🕑Перезарядка', callback_data='fight reload '+str(id)))
     kb.add(types.InlineKeyboardButton(text='💨Уворот',callback_data='fight yvorot '+str(id)),types.InlineKeyboardButton(text='⭐️Скиллы', callback_data='fight skills '+str(id)))
-    kb.add(types.InlineKeyboardButton(text='🎲Предметы',callback_data='fight items '+str(id)),types.InlineKeyboardButton(text='▶️Пропустить',callback_data='fight skip '+str(id)))
+    kb.add(types.InlineKeyboardButton(text='▶️Пропустить',callback_data='fight skip '+str(id)))
     print(user['msg'])
     if user['msg']==None:
         msg=bot.send_message(user['id'],'Выберите действие.',reply_markup=kb)
@@ -2877,8 +2902,10 @@ def results(id):
   if z==0:
     t=threading.Timer(games[id]['timee'], battle, args=[id])
     t.start()
+    games[id]['battletimer']=t
     for ids in games[id]['bots']:
-        if 'playercontrol' in games[id]['bots'][ids]['effects']:
+        plr=games[id]['bots'][ids]
+        if 'playercontrol' in plr['effects'] and plr['stunned']<=0 and plr['die']!=1:
             givekeyboard(id,games[id]['bots'][ids])
   else:
     del games[id]
@@ -5138,6 +5165,7 @@ def begingame(id):
          if 'playercontrol' in games[id]['bots'][ids]['effects']:
             givekeyboard(id,games[id]['bots'][ids])
        t.start()
+       games[id]['battletimer']=t
     else:
       pass
  except Exception as e:
@@ -5352,7 +5380,8 @@ def creategame(id, special):
         'turrets':[],
         'enablestart':0,
         'timee':12,
-        'prizefond':0
+        'prizefond':0,
+        'battletimer':None
         
              }
            }
