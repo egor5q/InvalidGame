@@ -2380,8 +2380,9 @@ def battle(id):
       lst.append(games[id]['bots'][ids])
     for wtf in lst:
         if wtf['die']!=1 or wtf['weapon']=='rifle':
-            if wtf['stun']<=0 and wtf['magicshieldkd']<=0:
+            if wtf['stun']<=0:
                 if 'playercontrol' not in wtf['effects']:
+                    print(wtf['effects'])
                     wtf[act(wtf, id)]=1
 
     results(id)
