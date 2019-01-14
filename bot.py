@@ -401,7 +401,7 @@ def createsniper(chatid,id='sniper'):
     x=randomgen(chatid)
     text='Зомби-снайпер'
     hp=1
-    return createunit(id=id,weapon='rifle',name=text,hp=hp,maxhp=hp,animal=None,identeficator=x,damagelimit=1,zombie=8)
+    return createunit(id=id,weapon='rifle',name=text,hp=hp,maxhp=hp,animal=None,identeficator=x,damagelimit=1,zombie=6)
 
 def randomgen(id):
     i=0
