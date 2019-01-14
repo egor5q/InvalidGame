@@ -2279,7 +2279,7 @@ def inline(call):
             playercheck(chat)
             
         elif 'skills' in call.data:
-            usable=['gipnoz','electro']
+            usable=['gipnoz','electro', 'medic']
             for ids in me['skills']:
                 if ids in usable:
                     if ids=='gipnoz' and me['gipnoz']<=0:
