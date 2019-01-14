@@ -2227,6 +2227,7 @@ def inline(call):
                 if enm['id']!=me['id']:
                     enemy.append(enm)
             for ids in enemy:
+              if ids['die']!=1 and ids['zombie']<=0:
                 if ids['identeficator']!=None:
                     x=ids['identeficator']
                 elif ids['realid']!=None:
@@ -2308,7 +2309,7 @@ def inline(call):
             enemy=[]
             for ids in games[chat]['bots']:
                 enm=games[chat]['bots'][ids]
-                if enm['id']!=me['id']:
+                if enm['id']!=me['id'] and enm['die']!=1 and enm['zombie']<=0:
                     enemy.append(enm)
             for ids in enemy:
                 if ids['identeficator']!=None:
