@@ -2232,10 +2232,14 @@ def inline(call):
             givekeyboard(chat,me)
             
         elif 'backskills' in call.data:
-            usable=['gipnoz','electro']
+            usable=['gipnoz','electro', 'medic']
             for ids in me['skills']:
                 if ids in usable:
-                    kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+                    if ids=='gipnoz' and me['gipnoz']<=0:
+                        kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+                    if ids=='medic' and me['heal']<=0:
+                        kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+                    
             for ids in me['mutations']:
                 if ids in usable:
                     if ids=='electro' and me['shockcd']<=0:
@@ -2280,6 +2284,9 @@ def inline(call):
                 if ids in usable:
                     if ids=='gipnoz' and me['gipnoz']<=0:
                         kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+                    if ids=='medic' and me['heal']<=0:
+                         kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+                
             for ids in me['mutations']:
                 if ids in usable:
                     if ids=='electro' and me['shockcd']<=0 and me['energy']>=3:
@@ -2288,6 +2295,8 @@ def inline(call):
             medit('Выберите скилл.',me['msg'].chat.id,me['msg'].message_id,reply_markup=kb)
             
         elif 'use' in call.data:
+          skill=call.data.split(' ')[3]
+          if skill!='medic':
             skill=call.data.split(' ')[3]
             enemy=[]
             for ids in games[chat]['bots']:
@@ -2302,6 +2311,13 @@ def inline(call):
                 kb.add(types.InlineKeyboardButton(text=ids['name'],callback_data='fight skilltarget '+str(chat)+' '+str(x)+' '+skill))
             kb.add(types.InlineKeyboardButton(text='Назад',callback_data='fight backskills '+str(chat)))
             medit('Выберите цель.',me['msg'].chat.id,me['msg'].message_id,reply_markup=kb)
+          else:
+            me['mainskill'].append('medic')
+            me['skill']=1
+            me['effects'].append('ready')
+            medit('Выбрано: хил.',me['msg'].chat.id,me['msg'].message_id)
+            me['msg']=None
+            playercheck(chat)
             
         elif 'skilltarget' in call.data:
             target=call.data.split(' ')[3]
