@@ -2730,10 +2730,21 @@ def results(id):
         
   for bots in lst:
       if bots not in acted and bots['die']!=1 and bots['stun']<=0:
+          afk=0
           games[id]['res']+='🔽'+bots['name']+' пропускает ход!\n'
           if bots['msg']!=None:
               medit('Время вышло!',bots['msg'].chat.id, bots['msg'].message_id)
+              bots['effects'].push('afk')
+              for ids in bots['effects']:
+                if ids=='afk':
+                    afk+=1
+              if afk>=2:
+                  games[id]['res']+='😵'+bots['name']+' умер от АФК!\n'
               bots['msg']=None
+            
+      elif bots in acted:
+        while 'afk' in bots['effects']:
+            bots['effects'].remove('afk')    
                      
   for ids in lst:
     if ids['shield']>=1:
