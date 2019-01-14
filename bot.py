@@ -2278,10 +2278,11 @@ def inline(call):
             usable=['gipnoz','electro']
             for ids in me['skills']:
                 if ids in usable:
-                    kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+                    if ids=='gipnoz' and me['gipnoz']<=0:
+                        kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
             for ids in me['mutations']:
                 if ids in usable:
-                    if ids=='electro' and me['shockcd']<=0:
+                    if ids=='electro' and me['shockcd']<=0 and me['energy']>=3:
                         kb.add(types.InlineKeyboardButton(text='🔌Разряд!', callback_data='fight use '+str(chat)+' '+'electro'))
             kb.add(types.InlineKeyboardButton(text='Назад',callback_data='fight back '+str(chat)))
             medit('Выберите скилл.',me['msg'].chat.id,me['msg'].message_id,reply_markup=kb)
@@ -2650,8 +2651,12 @@ def results(id):
         acted.append(bots)
         
   for bots in lst:
-     if bots['skill']==1:
-        games[id]['bots']
+     if bots['skill']==1 and 'electro' not in bots['mainskill']:
+        skill(bots, id) 
+        acted.append(bots)
+        
+  for bots in lst:
+     if bots['skill']==1 and 'electro' in bots['mainskill']:
         skill(bots, id) 
         acted.append(bots)
               
