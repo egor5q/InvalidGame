@@ -2878,7 +2878,7 @@ def results(id):
     t=threading.Timer(games[id]['timee'], battle, args=[id])
     t.start()
     for ids in games[id]['bots']:
-        if 'playercontrol' in games[id]['bots']['effects']:
+        if 'playercontrol' in games[id]['bots'][ids]['effects']:
             givekeyboard(id,games[id]['bots'][ids])
   else:
     del games[id]
