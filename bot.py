@@ -2182,6 +2182,7 @@ def inline(call):
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
         
   elif call.data=='equipkatana':
+      y=users.find_one({'id':call.from_user.id})
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'katana'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Катана"!')
@@ -2192,6 +2193,7 @@ def inline(call):
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
         
   elif call.data=='equippumpkin':
+      y=users.find_one({'id':call.from_user.id})
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'pumpkin'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Капуста"!')
@@ -2202,6 +2204,7 @@ def inline(call):
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!') 
         
   elif call.data=='equipfox':
+      y=users.find_one({'id':call.from_user.id})
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'fox'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Лиса"!')
