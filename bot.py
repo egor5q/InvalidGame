@@ -500,7 +500,7 @@ def weapon(m):
      if x['id']==538334518:
          kb.add(types.InlineKeyboardButton(text='Катана', callback_data='equipkatana'))
      if x['id']==414374606:
-         kb.add(types.InlineKeyboardButton(text='Тыква', callback_data='equippumpkin'))
+         kb.add(types.InlineKeyboardButton(text='Капуста', callback_data='equippumpkin'))
      if x['id']==420049610:
          kb.add(types.InlineKeyboardButton(text='Лиса', callback_data='equipfox'))
      if 'sliznuk' in x['bot']['bought']:
@@ -2194,10 +2194,10 @@ def inline(call):
   elif call.data=='equippumpkin':
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'pumpkin'}})
-        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Тыква"!')
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Капуста"!')
       elif y['bot']['weapon']=='rock':
           users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
-          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Тыква"!')
+          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Капуста"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!') 
         
