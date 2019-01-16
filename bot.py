@@ -4569,8 +4569,8 @@ def item(bot, id):
               if target==None:
                     allenemy=[]
                     for ids in games[id]['bots']:
-                        if ids['die']!=1 and ids['id']!=bot['id']:
-                            allenemy.append(ids)
+                        if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['id']!=bot['id']:
+                            allenemy.append(games[id]['bots'][ids])
                     target=random.choice(allenemy)
               games[id]['res']+='🏮'+bot['name']+' Кидает флешку в '+target['name']+'!\n'
               target['energy']=0
