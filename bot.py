@@ -443,7 +443,7 @@ def createboss(chatid, id=441399484):
     text='Повелитель печенья'
     hp=13
     return createunit(id=id,weapon='cookie',name=text,hp=hp,maxhp=hp,animal=None,identeficator=None,damagelimit=10,
-                      skills=['cookiegolem','cookiegun','cookiecharge','cookieclone'])
+                      skills=['cookiegolem','cookiegun','cookiecharge','cookieclone','trap'])
 
 def randomgen(id):
     i=0
@@ -2367,13 +2367,22 @@ def inline(call):
             playercheck(chat)
             
         elif 'skills' in call.data:
-            usable=['gipnoz','electro', 'medic']
+            usable=['gipnoz','electro', 'medic','cookiegolem','cookiegun','cookiecharge']
+            buttons=[]
             for ids in me['skills']:
                 if ids in usable:
                     if ids=='gipnoz' and me['gipnoz']<=0:
-                        kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+                        buttons.append(ids)
                     if ids=='medic' and me['heal']<=0:
-                         kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
+                         buttons.append(ids)
+                    if ids=='cookiegolem' and me['cookieboss']['cookiegolemcd']<=0:
+                         buttons.append(ids)
+                    if ids=='cookiegun' and me['cookieboss']['cookieguncd']<=0:
+                         buttons.append(ids)
+                    if ids=='cookiecharge' and me['cookieboss']['cookiechargecd']<=0:
+                         buttons.append(ids)
+            for ids in buttons:
+                kb.add(types.InlineKeyboardButton(text=skilltoname(ids), callback_data='fight use '+str(chat)+' '+ids))
                 
             for ids in me['mutations']:
                 if ids in usable:
@@ -5380,8 +5389,18 @@ def skilltoname(x):
        return '⁉Секретные технологии'
     elif x=='deathwind':
        return 'Вихрь смерти'
+    elif x=='cookiegolem':
+        return '🍪Голем из печенья'
+    elif x=='cookiegun':
+        return '🍪Куки-зука'
+    elif x=='cookiecharge':
+        return '🍪Поедание голема'
+    elif x=='cookieclone':
+        return '🍪Клон из печенья'
+    elif x=='trap':
+        return '🍪💀Ловушка!!!'
    
-   
+
 def createbott(id, y):
         return{id:y}
 
