@@ -438,6 +438,13 @@ def createsniper(chatid,id='sniper'):
     hp=1
     return createunit(id=id,weapon='rifle',name=text,hp=hp,maxhp=hp,animal=None,identeficator=x,damagelimit=1,zombie=6)
 
+def createboss(chatid, id=441399484):
+    x=id
+    text='Повелитель печенья'
+    hp=13
+    return createunit(id=id,weapon='cookie',name=text,hp=hp,maxhp=hp,animal=None,identeficator=None,damagelimit=10,
+                      skills=['cookiegolem','cookiegun','cookiecharge','cookieclone'])
+
 def randomgen(id):
     i=0
     text=''
