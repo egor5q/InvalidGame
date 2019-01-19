@@ -1022,10 +1022,11 @@ def createdna(m):
         try:
             n=m.text.split(' ')[1]
             n=int(n)
-            cost=5000*n
-            if x['cookie']>=cost:
-                users.update_one({'id':x['id']},{'$inc':{'dnawaiting':n, 'cookie':-cost}})
-                bot.send_message(m.chat.id, str(n)+' ДНК успешно добавлены в очередь на производство! Я сообщу вам, когда всё будет готово.')
+            if n>0:
+              cost=5000*n
+              if x['cookie']>=cost:
+                  users.update_one({'id':x['id']},{'$inc':{'dnawaiting':n, 'cookie':-cost}})
+                  bot.send_message(m.chat.id, str(n)+' ДНК успешно добавлены в очередь на производство! Я сообщу вам, когда всё будет готово.')
         except:
             bot.send_message(m.chat.id, 'Неправильный формат сообщения!')
     else:
