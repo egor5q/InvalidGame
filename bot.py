@@ -4388,6 +4388,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
                         i+=1
                     txt=txt[:(len(txt)-2)]
                     txt+='. Все они получают кровотечение!\n'
+                    games[id]['res']+=txt
       else:
             games[id]['res']+='💨Лиса бойца '+bot1['name']+' промахнулась по '+target['name']+'!\n'
             bot1['target']=None
