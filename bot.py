@@ -2856,16 +2856,19 @@ def results(id):
   dmgs(id)
   z=0
   global hidetext
-  if id==-1001208357368:
-    if hidetext==0:
-      bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
-      bot.send_message(id, games[id]['secondres'])
-    else:
-      if random.randint(1,3)==1:
-         bot.send_message(id, 'Silent mode is on (игра идёт, но в тихом режиме)')
-  else:
-      bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
-      bot.send_message(id, games[id]['secondres'])
+  try:
+      if id==-1001208357368:
+        if hidetext==0:
+          bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
+          bot.send_message(id, games[id]['secondres'])
+        else:
+          if random.randint(1,3)==1:
+             bot.send_message(id, 'Silent mode is on (игра идёт, но в тихом режиме)')
+      else:
+          bot.send_message(id, 'Результаты хода '+str(games[id]['xod'])+':\n'+games[id]['res']+'\n\n')
+          bot.send_message(id, games[id]['secondres'])
+  except:
+      bot.send_message(id, 'Сообщение слишком длинное, не могу отправить результаты.')
   die=0    
   games[id]['xod']+=1
   games[id]['randomdmg']=0
@@ -2997,8 +3000,10 @@ def results(id):
                 prizes(id,ids,winner)
                 x=users.find({})
                 try:
-                       cookie=round(points*0.04, 0)
+                       cookie=round(points*0.01, 0)
                        cookie=int(cookie)
+                       if points>100 and cookie<=0:
+                           cookie=1
                        if name!='Редкий слизнюк':
                          bot.send_message(id, '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
                          try:
@@ -3356,6 +3361,8 @@ def dmgs(id):
                em_hp=zilch
             elif cmob['id']==420049610:
                em_hp='💜'
+            elif cmob['id']==493430476:
+               em_hp='🐷'
             elif 'Кошмарное слияние' in cmob['name']:
                em_hp='🖤'
             else:
@@ -3675,17 +3682,17 @@ def weaponchance(energy, target, x, id, bot1,hit):
              
     elif bot1['weapon']=='bow':
       if energy>=5:
-        chance=65
+        chance=45
       elif energy==4:
-        chance=65
+        chance=45
       elif energy==3:
-        chance=65
+        chance=45
       elif energy==2:
-        chance=65
+        chance=45
       elif energy==1:
-        chance=65
+        chance=45
       elif energy<=0:
-        chance=65
+        chance=45
       if bot1['blight']==1:
           chance=-100
       bonus=1+bot1['accuracy']/100
