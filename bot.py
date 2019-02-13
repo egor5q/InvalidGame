@@ -3010,7 +3010,7 @@ def results(id):
                           bot.send_message(winner2['id'], '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
                          except:
                           pass
-                         userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie}})
+                         userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie, 'cwcookies':cookie}})
                        else:
                         bot.send_message(id, 'Редкий слизнюк сбежал!')
                 except:
