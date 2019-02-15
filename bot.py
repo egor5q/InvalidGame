@@ -269,16 +269,17 @@ def upd(m):
           x=users.find({})
           for ids in x:
               if ids['botslots']['1']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.msg':None,'botslots.1.realid':None}})
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.weapon':None}})
           x=users.find({})         
           for ids in x:
               if ids['botslots']['2']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.msg':None,'botslots.2.realid':None}})
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.weapon':None}})
           x=users.find({})         
           for ids in x:
               if ids['botslots']['3']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.msg':None,'botslots.3.realid':None}})
+                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.weapon':None}})
           print('yes')  
+          bot.send_message(441399484, 'ready')
 
 
 #@bot.message_handler(commands=['update'])
