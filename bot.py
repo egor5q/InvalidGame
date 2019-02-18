@@ -4353,7 +4353,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
             bot1['energy']-=2
             
     elif bot1['weapon']=='fox':
-      chance=accuracy('middle',energy)
+      chance=accuracy('low',energy)
       if bot1['blight']==1:
           chance=-100
       bonus=1+bot1['accuracy']/100
@@ -4367,7 +4367,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
       if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
           assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
-              damage=random.randint(2,4)
+              damage=random.randint(1,2)
               if 'berserk' in bot1['skills'] and bot1['hp']<=2:
                   damage+=2
               if bot1['zombie']>0:
@@ -4391,8 +4391,9 @@ def weaponchance(energy, target, x, id, bot1,hit):
                     while i<4:
                         tr=random.choice(trgts)
                         if tr not in alltrgts:
-                            tr['blood']+=4
+                            tr['blood']=4
                             txt+=tr['name']+', '
+                            alltrgts.append(tr)
                         i+=1
                     txt=txt[:(len(txt)-2)]
                     txt+='. Все они получают кровотечение!\n'
