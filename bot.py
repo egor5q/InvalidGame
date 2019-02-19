@@ -3006,12 +3006,12 @@ def results(id):
                        if points>100 and cookie<=0:
                            cookie=1
                        if name!='Редкий слизнюк':
-                         bot.send_message(id, '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+                         bot.send_message(id, '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов. Выдача куки временно прекращена.\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
                          try:
-                          bot.send_message(winner2['id'], '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+                          bot.send_message(winner2['id'], '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
                          except:
                           pass
-                         userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie, 'totalcookies.cwcookies':cookie}})
+                         #userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie, 'totalcookies.cwcookies':cookie}})
                        else:
                         bot.send_message(id, 'Редкий слизнюк сбежал!')
                 except:
