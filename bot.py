@@ -3386,7 +3386,7 @@ def dmgs(id):
        if games[id]['bots'][mob]['hp']<=2 and 'berserk' in games[id]['bots'][mob]['skills'] and oldhp>=3:
          text+='😡Берсерк '+games[id]['bots'][mob]['name']+' входит в ярость и получает +2 урона!\n'
      if games[id]['bots'][mob]['hp']<=0:
-           if 'zombie' not in games[id]['bots'][mob]['skills']:
+           if 'zombie' not in games[id]['bots'][mob]['skills'] or games[id]['bots'][mob]['zombie']>0:
              if games[id]['bots'][mob]['die']!=1:
               if 'bloodmage' not in games[id]['bots'][mob]['skills']:
                   if games[id]['bots'][mob]['name']!='Редкий слизнюк':
