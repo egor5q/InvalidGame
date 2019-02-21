@@ -265,7 +265,7 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'bot.msg':None,'bot.realid':None}})
+          users.update_many({},{'$set':{'dailycookie':0}})
           x=users.find({})
           for ids in x:
               if ids['botslots']['1']!={}:
@@ -3005,13 +3005,18 @@ def results(id):
                        cookie=int(cookie)
                        if points>100 and cookie<=0:
                            cookie=1
+                       user=users.find_one({'id':winner['id']})
+                       if cookie+user['dailycookie']<=5:
+                            pass
+                       else:
+                            cookie=5-user['dailycookie']
                        if name!='Редкий слизнюк':
-                         bot.send_message(id, '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов. Выдача куки временно прекращена.\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+                         bot.send_message(id, '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\n'+txt+'Все участники игры получают 2⚛️ поинта и 2❇️ опыта!')
                          try:
-                          bot.send_message(winner2['id'], '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
+                          bot.send_message(winner2['id'], '🏆'+yy+name+' победил'+zz+'! Он получает '+str(points)+'❇️ опыта, а '+winner2['name']+' - '+str(points)+'⚛️ поинтов и '+str(cookie)+'🍪 куки;\nВсе участники игры получают 2⚛️ поинта и 2❇️ опыта!')
                          except:
                           pass
-                         #userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie, 'totalcookies.cwcookies':cookie}})
+                         userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie, 'totalcookies.cwcookies':cookie}})
                        else:
                         bot.send_message(id, 'Редкий слизнюк сбежал!')
                 except:
@@ -4353,7 +4358,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
             bot1['energy']-=2
             
     elif bot1['weapon']=='fox':
-      chance=accuracy('low',energy)
+      chance=accuracy('high',energy)
       if bot1['blight']==1:
           chance=-100
       bonus=1+bot1['accuracy']/100
@@ -4367,7 +4372,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
       if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
           assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
-              damage=random.randint(1,2)
+              damage=random.randint(2,2)
               if 'berserk' in bot1['skills'] and bot1['hp']<=2:
                   damage+=2
               if bot1['zombie']>0:
@@ -5425,6 +5430,7 @@ def createuser(id, username, name):
            'username':username,
            'name':name,
            'cookie':0,
+           'dailycookie':0,
            'dna':0,
            'buildings':['1slot'],
            'mutationlvls':[],
@@ -5648,6 +5654,7 @@ def dailybox():
       party=1
    if x==24 and y==0:
       users.update_many({}, {'$set':{'dailybox':1}})
+      users.update_many({}, {'$set':{'dailycookie':0}})
    if x==14 and y==0 and party==1:
       users.update_many({}, {'$inc':{'joinbots':1}})
       beginmassbattle(-1001208357368)
