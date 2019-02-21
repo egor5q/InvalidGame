@@ -43,27 +43,27 @@ userstrug=db2.users
 energies={
     'high':{
         '5':100,
-        '4':93,
-        '3':82,
-        '2':71,
-        '1':41,
-        '0':0
+        '4':100,#93,
+        '3':100,#82,
+        '2':100,#71,
+        '1':100,#41,
+        '0':100#0
     },
     'middle':{
-        '5':93,
-        '4':79,
-        '3':70,
-        '2':45,
-        '1':29,
-        '0':0
+        '5':100,#93,
+        '4':100,#79,
+        '3':100,#70,
+        '2':100,#45,
+        '1':100,#29,
+        '0':100#0
     },
     'low':{
-        '5':85,
-        '4':70,
-        '3':60,
-        '2':39,
-        '1':15,
-        '0':0
+        '5':100,#85,
+        '4':100,#70,
+        '3':100,#60,
+        '2':100,#39,
+        '1':100,#15,
+        '0':100#0
     }
 }
         
@@ -2726,7 +2726,7 @@ def mobcheck(id,mobs):
             player['dopname']=prm
     if 'metalarmor' in games[id]['bots'][mobs]['skills']:
       games[id]['bots'][mobs]['miss']-=8
-      games[id]['bots'][mobs]['currentarmor']=1
+      games[id]['bots'][mobs]['currentarmor']=100#1
     games[id]['bots'][mobs]['skill']=0
     games[id]['bots'][mobs]['dopdmg']=0
     try:
@@ -2803,7 +2803,7 @@ def results(id):
         x=attack(bots,id,1)
         if x==1:
             bots['hit']=1
-            if random.randint(1,100)<=20*(bots['chance']+1):
+            if random.randint(1,100)<=100*(bots['chance']+1):#20*(bots['chance']+1):
                 dmg=bots['energy'] 
                 if dmg<0:
                     dmg=0
@@ -2816,7 +2816,7 @@ def results(id):
         x=attack(bots,id,1)
         if x==1:
             bots['hit']=1
-            if random.randint(1,100)<=40*(bots['chance']+1):
+            if random.randint(1,100)<=100*(bots['chance']+1):#40*(bots['chance']+1):
                 bots['doptext']+='💢'+bots['name']+' ослепляет соперника!\n'
                 bots['target']['blight']=1
                 acted.append(bots)
@@ -3093,11 +3093,11 @@ def dmgs(id):
                 targets.append(games[id]['bots'][ids])
         meteornumber=0
         for ids in targets:
-            if random.randint(1,100)<=50:
+            if random.randint(1,100)<=100:#50:
                 meteornumber+=1
         while meteornumber>0:
             meteornumber-=1
-            meteordmg=random.randint(1,8)
+            meteordmg=random.randint(100,100)#(1,8)
             trgt=random.choice(targets)
             trgt['takendmg']+=meteordmg
             text+='🆘'+trgt['name']+' получает метеор в ебало на '+str(meteordmg)+' урона!\n'
@@ -3113,22 +3113,22 @@ def dmgs(id):
             if games[id]['bots'][ids]['die']==1 and games[id]['bots'][ids]['identeficator']==None:
                 dead.append(games[id]['bots'][ids])
             
-        if random.randint(1,100)<=27:
+        if random.randint(1,100)<=100:#27:
             trgt=random.choice(liv)
-            dm=random.randint(1,30)
+            dm=random.randint(100,100)#(1,30)
             trgt['takendmg']+=dm
             text+='⛰На бойца '+trgt['name']+' обрушилась скала! Он получает '+str(dm)+' урона!\n'
-        if random.randint(1,100)<=19:
+        if random.randint(1,100)<=100:#19:
             games[id]['bots'].update(createsniper(chatid=id) )
             text+='⁉️🎯Зомби-снайпер почуял кровь! Берегитесь...\n'
-        if random.randint(1,100)<=8:
+        if random.randint(1,100)<=100:#8:
             dead=random.choice(liv)
             dead['hp']=-5
             text+='👽Пожиратель плоти проснулся и решил перекусить бойцом '+dead['name']+'!\n'  
-        if random.randint(1,100)<=1:
+        if random.randint(1,100)<=100:#1:
             text+='‼️💎Битва пробудила алмазного голема! Он вступает в бой!\n'
             games[id]['bots'].update(createlava(chatid=id) )
-        if random.randint(1,100)<=1:
+        if random.randint(1,100)<=100:#1:
             try:
                 if len(dead)>0:
                     recreate=random.choice(dead)
@@ -3151,10 +3151,10 @@ def dmgs(id):
           if yes==1:
             trgt=random.choice(a)
             dmg=1
-            if random.randint(1,100)<=40*(1+games[id]['bots'][ids]['chance']):
+            if random.randint(1,100)<=100*(1+games[id]['bots'][ids]['chance']):#40*(1+games[id]['bots'][ids]['chance']):
                 games[id]['res']+='🔺Турель бойца '+games[id]['bots'][ids]['name']+' стреляет в '+trgt['name']+'! Нанесено '+str(dmg)+' урона.\n'
                 trgt['takendmg']+=dmg
-                if random.randint(1,100)<=25:
+                if random.randint(1,100)<=100:#25:
                     games[id]['res']+='🔥Цель загорается!\n'
                     trgt['fire']+=2
     
@@ -3181,7 +3181,7 @@ def dmgs(id):
       
     for ids in games[id]['bots']:
         if 'firemage' in games[id]['bots'][ids]['skills']:
-           if random.randint(1,100)<=18+(18*games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['die']!=1:
+           if random.randint(1,100)<=100+(18*games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['die']!=1:#18+(18*games[id]['bots'][ids]['chance']) and games[id]['bots'][ids]['die']!=1:
               games[id]['bots'][ids]['firearmor']=1
               games[id]['res']+='🔥Повелитель огня '+games[id]['bots'][ids]['name']+' использует огненный щит!\n'
             
@@ -3229,7 +3229,7 @@ def dmgs(id):
                 ' дополнительного урона!\n' 
         if games[id]['bots'][ids]['firearmor']==1:
             games[id]['bots'][ids]['takendmg']=int(games[id]['bots'][ids]['takendmg']/2)
-        if 'magictitan' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=50+(50*games[id]['bots'][ids]['chance']):
+        if 'magictitan' in games[id]['bots'][ids]['skills'] and random.randint(1,100)<=100+(50*games[id]['bots'][ids]['chance']):#50+(50*games[id]['bots'][ids]['chance']):
           if games[id]['bots'][ids]['magicshield']>0:
             a=games[id]['bots'][ids]['takendmg']
             if a>games[id]['bots'][ids]['magicshield']:
@@ -3286,7 +3286,7 @@ def dmgs(id):
             if games[id]['bots'][mob]['target']!=None:
                 if games[id]['bots'][mob]['target']['takendmg']==c and c>0:
                   a=random.randint(1,100)
-                  if a<=9+(9*games[id]['bots'][mob]['chance']):
+                  if a<=100+(9*games[id]['bots'][mob]['chance']):#9+(9*games[id]['bots'][mob]['chance']):
                     games[id]['bots'][mob]['hp']+=1
                     text+='😈Вампир '+games[id]['bots'][mob]['name']+' восстанавливает себе ♥хп!\n'
     
@@ -3298,7 +3298,7 @@ def dmgs(id):
                msv.append(i)
                i+=0.1
             x=random.choice(msv)
-            if x<=3+(3*games[id]['bots'][mob]['chance']):
+            if x<=100+(3*games[id]['bots'][mob]['chance']):#3+(3*games[id]['bots'][mob]['chance']):
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']!=games[id]['bots'][mob]['id']:
                         games[id]['bots'][ids]['hp']-=1
@@ -3330,7 +3330,7 @@ def dmgs(id):
              games[id]['bots'][mob]['hp']-=a
            else:
             xx=random.randint(1,100)
-            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0 and xx<=30:
+            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0 and xx<=100:#30:
                    text+='🔮Оракул '+games[id]['bots'][mob]['name']+' предотвращает свою смерть!\n'
                    games[id]['bots'][mob]['oracle']=0
                    if games[id]['bots'][mob]['hp']<=0:
@@ -3375,7 +3375,7 @@ def dmgs(id):
             else:
                em_hp='♥'
             unit=games[id]['bots'][idss]
-            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=60+(60*games[id]['bots'][idss]['chance']):
+            if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=100:#60+(60*games[id]['bots'][idss]['chance']):
                games[id]['bots'][idss]['summonmonster'][1]+=a
                text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
             if unit['target']==games[id]['bots'][mob] and 'werewolf' in unit['mutations'] and games[id]['xod']%2==0:
@@ -3414,7 +3414,7 @@ def dmgs(id):
                       games[id]['bots'][mob]['dieturn']=games[id]['xod']
               else:
                  randd=random.randint(1,100)
-                 if randd<=60*(60*games[id]['bots'][mob]['chance']):
+                 if randd<=100:#60*(60*games[id]['bots'][mob]['chance']):
                   a=[]
                   for ids in games[id]['bots']:
                      if games[id]['bots'][ids]['die']!=1 and games[id]['bots'][ids]['hp']>0 and games[id]['bots'][ids]['zombie']<=0:
@@ -3527,7 +3527,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
               target['takendmg']+=bot1['dopdmg']
               bot1['energy']-=2
               stun=random.randint(1, 100)
-              if stun<=20:
+              if stun<=100:#20:
                 target['stun']=2
                 games[id]['res']+='🌀Цель оглушена!\n'
               
@@ -3614,7 +3614,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
           assasin(id,bot1,target)
       else:
         if x*debuff/bonus<=chance or bot1['hit']==1:
-              damage=random.randint(1,2)
+              damage=random.randint(3,3)
               if 'berserk' in bot1['skills'] and bot1['hp']<=2:
                   damage+=2
               if bot1['zombie']>0:
@@ -3624,7 +3624,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
               target['takendmg']+=bot1['dopdmg']
               bot1['energy']-=2
               blood=random.randint(1, 100)
-              if blood<=35:
+              if blood<=100:#35:
                 if target['blood']==0:
                   target['blood']=4
                   games[id]['res']+='❣️Цель истекает кровью!\n'
@@ -3702,6 +3702,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
         chance=45
       if bot1['blight']==1:
           chance=-100
+      chance=100#####
       bonus=1+bot1['accuracy']/100
       debuff=1+target['miss']/100
       if hit==1:
@@ -3758,7 +3759,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
                   damage+=3
               x=random.randint(1,100)
               stun=0
-              if x<=50:
+              if x<=100:#50:
                     stun=1
               games[id]['res']+='🕷'+bot1['name']+' кусает '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
               if stun==1:
@@ -3803,7 +3804,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
                   damage+=3
               x=random.randint(1,100)
               eat=0
-              if x<=10:
+              if x<=100:#10:
                     eat=1
               games[id]['res']+='🦏'+bot1['name']+' бъёт '+target['name']+' рогом! Нанесено '+str(damage)+' Урона.\n'
               if eat==1:
@@ -3847,7 +3848,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
                   damage+=3
               x=random.randint(1,100)
               eat=0
-              if x<=18:
+              if x<=100:#18:
                     eat=1
               games[id]['res']+='💮'+bot1['name']+' накладывает порчу на '+target['name']+'! Нанесено '+str(damage)+' Урона.\n'
               if eat==1:
@@ -3902,7 +3903,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
               damage=random.randint(0,0)
               x=random.randint(1,100)
               summon=0
-              if x<=15:
+              if x<=100:#15:
                     summon=1
               games[id]['res']+='🐷'+bot1['name']+' ничего не делает. Нанесено '+str(damage)+' Урона.\n'
               if summon==1:
@@ -3985,9 +3986,9 @@ def weaponchance(energy, target, x, id, bot1,hit):
             bot1['target']=None
             bot1['energy']-=2
       gun=random.randint(1,100)
-      chanc=20
+      chanc=100#15
       if 'double' in bot1['skills']:
-          chanc=10
+          chanc=100#10
       if gun<=chanc:
           gun=1
       else:
@@ -4025,7 +4026,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
               x=random.randint(1,100)
               
               flame=random.randint(1,100)
-              if flame<=35:
+              if flame<=100:#35:
                    flame=1
               else:
                    flame=0     
@@ -4109,7 +4110,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
               target['takendmg']+=bot1['dopdmg']
               bot1['energy']-=7
               bchance=random.randint(1,100)
-              if bchance<=75:
+              if bchance<=100:#75:
                   bchance=1
               else:
                   bchance=0
@@ -4225,7 +4226,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
              return 1
         else:
              return 0
-      if random.randint(1,100)<=15 and target['weapon']!='hand':
+      if random.randint(1,100)<=100 and target['weapon']!='hand':#15 and target['weapon']!='hand':
           games[id]['res']+='♻'+bot1['name']+' поглощает оружие '+target['name']+', восстанавливая 2❤ хп! Теперь он будет сражаться кулаками!\n'
           target['weapon']='hand'
           bot1['hp']+=2
@@ -4245,7 +4246,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
              return 1
         else:
              return 0
-      if random.randint(1,100)<=50:
+      if random.randint(1,100)<=100:#50:
           games[id]['res']+='🎯'+bot1['name']+' отнимает 💔 хп у '+target['name']+' точным выстрелом!\n'
           target['hp']-=1
       else:
@@ -4294,7 +4295,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
       if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
           assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
-              damage=random.randint(2,4)
+              damage=random.randint(2,4)#(2,4)
               if 'berserk' in bot1['skills'] and bot1['hp']<=2:
                   damage+=2
               if bot1['zombie']>0:
@@ -4305,7 +4306,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
               target['takendmg']+=damage
               target['takendmg']+=bot1['dopdmg']
               bot1['energy']-=2
-              if random.randint(1,100)<=60:
+              if random.randint(1,100)<=100:#60:
                 games[id]['res']+='Капуста была гипнотизирующей, и соперник съел её!\n'
                 effects=['posion','fire','dmg']
                 ef=random.choice(effects)
@@ -4342,7 +4343,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
               target['takendmg']+=damage
               target['takendmg']+=bot1['dopdmg']
               bot1['energy']-=2
-              if random.randint(1,100)<=35:
+              if random.randint(1,100)<=100:#35:
                 trgts=[]
                 for ids in games[id]['bots']:
                     tr=games[id]['bots'][ids]
@@ -4384,7 +4385,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
               target['takendmg']+=damage
               target['takendmg']+=bot1['dopdmg']
               bot1['energy']-=2
-              if random.randint(1,100)<=15:
+              if random.randint(1,100)<=100:#20:
                 trgts=[]
                 for ids in games[id]['bots']:
                     tr=games[id]['bots'][ids]
