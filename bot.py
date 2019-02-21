@@ -265,19 +265,19 @@ items=['flash', 'knife']
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
-          users.update_many({},{'$set':{'dailycookie':0}})
-          x=users.find({})
-          for ids in x:
-              if ids['botslots']['1']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.1.weapon':None}})
-          x=users.find({})         
-          for ids in x:
-              if ids['botslots']['2']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.2.weapon':None}})
-          x=users.find({})         
-          for ids in x:
-              if ids['botslots']['3']!={}:
-                    users.update_one({'id':ids['id']},{'$set':{'botslots.3.weapon':None}})
+          users.update_many({},{'$set':{'dailycookie':5}})
+          #x=users.find({})
+          #for ids in x:
+          #    if ids['botslots']['1']!={}:
+          #          users.update_one({'id':ids['id']},{'$set':{'botslots.1.weapon':None}})
+          #x=users.find({})         
+          #for ids in x:
+          #    if ids['botslots']['2']!={}:
+          #          users.update_one({'id':ids['id']},{'$set':{'botslots.2.weapon':None}})
+          #x=users.find({})         
+          #for ids in x:
+          #    if ids['botslots']['3']!={}:
+          #          users.update_one({'id':ids['id']},{'$set':{'botslots.3.weapon':None}})
           print('yes')  
           bot.send_message(441399484, 'ready')
 
@@ -3017,6 +3017,7 @@ def results(id):
                          except:
                           pass
                          userstrug.update_one({'id':winner['id']}, {'$inc':{'cookies':cookie, 'totalcookies.cwcookies':cookie}})
+                         users.update_one({'id':winner['id']},{'$inc':{'dailycookie':cookie}})
                        else:
                         bot.send_message(id, 'Редкий слизнюк сбежал!')
                 except:
