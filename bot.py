@@ -3353,8 +3353,8 @@ def dmgs(id):
             em_hp='💜'
          elif cmob['id']==493430476:
             em_hp='🐷'
-         elif 'Кошмарное слияние' in cmob['name']:
-            em_hp='🖤'
+         elif cmob['id']==68837768:
+            em_hp='🤔'
          else:
             em_hp='♥'
          text+=games[id]['bots'][mob]['name']+' Теряет '+str(a)+' хп. У него осталось '+em_hp*games[id]['bots'][mob]['hp']+str(games[id]['bots'][mob]['hp'])+'хп!\n'    
@@ -3370,8 +3370,8 @@ def dmgs(id):
                em_hp='💜'
             elif cmob['id']==493430476:
                em_hp='🐷'
-            elif 'Кошмарное слияние' in cmob['name']:
-               em_hp='🖤'
+            elif cmob['id']==68837768:
+                em_hp='🤔'
             else:
                em_hp='♥'
             unit=games[id]['bots'][idss]
