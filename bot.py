@@ -4954,7 +4954,7 @@ def goo(m):
         else:
             bot.send_message(m.chat.id, 'Недостаточно игроков!')
       else:
-         bot.send_message(m.chat.id, 'Должна пройти хотя бы минута после запуска игры!')
+         bot.send_message(m.chat.id, 'Пока ещё нельзя начать игру!')
   except:
     pass
     
