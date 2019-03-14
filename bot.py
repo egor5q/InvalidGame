@@ -5362,8 +5362,11 @@ def begingame(id):
                while bstrenght<=pstrenght:
                     x=randomboss(id)
                     games[id]['bots'].update(x)
-                    print(x)
-                    bstrenght+=x['strenght']
+                    for ids in x:
+                        try:
+                            bstrenght+=x[ids]['strenght']
+                        except:
+                            pass
                     team2+=x['name']+'\n'
 
                bot.send_message(id, 'Команда игроков:\n'+team1+'\nКоманда боссов:\n'+team2)
