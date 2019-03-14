@@ -191,41 +191,42 @@ def ggiftadm(m):
 
 @bot.message_handler(commands=['gift'])
 def gift(m):
- try:
-   x=users.find_one({'id':m.from_user.id})
-   y=users.find_one({'id':m.reply_to_message.from_user.id})
-   if m.reply_to_message.from_user.id==598197387:
-      z=int(m.text.split('/gift ')[1])
-      if x!=None:
-        if z>0:
-          users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
-          users.update_one({'id':441399484},{'$inc':{'fond':z}})
-          bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку CookieWars!')      
-   if 'gift' in x['bot']['bought'] and 'gift' in y['bot']['bought']:
-     z=int(m.text.split('/gift ')[1])
-     if x!=None and y!=None:
-       if z>=0:
-         cost=int(z*1.01)
-         com=cost-z
-         if cost==z:
-            cost+=1
-            com+=1
-         if x['cookie']>=cost:
-           try:
-             users.update_one({'id':x['id']},{'$inc':{'cookie':-cost}})
-             users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
-             bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'! Комиссия: '+str(com)+' поинт(ов).')
-             bot.send_message(441399484, m.from_user.first_name+' успешно подарил '+str(z)+' поинтов игроку '+y['name']+'! Комиссия: '+str(com)+' поинт(ов).')
-           except:
-              pass
-         else:
-            bot.send_message(m.chat.id, 'Недостаточно поинтов! Возможно, вы не учли комиссию (1%).')
-       else:
-         bot.send_message(m.chat.id, 'Не жульничай!')
-   else:
-      bot.send_message(m.chat.id, 'Вы (или юзер, которому вы хотите подарить поинты) не имеете статуса "Гифт-админ". Чтобы его получить, обратитесь к Пасюку.')
- except:
-      pass
+    pass
+# try:
+#   x=users.find_one({'id':m.from_user.id})
+#   y=users.find_one({'id':m.reply_to_message.from_user.id})
+#   if m.reply_to_message.from_user.id==598197387:
+#      z=int(m.text.split('/gift ')[1])
+#      if x!=None:
+#        if z>0:
+#          users.update_one({'id':x['id']},{'$inc':{'cookie':-z}})
+#          users.update_one({'id':441399484},{'$inc':{'fond':z}})
+#          bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку CookieWars!')      
+#   if 'gift' in x['bot']['bought'] and 'gift' in y['bot']['bought']:
+#     z=int(m.text.split('/gift ')[1])
+#     if x!=None and y!=None:
+#       if z>=0:
+#         cost=int(z*1.01)
+#         com=cost-z
+#         if cost==z:
+#            cost+=1
+#            com+=1
+#         if x['cookie']>=cost:
+#           try:
+#             users.update_one({'id':x['id']},{'$inc':{'cookie':-cost}})
+#             users.update_one({'id':y['id']},{'$inc':{'cookie':z}})
+#             bot.send_message(m.chat.id, 'Вы успешно подарили '+str(z)+' поинтов игроку '+y['name']+'! Комиссия: '+str(com)+' поинт(ов).')
+#             bot.send_message(441399484, m.from_user.first_name+' успешно подарил '+str(z)+' поинтов игроку '+y['name']+'! Комиссия: '+str(com)+' поинт(ов).')
+#           except:
+#              pass
+#         else:
+#            bot.send_message(m.chat.id, 'Недостаточно поинтов! Возможно, вы не учли комиссию (1%).')
+#       else:
+#         bot.send_message(m.chat.id, 'Не жульничай!')
+#   else:
+#      bot.send_message(m.chat.id, 'Вы (или юзер, которому вы хотите подарить поинты) не имеете статуса "Гифт-админ". Чтобы его получить, обратитесь к Пасюку.')
+# except:
+#      pass
      
 
 @bot.message_handler(commands=['offgames'])
