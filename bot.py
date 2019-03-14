@@ -2462,7 +2462,7 @@ def inline(call):
       else:
           users.update_one({'id':call.from_user.id}, {'$inc':{'currentjoinbots':int(call.data)}})
       y=users.find_one({'id':call.from_user.id})
-      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'⚛️', call.message.chat.id, call.message.message_id, reply_markup=kb)
+      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 20⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*20)+'⚛️', call.message.chat.id, call.message.message_id, reply_markup=kb)
  except Exception as e:
     print('Ошибка:\n', traceback.format_exc())
     bot.send_message(441399484, traceback.format_exc())
