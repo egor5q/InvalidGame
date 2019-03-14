@@ -2931,9 +2931,6 @@ def results(id):
         name=None
         for ids in games[id]['bots']:
               if games[id]['bots'][ids]['die']!=1:
-                  if games[id]['bots'][ids]['id']<0:
-                    games[id]['bots'][ids]['id']-=(games[id]['bots'][ids]['id']*2)
-                    games[id]['bots'][ids]['name']=games[id]['bots'][ids]['name']
                   name=games[id]['bots'][ids]['name']
                   winner=games[id]['bots'][ids]
         if name!=None:
@@ -5190,6 +5187,8 @@ def begindungeon(m):
         t.start()
         games[m.chat.id]['timer']=t
         t=threading.Timer(180,enablestart,args=[m.chat.id])
+        if m.chat.id==-1001208357368 or m.chat.id==-1001172494515 or m.chat.id==-1001488903839:
+            t=threading.Timer(1,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
