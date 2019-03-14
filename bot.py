@@ -4943,7 +4943,7 @@ def start(m):
 def goo(m):
   try:
     if m.chat.id in games:
-      if games[m.chat.id]['enablestart']==1:
+      if games[m.chat.id]['enablestart']==1 or m.from_user.id==441399484:
         if len(games[m.chat.id]['bots'])>=2:
          if games[m.chat.id]['started']==0:
            if (m.chat.id==-1001208357368 or m.chat.id==-1001172494515 or m.chat.id==-1001488903839) and m.from_user.id!=441399484:
