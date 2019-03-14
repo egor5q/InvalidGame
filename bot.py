@@ -396,7 +396,8 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'realid':None,
               'strenght':strenght,
               'drops':drops,
-              'firearmorkd':0
+              'firearmorkd':0,
+              'mainskill':[]
                      }
           }
    
