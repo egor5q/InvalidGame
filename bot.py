@@ -4946,7 +4946,7 @@ def goo(m):
       if games[m.chat.id]['enablestart']==1:
         if len(games[m.chat.id]['bots'])>=2:
          if games[m.chat.id]['started']==0:
-           if m.chat.id==-1001208357368 or m.chat.id==-1001172494515 or m.chat.id==-1001488903839:
+           if (m.chat.id==-1001208357368 or m.chat.id==-1001172494515 or m.chat.id==-1001488903839) and m.from_user.id!=441399484:
              bot.send_message(m.chat.id, 'В этом чате нельзя запустить игру раньше времени!')
            else:
              begingame(m.chat.id)
@@ -5230,7 +5230,7 @@ def randomboss(chatid):
     if boss=='seer':
         b=createseer(chatid)
     if boss=='warrior':
-        b=createwarriot(chatid)
+        b=createwarrior(chatid)
     if boss=='skeleton':
         b=createskeleton(chatid)
     return b
