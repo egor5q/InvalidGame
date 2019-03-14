@@ -331,7 +331,7 @@ def autojoin(m):
 
 
 def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,maxenergy=5,energy=5,items=[],accuracy=0,damagelimit=6,skin=[],\
-               animal=None,zombie=0, die=0,shockcd=0, strenght=1, oracle=1):
+               animal=None,zombie=0, die=0,shockcd=0, strenght=1, oracle=1, drops=[]):
    return{identeficator:{'name': name,
               'dopname':None,
               'weapon':weapon,
@@ -393,7 +393,8 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'blight':0,
               'reservenergy':0,
               'realid':None,
-              'strenght':strenght
+              'strenght':strenght,
+              'drops':drops
                      }
           }
    
@@ -3338,6 +3339,11 @@ def dmgs(id):
                 games[id]['bots'][mob]['die']=1     
                 games[id]['bots'][mob]['energy']=0
                 text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                if games[id]['bots'][mob]['id']=='dungeon':
+                            if random.randint(1,100)<=2:
+                                tr=random.choice(games[id]['bots'][mob]['drops'])
+                                games[id]['treasures'].append(tr)
+                                text+='🎁'+games[id]['bots'][mob]['name']+' уронил что-то!\n'
                 if 'necromant' in games[id]['bots'][mob]['skills']:
                      monsters.append(games[id]['bots'][mob]['id'])
                 games[id]['bots'][mob]['dieturn']=games[id]['xod']
@@ -3418,6 +3424,11 @@ def dmgs(id):
               if 'bloodmage' not in games[id]['bots'][mob]['skills']:
                   if games[id]['bots'][mob]['name']!='Редкий слизнюк':
                       text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                      if games[id]['bots'][mob]['id']=='dungeon':
+                            if random.randint(1,100)<=2:
+                                tr=random.choice(games[id]['bots'][mob]['drops'])
+                                games[id]['treasures'].append(tr)
+                                text+='🎁'+games[id]['bots'][mob]['name']+' уронил что-то!\n'
                   else:
                       text+='⭐'+games[id]['bots'][mob]['name']+' пойман!\n'
                   if games[id]['bots'][mob]['name']=='Редкий слизнюк':
@@ -3468,6 +3479,11 @@ def dmgs(id):
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает по жизни у '+x1['name']+' и '+x2['name']+', но никого не убивает, и погибает окончательно.\n'
                         games[id]['bots'][mob]['dieturn']=games[id]['xod']
+                        if games[id]['bots'][mob]['id']=='dungeon':
+                            if random.randint(1,100)<=2:
+                                tr=random.choice(games[id]['bots'][mob]['drops'])
+                                games[id]['treasures'].append(tr)
+                                text+='🎁'+games[id]['bots'][mob]['name']+' уронил что-то!\n'
                    else:
                      if x1['hp']<=0:
                         text+='🔥Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', и воскресает с 2❤️!\n'
@@ -3478,14 +3494,29 @@ def dmgs(id):
                      else:
                         text+='😵Маг крови '+games[id]['bots'][mob]['name']+' перед смертью высасывает жизнь у '+x1['name']+', но не убивает цель, и погибает окончательно.\n'
                         games[id]['bots'][mob]['dieturn']=games[id]['xod']
+                        if games[id]['bots'][mob]['id']=='dungeon':
+                            if random.randint(1,100)<=2:
+                                tr=random.choice(games[id]['bots'][mob]['drops'])
+                                games[id]['treasures'].append(tr)
+                                text+='🎁'+games[id]['bots'][mob]['name']+' уронил что-то!\n'
                   else:
                      games[id]['bots'][mob]['dieturn']=games[id]['xod']
                      text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                     if games[id]['bots'][mob]['id']=='dungeon':
+                            if random.randint(1,100)<=2:
+                                tr=random.choice(games[id]['bots'][mob]['drops'])
+                                games[id]['treasures'].append(tr)
+                                text+='🎁'+games[id]['bots'][mob]['name']+' уронил что-то!\n'
                      if 'necromant' in games[id]['bots'][mob]['skills']:
                         monsters.append(games[id]['bots'][mob]['id'])
                  else:
                   games[id]['bots'][mob]['dieturn']=games[id]['xod']
                   text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
+                  if games[id]['bots'][mob]['id']=='dungeon':
+                            if random.randint(1,100)<=2:
+                                tr=random.choice(games[id]['bots'][mob]['drops'])
+                                games[id]['treasures'].append(tr)
+                                text+='🎁'+games[id]['bots'][mob]['name']+' уронил что-то!\n'
                   if 'necromant' in games[id]['bots'][mob]['skills']:
                      monsters.append(games[id]['bots'][mob]['id'])
            else:
@@ -4850,22 +4881,31 @@ def start(m):
         if y!=None:
          if y['bot']['id'] not in games[int(x[1])]['ids']:
           if y['bot']['name']!=None:
-           if games[int(x[1])]['started']==0:
-            if games[int(x[1])]['gmo']==0 and y['bot']['mutations']!=[]:
-                i=1
-                while i<=3:
-                    if y['botslots'][str(i)]!={}:
-                        if y['botslots'][str(i)]['mutations']==[]:
-                            thisbot=y['botslots'][str(i)]
-                    i+=1
-            else:
-                thisbot=y['bot']
-           games[int(x[1])]['bots'].update(createbott(m.from_user.id, thisbot))
-           games[int(x[1])]['bots'][m.from_user.id]['realid']=m.from_user.id
-           users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
-           bot.send_message(m.chat.id, 'Вы присоединились! Игра начнётся в чате, когда кто-нибудь нажмёт /go.')
-           bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+thisbot['name']+') присоединился!')
-           games[int(x[1])]['ids'].append(m.from_user.id)
+           if games[int(x[1])]['mode']!='dungeon':
+               join=1
+           else:
+               for ids in games:
+                    if m.from_user.id in games[ids]['bots']:
+                        join=0
+           if join==1:
+               if games[int(x[1])]['started']==0:
+                if games[int(x[1])]['gmo']==0 and y['bot']['mutations']!=[]:
+                    i=1
+                    while i<=3:
+                        if y['botslots'][str(i)]!={}:
+                            if y['botslots'][str(i)]['mutations']==[]:
+                                thisbot=y['botslots'][str(i)]
+                        i+=1
+                else:
+                    thisbot=y['bot']
+               games[int(x[1])]['bots'].update(createbott(m.from_user.id, thisbot))
+               games[int(x[1])]['bots'][m.from_user.id]['realid']=m.from_user.id
+               users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
+               bot.send_message(m.chat.id, 'Вы успешно присоединились!')
+               bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+thisbot['name']+') присоединился!')
+               games[int(x[1])]['ids'].append(m.from_user.id)
+           else:
+               bot.send_message(m.chat.id, 'Нельзя находиться в другой игре, если вы собираетесь идти в подземелье!')
           else:
              bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
   except:
