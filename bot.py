@@ -2269,14 +2269,14 @@ def inline(call):
       kb.add(types.InlineKeyboardButton(text='-1🤖', callback_data='-1'),types.InlineKeyboardButton(text='-2🤖', callback_data='-2'),types.InlineKeyboardButton(text='-5🤖', callback_data='-5'))
       kb.add(types.InlineKeyboardButton(text='-10🤖', callback_data='-10'),types.InlineKeyboardButton(text='-50🤖', callback_data='-50'),types.InlineKeyboardButton(text='-100🤖', callback_data='-100'))
       kb.add(types.InlineKeyboardButton(text='Купить', callback_data='buyjoinbots'))
-      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'⚛️',call.message.chat.id, call.message.message_id,  reply_markup=kb)
+      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 20⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*20)+'⚛️',call.message.chat.id, call.message.message_id,  reply_markup=kb)
       
   elif call.data=='buyjoinbots':
       y=users.find_one({'id':call.from_user.id})
-      if y['currentjoinbots']*10<=y['cookie']:
+      if y['currentjoinbots']*20<=y['cookie']:
         x=y['currentjoinbots']
         users.update_one({'id':call.from_user.id}, {'$inc':{'joinbots':y['currentjoinbots']}})
-        users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-(y['currentjoinbots']*10)}})
+        users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-(y['currentjoinbots']*20)}})
         users.update_one({'id':call.from_user.id}, {'$set':{'currentjoinbots':0}})
         medit('Вы успешно приобрели '+str(x)+'🤖 джойн-ботов!', call.message.chat.id, call.message.message_id)
       else:
@@ -4960,7 +4960,7 @@ def goo(m):
     
 def starttimer(id):
    if id in games:
-        if len(games[id]['bots'])>=2:
+        if len(games[id]['bots'])>=2 or (games[id]['mode']=='dungeon' and len(games[id]['bots'])>=1):
          if games[id]['started']==0:
            begingame(id)
            games[id]['started']=1
@@ -5181,8 +5181,7 @@ def begin(m):
 @bot.message_handler(commands=['dungeon'])
 def begindungeon(m):
    newchat=-1001172494515
-   y=variables.find_one({'vars':'main'})
-   if y['enablegames']==1:                      
+   y=variables.find_one({'vars':'main'})                    
      if m.chat.id not in games:
         games.update(creategame(m.chat.id,0))
         games[m.chat.id]['mode']='dungeon'
@@ -5194,8 +5193,6 @@ def begindungeon(m):
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Подземелье открыто! Автостарт через 3 минуты.\n\n', reply_markup=kb)
-   else:
-        bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.') 
 
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode=None):
     return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
