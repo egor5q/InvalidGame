@@ -4875,7 +4875,7 @@ def goo(m):
       if games[m.chat.id]['enablestart']==1:
         if len(games[m.chat.id]['bots'])>=2:
          if games[m.chat.id]['started']==0:
-           if m.chat.id==-1001208357368 or m.chat.id==-1001172494515:
+           if m.chat.id==-1001208357368 or m.chat.id==-1001172494515 or m.chat.id==-1001488903839:
              bot.send_message(m.chat.id, 'В этом чате нельзя запустить игру раньше времени!')
            else:
              begingame(m.chat.id)
@@ -4998,7 +4998,7 @@ def begin(m):
         games.update(creategame(m.chat.id,0))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         s='5 минут'
-        if m.chat.id==-1001208357368 or m.chat.id==-1001172494515:
+        if m.chat.id==-1001208357368 or m.chat.id==-1001172494515 or m.chat.id==-1001488903839:
             t=threading.Timer(180, starttimer, args=[m.chat.id])
             s='3 минуты'
         t.start()
