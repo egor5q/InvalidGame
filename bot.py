@@ -4875,7 +4875,10 @@ def goo(m):
       if games[m.chat.id]['enablestart']==1:
         if len(games[m.chat.id]['bots'])>=2:
          if games[m.chat.id]['started']==0:
-           begingame(m.chat.id)
+           if m.chat.id==-1001208357368 or m.chat.id==-1001172494515:
+             bot.send_message(m.chat.id, 'В этом чате нельзя запустить игру раньше времени!')
+           else:
+             begingame(m.chat.id)
            games[m.chat.id]['started']=1
         else:
             bot.send_message(m.chat.id, 'Недостаточно игроков!')
@@ -4994,13 +4997,17 @@ def begin(m):
      if m.chat.id not in games:
         games.update(creategame(m.chat.id,0))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
+        s='5 минут'
+        if m.chat.id==-1001208357368 or m.chat.id==-1001172494515:
+            t=threading.Timer(180, starttimer, args=[m.chat.id])
+            s='3 минуты'
         t.start()
         games[m.chat.id]['timer']=t
-        t=threading.Timer(60,enablestart,args=[m.chat.id])
+        t=threading.Timer(180,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
-        bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
+        bot.send_message(m.chat.id, 'Игра началась! Автостарт через '+s+'.\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
          text=''
