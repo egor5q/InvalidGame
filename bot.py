@@ -5182,7 +5182,7 @@ def begin(m):
 def begindungeon(m):
    newchat=-1001172494515
    y=variables.find_one({'vars':'main'})                    
-     if m.chat.id not in games:
+   if m.chat.id not in games:
         games.update(creategame(m.chat.id,0))
         games[m.chat.id]['mode']='dungeon'
         t=threading.Timer(180, starttimer, args=[m.chat.id])
