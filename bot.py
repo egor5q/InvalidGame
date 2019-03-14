@@ -5361,7 +5361,7 @@ def begingame(id):
                bstrenght=0
                while bstrenght<=pstrenght:
                     x=randomboss(id)
-                    games[id]['bots'].append(x)
+                    games[id]['bots'].update(x)
                     bstrenght+=x['strenght']
                     team2+=x['name']+'\n'
 
