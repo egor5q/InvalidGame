@@ -331,7 +331,7 @@ def autojoin(m):
 
 
 def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,maxenergy=5,energy=5,items=[],accuracy=0,damagelimit=6,skin=[],\
-               animal=None,zombie=0, die=0,shockcd=0):
+               animal=None,zombie=0, die=0,shockcd=0, strenght=1, oracle=1):
    return{identeficator:{'name': name,
               'dopname':None,
               'weapon':weapon,
@@ -365,7 +365,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'heal':0,
               'shieldgen':0,
               'skin':skin,
-              'oracle':1,
+              'oracle':oracle,
               'target':None,
               'exp':0,
               'gipnoz':0,
@@ -392,7 +392,8 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'dopdmg':0,
               'blight':0,
               'reservenergy':0,
-              'realid':None
+              'realid':None,
+              'strenght':strenght
                      }
           }
    
@@ -3042,18 +3043,44 @@ def results(id):
                 else:
                   g=''
                   a=''
-                bot.send_message(id, '🏆'+g+name+' победил'+a+'! Но в режиме апокалипсиса призы не выдаются, играйте ради веселья! :)')
-                if games[id]['mode']=='meteors':
-                    for ids in games[id]['bots']:
-                     if games[id]['bots'][ids]['identeficator']==None:
-                      try:
-                        users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':1}})
-                        users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteordmg':games[id]['bots'][ids]['takenmeteordmg']}})
-                        users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteors':games[id]['bots'][ids]['takenmeteors']}})
-                      except:
-                        pass
+                if games[id]['mode']!='dungeon':
+                    bot.send_message(id, '🏆'+g+name+' победил'+a+'! Но в режиме апокалипсиса призы не выдаются, играйте ради веселья! :)')
+                    if games[id]['mode']=='meteors':
+                        for ids in games[id]['bots']:
+                         if games[id]['bots'][ids]['identeficator']==None:
+                          try:
+                            users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.meteorraingames':1}})
+                            users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteordmg':games[id]['bots'][ids]['takenmeteordmg']}})
+                            users.update_one({'id':games[id]['bots'][ids]['id']}, {'$inc':{'bot.takenmeteors':games[id]['bots'][ids]['takenmeteors']}})
+                          except:
+                            pass
+                else:
+                    dung=1
              else:
+                if games[id]['mode']!='dungeon':
                     bot.send_message(id, '🏆'+name+' победил! Но награду за победу можно получить только в официальном чате - @cookiewarsru!')
+                else:
+                    dung=1
+             if dung==1:
+                loose=0
+                for ids in games[id]['bots']:
+                    if games[id]['bots'][ids]['id']=='dungeon' and games[id]['bots'][ids]['die']!=1:
+                        loose=1
+                if loose==0:
+                    text=''
+                    while len(games[id]['treasures'])>0:
+                        x=random.choice(games[id]['bots'])
+                        while x['identeficator']!=None:
+                            x=random.choice(games[id]['bots'])
+                        tr=random.choice(games[id]['treasures'])
+                        users.update_one({'id':x['realid']},{'$push':{'bot.bought':tr}})
+                        games[id]['treasures'].remove(tr)
+                        text+=x['name']+' получает сокровище: '+treasuretoname(tr)+'!\n'
+                    if text=='':
+                        text='Никаких сокровищ не было найдено!'
+                    bot.send_message(id, 'Победа игроков! Призы:\n\n'+text)
+                else:
+                    bot.send_message(id, 'Победа боссов!')
           else:
               bot.send_message(id, '🏆'+name+' победил!')
         else:
@@ -3330,9 +3357,9 @@ def dmgs(id):
              games[id]['bots'][mob]['hp']-=a
            else:
             xx=random.randint(1,100)
-            if games[id]['bots'][mob]['oracle']==1 and games[id]['bots'][mob]['hp']-a<=0 and xx<=30:
+            if games[id]['bots'][mob]['oracle']>=1 and games[id]['bots'][mob]['hp']-a<=0 and (xx<=30 or games[id]['bots'][mob]['id']=='dungeon'):
                    text+='🔮Оракул '+games[id]['bots'][mob]['name']+' предотвращает свою смерть!\n'
-                   games[id]['bots'][mob]['oracle']=0
+                   games[id]['bots'][mob]['oracle']-=1
                    if games[id]['bots'][mob]['hp']<=0:
                      games[id]['bots'][mob]['hp']=1
             else:
@@ -5104,6 +5131,27 @@ def begin(m):
 
    else:
         bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.') 
+        
+        
+        
+@bot.message_handler(commands=['dungeon'])
+def begindungeon(m):
+   newchat=-1001172494515
+   y=variables.find_one({'vars':'main'})
+   if y['enablegames']==1:                      
+     if m.chat.id not in games:
+        games.update(creategame(m.chat.id,0))
+        games[m.chat.id]['mode']='dungeon'
+        t=threading.Timer(180, starttimer, args=[m.chat.id])
+        t.start()
+        games[m.chat.id]['timer']=t
+        t=threading.Timer(180,enablestart,args=[m.chat.id])
+        t.start()
+        kb=types.InlineKeyboardMarkup()
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        bot.send_message(m.chat.id, 'Подземелье открыто! Автостарт через 3 минуты.\n\n', reply_markup=kb)
+   else:
+        bot.send_message(m.chat.id, 'Проводятся технические работы! Приношу свои извинения за доставленные неудобства.') 
 
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode=None):
     return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
@@ -5129,7 +5177,87 @@ def chaosstats(m):
         bot.send_message(m.chat.id, 'Игр в "Метеоритный дождь" сыграно: '+str(x['bot']['meteorraingames'])+'\n\n'+\
                          'Получено метеоритов в ебало: '+str(x['bot']['takenmeteors'])+'\n\n'+\
                          'Средний получаемый урон с метеорита: '+str(sredn))
-                                                                           
+  
+
+def randomboss(chatid):
+    bosses=['pyro', 'hypnotist', 'seer', 'warrior', 'skeleton']
+    boss=random.choice(bosses)
+    if boss=='pyro':
+        b=createpyro(chatid)
+    if boss=='hypnotist':
+        b=createhypnotist(chatid)
+    if boss=='seer':
+        b=createseer(chatid)
+    if boss=='warrior':
+        b=createwarriot(chatid)
+    if boss=='skeleton':
+        b=createskeleton(chatid)
+    return b
+
+        
+def createpyro(chatid, id='dungeon'):
+    x=randomgen(chatid)
+    text='Пироманьяк'
+    strenght=1.3
+    hp=4
+    return createunit(id=id, drops=['ring_of_fire', 'magmaball'], weapon='flame',name=text,hp=hp,maxhp=hp,identeficator=x,damagelimit=6, strenght=strenght, skills=['pricel','berserk','bloodmage'])
+
+def createhypnotist(chatid, id='dungeon'):
+    x=randomgen(chatid)
+    text='Гипнотизёр'
+    strenght=1.5
+    hp=6
+    return createunit(id=id, drops=['eye_of_seeing', 'hypnogun'], weapon='saw',name=text,hp=hp,maxhp=hp,identeficator=x,damagelimit=8, strenght=strenght, skills=['gipnoz', 'liveful', 'metalarmor'])
+
+
+def createseer(chatid, id='dungeon'):
+    x=randomgen(chatid)
+    text='Провидец смерти'
+    strenght=2
+    hp=1
+    return createunit(id=id, drops=['stone_of_life', 'magic_essense'], weapon='kinzhal',name=text,hp=hp,maxhp=hp,identeficator=x,damagelimit=6, strenght=strenght, skills=['zeus', 'cazn', 'zombie'], oracle=5, skin=['oracle'])
+
+
+def createwarrior(chatid, id='dungeon'):
+    x=randomgen(chatid)
+    text='Воин'
+    strenght=1
+    hp=8
+    return createunit(id=id, drops=['helmet_of_the_strenght', 'magic_sword'], weapon='hand',name=text,hp=hp,maxhp=hp,identeficator=x,damagelimit=10, strenght=strenght)
+
+
+
+def createskeleton(chatid, id='dungeon'):
+    x=randomgen(chatid)
+    text='Скелет-маг'
+    strenght=2.3
+    hp=6
+    return createunit(id=id, drops=['magic_bone_wand', 'bonegun'], weapon='sword',name=text,hp=hp,maxhp=hp,identeficator=x,damagelimit=999, strenght=strenght, skills=['shieldgen', 'nindza', 'double', 'firemage', 'berserk'])
+
+
+def treasuretoname(x):
+    if x=='ring_of_fire':
+        return 'Кольцо огня'
+    if x=='magmaball':
+        return 'Сгусток магмы'
+    if x=='eye_of_seeing':
+        return 'Всевидящее око'
+    if x=='hypnogun':
+        return 'Гипнопушка'
+    if x=='stone_of_life':
+        return 'Камень жизни'
+    if x=='magic_essense':
+        return 'Магическая эссенция'
+    if x=='helmet_of_the_strenght':
+        return 'Шлем силы'
+    if x=='magic_sword':
+        return 'Зачарованный меч'
+    if x=='magic_bone_wand':
+        return 'Костяная волшебная палочка'
+    if x=='bonegun':
+        return 'Костяная пушка'
+
+
 def begingame(id):
  try:
     if games[id]['started2']!=1:
@@ -5173,6 +5301,27 @@ def begingame(id):
                    else:
                        team2+=idsz['name']+'\n'
                bot.send_message(id, 'Команда 1:\n'+team1+'\nКоманда 2:\n'+team2)
+            
+       if games[id]['mode']=='dungeon':
+               choicelist=[]
+               for i in games[id]['bots']:
+                   choicelist.append(games[id]['bots'][i])
+               leader1=random.choice(choicelist)
+               for idsr in choicelist:
+                   idsr['id']=leader1['id']
+               team1=''
+               for idsz in choicelist:
+                   team1+=idsz['name']+'\n'
+               team2=''
+               pstrenght=len(games[id]['bots'])
+               bstrenght=0
+               while bstrenght<pstrenght:
+                    x=randomboss()
+                    games[id]['bots'].append(x)
+                    bstrenght+=x['strenght']
+                    team2+=x['name']+'\n'
+
+               bot.send_message(id, 'Команда игроков:\n'+team1+'\nКоманда боссов:\n'+team2)
        
        if id==-1001488903839:
            games[id]['mode']='farm'
@@ -5215,26 +5364,27 @@ def begingame(id):
        text=''
        text2=''
        for ids3 in choicelist:
-        try:
-           text+=ids3['name']+':\n'
-           allskin=[]
-           allskill=[]
-           i=0
-           for code in ids3['skills']:
-             allskill.append(code)
-           for code in ids3['skin']:
-             allskin.append(code)
-           for sk in allskill:
-             if sk!='active':
-                 text+=skilltoname(sk)+'\n'
-           try:
-               text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
-           except:
-               text+='Скин: отсутствует.\n'
-           text+='\n'
-        except Exception as e:
-         bot.send_message(441399484, traceback.format_exc())
-         text+='\n'
+        if ids3['id']!='dungeon':
+            try:
+               text+=ids3['name']+':\n'
+               allskin=[]
+               allskill=[]
+               i=0
+               for code in ids3['skills']:
+                 allskill.append(code)
+               for code in ids3['skin']:
+                 allskin.append(code)
+               for sk in allskill:
+                 if sk!='active':
+                     text+=skilltoname(sk)+'\n'
+               try:
+                   text+='Скин: '+skintoname(ids3['skin'][0])+'\n'
+               except:
+                   text+='Скин: отсутствует.\n'
+               text+='\n'
+            except Exception as e:
+             bot.send_message(441399484, traceback.format_exc())
+             text+='\n'
        giveitems(games[id])
        for ids in createlist:
            rnd=randomgen(id)
@@ -5496,7 +5646,8 @@ def creategame(id, special):
         'enablestart':0,
         'timee':12,
         'prizefond':0,
-        'battletimer':None
+        'battletimer':None,
+        'treasures':[]
         
              }
            }
