@@ -5365,9 +5365,9 @@ def begingame(id):
                     for ids in x:
                         try:
                             bstrenght+=x[ids]['strenght']
+                            team2+=x[ids]['name']+'\n'
                         except:
                             pass
-                    team2+=x['name']+'\n'
 
                bot.send_message(id, 'Команда игроков:\n'+team1+'\nКоманда боссов:\n'+team2)
        
