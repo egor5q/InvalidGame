@@ -3984,7 +3984,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
              return 1
         else:
              return 0
-      name=users.find_one({'id':bot1['id']})['bot']['name']
+      #name=users.find_one({'id':bot1['id']})['bot']['name']
       if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
           assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
@@ -4026,7 +4026,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
              return 1
         else:
              return 0
-      name=users.find_one({'id':bot1['id']})['bot']['name']
+      #name=users.find_one({'id':bot1['id']})['bot']['name']
       if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
           assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
@@ -4073,7 +4073,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
              return 1
         else:
              return 0
-      name=users.find_one({'id':bot1['id']})['bot']['name']
+      #name=users.find_one({'id':bot1['id']})['bot']['name']
       if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
           assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
@@ -4121,7 +4121,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
              return 1
         else:
              return 0
-      name=users.find_one({'id':bot1['id']})['bot']['name']
+      #name=users.find_one({'id':bot1['id']})['bot']['name']
       if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
           assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
@@ -4153,7 +4153,7 @@ def weaponchance(energy, target, x, id, bot1,hit):
              return 1
         else:
              return 0
-      name=users.find_one({'id':bot1['id']})['bot']['name']
+      #name=users.find_one({'id':bot1['id']})['bot']['name']
       if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
           assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
