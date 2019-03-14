@@ -4883,6 +4883,7 @@ def start(m):
         if y!=None:
          if y['bot']['id'] not in games[int(x[1])]['ids']:
           if y['bot']['name']!=None:
+           join=1
            if games[int(x[1])]['mode']!='dungeon':
                join=1
            else:
@@ -4910,8 +4911,9 @@ def start(m):
                bot.send_message(m.chat.id, 'Нельзя находиться в другой игре, если вы собираетесь идти в подземелье!')
           else:
              bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
-  except:
-        pass
+  except Exception as e:
+    print('Ошибка:\n', traceback.format_exc())
+    bot.send_message(441399484, traceback.format_exc())
   if users.find_one({'id':m.from_user.id})==None:
         try:
             bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный боец. В будущем вы сможете улучшить его за поинты! Подробнее об игре можно узнать с помощью команды /help.')
