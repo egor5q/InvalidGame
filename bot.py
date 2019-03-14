@@ -4879,7 +4879,7 @@ def goo(m):
              bot.send_message(m.chat.id, 'В этом чате нельзя запустить игру раньше времени!')
            else:
              begingame(m.chat.id)
-           games[m.chat.id]['started']=1
+             games[m.chat.id]['started']=1
         else:
             bot.send_message(m.chat.id, 'Недостаточно игроков!')
       else:
