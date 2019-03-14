@@ -5369,6 +5369,9 @@ def begingame(id):
                             team2+=x[ids]['name']+'\n'
                         except:
                             pass
+               for i in games[id]['bots']:
+                  if games[id]['bots'][i] not in choicelist:
+                    choicelist.append(games[id]['bots'][i])
 
                bot.send_message(id, 'Команда игроков:\n'+team1+'\nКоманда боссов:\n'+team2)
        
