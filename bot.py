@@ -2997,6 +2997,7 @@ def results(id):
              else:
                   yy=''
                   zz=''
+             dung=0
              if id==-1001208357368 or id==-1001172494515:
               if games[id]['mode']==None:
                 
@@ -5354,8 +5355,11 @@ def begingame(id):
                    team1+=idsz['name']+'\n'
                team2=''
                pstrenght=len(games[id]['bots'])
+               for ids in games[id]['bots']:
+                   if games[id]['bots'][ids]['mutations']!=[]:
+                        pstrenght+=1
                bstrenght=0
-               while bstrenght<pstrenght:
+               while bstrenght<=pstrenght:
                     x=randomboss()
                     games[id]['bots'].append(x)
                     bstrenght+=x['strenght']
