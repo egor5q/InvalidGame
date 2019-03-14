@@ -4998,13 +4998,14 @@ def begin(m):
         games.update(creategame(m.chat.id,0))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         s='5 минут'
+        y=threading.Timer(60,enablestart,args=[m.chat.id])
         if m.chat.id==-1001208357368 or m.chat.id==-1001172494515 or m.chat.id==-1001488903839:
             t=threading.Timer(180, starttimer, args=[m.chat.id])
+            y=threading.Timer(1,enablestart,args=[m.chat.id])
             s='3 минуты'
         t.start()
         games[m.chat.id]['timer']=t
-        t=threading.Timer(180,enablestart,args=[m.chat.id])
-        t.start()
+        y.start()
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
         bot.send_message(m.chat.id, 'Игра началась! Автостарт через '+s+'.\n\n', reply_markup=kb)
