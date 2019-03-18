@@ -3006,8 +3006,6 @@ def results(id):
                 try:
                        cookie=round(points*0.01, 0)
                        cookie=int(cookie)
-                       if points>100 and cookie<=0:
-                           cookie=1
                        user=users.find_one({'id':winner['id']})
                        if cookie+user['dailycookie']<=10:
                             pass
@@ -4887,7 +4885,7 @@ def start(m):
                join=1
            else:
                for ids in games:
-                    if m.from_user.id in games[ids]['bots']:
+                    if m.from_user.id in games[ids]['bots'] and games[ids]['mode']=='dungeon':
                         join=0
            if join==1:
                if games[int(x[1])]['started']==0:
@@ -4907,7 +4905,7 @@ def start(m):
                bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+thisbot['name']+') присоединился!')
                games[int(x[1])]['ids'].append(m.from_user.id)
            else:
-               bot.send_message(m.chat.id, 'Нельзя находиться в другой игре, если вы собираетесь идти в подземелье!')
+               bot.send_message(m.chat.id, 'Нельзя находиться в другом данже, если вы собираетесь идти в новый!')
           else:
              bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
   except Exception as e:
