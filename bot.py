@@ -2770,7 +2770,7 @@ def mobcheck(id,mobs):
       games[id]['bots'][mobs]['miss']+=20*(1+games[id]['bots'][mobs]['chance'])
     if 'werewolf' in player['mutations']:
         if games[id]['xod']%2==0:
-            player['miss']+=30*(1+player['chance'])
+            player['miss']+=15*(1+player['chance'])
             prm=player['name']
             player['name']=player['dopname']
             player['dopname']=prm
@@ -3463,7 +3463,7 @@ def dmgs(id):
             if games[id]['bots'][idss]['target']==games[id]['bots'][mob] and 'necromant' in games[id]['bots'][idss]['skills'] and random.randint(1,100)<=60+(60*games[id]['bots'][idss]['chance']):
                games[id]['bots'][idss]['summonmonster'][1]+=a
                text+='🖤Некромант '+games[id]['bots'][idss]['name']+' прибавляет '+str(a)+' хп к своему монстру!\n'
-            if unit['target']==games[id]['bots'][mob] and 'werewolf' in unit['mutations'] and games[id]['xod']%2==0:
+            if unit['target']==games[id]['bots'][mob] and 'werewolf' in unit['mutations'] and games[id]['xod']%2==0 and random.randint(1,100)<=30:
                text+=unit['name']+' кусает цель и восстанавливает '+em_hp+'хп!\n'
                unit['hp']+=1
        else:
@@ -4538,6 +4538,8 @@ def weaponchance(energy, target, x, id, bot1,hit):
           assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
               damage=bot1['energy']-random.randint(1,2)
+              if damage<=0:
+                    damage=1
               if 'berserk' in bot1['skills'] and bot1['hp']<=2:
                   damage+=2
               if bot1['zombie']>0:
