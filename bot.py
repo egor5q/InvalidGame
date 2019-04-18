@@ -278,12 +278,17 @@ def wtbb(m):
                 name='Эмоджимёт'
                 i=1
             if i==1:
-                if user['cookie']>=cost:
-                    users.update_one({'id':user['id']},{'$inc':{'cookie':-cost}})
-                    users.update_one({'id':user['id']},{'$push':{'bot.bought':push}})
-                    bot.send_message(m.chat.id, 'Вы успешно купили '+typee+' "'+name+'"!')
+                if push not in user['bot']['bought']:
+                    if user['cookie']>=cost:
+                        users.update_one({'id':user['id']},{'$inc':{'cookie':-cost}})
+                        users.update_one({'id':user['id']},{'$push':{'bot.bought':push}})
+                        bot.send_message(m.chat.id, 'Вы успешно купили '+typee+' "'+name+'"!')
+                    else:
+                        bot.send_message(m.chat.id, 'Недостаточно поинтов!')
                 else:
-                    bot.send_message(m.chat.id, 'Недостаточно поинтов!')
+                    bot.send_message(m.chat.id, 'У вас уже есть это!')
+            else:
+                bot.send_message(m.chat.id, 'Применение команды:\n/buy *code*\nДоступные коды:\n`01` - "Эмоджимёт" - 7000⚛️', parse_mode='markdown')
         except:
             bot.send_message(m.chat.id, 'Применение команды:\n/buy *code*\nДоступные коды:\n`01` - "Эмоджимёт" - 7000⚛️', parse_mode='markdown')
                     
