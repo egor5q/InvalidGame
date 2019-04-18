@@ -531,13 +531,13 @@ def weapon(m):
      if '🗡' in y['inventory']:
         bow='✅'
      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
-     if '🔫' in y['inventory']:
+     if '🔫' in y['inventory'] or y['id']==324316537:
          kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-     if '☄' in y['inventory']: 
+     if '☄' in y['inventory'] or y['id']==324316537: 
          kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
-     if '⚙' in y['inventory']: 
+     if '⚙' in y['inventory'] or y['id']==324316537: 
          kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
-     if '🗡' in y['inventory']:
+     if '🗡' in y['inventory'] or y['id']==324316537:
          kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
      if '🏹' in y['inventory'] or y['id']==324316537: 
          kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
@@ -2117,7 +2117,7 @@ def inline(call):
   elif call.data=='equiprock':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    if '☄' in x['inventory']:
+    if '☄' in x['inventory'] or y['id']==324316537:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'rock'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Камень"!')
@@ -2144,7 +2144,7 @@ def inline(call):
   elif call.data=='equippistol':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    if '🔫' in x['inventory']:
+    if '🔫' in x['inventory'] or y['id']==324316537:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'ak'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пистолет"!')
@@ -2159,7 +2159,7 @@ def inline(call):
   elif call.data=='equipsaw':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    if '⚙' in x['inventory']:
+    if '⚙' in x['inventory'] or y['id']==324316537:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'saw'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Пилострел"!')
@@ -2174,7 +2174,7 @@ def inline(call):
   elif call.data=='equipkinzhal':
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
-    if '🗡' in x['inventory']:
+    if '🗡' in x['inventory'] or y['id']==324316537:
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'kinzhal'}})
         bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Кинжал"!')
