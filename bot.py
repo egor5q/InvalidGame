@@ -264,6 +264,33 @@ skills=[]
 
 items=['flash', 'knife']
 
+@bot.message_handler(commands=['buy'])
+def wtbb(m):
+    user=users.find_one({'id':m.from_user.id})
+    if user!=None:
+        try:
+            code=m.text.split(' ')[1]
+            i=0
+            if code=='01':
+                cost=7000
+                push='emojthrow'
+                typee='оружие'
+                name='Эмоджимёт'
+                i=1
+            if i==1:
+                if user['cookie']>=cost:
+                    users.update_one({'id':user['id']},{'$inc':{'cookie':-cost}})
+                    users.update_one({'id':user['id']},{'$push':{'bot.bought':push}})
+                    bot.send_message(m.chat.id, 'Вы успешно купили '+typee+' "'+name+'"!')
+                else:
+                    bot.send_message(m.chat.id, 'Недостаточно поинтов!')
+        except:
+            bot.send_message(m.chat.id, 'Применение команды:\n/buy *code*\nДоступные коды:\n`01` - "Эмоджимёт" - 7000⚛️', parse_mode='markdown')
+                    
+                
+            
+        
+
 @bot.message_handler(commands=['update'])
 def upd(m):
         if m.from_user.id==441399484:
@@ -519,6 +546,8 @@ def weapon(m):
          kb.add(types.InlineKeyboardButton(text='Лиса', callback_data='equipfox'))
      if 'sliznuk' in x['bot']['bought']:
          kb.add(types.InlineKeyboardButton(text='Слиземёт', callback_data='equipsliz'))
+     if 'emojthrow' in x['bot']['bought']:
+         kb.add(types.InlineKeyboardButton(text='Эмоджимёт', callback_data='equipemojthrow'))
      kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
      kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
      bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
@@ -2147,6 +2176,20 @@ def inline(call):
       elif y['bot']['weapon']=='kinzhal':
           users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
           bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Кинжал"!')
+      else:
+        bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
+    else:
+        bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
+        
+  elif call.data=='equipemojthrow':
+    y=users.find_one({'id':call.from_user.id})
+    if 'emojthrow' in y['bot']['bought']:
+      if y['bot']['weapon']==None:
+        users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'emojthrow'}})
+        bot.answer_callback_query(call.id, 'Вы успешно экипировали оружие "Эмоджимёт"!')
+      elif y['bot']['weapon']=='emojthrow':
+          users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':None}})
+          bot.answer_callback_query(call.id, 'Вы успешно сняли оружие "Эмоджимёт"!')
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
     else:
@@ -4466,6 +4509,40 @@ def weaponchance(energy, target, x, id, bot1,hit):
             games[id]['res']+='💨Лиса бойца '+bot1['name']+' промахнулась по '+target['name']+'!\n'
             bot1['target']=None
             bot1['energy']-=2
+            
+            
+    elif bot1['weapon']=='emojthrow':
+      chance=accuracy('middle',energy)
+      if bot1['blight']==1:
+          chance=-100
+      bonus=1+bot1['accuracy']/100
+      debuff=1+target['miss']/100
+      if hit==1:
+        if x*debuff/bonus<=chance or bot1['hit']==1:
+             return 1
+        else:
+             return 0
+      name=users.find_one({'id':bot1['id']})['bot']['name']
+      if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+          assasin(id,bot1,target)
+      ems=['😀','😂','😎','😠','😡','🥶','🤕','🤫','👳‍♂️','🌚','🌞','😱','🤯','😤']
+      em=random.choice(ems)
+      elif x*debuff/bonus<=chance or bot1['hit']==1:
+              damage=bot1['energy']-random.randint(1,2)
+              if 'berserk' in bot1['skills'] and bot1['hp']<=2:
+                  damage+=2
+              if bot1['zombie']>0:
+                  damage+=3
+              x=random.randint(1,100)
+              games[id]['res']+='🌝'+bot1['name']+' стреляет в '+target['name']+' из емоджимёта! В соперника прилетает "'+em+'"! Нанесено '+str(damage)+' урона.\n'
+              target['takendmg']+=damage
+              target['takendmg']+=bot1['dopdmg']
+              bot1['energy']-=random.randint(1,3)  
+              
+      else:
+            games[id]['res']+='💨'+bot1['name']+' промахнулся по '+target['name']+'! Мимо пролетает "'+em+'"!\n'
+            bot1['target']=None
+            bot1['energy']-=random.randint(1,3)  
         
                 
     games[id]['res']+=bot1['doptext']
