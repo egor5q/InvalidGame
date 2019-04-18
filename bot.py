@@ -3106,6 +3106,7 @@ def results(id):
                 else:
                     dung=1
              if dung==1:
+                z=1
                 loose=0
                 for ids in games[id]['bots']:
                     if games[id]['bots'][ids]['id']=='dungeon' and games[id]['bots'][ids]['die']!=1:
@@ -3113,13 +3114,13 @@ def results(id):
                 if loose==0:
                     text=''
                     while len(games[id]['treasures'])>0:
-                        x=random.choice(games[id]['bots'])
-                        while x['identeficator']!=None:
+                       x=random.choice(games[id]['bots'])
+                       while x['identeficator']!=None:
                             x=random.choice(games[id]['bots'])
-                        tr=random.choice(games[id]['treasures'])
-                        users.update_one({'id':x['realid']},{'$push':{'bot.bought':tr}})
-                        games[id]['treasures'].remove(tr)
-                        text+=x['name']+' получает сокровище: '+treasuretoname(tr)+'!\n'
+                       tr=random.choice(games[id]['treasures'])
+                       users.update_one({'id':x['realid']},{'$push':{'bot.bought':tr}})
+                       games[id]['treasures'].remove(tr)
+                       text+=x['name']+' получает сокровище: '+treasuretoname(tr)+'!\n'
                     if text=='':
                         text='Никаких сокровищ не было найдено!'
                     bot.send_message(id, 'Победа игроков! Призы:\n\n'+text)
@@ -3383,10 +3384,13 @@ def dmgs(id):
                 games[id]['bots'][mob]['energy']=0
                 text+='☠️'+games[id]['bots'][mob]['name']+' погибает.\n'
                 if games[id]['bots'][mob]['id']=='dungeon':
-                            if random.randint(1,100)<=2:
-                                tr=random.choice(games[id]['bots'][mob]['drops'])
-                                games[id]['treasures'].append(tr)
-                                text+='🎁'+games[id]['bots'][mob]['name']+' уронил что-то!\n'
+                            if random.randint(1,100)<=8:
+                                try:
+                                    tr=random.choice(games[id]['bots'][mob]['drops'])
+                                    games[id]['treasures'].append(tr)
+                                    text+='🎁'+games[id]['bots'][mob]['name']+' уронил что-то!\n'
+                                except:
+                                    pass
                 if 'necromant' in games[id]['bots'][mob]['skills']:
                      monsters.append(games[id]['bots'][mob]['id'])
                 games[id]['bots'][mob]['dieturn']=games[id]['xod']
@@ -4523,10 +4527,10 @@ def weaponchance(energy, target, x, id, bot1,hit):
         else:
              return 0
       name=users.find_one({'id':bot1['id']})['bot']['name']
-      if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
-          assasin(id,bot1,target)
       ems=['😀','😂','😎','😠','😡','🥶','🤕','🤫','👳‍♂️','🌚','🌞','😱','🤯','😤']
       em=random.choice(ems)
+      if target['hp']==1 and 'cazn' in bot1['skills'] and target['zombie']<=0:
+          assasin(id,bot1,target)
       elif x*debuff/bonus<=chance or bot1['hit']==1:
               damage=bot1['energy']-random.randint(1,2)
               if 'berserk' in bot1['skills'] and bot1['hp']<=2:
