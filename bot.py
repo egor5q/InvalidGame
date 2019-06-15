@@ -5180,8 +5180,10 @@ def begin(m):
                    text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
                except:
                    pass
-         
-         bot.send_message(m.chat.id, text)
+         try:
+             bot.send_message(m.chat.id, text)
+         except:
+             bot.send_message(m.chat.id, 'Много текста!')
          x=users.find({})
          for idss in x:
           if idss['id']!=0:
@@ -5984,7 +5986,10 @@ def beginmassbattle(id):
                games[id]['ids'].append(ids['id'])
                users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
                text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
-         bot.send_message(id, text)
+         try:
+             bot.send_message(id, text)
+         except:
+             bot.send_message(id, 'много текста!')
          x=users.find({})
          for idss in x:
           if idss['id']!=0:
