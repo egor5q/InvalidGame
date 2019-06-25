@@ -5539,7 +5539,10 @@ def begingame(id):
        u=0
        u+=1
        print(u)
-       bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
+       try:
+           bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
+       except:
+           pass
        tt2=''
        animals=['rhino','demon','pig']
        for ids in games[id]['bots']:
@@ -5548,12 +5551,15 @@ def begingame(id):
                games[id]['bots'][ids]['animal']=animal
                animalname=animaltoname(animal)
                tt2+='Волшебная палочка бойца '+games[id]['bots'][ids]['name']+' превращает его в случайное существо: '+animalname+'!\n\n'
-       if tt2!='':
-         bot.send_message(id, tt2)
-       if text2!='':
+       try:
+         if tt2!='':
+           bot.send_message(id, tt2)
+         if text2!='':
            bot.send_message(id, text2)
-       if text3!='':
+         if text3!='':
            bot.send_message(id, text3)
+       except:
+         pass
        games[id]['started2']=1
        t=threading.Timer(games[id]['timee'],battle,args=[id])
        for ids in games[id]['bots']:
