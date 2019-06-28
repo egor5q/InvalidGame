@@ -4962,7 +4962,7 @@ def helpp(m):
 @bot.message_handler(commands=['start'])
 def start(m):
   x=m.text.split('/start')
-  x=x.split('_')
+  x=x[1].split('_')
   try:
      if int(x[0]) in games:
       if games[int(x[0])]['gamecode']==int(x[1]):
