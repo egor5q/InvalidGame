@@ -4964,39 +4964,40 @@ def start(m):
   x=m.text.split('/start')
   try:
      if int(x[1]) in games:
-      if games[int(x[1])]['started']==0:
-        y=users.find_one({'id':m.from_user.id})
-        if y!=None:
-         if y['bot']['id'] not in games[int(x[1])]['ids']:
-          if y['bot']['name']!=None:
-           join=1
-           if games[int(x[1])]['mode']!='dungeon':
-               join=1
-           else:
-               for ids in games:
-                    if m.from_user.id in games[ids]['bots'] and games[ids]['mode']=='dungeon':
-                        join=0
-           if join==1:
-               if games[int(x[1])]['started']==0:
-                if games[int(x[1])]['gmo']==0 and y['bot']['mutations']!=[]:
-                    i=1
-                    while i<=3:
-                        if y['botslots'][str(i)]!={}:
-                            if y['botslots'][str(i)]['mutations']==[]:
-                                thisbot=y['botslots'][str(i)]
-                        i+=1
-                else:
-                    thisbot=y['bot']
-               games[int(x[1])]['bots'].update(createbott(m.from_user.id, thisbot))
-               games[int(x[1])]['bots'][m.from_user.id]['realid']=m.from_user.id
-               users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
-               bot.send_message(m.chat.id, 'Вы успешно присоединились!')
-               bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+thisbot['name']+') присоединился!')
-               games[int(x[1])]['ids'].append(m.from_user.id)
-           else:
-               bot.send_message(m.chat.id, 'Нельзя находиться в другом данже, если вы собираетесь идти в новый!')
-          else:
-             bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
+      if games[int(x[1])]['gamecode']==int(x[2]):
+        if games[int(x[1])]['started']==0:
+          y=users.find_one({'id':m.from_user.id})
+          if y!=None:
+           if y['bot']['id'] not in games[int(x[1])]['ids']:
+            if y['bot']['name']!=None:
+             join=1
+             if games[int(x[1])]['mode']!='dungeon':
+                 join=1
+             else:
+                 for ids in games:
+                      if m.from_user.id in games[ids]['bots'] and games[ids]['mode']=='dungeon':
+                          join=0
+             if join==1:
+                 if games[int(x[1])]['started']==0:
+                  if games[int(x[1])]['gmo']==0 and y['bot']['mutations']!=[]:
+                      i=1
+                      while i<=3:
+                          if y['botslots'][str(i)]!={}:
+                              if y['botslots'][str(i)]['mutations']==[]:
+                                  thisbot=y['botslots'][str(i)]
+                          i+=1
+                  else:
+                      thisbot=y['bot']
+                 games[int(x[1])]['bots'].update(createbott(m.from_user.id, thisbot))
+                 games[int(x[1])]['bots'][m.from_user.id]['realid']=m.from_user.id
+                 users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
+                 bot.send_message(m.chat.id, 'Вы успешно присоединились!')
+                 bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+thisbot['name']+') присоединился!')
+                 games[int(x[1])]['ids'].append(m.from_user.id)
+             else:
+                 bot.send_message(m.chat.id, 'Нельзя находиться в другом данже, если вы собираетесь идти в новый!')
+            else:
+               bot.send_message(m.chat.id, 'Сначала назовите своего бойца! (команда /name).')
   except Exception as e:
     print('Ошибка:\n', traceback.format_exc())
     bot.send_message(441399484, traceback.format_exc())
@@ -5067,7 +5068,8 @@ def slizz(m):
 def withoutauto(m):
    # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:# and m.from_user.id==441399484:
-        games.update(creategame(m.chat.id, 0))
+        code=random.randint(1,10000)
+        games.update(creategame(m.chat.id, 0, code))
         if m.chat.id==-1001172494515:
             games[m.chat.id]['gmo']=0
         t=threading.Timer(300, starttimer, args=[m.chat.id])
@@ -5076,7 +5078,7 @@ def withoutauto(m):
         t=threading.Timer(15,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+' '+str(code)))
         bot.send_message(m.chat.id, 'Игра без автоприсоединений началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
@@ -5122,14 +5124,15 @@ def ff(m):
 def apocalypse(m):
    # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:# and m.from_user.id==441399484:
-        games.update(creategame(m.chat.id, 1))
+        code=random.randint(1,10000)
+        games.update(creategame(m.chat.id, 1, code))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
         games[m.chat.id]['timer']=t
         t=threading.Timer(1,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Умереть', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        kb.add(types.InlineKeyboardButton(text='Умереть', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+' '+str(code)))
         bot.send_message(m.chat.id, 'Игра в режиме *АПОКАЛИПСИС* началась! Автостарт через 5 минут.\n\n', reply_markup=kb, parse_mode='markdown')
         x=users.find({})
         if m.chat.id==-1001208357368:
@@ -5152,7 +5155,8 @@ def begin(m):
    y=variables.find_one({'vars':'main'})
    if y['enablegames']==1:                      
      if m.chat.id not in games:
-        games.update(creategame(m.chat.id,0))
+        code=random.randint(1,10000)
+        games.update(creategame(m.chat.id,0, code))
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         s='5 минут'
         y=threading.Timer(60,enablestart,args=[m.chat.id])
@@ -5164,7 +5168,7 @@ def begin(m):
         games[m.chat.id]['timer']=t
         y.start()
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+' '+str(code)))
         bot.send_message(m.chat.id, 'Игра началась! Автостарт через '+s+'.\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
@@ -5227,7 +5231,8 @@ def begin(m):
    if y['enablegames']==1:                      
  # if m.chat.id==-1001208357368:#-229396706:
      if m.chat.id not in games:
-        games.update(creategame(m.chat.id,0))
+        code=random.randint(1,10000)
+        games.update(creategame(m.chat.id,0, code))
         games[m.chat.id]['gmo']=0
         t=threading.Timer(300, starttimer, args=[m.chat.id])
         t.start()
@@ -5235,7 +5240,7 @@ def begin(m):
         t=threading.Timer(60,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+' '+str(code)))
         bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
@@ -5769,7 +5774,7 @@ def createuser(id, username, name):
           }
     
         
-def creategame(id, special):
+def creategame(id, special, code=228):
     return {id:{
         'chatid':id,
         'ids':[],
@@ -5794,7 +5799,8 @@ def creategame(id, special):
         'timee':12,
         'prizefond':0,
         'battletimer':None,
-        'treasures':[]
+        'treasures':[],
+        'gamecode':code
         
              }
            }
