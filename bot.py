@@ -4962,24 +4962,25 @@ def helpp(m):
 @bot.message_handler(commands=['start'])
 def start(m):
   x=m.text.split('/start')
+  x=x.split('_')
   try:
-     if int(x[1]) in games:
-      if games[int(x[1])]['gamecode']==int(x[2]):
-        if games[int(x[1])]['started']==0:
+     if int(x[0]) in games:
+      if games[int(x[0])]['gamecode']==int(x[1]):
+        if games[int(x[0])]['started']==0:
           y=users.find_one({'id':m.from_user.id})
           if y!=None:
-           if y['bot']['id'] not in games[int(x[1])]['ids']:
+           if y['bot']['id'] not in games[int(x[0])]['ids']:
             if y['bot']['name']!=None:
              join=1
-             if games[int(x[1])]['mode']!='dungeon':
+             if games[int(x[0])]['mode']!='dungeon':
                  join=1
              else:
                  for ids in games:
                       if m.from_user.id in games[ids]['bots'] and games[ids]['mode']=='dungeon':
                           join=0
              if join==1:
-                 if games[int(x[1])]['started']==0:
-                  if games[int(x[1])]['gmo']==0 and y['bot']['mutations']!=[]:
+                 if games[int(x[0])]['started']==0:
+                  if games[int(x[0])]['gmo']==0 and y['bot']['mutations']!=[]:
                       i=1
                       while i<=3:
                           if y['botslots'][str(i)]!={}:
@@ -4988,12 +4989,12 @@ def start(m):
                           i+=1
                   else:
                       thisbot=y['bot']
-                 games[int(x[1])]['bots'].update(createbott(m.from_user.id, thisbot))
-                 games[int(x[1])]['bots'][m.from_user.id]['realid']=m.from_user.id
+                 games[int(x[0])]['bots'].update(createbott(m.from_user.id, thisbot))
+                 games[int(x[0])]['bots'][m.from_user.id]['realid']=m.from_user.id
                  users.update_one({'id':m.from_user.id}, {'$set':{'name':m.from_user.first_name}})
                  bot.send_message(m.chat.id, 'Вы успешно присоединились!')
-                 bot.send_message(int(x[1]), m.from_user.first_name+' (боец '+thisbot['name']+') присоединился!')
-                 games[int(x[1])]['ids'].append(m.from_user.id)
+                 bot.send_message(int(x[0]), m.from_user.first_name+' (боец '+thisbot['name']+') присоединился!')
+                 games[int(x[0])]['ids'].append(m.from_user.id)
              else:
                  bot.send_message(m.chat.id, 'Нельзя находиться в другом данже, если вы собираетесь идти в новый!')
             else:
@@ -5078,7 +5079,7 @@ def withoutauto(m):
         t=threading.Timer(15,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+' '+str(code)))
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+'_'+str(code)))
         bot.send_message(m.chat.id, 'Игра без автоприсоединений началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
@@ -5132,7 +5133,7 @@ def apocalypse(m):
         t=threading.Timer(1,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Умереть', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+' '+str(code)))
+        kb.add(types.InlineKeyboardButton(text='Умереть', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+'_'+str(code)))
         bot.send_message(m.chat.id, 'Игра в режиме *АПОКАЛИПСИС* началась! Автостарт через 5 минут.\n\n', reply_markup=kb, parse_mode='markdown')
         x=users.find({})
         if m.chat.id==-1001208357368:
@@ -5168,7 +5169,7 @@ def begin(m):
         games[m.chat.id]['timer']=t
         y.start()
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+' '+str(code)))
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+'_'+str(code)))
         bot.send_message(m.chat.id, 'Игра началась! Автостарт через '+s+'.\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
@@ -5240,7 +5241,7 @@ def begin(m):
         t=threading.Timer(60,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+' '+str(code)))
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+'_'+str(code)))
         bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
         x=users.find({})
         if m.chat.id==-1001208357368:
@@ -5276,7 +5277,8 @@ def begindungeon(m):
    newchat=-1001172494515
    y=variables.find_one({'vars':'main'})                    
    if m.chat.id not in games:
-        games.update(creategame(m.chat.id,0))
+        code=random.randint(1,10000)
+        games.update(creategame(m.chat.id,0, code))
         games[m.chat.id]['mode']='dungeon'
         t=threading.Timer(180, starttimer, args=[m.chat.id])
         t.start()
@@ -5286,7 +5288,7 @@ def begindungeon(m):
             t=threading.Timer(1,enablestart,args=[m.chat.id])
         t.start()
         kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
+        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)+'_'+str(code)))
         bot.send_message(m.chat.id, 'Подземелье открыто! Автостарт через 3 минуты.\n\n', reply_markup=kb)
 
 def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode=None):
