@@ -36,7 +36,7 @@ pay=db.pay
 variables=db.variables
 donates=db.donates
 bearer=os.environ['bearer']
-mylogin=79268508530
+mylogin=int(os.environ['phone'])
 
 client2=os.environ['database2']
 client3=MongoClient(client2)
