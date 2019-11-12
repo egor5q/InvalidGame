@@ -69,6 +69,7 @@ energies={
 }
         
 
+    
 def accuracy(x,energy):
     if energy>5:
         energy=5
