@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
+# блять три импорта телебота СУКА ТРИ ИМПОРТА ТЕЛЕБОТА БЛЯТЬЯТЬТЯЬЯ
 import os
-import telebot
 import time
 import telebot
 import random
-import info
+import info 
 import threading
-from emoji import emojize
+from emoji import emojize # два импорта эмодзи
 from telebot import types
 from pymongo import MongoClient
-from emoji import emojize
 from SimpleQIWI import *
 import traceback
 import sys
@@ -32,6 +31,7 @@ reserv=db.reserv
 pay=db.pay
 variables=db.variables
 donates=db.donates
+
 bearer=os.environ['bearer']
 mylogin=int(os.environ['phone'])
 
@@ -40,6 +40,7 @@ client3=MongoClient(client2)
 db2=client3.trug
 userstrug=db2.users
 
+# это вывести в файл constants надо бы
 energies={
     'high':{
         '5':100,
@@ -76,7 +77,9 @@ def accuracy(x,energy):
         energy=0
     return energies[x][str(energy)]
 
-mutate_info={
+# да. давно
+
+mutate_info={  # это нахуй вынести в другой файл
     'werewolf':{
         'name':'werewolf',
         'info':'Мутация "оборотень". Применив её на бойца, вы дадите ему способность превращаться в оборотня каждый чётный ход (2, 4, 6...). '+\
@@ -91,7 +94,7 @@ mutate_info={
         'она потеряет 1 хп.\nУлучшения ДНК:\nПервое: силовое поле - хп бойца в начале матча увеличиваются на 1.'
     }
 }
-
+# СУКА АЛФАВИТ БЛЯТЬ ТЫ КОНЧЕНЫЙ ЕБНУТЫЙ??!??!??!?н1?"АПН№;ГО%№";6эдЗЩ%"ЖЛЗ3о7т5лдржу6лрдоужщу7э5дл76экж
 symbollist=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
            'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р' , 'с' , 'т' , 'у' , 'ф' , 'х' , 'ц' , 'ч' , 'ш' , 'щ',
             'ъ' , 'ы' , 'ь',
@@ -105,11 +108,11 @@ hidetextmutants=0
 def silenttt(m):
    if m.from_user.id==441399484:
       global hidetext
-      hidetext=1
-      bot.send_message(m.chat.id, 'Silent mode is ON.')
+      hidetext=1 # ебак. ЕБАК???? сука ты не можешь True Написать?
+      bot.send_message(m.chat.id, 'Silent mode is ON.') 
  
 @bot.message_handler(commands=['give'])
-def givv(m):
+def givv(m): # а что с отступами?
            if m.from_user.id==441399484:
                       try:
                                  y=users.find_one({'id':m.reply_to_message.from_user.id})
@@ -135,7 +138,7 @@ def ref(m):
 @bot.message_handler(commands=['nextgame'])
 def nextgame(m):
    x=users.find_one({'id':m.from_user.id})
-   if x!=None:
+   if x: # БДДЯЩЛОШПФ%РЩзщц4зжШО)№;%ОПтщд4гОКЛАШЩ%ротцщшйзрп5ощ4ш3рцо5л4щзкцшьо4п5р9зхпа5цлщши954щзлнпрзшо64щ5пцу3лут6гоор5нург65о75
       if x['ping']==1:
          users.update_one({'id':m.from_user.id}, {'$set':{'ping':0}})
          bot.send_message(m.chat.id, 'Оповещения о начале игр выключены!')
@@ -149,7 +152,7 @@ def topp(m):
         text='Топ-10 игроков в кукиварс по опыту:\n\n'
         place=[]
         a=None
-        i=1
+        i=1 # блять ты конченый?
         idlist=[]
         while i<=10:
           lst=users.find({})
@@ -169,7 +172,7 @@ def topp(m):
                      if ids['id'] not in idlist:
                         a=ids
                         dieturn=myexp
-                        winexp=myexp
+                        winexp=myexp  # сука что это за код блять ты не мог сортировку сука использовать из монги?
           if a!=None:
             if a['id'] not in idlist:
               idlist.append(a['id'])
@@ -192,7 +195,7 @@ def ggiftadm(m):
 
 @bot.message_handler(commands=['gift'])
 def gift(m):
-    pass
+    pass # бляяяяяяяяяяяяяяяяяяяяяяяяяяя
 # try:
 #   x=users.find_one({'id':m.from_user.id})
 #   y=users.find_one({'id':m.reply_to_message.from_user.id})
@@ -232,7 +235,7 @@ def gift(m):
 
 @bot.message_handler(commands=['offgames'])
 def offgames(m):
-   if m.from_user.id==441399484:
+   if m.from_user.id==441399484: # вывел бы айдишник в отдельную переменную
       variables.update_one({'vars':'main'},{'$set':{'enablegames':0}})
       bot.send_message(m.chat.id, 'Режим технических работ включён!')
       
@@ -244,15 +247,17 @@ def offgames(m):
             
    
 @bot.message_handler(commands=['dropname'])
-def dropname(m):
- if m.from_user.id==441399484:
-   try:
-       x=users.find_one({'id':m.reply_to_message.from_user.id})
-       if x!=None:
-           users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.name':None}})
-           bot.send_message(m.chat.id, 'Имя пользователя успешно удалено!')
-   except:
-    pass
+def dropname(m): # сука. смотри как надо
+    if m.from_user.id != 441399484:
+        return
+    if not m.reply_to_message:
+        return
+    x=users.find_one({'id':m.reply_to_message.from_user.id})
+    if not x:
+        return
+    users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.name':None}})
+    bot.send_message(m.chat.id, 'Имя пользователя успешно удалено!')
+    # И НИ ОДНОГО ТРАЯ
 
 vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dvuzhil"', 'skill "undead"'],          
        'dmg':['skill "pricel"', 'skill "berserk"','skill ""','skill "assasin"'],
@@ -261,13 +266,13 @@ vetki={'hp':['skill "shieldgen"', 'skill "medic"', 'skill "liveful"', 'skill "dv
 
 }
 skills=[]
-
+# вынеси в constants.py
 items=['flash', 'knife']
 
 @bot.message_handler(commands=['buy'])
-def wtbb(m):
+def wtbb(m): # блять что за имя
     user=users.find_one({'id':m.from_user.id})
-    if user!=None:
+    if user: # сука пиши ПО ПЕПУ
         try:
             code=m.text.split(' ')[1]
             i=0
@@ -300,6 +305,7 @@ def wtbb(m):
 def upd(m):
         if m.from_user.id==441399484:
           users.update_many({},{'$set':{'dailycookie':10}})
+          # а в чом смысл
           #x=users.find({})
           #for ids in x:
           #    if ids['botslots']['1']!={}:
@@ -326,12 +332,14 @@ def upd(m):
 def upd(m):
         if m.from_user.id==441399484:
             users.update_many({}, {'$inc':{'joinbots':1}})
+            # а если они отключены?
             bot.send_message(m.chat.id, 'Каждому игроку был выдан 1 джойн бот!')
 
 
 @bot.message_handler(commands=['myid'])
 def myid(m):
    bot.send_message(m.chat.id, 'Ваш id:\n`'+str(m.from_user.id)+'`',parse_mode='markdown')
+    # нихуя полезная команда
             
 @bot.message_handler(commands=['donate'])
 def donate(m):
@@ -350,6 +358,7 @@ def autojoin(m):
   if m.from_user.id==m.chat.id:
     enable='☑️'
     enablen='☑️'
+    # нихуя он умный
     x=users.find_one({'id':m.from_user.id})
     if x['enablejoin']==1:
          enable='✅'
@@ -433,7 +442,7 @@ def createunit(id, name, weapon, hp=4, maxhp=4, skills=[],identeficator=None,max
               'mainskill':[]
                      }
           }
-   
+   # Бляяяяяяяять....
 def createrare(id):
    x=randomgen(id)
    return createunit(name='Редкий слизнюк',id=-300, identeficator=x,weapon='sliznuk',hp=10,maxhp=10,damagelimit=999)
@@ -483,14 +492,15 @@ def createboss(chatid, id=441399484):
     hp=13
     return createunit(id=id,weapon='cookie',name=text,hp=hp,maxhp=hp,animal=None,identeficator=None,damagelimit=10,
                       skills=['cookiegolem','cookiegun','cookiecharge','cookieclone','trap'])
-
-def randomgen(id):
+# нихуя себе
+# секретные боссы
+def randomgen(id): # сука ты конченый это что блять
     i=0
     text=''
     while i<4:
         print('cycle')
         text+=random.choice(symbollist)
-        i+=1
+        i+=1 # СУКА А ФОР ЮЗАТЬ НЕ ВАРИАНТ??!??717171
     no=0
     for ids in games[id]['bots']:
       try:
@@ -530,6 +540,7 @@ def weapon(m):
         kinzhal='✅'
      if '🗡' in y['inventory']:
         bow='✅'
+     # ебать гениальная система записи инвентаря ЭМОДЗИ. это траговская что ли?
      kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
      if '🔫' in y['inventory'] or y['id']==324316537:
          kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
@@ -561,7 +572,7 @@ def weapon(m):
   else:
     kb=types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton('👤❇️| Авторизоваться', url='t.me/TrugRuBot?start=switch_to_pm'))
-    bot.send_message(m.chat.id, 'Чтобы получить доступ к этому разделу, авторизуйтесь в TRUG')
+    bot.send_message(m.chat.id, 'Чтобы получить доступ к этому разделу, авторизуйтесь в TRUG') # в хуяг ГАГАГА
 
 
 @bot.message_handler(commands=['skins'])
@@ -622,6 +633,7 @@ def invent(m):
     electrocharge='☑️'
     metalarmor='☑️'
     secrettech='☑️'
+    # бляялялялЛЯЛЯЛЯЛТЬЯл
     if 'shieldgen' in x['bot']['skills']:
         shield='✅'
     if 'medic' in x['bot']['skills']:
@@ -722,6 +734,7 @@ def invent(m):
             kb.add(types.InlineKeyboardButton(text=electrocharge+'🔋Электрический снаряд', callback_data='equipelectrocharge'))
         if item=='secrettech':
             kb.add(types.InlineKeyboardButton(text=secrettech+'⁉Секретные технологии', callback_data='equipsecrettech'))
+            # тебе в школе сука СУКА циклы не рассказывали????
     kb.add(types.InlineKeyboardButton(text='Снять все скиллы', callback_data='unequip'))
     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
     bot.send_message(m.chat.id, 'Чтобы экипировать скилл, нажмите на его название', reply_markup=kb)
@@ -738,6 +751,7 @@ def clear(m):
             users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.skills':[]}})
             users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.skin':[]}})
             bot.send_message(m.chat.id, 'Инвентарь юзера успешно очищен!')
+       # Блять))))
         except:
             pass
               
@@ -758,7 +772,7 @@ def upgr(m):
 @bot.message_handler(commands=['me'])
 def me(m):
   x=users.find_one({'id':m.from_user.id})
-  if x!=None:
+  if x:
       exp=x['bot']['exp']
       if exp<=100:
          rang='Новичок'
@@ -798,6 +812,8 @@ def me(m):
          rang='Дьявол'
       elif exp>1000000:
          rang='Высшее создание'
+      elif exp>999999999999999999999999999999999999999999999999999999999999999999999999999:
+         rang='Аскольд и его коза'
   if m.reply_to_message==None:
     try:
       try:
@@ -815,7 +831,7 @@ def me(m):
       bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\n'+'ДНК: '+str(x['dna'])+'🧬\nДНК на генерации: '+str(x['dnawaiting']+dnaw)+'\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games'])+'\n🎖Ранг: '+rang+'\n\n'+
                       'Инвентарь:\nОружие: '+weapontoname(x['bot']['weapon'])+'\nСкин: '+a+'\nМутации: '+mutate)
       if m.from_user.id==441399484:
-         bot.send_message(m.chat.id, 'Поинты бота CookieWars: '+str(x['fond'])+'⚛️')
+         bot.send_message(m.chat.id, 'Поинты бота CookieWars: '+str(x['fond'])+'⚛️') # сука0))))00)
     except:
       pass
   else:
@@ -869,7 +885,7 @@ def unequip(m):
    
 @bot.message_handler(commands=['p'])
 def k(m):
-  if m.from_user.id==441399484 or m.from_user.id==55888804:
+  if m.from_user.id==441399484 or m.from_user.id==55888804: # а это кто
     x=m.text.split('/p')
     try:
       int(x[1])
@@ -940,7 +956,7 @@ def name(m):
          no=0
          for ids in text[1]:
             if ids.lower() not in symbollist:
-                no=1
+                no=1 # бляяяяяяяяяяяяяяяяяяяяяяяяяяяяять
          if no==0:
             y=users.find({})
             allnames=[]
@@ -990,6 +1006,7 @@ def crashgame(m):
       if m.chat.id in games:
          games[m.chat.id]['xod']=None
          bot.send_message(m.chat.id, 'О нет! Вы сломали игру!!!!')
+               # СУКА # БЛОЧРСУНКП*арощодгцйщшйцощшгцпр4доарйи3гшрцп4гйцшгщпм4шйрп3пшцгщ4п34рцтоешРШГАРГ;Агш4а4
         
  
 def infomenu(user):
@@ -1194,7 +1211,7 @@ def inline(call):
                     users.update_one({'id':x['id']},{'$set':{'botslots.'+cbot+'.bought':x['bot']['bought']}})
                     users.update_one({'id':x['id']},{'$push':{'botslots.'+cbot+'.mutations':'mutant'}})
                     users.update_one({'id':x['id']},{'$inc':{'dna':-1}})
-                    medit('Запускаю клонирователь...\n'+
+                    medit('Запускаю клонирователь...\n'+  # ору
                           '_->$Cloner authorization\n'+
                           'console: enter password\n'+
                           '->MyMomIsBeast\n'+
@@ -1259,7 +1276,7 @@ def inline(call):
             medit(text,call.message.chat.id, call.message.message_id,reply_markup=kb)
         
         elif call.data=='dna back2':
-            medit('Выбрано: назад.',call.message.chat.id,call.message.message_id)
+            medit('Выбрано: на зад.',call.message.chat.id,call.message.message_id)
             infomenu(x)
         
         elif call.data=='dna mutate':
@@ -1353,7 +1370,7 @@ def inline(call):
                           result='electro.DNA'
                           result2='электродемона'
                       text1='Начинаем эксперимент...\n\n_->DNA.converter.launch('+dna1+'; '+dna2+')\n'+\
-                                'console: enter password first, retard.\n->da sosi\nconsole: password correct, welcome!\n'+\
+                                'console: enter password first, retard.\n->da sosi\nconsole: password correct, welcome!\n'+\ # гагагага
                                 'console: combinating: '+dna1+'+'+dna2+'...\nconsole: ...\nconsole: DNA combinated successfully! recieved: '+\
                                 result+'. Thank you for using "PenisDetrov" '+\
                                 'technology!_\n\nДНК '+result2+' успешно произведено!'
@@ -1425,7 +1442,7 @@ def inline(call):
         kb=types.InlineKeyboardMarkup()
         kb.add(types.InlineKeyboardButton(text=pricel+'🎯Прицел', callback_data='pricel'))
         kb.add(types.InlineKeyboardButton(text=berserk+'😡Берсерк', callback_data='berserk'))
-        kb.add(types.InlineKeyboardButton(text=cazn+'💥Ассасин', callback_data='cazn'))
+        kb.add(types.InlineKeyboardButton(text=cazn+'💥Асасин', callback_data='cazn')) # гагага
         kb.add(types.InlineKeyboardButton(text=zeus+'🌩Зевс', callback_data='zeus'))
         medit('Ветка: урон', call.message.chat.id, call.message.message_id, reply_markup=kb)
         
@@ -2022,7 +2039,7 @@ def inline(call):
        else:
            bot.answer_callback_query(call.id, 'У вас уже есть это!')
        
-      
+      # blya
        
   elif call.data=='buyzombie':
        x=users.find_one({'id':call.from_user.id})
@@ -2216,7 +2233,7 @@ def inline(call):
     else:
         bot.answer_callback_query(call.id, 'У вас нет этого предмета!')
         
-  elif call.data=='equipchlen':
+  elif call.data=='equipchlen': # ГАГАГАГАГАГА ЕКИП ЧЛЕН ГАГАГА
     x=userstrug.find_one({'id':call.from_user.id})
     y=users.find_one({'id':call.from_user.id})
     if call.from_user.id==60727377:
@@ -2255,7 +2272,7 @@ def inline(call):
       else:
         bot.answer_callback_query(call.id, 'Для начала снимите экипированное оружие!')
         
-  elif call.data=='equippumpkin':
+  elif call.data=='equippumpkin': # а почему тыква это капуста?
       y=users.find_one({'id':call.from_user.id})
       if y['bot']['weapon']==None:
         users.update_one({'id':call.from_user.id}, {'$set':{'bot.weapon':'pumpkin'}})
