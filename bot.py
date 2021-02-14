@@ -855,6 +855,8 @@ def weapontoname(x):
       return 'Кинжал'
    elif x=='slizgun':
       return 'Слиземёт'
+   elif x=='emojthrow':
+      return 'Эмоджимёт'
 
 
 @bot.message_handler(commands=['unequip'])
